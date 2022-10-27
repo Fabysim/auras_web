@@ -1,28 +1,75 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <v-app-bar
+        id="app_bar"
+        color="#FF0000"
+    >
+      <div class="d-flex align-center">
+        <v-img
+            alt="Elysia Logo"
+            class="shrink mr-2"
+            contain
+            :src="require('./assets/ElysiaRaytest_Logo.png')"
+            transition="scale-transition"
+            width="200"
+        />
+      </div>
+      <v-spacer></v-spacer>
+      <v-icon
+          @click="settings=true">
+        mdi-cog
+      </v-icon>
+    </v-app-bar>
+
+    <v-spacer/>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+
+  data: () => ({
+    settings: false,
+  }),
+  methods: {
+    showSettings() {
+      this.$store.state.settingsDisplay = true;
+    },
+
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+
+  #app_bar {
+    background-color: red;
+  }
 }
 </style>
