@@ -4,24 +4,22 @@
         id="app_bar"
         color="#FF0000"
     >
-      <div class="d-flex align-center">
+      <div class="d-flex align-center"
+           @click=" RedirectTo('home')"
+           style="cursor: pointer">
+
         <v-img
             alt="Elysia Logo"
             class="shrink mr-2"
             contain
+
             :src="require('./assets/ElysiaRaytest_Logo.png')"
             transition="scale-transition"
             width="200"
         />
       </div>
-      <v-spacer></v-spacer>
-      <v-icon
-          @click="settings=true">
-        mdi-cog
-      </v-icon>
-    </v-app-bar>
 
-    <v-spacer/>
+    </v-app-bar>
 
     <v-main>
       <router-view/>
@@ -32,22 +30,22 @@
 
 <script>
 
+
 export default {
   name: 'App',
-
-  data: () => ({
-    settings: false,
-  }),
   methods: {
-    showSettings() {
-      this.$store.state.settingsDisplay = true;
-    },
-
+    RedirectTo(route) {
+      if (this.$route.name !== 'home')
+        this.$router.push({name: route})
+    }
   }
+
 }
 </script>
 
 <style lang="scss">
+
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

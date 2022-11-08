@@ -55,6 +55,12 @@ npm install vue-authenticate
 vue add vuetify
 ```
 
+
+### Bootstrap
+```
+npm i bootstrap-vue
+```
+
 ### Internationalization
 ```
 vue add i18n
@@ -78,6 +84,11 @@ npm cache clean -force
 ### Horizontal-scroll
 ```
 npm install vue-horizontal-scroll --save
+```
+
+### Create project
+```
+vue create project_name
 ```
 
 ### Customize configuration
