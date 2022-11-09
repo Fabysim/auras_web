@@ -86,6 +86,11 @@ npm cache clean -force
 npm install vue-horizontal-scroll --save
 ```
 
+### vue-horizontal
+```
+npm i vue-horizontal
+```
+
 ### Create project
 ```
 vue create project_name

@@ -2,16 +2,14 @@
 
   <v-card>
     <v-card-title class="justify-center">
-
+      <span style="color: dodgerblue">{{ name }} </span>
+    </v-card-title>
+    <v-card-text>
       <v-data-table
           :headers="module"
           :items="moduleData"
           :hide-default-footer="true"
       />
-
-    </v-card-title>
-    <v-card-text>
-
       <v-img ID="img-machine" src="../assets/Assemblage_210504.png"/>
       <v-img @click="rotate('img-pinch1')" class="pinch" ID="img-pinch1" src="../assets/pinch25a.png"/>
       <v-img @click="rotate('img-pinch2')" class="pinch" ID="img-pinch2" src="../assets/pinch25b.png"/>
@@ -29,7 +27,8 @@
 
 <script>
 export default {
-  name: "PlatForm",
+  name: "PlatFormCard",
+  props: ['name'],
   data: () => ({
     module: [
 
@@ -42,7 +41,7 @@ export default {
       {Step: 0, Step1: 0, Step2: 0, Step3: 0, Step4: 0},
 
     ],
-    angle:45,
+    angle: 45,
   }),
   methods: {
 

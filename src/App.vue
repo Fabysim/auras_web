@@ -18,12 +18,16 @@
             width="200"
         />
       </div>
+      <v-spacer/>
+      <v-btn text @click="RedirectTo('playground')">
+        Playground
+      </v-btn>
 
     </v-app-bar>
 
-    <v-main>
+    <v-app>
       <router-view/>
-    </v-main>
+    </v-app>
 
   </div>
 </template>
@@ -35,7 +39,7 @@ export default {
   name: 'App',
   methods: {
     RedirectTo(route) {
-      if (this.$route.name !== 'home')
+      if (this.$route.name !== route)
         this.$router.push({name: route})
     }
   }

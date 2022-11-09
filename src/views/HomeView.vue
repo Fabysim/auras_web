@@ -47,15 +47,13 @@ export default {
 
 <style scoped>
 
-.center {
 
-  margin-top: 10%;
-  margin-right: 10%;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-45%, -50%);
+.center{
+  margin-left: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 
