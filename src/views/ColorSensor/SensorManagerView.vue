@@ -1,6 +1,6 @@
 <template>
   <v-container>
-      <table style="margin-left: -380px">
+    <table style="margin-left: -68px">
       <tr>
         <td style="padding-right: 5px">
           <v-card elevation="5">
@@ -328,7 +328,7 @@ export default {
     }
   },
 
-  async created() {
+  async mounted() {
     this.espIP = this.$store.state.csIp;
     this.connectToWebSocket();
   },

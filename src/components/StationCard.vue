@@ -11,9 +11,7 @@
         <v-card-text>
           <v-row>
             <v-col>
-              <v-text-field v-model="IpAddress">
-
-              </v-text-field>
+              <v-text-field v-model="IpAddress"/>
             </v-col>
           </v-row>
         </v-card-text>
@@ -77,8 +75,7 @@
 
 <script>
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: "AppCard",
+  name: "StationCard",
   components: {},
 
 
@@ -90,20 +87,26 @@ export default {
   data() {
     return {
       settings: false,
-      IpAddress: '',
+      IpAddress: '2',
       currentApp: ''
     }
   },
   methods: {
-    /*--------------------------------------------------------------------------
+   /*--------------------------------------------------------------------------
    * Route redirection
-   *
    * -------------------------------------------------------------------------*/
-    RedirectTo: function (route) {
+    RedirectTo(route) {
 
       if (route.toLowerCase().includes('network')) {
         this.settings = true;
         this.SetCurrentApp(route);
+
+      } else if (route === 'DropDRun') {
+        window.location.href = 'http://10.10.14.106:8082/#/run';
+
+      }  else if (route === 'DropDConfig') {
+        window.location.href = 'http://10.10.14.106:8082/#/config';
+
       } else {
         this.$router.push({name: route});
       }
@@ -112,20 +115,35 @@ export default {
     * Set current App name
     * -------------------------------------------------------------------------*/
     SetCurrentApp(route) {
+
+
       this.currentApp = '';
-      if (route.toLowerCase().includes('auras'))
-        this.currentApp = 'auras'
-      else if (route.toLowerCase().includes('drop'))
-        this.currentApp = 'drop'
-      else this.currentApp = 'colorSensor'
+
+      if (route.toLowerCase().includes('auras')) {
+        this.currentApp = 'auras';
+        this.IpAddress = this.$store.state.aurasIp;
+      } else if (route.toLowerCase().includes('drop')) {
+        this.currentApp = 'drop';
+        this.IpAddress = this.$store.state.ddIp;
+      } else {
+        this.currentApp = 'colorSensor';
+        this.IpAddress = this.$store.state.csIp;
+      }
     },
 
-    /*--------------------------------------------------------------------------
-   * Dave Ip locally
-   * -------------------------------------------------------------------------*/
+   /*--------------------------------------------------------------------------
+    * Dave Ip locally
+    *-------------------------------------------------------------------------*/
     SaveIp() {
       switch (this.currentApp) {
-        case '':
+        case 'auras':
+          this.$store.state.aurasIp = this.IpAddress;
+          break;
+        case 'drop':
+          this.$store.state.ddIp = this.IpAddress;
+          break;
+        case 'colorSensor':
+          this.$store.state.csIp = this.IpAddress;
           break;
         default:
           break;
@@ -134,7 +152,6 @@ export default {
       this.$store.state.csIp = this.espIP;
       this.settings = false;
 
-      this.reconnectColorSensorWebSocket();
     },
 
   }
