@@ -160,7 +160,7 @@
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="blue-grey"
+            <v-btn color="#f29633"
                    small
                    v-on="on"
                    v-bind="attrs"
@@ -175,7 +175,6 @@
       </template>
 
       <template v-slot:[`item.run`]="{ item }">
-
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="success"

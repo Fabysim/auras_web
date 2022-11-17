@@ -102,101 +102,117 @@
             item-key="id_method_name"
             class="elevation-1"
         >
-          <template v-slot:[`item.actions`]="{ item }">
-            <div class="d-flex justify-space-around mb-0 col-lg-8">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="green"
-                         small
-                         v-on="on"
-                         v-bind="attrs"
-                         @click="SetMethodRename(item.id_method_list)">
-                    <v-icon
-                        small
-                        color="white"
+          <!-- Line custom date -->
 
-                    >
-                      mdi-rename-box
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Rename</span>
-              </v-tooltip>
-
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="red"
-                         small
-                         v-on="on"
-                         v-bind="attrs"
-                         @click="DeleteConfirmation(item.id_method_list)">
-                    <v-icon
-                        color="white"
-                    >mdi-delete
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Delete</span>
-              </v-tooltip>
-
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="blue-grey"
-                         small
-                         v-on="on"
-                         v-bind="attrs"
-                         @click="Duplicate(item.id_method_list)">
-                    <v-icon
-                        small
-                        color="white"
-                    >
-                      mdi-content-duplicate
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Duplicate</span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="#f29633"
-                         small
-                         v-on="on"
-                         v-bind="attrs"
-                         @click="Redirect('DdConfigMethod', item.id_method_list)">
-                    <v-icon
-                        small
-                        color="White"
-                    >
-                      mdi-cog-outline
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Edit</span>
-              </v-tooltip>
-
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                      small
-                      v-on="on"
-                      v-bind="attrs"
-                      class="white--text"
-                      color="primary"
-                      @click="Redirect('ViewMethod', item.id_method_list)"
-                  >
-                    <v-icon
-                        small>
-                      mdi-play-circle-outline
-                    </v-icon>
-
-                  </v-btn>
-                </template>
-                <span>Run this method</span>
-              </v-tooltip>
-
-            </div>
+          <template v-slot:[`item.date`]="{ item }">
+            <span>{{ new Date(item.date).toLocaleString() }}</span>
           </template>
+
+          <!-- Line custom actions -->
+
+          <template v-slot:[`item.rename`]="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="primary"
+                       small
+                       v-on="on"
+                       v-bind="attrs"
+                       @click="SetMethodRename(item.id_method_list)">
+                  <v-icon
+                      small
+                      class="mr-2"
+                  >
+                    mdi-form-textbox
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Rename</span>
+            </v-tooltip>
+          </template>
+
+          <template v-slot:[`item.delete`]="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="error"
+                       small
+                       v-on="on"
+                       v-bind="attrs"
+                       @click="DeleteConfirmation(item.id_method_list)">
+                  <v-icon
+                      small
+                      color="white"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Delete</span>
+            </v-tooltip>
+          </template>
+
+          <template v-slot:[`item.duplicate`]="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="blue-grey"
+                       small
+                       v-on="on"
+                       v-bind="attrs"
+                       @click="Duplicate(item.id_method_list)">
+                  <v-icon
+                      small
+                      color="white"
+                  >
+                    mdi-content-duplicate
+                  </v-icon>
+                </v-btn>
+              </template>
+              Duplicate Method
+            </v-tooltip>
+          </template>
+
+          <template v-slot:[`item.config`]="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn color="#f29633"
+                       small
+                       v-on="on"
+                       v-bind="attrs"
+                       @click="Redirect('DdConfigMethod', item.id_method_list)">
+                  <v-icon
+                      small
+                      color="White"
+                  >
+                    mdi-cog-outline
+                  </v-icon>
+                </v-btn>
+              </template>
+              Edit method
+            </v-tooltip>
+          </template>
+
+          <template v-slot:[`item.run`]="{ item }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    small
+                    v-on="on"
+                    v-bind="attrs"
+                    class="white--text"
+                    color="success"
+                    @click="Redirect('ViewMethod', item.id_method_list)"
+                >
+                  <v-icon
+                      small>
+                    mdi-play-circle-outline
+                  </v-icon>
+                </v-btn>
+              </template>
+              Run method
+            </v-tooltip>
+          </template>
+
         </v-data-table>
+
       </v-card>
     </v-container>
 
@@ -272,15 +288,14 @@ export default {
       methods: [],
       error: false,
       headers: [
-        {
-          text: "Date",
-          align: "start",
-          sortable: true,
-          value: "creation_date",
-        },
-        {text: "Method name", sortable: true, value: "method_name"},
-        {text: "ID", value: "id_method_list"},
-        {text: " ", value: "actions"},
+        {text: "ID", value: "id_method_list", sortable: true, width: '5%'},
+        {text: "Creation Date", align: "start", sortable: true, value: "creation_date", width: '15%'},
+        {text: "Method name", sortable: true, value: "method_name", width: '40%'},
+        {text: "Rename", value: "rename", sortable: false, width: '5%'},
+        {text: "Duplicate", value: "duplicate", sortable: false, width: '5%'},
+        {text: "Delete", value: "delete", sortable: false, width: '10%'},
+        {text: "Configuration", value: "config", sortable: false, width: '5%'},
+        {text: "Run", value: "run", sortable: false, width: '10%'},
       ],
     };
   },
