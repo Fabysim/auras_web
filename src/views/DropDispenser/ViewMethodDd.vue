@@ -50,7 +50,7 @@
               color="primary"
               min-width="150"
               class="white--text"
-              @click="redirection('RunMethod')"
+              @click="redirection('IndexDd')"
             >
               <v-icon>mdi-format-list-bulleted</v-icon>
               <span>All methods</span>
@@ -436,7 +436,7 @@ export default {
       };
 
       axios
-        .put(this.$api + "run/" + this.$store.state.id_method_list, params)
+        .put('http://' +this.$ddApi + "run/" + this.$store.state.id_method_list, params)
         .then((response) => {
           console.log("api : ", response);
           if (response.data.status === "success") {
@@ -520,7 +520,7 @@ export default {
 
       axios
         .patch(
-          this.$api + "methods/" + this.$store.state.id_method_list,
+          'http://' +this.$ddApi + "methods/" + this.$store.state.id_method_list,
           params
         )
         .then((response) => {
@@ -563,7 +563,7 @@ export default {
       this.$store.state.id_method_list = this.$route.params.id_method_list;
 
       axios
-        .get(this.$api + "methods/" + this.$route.params.id_method_list)
+        .get('http://' +this.$ddApi + "methods/" + this.$route.params.id_method_list)
         .then((response) => {
           if (response.data.status === "success") {
             this.method_details = response.data.content;
@@ -579,7 +579,7 @@ export default {
 
     fetchMethodName() {
       axios
-        .get(this.$api + "config/" + this.$route.params.id_method_list)
+        .get('http://' +this.$ddApi + "config/" + this.$route.params.id_method_list)
         .then((response) => {
           if (response.data.status === "success") {
             this.method_names = response.data.content;
