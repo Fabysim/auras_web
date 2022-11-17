@@ -55,7 +55,7 @@
         :hide-default-footer="true"
         disable-pagination
       >
-        <template v-slot:item.actions="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-row justify="center">
             <v-col min-width="500">
               <v-tooltip bottom>
@@ -164,7 +164,7 @@ import JsonExcel from "vue-json-excel";
 Vue.component("downloadExcel", JsonExcel);
 
 export default {
-  name: "ConfigMethod",
+  name: "DdConfigMethod",
 
   components: {},
   data() {
@@ -329,7 +329,7 @@ export default {
       this.$store.state.id_method_list = this.$route.params.id_method_list;
 
       axios
-        .get(this.$api + "methods/" + this.$route.params.id_method_list)
+        .get('http://' + this.$ddApi + "methods/" + this.$route.params.id_method_list)
         .then((response) => {
           if (response.data.status === "success") {
             this.method_details = response.data.content;
@@ -345,7 +345,7 @@ export default {
 
     fetchMethodName() {
       axios
-        .get(this.$api + "config/" + this.$route.params.id_method_list)
+        .get('http://' + this.$ddApi + "config/" + this.$route.params.id_method_list)
         .then((response) => {
           if (response.data.status === "success") {
             this.method_names = response.data.content;
@@ -369,7 +369,7 @@ export default {
         id_method_list: this.$store.state.id_method_list,
       };
 
-      axios.put(this.$api + "methods/" + id_method, params).then((response) => {
+      axios.put('http://' + this.$ddApi + "methods/" + id_method, params).then((response) => {
         if (response.data.status === "success") {
           this.text = "Step deleted";
           this.fetchAllMethodData();
@@ -399,7 +399,7 @@ export default {
 
         axios
           .patch(
-            this.$api + "editmethod/" + this.$route.params.id_method_list,
+            'http://' + this.$ddApi + "editmethod/" + this.$route.params.id_method_list,
             params
           )
           .then((response) => {
@@ -427,7 +427,7 @@ export default {
 
         axios
           .patch(
-            this.$api + "editmethod/" + this.$route.params.id_method_list,
+            'http://' + this.$ddApi + "editmethod/" + this.$route.params.id_method_list,
             params
           )
           .then((response) => {

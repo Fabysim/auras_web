@@ -100,7 +100,7 @@
           item-key="id_method_name"
           class="elevation-1"
         >
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <div class="d-flex justify-space-around mb-0 col-lg-8">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -134,7 +134,7 @@
                   <v-btn color="primary" v-on="on" v-bind="attrs">
                     <v-icon
                       color="White"
-                      @click="Redirect('ConfigMethod', item.id_method_list)"
+                      @click="Redirect('DdConfigMethod', item.id_method_list)"
                     >
                       mdi-table-edit
                     </v-icon>
@@ -207,7 +207,7 @@
 import axios from "axios";
 
 export default {
-  name: "Configuration",
+  name: "DdConfiguration",
   components: {},
   data() {
     return {
@@ -249,7 +249,6 @@ export default {
     this.esp_ip = this.$store.state.esp32_Ip;
     this.esp32_port = this.$store.state.esp32_port;
     this.loadESPNetwork();
-    console.log(this.$store.state.esp32_Ip);
   },
   mounted() {
     document.title = "Create Method";
@@ -266,7 +265,7 @@ export default {
         IP: this.esp_ip,
         port: this.esp32_port,
       };
-      axios.put(this.$api + "network/1", params).then((response) => {
+      axios.put('http://' + this.$ddApi + "network/1", params).then((response) => {
         if (response.data.status === "success") {
           this.text = "Successfully updated";
           this.loadESPNetwork();
@@ -279,7 +278,7 @@ export default {
     },
 
     loadESPNetwork() {
-      axios.get(this.$api + "network/1").then((response) => {
+      axios.get('http://' + this.$ddApi + "network/1").then((response) => {
         if (response.data.status === "success") {
           this.esp32 = response.data.content;
           this.$store.state.esp32_Ip = this.esp32[0]["IP"];
@@ -296,7 +295,7 @@ export default {
         const params = new URLSearchParams();
         params.append("method_name", this.method_name);
 
-        axios.post(this.$api + "methods", params).then((response) => {
+        axios.post('http://' + this.$ddApi + "methods", params).then((response) => {
           if (response.data.status === "success") {
             this.text = "Method created correctly";
             this.loading = false;
@@ -316,7 +315,7 @@ export default {
     },
 
     fetchMethods() {
-      axios.get(this.$api + "methods").then((response) => {
+      axios.get('http://' + this.$ddApi + "methods").then((response) => {
         if (response.data.status === "success") {
           this.methods = response.data.content;
         } else {
@@ -332,7 +331,7 @@ export default {
 
     DeleteMethod() {
       this.loading = true;
-      axios.delete(this.$api + "methods/" + this.deletedId).then((response) => {
+      axios.delete('http://' + this.$ddApi + "methods/" + this.deletedId).then((response) => {
         if (response.data.status === "success") {
           this.loading = false;
           this.text = "Method deleted";
@@ -351,7 +350,7 @@ export default {
     },
 
     Duplicate(id_method_list) {
-      axios.get(this.$api + "editmethod/" + id_method_list).then((response) => {
+      axios.get('http://' + this.$ddApi + "editmethod/" + id_method_list).then((response) => {
         if (response.data.status === "success") {
           this.text = "Successfully updated";
           this.snackbar = true;
@@ -372,7 +371,7 @@ export default {
         };
 
         axios
-          .put(this.$api + "editmethod/" + this.selectedMethodId, params)
+          .put('http://' + this.$ddApi + "editmethod/" + this.selectedMethodId, params)
           .then((response) => {
             if (response.data.status === "success") {
               this.text = "Successfully updated";

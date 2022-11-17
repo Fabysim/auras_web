@@ -5,6 +5,7 @@ import router from './router'
 import store from './store'
 
 Vue.prototype.$api = "10.10.14.106:8443/"
+Vue.prototype.$ddApi = "10.10.14.106:8080/"
 Vue.config.productionTip = false
 
 new Vue({

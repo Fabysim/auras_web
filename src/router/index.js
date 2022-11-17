@@ -6,6 +6,8 @@ import PlayGround from "@/views/PlayGround";
 import IndexAuras from "@/views/Auras/IndexAuras";
 import ConfigAurasView from "@/views/Auras/ConfigAurasView";
 import RunAurasView from "@/views/Auras/RunAurasView";
+import DdConfiguration from "@/views/DropDispenser/DdConfiguration";
+import DdConfigMethod from "@/views/DropDispenser/DdConfigMethod";
 
 
 Vue.use(VueRouter)
@@ -43,6 +45,17 @@ const routes = [
         path: '/colorSensor',
         name: 'colorSensor',
         component: SensorManagerView,
+    },
+    {
+        path: '/config',
+        name: 'DdConfiguration',
+        component: DdConfiguration
+    },
+    {
+        path: '/method/:id_method_list',
+        name: 'DdConfigMethod',
+        component: DdConfigMethod,
+
     },
 
 

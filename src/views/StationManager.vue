@@ -33,7 +33,7 @@ export default {
     ],
     itemsDD: [
       {text: 'Drop Dispenser Run', icon: 'mdi-play-circle-outline', url: 'DropDRun'},
-      {text: 'Drop Dispenser Configuration', icon: 'mdi-cog-outline', url: 'DropDConfig'},
+      {text: 'Drop Dispenser Configuration', icon: 'mdi-cog-outline', url: 'DdConfiguration'},
       {text: 'Drop Dispenser Network', icon: 'mdi-access-point-network', url: 'DropDNetwork'},
     ],
     itemsCS: [

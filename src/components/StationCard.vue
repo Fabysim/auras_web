@@ -101,12 +101,6 @@ export default {
         this.settings = true;
         this.SetCurrentApp(route);
 
-      } else if (route === 'DropDRun') {
-        window.location.href = 'http://10.10.14.106:8082/#/run';
-
-      }  else if (route === 'DropDConfig') {
-        window.location.href = 'http://10.10.14.106:8082/#/config';
-
       } else {
         this.$router.push({name: route});
       }
