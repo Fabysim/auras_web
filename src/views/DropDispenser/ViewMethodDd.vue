@@ -146,7 +146,7 @@
 
     <v-container align="center">
       <iframe
-        src="http://10.10.14.106:3000/iframe_mecatech.html"
+        src="/Extern Content/iframe_mecatech.html"
         height="1500"
         width="2000"
         id="innerFrame"

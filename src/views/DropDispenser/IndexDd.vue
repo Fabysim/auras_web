@@ -5,10 +5,10 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              v-on="on"
-              v-bind="attrs"
-              class="primary"
-              @click="networkDialog()"
+                v-on="on"
+                v-bind="attrs"
+                class="primary"
+                @click="networkDialog()"
             >
               <v-icon>mdi-wifi-settings</v-icon>
               <span className="mr-2">Network</span>
@@ -23,38 +23,40 @@
           <v-card-text>
             <v-form>
               <v-text-field
-                v-model="esp_name"
-                label="Engine"
-                aria-required="true"
+                  v-model="esp_name"
+                  label="Engine"
+                  aria-required="true"
               ></v-text-field>
               <v-text-field
-                v-model="esp_ip"
-                label="IP Address"
-                aria-required="true"
+                  v-model="esp_ip"
+                  label="IP Address"
+                  aria-required="true"
               ></v-text-field>
               <v-text-field
-                v-model="esp32_port"
-                label="Port"
-                aria-required="true"
+                  v-model="esp32_port"
+                  label="Port"
+                  aria-required="true"
               ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-spacer />
+            <v-spacer/>
             <v-btn color="blue darken-1" text @click="netDialog = false"
-              >Cancel</v-btn
+            >Cancel
+            </v-btn
             >
             <v-btn color="blue darken-1" text @click="updateNetwork()"
-              >Update</v-btn
+            >Update
+            </v-btn
             >
 
-            <v-spacer />
+            <v-spacer/>
           </v-card-actions>
         </v-card>
       </v-dialog>
 
       <v-card>
-        <v-card-title> Create a method </v-card-title>
+        <v-card-title> Create a method</v-card-title>
         <v-form>
           <v-text-field v-model="method_name" label="Method name" required>
           </v-text-field>
@@ -62,11 +64,11 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                v-on="on"
-                v-bind="attrs"
-                color="primary"
-                class="mr-4"
-                @click="createMethod()"
+                  v-on="on"
+                  v-bind="attrs"
+                  color="primary"
+                  class="mr-4"
+                  @click="createMethod()"
               >
                 <v-icon>mdi-open-in-new</v-icon>
                 Create
@@ -77,9 +79,9 @@
 
           <div v-if="loading === true">
             <v-progress-circular
-              :size="30"
-              color="primary"
-              indeterminate
+                :size="30"
+                color="primary"
+                indeterminate
             ></v-progress-circular>
           </div>
 
@@ -92,22 +94,25 @@
 
     <v-container>
       <v-card>
-        <v-card-title> Edit a method </v-card-title>
+        <v-card-title> Edit a method</v-card-title>
         <v-data-table
-          dense
-          :headers="headers"
-          :items="methods"
-          item-key="id_method_name"
-          class="elevation-1"
+            dense
+            :headers="headers"
+            :items="methods"
+            item-key="id_method_name"
+            class="elevation-1"
         >
           <template v-slot:[`item.actions`]="{ item }">
             <div class="d-flex justify-space-around mb-0 col-lg-8">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="green" v-on="on" v-bind="attrs">
+                  <v-btn color="green"
+                         v-on="on"
+                         v-bind="attrs"
+                         @click="SetMethodRename(item.id_method_list)">
                     <v-icon
-                      color="white"
-                      @click="SetMethodRename(item.id_method_list)"
+                        color="white"
+
                     >
                       mdi-rename-box
                     </v-icon>
@@ -118,10 +123,12 @@
 
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="blue-grey" v-on="on" v-bind="attrs">
+                  <v-btn color="blue-grey"
+                         v-on="on"
+                         v-bind="attrs"
+                         @click="Duplicate(item.id_method_list)">
                     <v-icon
-                      color="white"
-                      @click="Duplicate(item.id_method_list)"
+                        color="white"
                     >
                       mdi-content-duplicate
                     </v-icon>
@@ -131,10 +138,12 @@
               </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary" v-on="on" v-bind="attrs">
+                  <v-btn color="primary"
+                         v-on="on"
+                         v-bind="attrs"
+                         @click="Redirect('DdConfigMethod', item.id_method_list)">
                     <v-icon
-                      color="White"
-                      @click="Redirect('DdConfigMethod', item.id_method_list)"
+                        color="White"
                     >
                       mdi-table-edit
                     </v-icon>
@@ -145,11 +154,13 @@
 
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="red" v-on="on" v-bind="attrs">
+                  <v-btn color="red"
+                         v-on="on"
+                         v-bind="attrs"
+                         @click="DeleteConfirmation(item.id_method_list)">
                     <v-icon
-                      color="white"
-                      @click="DeleteConfirmation(item.id_method_list)"
-                      >mdi-delete
+                        color="white"
+                    >mdi-delete
                     </v-icon>
                   </v-btn>
                 </template>
@@ -165,20 +176,21 @@
       <v-card>
         <v-card-title class="headline">Please enter a new name</v-card-title>
         <v-text-field
-          v-model="method_name"
-          style="margin: 20px"
-          label="Method name"
-          required
+            v-model="method_name"
+            style="margin: 20px"
+            label="Method name"
+            required
         ></v-text-field>
         <v-card-actions>
-          <v-spacer />
+          <v-spacer/>
           <v-btn color="blue darken-1" text @click="updateName = false"
-            >Cancel</v-btn
+          >Cancel
+          </v-btn
           >
           <v-btn color="blue darken-1" text @click="RenameMethod()">
             Rename
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -186,17 +198,19 @@
     <v-dialog v-model="dialogDelete" max-width="800px">
       <v-card>
         <v-card-title class="headline"
-          >Please confirm the deletion</v-card-title
+        >Please confirm the deletion
+        </v-card-title
         >
         <v-card-actions>
-          <v-spacer />
+          <v-spacer/>
           <v-btn color="blue darken-1" text @click="dialogDelete = false"
-            >Cancel</v-btn
+          >Cancel
+          </v-btn
           >
           <v-btn color="blue darken-1" text @click="DeleteMethod()">
             Delete
           </v-btn>
-          <v-spacer />
+          <v-spacer/>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -207,7 +221,7 @@
 import axios from "axios";
 
 export default {
-  name: "DdConfiguration",
+  name: "IndexDd",
   components: {},
   data() {
     return {
@@ -236,9 +250,9 @@ export default {
           sortable: true,
           value: "creation_date",
         },
-        { text: "Method name", sortable: true, value: "method_name" },
-        { text: "ID", value: "id_method_list" },
-        { text: " ", value: "actions" },
+        {text: "Method name", sortable: true, value: "method_name"},
+        {text: "ID", value: "id_method_list"},
+        {text: " ", value: "actions"},
       ],
     };
   },
@@ -371,25 +385,25 @@ export default {
         };
 
         axios
-          .put('http://' + this.$ddApi + "editmethod/" + this.selectedMethodId, params)
-          .then((response) => {
-            if (response.data.status === "success") {
-              this.text = "Successfully updated";
-              this.loading = false;
-              this.snackbar = true;
-              this.fetchMethods();
-              setTimeout(() => {
-                this.text = "";
+            .put('http://' + this.$ddApi + "editmethod/" + this.selectedMethodId, params)
+            .then((response) => {
+              if (response.data.status === "success") {
+                this.text = "Successfully updated";
+                this.loading = false;
+                this.snackbar = true;
+                this.fetchMethods();
+                setTimeout(() => {
+                  this.text = "";
+                  this.method_name = "";
+                  this.updateName = false;
+                }, 1000);
+              } else {
+                this.text = "Couldn't create method";
+                this.loading = false;
+                this.snackbar = true;
                 this.method_name = "";
-                this.updateName = false;
-              }, 1000);
-            } else {
-              this.text = "Couldn't create method";
-              this.loading = false;
-              this.snackbar = true;
-              this.method_name = "";
-            }
-          });
+              }
+            });
       } else {
         this.text = "Please enter a name";
         this.loading = false;
@@ -398,7 +412,7 @@ export default {
     },
 
     Redirect(route, id) {
-      this.$router.push({ name: route, params: { id_method_list: id } });
+      this.$router.push({name: route, params: {id_method_list: id}});
     },
   },
 };

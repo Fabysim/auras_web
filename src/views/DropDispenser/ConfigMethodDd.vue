@@ -143,7 +143,7 @@
     </v-snackbar>
     <v-container align="center">
       <iframe
-        src="http://10.10.14.106:3000/iframe_mecatech.html"
+        src="/Extern Content/iframe_mecatech.html"
         height="1500"
         width="2000"
         id="innerFrame"
@@ -229,16 +229,16 @@ export default {
         { text: "S6", value: "S6" },
         { text: "S7", value: "S7" },
         { text: "S8", value: "S8" },
-        { text: "Position PS1", value: "PS1P" },
-        { text: "Speed PS1", value: "PS1S" },
-        { text: "Position PS2", value: "PS2P" },
-        { text: "Speed PS2", value: "PS2S" },
-        { text: "Rotations pump", value: "PUMP1P" },
-        { text: "Speed pump (rpm)", value: "PUMP1S" },
-        { text: "Pause", value: "Pause" },
-        { text: "Delay", value: "Delay" },
-        { text: "Description", value: "description" },
-        { text: " ", value: "actions" },
+        {text: "Position PS1", value: "PS1P", width:50},
+        {text: "Speed PS1", value: "PS1S", width:50},
+        {text: "Position PS2", value: "PS2P", width:50},
+        {text: "Speed PS2", value: "PS2S", width:50},
+        {text: "Rotations pump", value: "PUMP1P", width:50},
+        {text: "Speed pump (rpm)", value: "PUMP1S", width:50},
+        {text: "Pause", value: "Pause", width:50},
+        {text: "Delay", value: "Delay", width:50},
+        {text: "Description", value: "description"},
+        {text: " ", value: "actions"},
       ],
       iframeWin: {},
     };
@@ -247,6 +247,7 @@ export default {
     this.fetchAllMethodData();
     this.fetchMethodName();
   },
+
   mounted() {
     document.title = "Configure Method";
     //Event Listener for Iframe
@@ -283,13 +284,13 @@ export default {
 
     editData(id_method) {
       this.$router.push({
-        name: "UpdateMethod",
+        name: "DdUpdateMethod",
         params: { id_method: id_method },
       });
     },
 
     allMethodsRedirect() {
-      this.$router.push({ name: "Configuration" });
+      this.$router.push({ name: "IndexDd" });
     },
 
     createData() {

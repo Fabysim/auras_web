@@ -1,0 +1,1202 @@
+<html>
+  <head>
+    <style>
+      .img-machine {
+        /*position: absolute;*/
+        z-index:1;
+      }
+      #img-pinch1 {
+        width : 66px;
+        position: absolute;
+        left : 345px;
+        top: 325px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+      #img-pinch2 {
+        width : 66px;
+        position: absolute;
+        left : 345px;
+        top : 410px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+      #img-pinch3 {
+        width : 66px;
+        position: absolute;
+        left : 345px;
+        top : 507px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+      #img-pinch4 {
+        width : 66px;
+        position: absolute;
+        left : 345px;
+        top : 604px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+      #img-pinch5 {
+        height : 95px;
+        position: absolute;
+        left : 540px;
+        top : 742px;
+        z-index:2;
+        transform : rotate(-45deg);
+        transition-duration : 1000ms;
+      }
+      #img-pinch6 {
+        width : 66px;
+        position: absolute;
+        left : 681px;
+        top : 669px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+      #img-pinch7 {
+        width : 66px;
+        position: absolute;
+        left : 803px;
+        top : 663px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+      #img-pinch8 {
+        width : 66px;
+        position: absolute;
+        left : 955.5px;
+        top : 735.5px;
+        z-index:2;
+        transition-duration : 750ms;
+      }
+
+      #img-PUMP1R {
+        width : 100px;
+        position: absolute;
+        left : 715px;
+        top : 480px;
+        z-index:2;
+        /*transform : scaleX(1);*/
+        visibility : hidden;
+        animation-play-state: paused;
+      }
+      #img-PUMP1L {
+        width : 100px;
+        position: absolute;
+        left : 715px;
+        top : 480px;
+        z-index:2;
+        /*transform : scaleX(-1);*/
+        visibility : hidden;
+        animation-play-state: paused;
+      }
+
+      #BlueLed {
+        margin: 20px auto;
+        width: 12px;
+        height: 12px;
+        background-color: #000;
+        border-radius: 50%;
+        box-shadow: #000 0 -1px 7px 1px, inset #006 0 -1px 9px, #06F 0 2px 14px;
+        position: absolute;
+        left : 450px;
+        top : 120px;
+        z-index:2;
+      }
+
+
+      #S1
+      {
+        z-index:3;
+      }
+
+      #PS1 {
+        position:absolute;
+        left: 370px;
+        top : 120px;
+        display:inline-block;
+        z-index:10;
+      }
+      #PS2 {
+        position:absolute;
+        left: 1030px;
+        top : 120px;
+        display:inline-block;
+        z-index:10;
+      }
+      #PUMP1 {
+        position:absolute;
+        left: 685px;
+        top : 370px;
+        display:inline-block;
+        z-index:10;
+      }
+      table{
+        position: absolute;
+        left : 315px;
+        top : 10px;
+        width : 750px;
+      }
+      td {
+        text-align: center;
+      }
+
+
+      #PS1PProgressbar {
+        left : 483px;
+
+        position: absolute;
+        display: inline-block;
+
+        top : 520px;
+        width: 210px;
+        height: 33px;
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+      }
+      #PS2PProgressbar {
+        left : 845px;
+
+        position: absolute;
+        display: inline-block;
+
+        top : 520px;
+        width: 210px;
+        height: 33px;
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+      }
+
+      #PUMP1PProgressbar {
+        left : 700px;
+
+        position: absolute;
+        display: inline-block;
+        visibility: hidden;
+
+        top : 444px;
+        width: 136px;
+        height: 25px;
+      }
+
+      #WiFiQualityProgressbar {
+        left : 150px;
+
+        position: absolute;
+        display: inline-block;
+
+        top : 65px;
+        width: 126px;
+        height: 25px;
+      }
+
+      #ConnectionStatus{
+        position: absolute;
+        left : 150px;
+        top : 20px;
+      }
+
+      #version{
+        position: absolute;
+        left : 150px;
+        top : 50px;
+      }
+
+      #WiFiQuality{
+        position: absolute;
+        left : 150px;
+        top : 90px;
+      }
+
+      #saveState{
+        position: absolute;
+        left : 150px;
+        top : 120px;
+      }
+      #loadState{
+        position: absolute;
+        left : 150px;
+        top : 150px;
+      }
+      #RAZPS{
+        position: absolute;
+        left : 150px;
+        top : 220px;
+      }
+      #RAZServos{
+        position: absolute;
+        left : 150px;
+        top : 250px;
+      }
+      #RAZPUMP1P{
+        position: absolute;
+        left : 150px;
+        top : 280px;
+      }
+      #restart{
+        position: absolute;
+        left : 150px;
+        top : 320px;
+      }
+      #stepNumber{
+        position: absolute;
+        left : 700px;
+        top : 150px;
+      }
+      #methodName{
+        position: absolute;
+        left : 700px;
+        top : 120px;
+      }
+      #Record{
+          position: absolute;
+          left : 1270px;
+          top : 10px;
+          border-radius: 4px;
+          background-color: #008CBA;
+          height: 40px;
+          color: white;
+          transition-duration: 0.4s;
+      }
+      #info{
+        position: absolute;
+        left : 334px;
+        top : 850px;
+        width: 725px;
+        height: 500px;
+      }
+      #downloadInfo{
+        position: absolute;
+        left : 250px;
+        top : 850px;
+      }
+      #eraseInfo{
+        position: absolute;
+        left : 250px;
+        top : 890px;
+      }
+
+      @keyframes cw {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+      @keyframes ccw {
+        from {
+          transform: rotate(359deg);
+        }
+        to {
+          transform: rotate(0deg);
+        }
+      }
+    </style>
+    <script>
+
+   /* <!-- *********** LOCAL VARIABLE ************ -->*/
+    var S1;
+    var S2;
+    var S3;
+    var S4;
+    var S5;
+    var S6;
+    var S7;
+    var S8;
+    var PS1P;
+    var PS1S;
+    var PS2P;
+    var PS2S;
+    var PUMP1S;
+    var PUMP1P;
+    var PUMP1PTarget;
+    var methodName;
+    var description;
+
+    var step;
+    var totalSteps;
+
+    var ESP_IP = '10.10.14.64';
+	  var id_method_list = '10';
+
+
+    <!-- *********** SET VARIABLES ************ -->
+
+    function SetDescription(_description){
+      description =_description;
+      console.log(description);
+    }
+
+      <!-- *********** TRANSMIT JSON FROM PARENT TO ESP THROUGH WEBSOCKET ************ -->
+
+// Accept information from parent page
+	window.addEventListener("message", function(event){
+
+		var JSONobj = event.data;
+    console.log('JSON reçu du Parent');
+		console.log(JSONobj);
+
+	if(JSONobj.hasOwnProperty('Id_method_list'))
+    {
+		id_method_list = JSONobj.Id_method_list;
+	}
+    if (JSONobj.hasOwnProperty('Execution'))
+    {
+  		if (JSONobj.Execution == true)
+          {
+  			configView();
+  		}
+    }
+
+    if (JSONobj.hasOwnProperty('ESP_IP'))
+    {
+      console.log('ESP_IP existe');
+		//	if (JSONobj.ESP_IP != ESP_IP)
+    //  {
+        ESP_IP = JSONobj.ESP_IP;
+        console.log('ESP_IP mise à jour et vaut '+ESP_IP);
+        connect();
+    //  }
+		}
+
+    if (typeof websock != "undefined")
+    {
+      if (websock.readyState === WebSocket.OPEN)
+      {
+        console.log('websock.readyState === WebSocket.OPEN');
+        websock.send(JSONobj);
+        delete JSONobj;
+      }
+    }
+    else
+    {
+      connect();
+    }
+
+    });
+
+  <!-- *********** CONFIGVIEW OF IFRAME ************ -->
+
+	function configView(){
+
+		var element = document.getElementById("Record");
+		element.style.display = "none";
+		var element = document.getElementById("PS1");
+		element.style.display = "none";
+		var element = document.getElementById("PS2");
+		element.style.display = "none";
+
+		var element = document.getElementById("PUMP1");
+		element.style.display = "none";
+
+		var element = document.getElementById("table");
+		element.style.display = "none";
+
+
+	}
+
+  function pad2(n) {
+    return n < 10 ? '0' + n : n
+  }
+
+  function downloadInfo(){
+    var text = document.getElementById("info").value;
+    text = text.replace(/\n/g, "\r\n"); // To retain the Line breaks.
+    var blob = new Blob([text], { type: "text/plain"});
+    var anchor = document.createElement("a");
+
+
+    var date = new Date();
+
+    anchor.download = "Mecatech_"+date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2( date.getDate()) +"_"+ pad2( date.getHours() ) + pad2( date.getMinutes() ) + pad2( date.getSeconds() )+".txt";
+    anchor.href = window.URL.createObjectURL(blob);
+    anchor.target ="_blank";
+    anchor.style.display = "none"; // just to be safe!
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+
+  function eraseInfo() {
+    document.getElementById("info").value = "";
+  }
+
+
+  <!-- *********** CHECK WEBSOCKET STATUS ************ -->
+
+    if (typeof websock != "undefined")
+    {
+      if (websock.readyState === WebSocket.OPEN)
+      {
+        document.getElementById("ConnectionStatus").innerHTML = "Device connected";
+      }
+      else {
+        document.getElementById("ConnectionStatus").innerHTML = "Device disconnected";
+      }
+    }
+
+    <!-- *********** RECEIVE WEBSOCKET ************ -->
+
+    function connect() {
+      //websock = new WebSocket('ws://10.10.14.64:81/');
+      var ESP_WS = 'ws://'+ESP_IP+':81/';
+      console.log(ESP_WS);
+      websock = new WebSocket(ESP_WS);
+      /*websock.onopen = function() {
+        // subscribe to some channels
+        // websock.send('{"Hello":true}');
+      };*/
+
+      websock.onmessage = function(evt)
+      {
+        try {
+             JSONobj =  JSON.parse(evt.data);
+         } catch(e) {
+             console.log(e); // error in the above string (in this case, yes)!
+         }
+         /*var count = Object.keys(JSONobj).length;
+         console.log('Taille de l objet JSONobj : ');
+         console.log(count);*/
+         //JSONaff = JSON.stringify(evt.data);
+
+         //console.log('JSON reçu du ESP');
+     		 //console.log(JSONobj);
+
+         if (typeof JSONobj.PS1P !== 'undefined')
+         {
+           PS1P = JSONobj.PS1P;
+           document.getElementById("PS1PProgressbar").value = PS1P;
+           document.getElementById("PS1P").value = PS1P;
+         }
+         if (typeof JSONobj.PS1S !== 'undefined')
+         {
+           PS1S = JSONobj.PS1S;
+           document.getElementById("PS1S").value = PS1S;
+           document.getElementById("PS1Stext").innerHTML = PS1S;
+           document.getElementById("PS1Stext2").innerHTML = PS1S;
+         }
+
+         if (typeof JSONobj.PS2P !== 'undefined')
+         {
+           PS2P = JSONobj.PS2P;
+           document.getElementById("PS2PProgressbar").value = PS2P;
+           document.getElementById("PS2P").value = PS2P;
+         }
+         if (typeof JSONobj.PS2S !== 'undefined')
+         {
+           PS2S = JSONobj.PS2S;
+           document.getElementById("PS2S").value = PS2S;
+           document.getElementById("PS2Stext").innerHTML = PS2S;
+           document.getElementById("PS2Stext2").innerHTML = PS2S;
+         }
+
+         if (typeof JSONobj.PUMP1P !== 'undefined')
+         {
+           PUMP1P =  JSONobj.PUMP1P.toFixed(1);
+           document.getElementById("PUMP1P").value = PUMP1P;
+
+           document.getElementById("PUMP1PProgressbar").value = Math.abs(JSONobj.PUMP1P);
+           if (JSONobj.PUMP1P == PUMP1PTarget || JSONobj.PUMP1P == 0)
+           {
+             document.getElementById('img-PUMP1R').style.visibility = 'hidden';
+             document.getElementById('img-PUMP1L').style.visibility = 'hidden';
+             document.getElementById("PUMP1PProgressbar").max = 0;
+           }
+         }
+         if (typeof JSONobj.PUMP1PTarget !== 'undefined')
+         {
+           document.getElementById('PUMP1PProgressbar').style.visibility = 'visible';
+           PUMP1PTarget = JSONobj.PUMP1PTarget;
+           document.getElementById("PUMP1PProgressbar").max = Math.abs(JSONobj.PUMP1PTarget);
+           if (JSONobj.PUMP1PTarget > 0)
+           {
+             document.getElementById('img-PUMP1R').style.visibility = 'visible';
+             document.getElementById('img-PUMP1R').style.animation = 'cw 2s infinite linear';
+
+             document.getElementById('PUMP1PProgressbar').style.transform = 'scaleX(1)';
+
+           }
+           else if (JSONobj.PUMP1PTarget < 0)
+           {
+             document.getElementById('img-PUMP1L').style.visibility = 'visible';
+             document.getElementById('img-PUMP1L').style.animation = 'ccw 2s infinite linear';
+
+             document.getElementById('PUMP1PProgressbar').style.transform = 'scaleX(-1)';
+           }
+           else
+           {
+             document.getElementById('img-PUMP1R').style.visibility = 'hidden';
+             document.getElementById('img-PUMP1R').style.animationPlayState = 'paused';
+             document.getElementById('img-PUMP1L').style.visibility = 'hidden';
+             document.getElementById('img-PUMP1L').style.animationPlayState = 'paused';
+           }
+         }
+
+         if (typeof JSONobj.PUMP1S !== 'undefined')
+         {
+           PUMP1S = JSONobj.PUMP1S;
+           document.getElementById("PUMP1S").value = PUMP1S;
+           document.getElementById("PUMP1Stext").innerHTML = PUMP1S;
+           document.getElementById("PUMP1Stext2").innerHTML = PUMP1S;
+         }
+
+         if (typeof JSONobj.PUMP1Right !== 'undefined')
+         {
+           if(JSONobj.PUMP1Right == true)
+           {
+             document.getElementById('img-PUMP1R').style.transform = 'scaleX(1)';
+             document.getElementById('img-PUMP1R').style.visibility = 'visible';
+             document.getElementById('img-PUMP1R').style.animation = 'cw 2s infinite linear';
+
+             document.getElementById('PUMP1PProgressbar').style.visibility = 'hidden';
+           }
+           else
+           {
+             document.getElementById('img-PUMP1R').style.visibility = 'hidden';
+           }
+         }
+
+         if (typeof JSONobj.PUMP1Left !== 'undefined')
+         {
+           if(JSONobj.PUMP1Left == true)
+           {
+             document.getElementById('img-PUMP1L').style.visibility = 'visible';
+             document.getElementById('img-PUMP1L').style.animation = 'ccw 2s infinite linear';
+
+             document.getElementById('PUMP1PProgressbar').style.visibility = 'hidden';
+           }
+           else
+           {
+             document.getElementById('img-PUMP1R').style.visibility = 'hidden';
+             document.getElementById('img-PUMP1R').style.animationPlayState = 'paused';
+             document.getElementById('img-PUMP1L').style.visibility = 'hidden';
+             document.getElementById('img-PUMP1L').style.animationPlayState = 'paused';
+           }
+         }
+
+         if (typeof JSONobj.Version !== 'undefined')
+         {
+           document.getElementById("Version").innerHTML = 'Version : '+JSONobj.Version;
+         }
+
+         /*if (typeof JSONobj.IP !== 'undefined')
+         {
+           document.getElementById("IP").innerHTML = 'IP : '+JSONobj.IP;
+         }*/
+
+         if (typeof JSONobj.WiFiQuality !== 'undefined')
+         {
+           document.getElementById("WiFiQuality").innerHTML = 'WiFi Quality : '+JSONobj.WiFiQuality+'%';
+           document.getElementById("WiFiQualityProgressbar").value = JSONobj.WiFiQuality ;
+         }
+
+
+         if (typeof JSONobj.S1 !== 'undefined')
+         {
+           S1 = JSONobj.S1;
+
+           document.getElementById('img-pinch1').style.transform = 'rotate('+angle(S1)+'deg)';
+           document.getElementById("S1text").innerHTML = S1;
+         }
+         if (typeof JSONobj.S2 !== 'undefined')
+         {
+           S2 = JSONobj.S2;
+
+           document.getElementById('img-pinch2').style.transform = 'rotate('+angle(S2)+'deg)';
+           document.getElementById("S2text").innerHTML = S2;
+         }
+         if (typeof JSONobj.S3 !== 'undefined')
+         {
+           S3 = JSONobj.S3;
+
+           document.getElementById('img-pinch3').style.transform = 'rotate('+angle(S3)+'deg)';
+           document.getElementById("S3text").innerHTML = S3;
+         }
+         if (typeof JSONobj.S4 !== 'undefined')
+         {
+           S4 = JSONobj.S4;
+
+           document.getElementById('img-pinch4').style.transform = 'rotate('+angle(S4)+'deg)';
+           document.getElementById("S4text").innerHTML = S4;
+         }
+         if (typeof JSONobj.S5 !== 'undefined')
+         {
+           S5 = JSONobj.S5;
+
+           document.getElementById('img-pinch5').style.transform = 'rotate('+angle(S5,5)+'deg)';
+           document.getElementById("S5text").innerHTML = S5;
+         }
+         if (typeof JSONobj.S6 !== 'undefined')
+         {
+           S6 = JSONobj.S6;
+
+           document.getElementById('img-pinch6').style.transform = 'rotate('+angle(S6)+'deg)';
+           document.getElementById("S6text").innerHTML = S6;
+         }
+         if (typeof JSONobj.S7 !== 'undefined')
+         {
+           S7 = JSONobj.S7;
+
+           document.getElementById('img-pinch7').style.transform = 'rotate('+angle(S7)+'deg)';
+           document.getElementById("S7text").innerHTML = S7;
+         }
+         if (typeof JSONobj.S8 !== 'undefined')
+         {
+           S8 = JSONobj.S8;
+
+           document.getElementById('img-pinch8').style.transform = 'rotate('+angle(S8)+'deg)';
+           document.getElementById("S8text").innerHTML = S8;
+         }
+
+         if (typeof JSONobj.methodName !== 'undefined')
+         {
+           document.getElementById("methodName").innerHTML = "Méthode "+JSONobj.methodName;
+         }
+
+         if (typeof JSONobj.stepNumber !== 'undefined')
+         {
+           document.getElementById("stepNumber").innerHTML = "Etape "+JSONobj.stepNumber+" de "+(JSONobj.totalSteps-1);
+         }
+
+         if (typeof JSONobj.executionTime !== 'undefined')
+         {
+           document.getElementById("stepNumber").innerHTML = "achevée en "+JSONobj.executionTime+" secondes";
+         }
+
+
+         if (typeof JSONobj.stepFinished !== 'undefined')
+         {
+           const stepFinished = JSON.stringify({
+                stepFinished : JSONobj.stepFinished
+           });
+
+           window.parent.postMessage(stepFinished, '*');
+           console.log("step finished",stepFinished);
+
+         }
+         if (typeof JSONobj.info !== 'undefined')
+         {
+           var date = new Date();
+           document.getElementById("info").value += "["+date.getFullYear().toString() +"-"+ pad2(date.getMonth() + 1) +"-"+ pad2( date.getDate());
+           document.getElementById("info").value += " "+ pad2( date.getHours() ) +":"+ pad2( date.getMinutes() ) +":"+ pad2( date.getSeconds() )+"]\t"+ JSONobj.info;
+           document.getElementById("info").scrollTop = document.getElementById("info").scrollHeight;
+         }
+
+         delete JSONobj;
+      };
+
+      websock.onclose = function(e) {
+        console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+        setTimeout(function() {
+          connect();
+        }, 1000);
+      };
+
+      websock.onerror = function(err) {
+        console.error('Socket encountered error: ', err.message, 'Closing socket');
+        websock.close();
+      };
+    }
+
+    //connect();
+
+
+
+
+    <!-- *********** SEND WEBSOCKET ************ -->
+
+    <!-- *********** PS1 ************ -->
+    function PS1UpmouseDown()
+    {
+       websock.send('{"PS1Up":true}');
+    }
+    function PS1UpmouseUp()
+    {
+       websock.send('{"PS1Up":false}');
+    }
+    function PS1DownmouseDown()
+    {
+       websock.send('{"PS1Down":true}');
+    }
+    function PS1DownmouseUp()
+    {
+       websock.send('{"PS1Down":false}');
+    }
+
+    function changePS1Speed(speed) {
+      websock.send('{"PS1S":'+speed+'}');
+    }
+
+    function NewPS1PTarget(PS1PTarget)
+    {
+      websock.send('{"PS1PTarget":'+PS1PTarget+'}');
+    }
+
+
+    <!-- *********** PS2 ************ -->
+
+    function PS2UpmouseDown()
+    {
+       websock.send('{"PS2Up":true}');
+    }
+    function PS2UpmouseUp()
+    {
+       websock.send('{"PS2Up":false}');
+    }
+    function PS2DownmouseDown()
+    {
+       websock.send('{"PS2Down":true}');
+    }
+    function PS2DownmouseUp()
+    {
+       websock.send('{"PS2Down":false}');
+    }
+
+    function changePS2Speed(speed) {
+      websock.send('{"PS2S":'+speed+'}');
+    }
+
+    function NewPS2PTarget(PS2PTarget)
+    {
+      websock.send('{"PS2PTarget":'+PS2PTarget+'}');
+    }
+
+    <!-- *********** PUMP1 ************ -->
+
+    function PUMP1LeftMouseDown()
+    {
+       websock.send('{"PUMP1Left":true}');
+
+    }
+    function PUMP1LeftMouseUp()
+    {
+       websock.send('{"PUMP1Left":false}');
+    }
+    function PUMP1RightMouseDown()
+    {
+       websock.send('{"PUMP1Right":true}');
+    }
+    function PUMP1RightMouseUp()
+    {
+       websock.send('{"PUMP1Right":false}');
+    }
+
+    function changePUMP1Speed(speed) {
+      websock.send('{"PUMP1S":'+speed+'}');
+    }
+
+    function NewPUMP1PTarget(PUMP1PTarget)
+    {
+      websock.send('{"PUMP1PTarget":'+PUMP1PTarget+'}');
+    }
+
+    <!-- *********** ServoChange ************ -->
+
+    function ServoChange(servo)
+     {
+       if (servo == 'S1')
+        websock.send('{"S1":'+goal(S1)+'}');
+       if (servo == 'S2')
+        websock.send('{"S2":'+goal(S2)+'}');
+       if (servo == 'S3')
+         websock.send('{"S3":'+goal(S3)+'}');
+       if (servo == 'S4')
+         websock.send('{"S4":'+goal(S4)+'}');
+       if (servo == 'S5')
+         websock.send('{"S5":'+goal(S5)+'}');
+       if (servo == 'S6')
+         websock.send('{"S6":'+goal(S6)+'}');
+       if (servo == 'S7')
+         websock.send('{"S7":'+goal(S7)+'}');
+       if (servo == 'S8')
+         websock.send('{"S8":'+goal(S8)+'}');
+     }
+
+     <!-- ************** record or load state ******* -->
+
+     function saveState()
+     {
+        websock.send('{"saveState":true}');
+     }
+     function loadState()
+     {
+        websock.send('{"loadState":true}');
+     }
+
+     <!-- ******************* RAZ ******************* -->
+
+     function RAZPS()
+     {
+        websock.send('{"PS1PTarget":-60000}');
+        websock.send('{"PS2PTarget":-60000}');
+     }
+     function RAZServos()
+     {
+        websock.send('{"S1": 0, "S2": 0, "S3": 0, "S4": 0, "S5": 0, "S6": 0, "S7": 0, "S8": 0}');
+     }
+     function RAZPUMP1P()
+     {
+        websock.send('{"RAZPUMP1P":true}');
+        PUMP1P = 0;
+        document.getElementById("PUMP1P").value = PUMP1P;
+     }
+
+     <!-- ******************* Restart ******************* -->
+
+     function restart()
+     {
+        websock.send('{"restart":true}');
+     }
+
+    <!-- *********** UPDATE LOCAL VALUES ************ -->
+
+    function goal(presentPosition)
+    {
+      var goalPosition = presentPosition+1;
+      if (goalPosition == 3)
+        goalPosition = 0;
+
+      return goalPosition;
+    }
+    function angle(presentPosition, servo)
+    {
+      var anglePosition;
+      if (servo !== undefined)
+      {
+        if (servo == 5)
+        {
+          if(presentPosition==0)
+            anglePosition = -45;
+          if(presentPosition==1)
+            anglePosition = 5;
+          if(presentPosition==2)
+            anglePosition = -95;
+        }
+      }
+      else
+      {
+          if(presentPosition==0)
+            anglePosition = 0;
+          if(presentPosition==1)
+            anglePosition = 15;
+          if(presentPosition==2)
+            anglePosition = -15;
+      }
+      return anglePosition;
+    }
+
+    <!-- *********** SEND DATA TO PARENT FRAME ************ -->
+    function record()
+    {
+      // Called from the iframe
+      const message = JSON.stringify({
+           S1 : S1,
+           S2: S2,
+           S3: S3,
+           S4: S4,
+           S5: S5,
+           S6: S6,
+           S7: S7,
+           S8: S8,
+           PS1P: PS1P,
+           PS1S: PS1S,
+           PS2P: PS2P,
+           PS2S: PS2S,
+           PUMP1S: PUMP1S,
+           PUMP1P: PUMP1P,
+		   ADDSTEP: 'true'
+      });
+      window.parent.postMessage(message, '*');
+      PUMP1P = 0;
+      document.getElementById("PUMP1P").value = PUMP1P;
+      websock.send('{"RAZPUMP1P":true}');
+    }
+
+	function sendData() {
+	  var XHR = new XMLHttpRequest();
+	  var FD  = new FormData();
+
+	  // Mettez les données dans l'objet FormData
+
+		FD.append('A1', S1);
+		FD.append('A2', S2);
+		FD.append('A3', S3);
+		FD.append('A4', S4);
+		FD.append('B1', S5);
+		FD.append('B2', S6);
+		FD.append('B3', S7);
+		FD.append('B4', S8);
+		FD.append('C1', PS1P);
+		FD.append('C2', PS1S);
+		FD.append('C3', PS2P);
+		FD.append('C4', PS2S);
+		FD.append('C5', PUMP1P);
+		FD.append('pump', PUMP1S);
+		FD.append('id_method_list', id_method_list);
+    FD.append('description', description);
+
+
+	  // Définissez ce qui se passe si la soumission s'est opérée avec succès
+	  XHR.addEventListener('load', function(event) {
+		const Update = JSON.stringify({
+                Update : 'true'
+           });
+		window.parent.postMessage(Update, '*');
+	  });
+
+	  // Definissez ce qui se passe en cas d'erreur
+	  XHR.addEventListener('error', function(event) {
+		alert('Failure');
+	  });
+
+	  // Configurez la requête
+	  XHR.open('POST', 'http://10.10.14.106:8080/config');
+
+	  // Expédiez l'objet FormData ; les en-têtes HTTP sont automatiquement définies
+	  XHR.send(FD);
+
+	  PUMP1P = 0;
+      document.getElementById("PUMP1P").value = PUMP1P;
+      websock.send('{"RAZPUMP1P":true}');
+
+	}
+
+    </script>
+    <title>
+      Mécatech
+    </title>
+  </head>
+  <body>
+    <div>
+      <div id="ConnectionStatus"></div>
+      <div id="Version"></div>
+      <div id="WiFiQuality"></div>
+      <progress id="WiFiQualityProgressbar" max="100" value="0"></progress>
+      <div id="PS1">
+        <input type="button" value="Up" id="PS1Up" onmousedown="PS1UpmouseDown()" onmouseup="PS1UpmouseUp()" >
+        <br />
+        <input type="button" value="Down" id="PS1Down" onmousedown="PS1DownmouseDown()" onmouseup="PS1DownmouseUp()" >
+        <br />
+        <input type="range" id="PS1S" name="PS1S"
+         min="1" max="500" oninput="changePS1Speed(this.value)" list="tickmarks">
+
+          <datalist id="tickmarks">
+            <option value="1">
+            <option value="5">
+            <option value="10">
+            <option value="20">
+            <option value="30">
+            <option value="40">
+            <option value="50">
+            <option value="75">
+            <option value="100">
+            <option value="125">
+            <option value="150">
+            <option value="200">
+            <option value="250">
+            <option value="300">
+            <option value="400">
+            <option value="500">
+          </datalist>
+          <br />
+         <label id="PS1Stext3" for="PS1S">Vitesse (<span id="PS1Stext2"></span>µL/sec)</label>
+      </div>
+      <div id="PS2">
+        <input type="button" value="Up" id="PS2Up" onmousedown="PS2UpmouseDown()" onmouseup="PS2UpmouseUp()" >
+        <br />
+        <input type="button" value="Down" id="PS2Down" onmousedown="PS2DownmouseDown()" onmouseup="PS2DownmouseUp()" >
+        <br />
+        <input type="range" id="PS2S" name="PS2S"
+         min="1" max="500" oninput="changePS2Speed(this.value)" list="tickmarks1">
+
+          <datalist id="tickmarks1">
+            <option value="1">
+            <option value="5">
+            <option value="10">
+            <option value="20">
+            <option value="30">
+            <option value="40">
+            <option value="50">
+            <option value="75">
+            <option value="100">
+            <option value="125">
+            <option value="150">
+            <option value="200">
+            <option value="250">
+            <option value="300">
+            <option value="400">
+            <option value="500">
+          </datalist>
+          <br />
+         <label id="PS2Stext3" for="PS2S">Vitesse (<span id="PS2Stext2"></span>µL/sec)</label>
+      </div>
+      <div id="PUMP1">
+        <input type="button" value="Left" id="PUMP1Left" onmousedown="PUMP1LeftMouseDown()" onmouseup="PUMP1LeftMouseUp()" >
+
+        <input type="button" value="Right" id="PUMP1Right" onmousedown="PUMP1RightMouseDown()" onmouseup="PUMP1RightMouseUp()" >
+        <br />
+        <input type="range" id="PUMP1S" name="PUMP1S"
+         min="1" max="400" oninput="changePUMP1Speed(this.value)" list="tickmarks2">
+
+          <datalist id="tickmarks2">
+            <option value="1">
+            <option value="5">
+            <option value="10">
+            <option value="20">
+            <option value="40">
+            <option value="60">
+            <option value="80">
+            <option value="100">
+            <option value="150">
+            <option value="200">
+            <option value="250">
+            <option value="300">
+            <option value="350">
+            <option value="400">
+          </datalist>
+          <br />
+         <label for="PUMP1S">Vitesse (<span id="PUMP1Stext2"></span>RPM)</label>
+      </div>
+      <img class="img-machine" src="Assemblage_210504.png">
+      <img onclick="ServoChange('S1')" ID="img-pinch1" src="pinch25a.png">
+      <img onclick="ServoChange('S2')" ID="img-pinch2" src="pinch25b.png">
+      <img onclick="ServoChange('S3')" ID="img-pinch3" src="pinch25b.png">
+      <img onclick="ServoChange('S4')" ID="img-pinch4" src="pinch25b.png">
+      <img onclick="ServoChange('S5')" ID="img-pinch5" src="pinch30.png">
+      <img onclick="ServoChange('S6')" ID="img-pinch6" src="pinch25c.png">
+      <img onclick="ServoChange('S7')" ID="img-pinch7" src="pinch25a.png">
+      <img onclick="ServoChange('S8')" ID="img-pinch8" src="pinch25c.png">
+      <img ID="img-PUMP1R" src="PUMP1R.png">
+      <img ID="img-PUMP1L" src="PUMP1L.png">
+    </div>
+
+    <progress id="PS1PProgressbar" max="1000" value=""></progress>
+    <progress id="PS2PProgressbar" max="1000" value=""></progress>
+    <progress id="PUMP1PProgressbar" max="" value=""></progress>
+    <span id="methodName"></span>
+    <span id="stepNumber"></span>
+    <button type="button" id="downloadInfo" onclick="downloadInfo()">Save</button>
+    <button type="button" id="eraseInfo" onclick="eraseInfo()">Delete</button>
+    <textarea id="info" rows="10" cols="50" readonly></textarea>
+
+
+    <div align="center" id="table">
+      <table border="1" cellspacing="0" cellpadding="10" align="center">
+        <tr>
+          <th>
+            S1
+          </th>
+          <th>
+            S2
+          </th>
+          <th>
+            S3
+          </th>
+          <th>
+            S4
+          </th>
+          <th>
+            S5
+          </th>
+          <th>
+            S6
+          </th>
+          <th>
+            S7
+          </th>
+          <th>
+            S8
+          </th>
+          <th>
+            PS1P
+          </th>
+          <th>
+            PS1S
+          </th>
+          <th>
+            PS2P
+          </th>
+          <th>
+            PS2S
+          </th>
+
+          <th>
+            PUMP1P
+          </th>
+          <th>
+            PUMP1S
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <span id="S1text">0</span>
+          </td>
+          <td>
+            <span id="S2text">0</span>
+          </td>
+          <td>
+            <span id="S3text">0</span>
+          </td>
+          <td>
+            <span id="S4text">0</span>
+          </td>
+          <td>
+            <span id="S5text">0</span>
+          </td>
+          <td>
+            <span id="S6text">0</span>
+          </td>
+          <td>
+            <span id="S7text">0</span>
+          </td>
+          <td>
+            <span id="S8text">0</span>
+          </td>
+          <td>
+            <input type="text" id="PS1P" size="2" onchange="NewPS1PTarget(this.value)" >
+          </td>
+          <td>
+            <span id="PS1Stext">0</span>
+          </td>
+          <td>
+            <input type="text" id="PS2P" size="2" onchange="NewPS2PTarget(this.value)" >
+          </td>
+          <td>
+            <span id="PS2Stext">0</span>
+          </td>
+
+          <td>
+            <input type="text" id="PUMP1P" size="2" onchange="NewPUMP1PTarget(this.value)" >
+          </td>
+          <td>
+            <span id="PUMP1Stext">0</span>
+          </td>
+          <td>
+            <textarea type="description" id="Description" size="2" onchange="SetDescription(this.value)"></textarea>
+          </td>
+        </tr>
+      </table>
+      <input type="button" value="Save this step" id="Record" onclick="sendData()">
+    </div>
+    <div>
+      <p id="JSONaff"></p>
+    </div>
+    <input type="button" value="saveState" id="saveState" onclick="saveState()">
+    <br />
+    <input type="button" value="loadState" id="loadState" onclick="loadState()">
+    <br />
+    <input type="button" value="RAZ PS" id="RAZPS" onclick="RAZPS()">
+    <br />
+    <input type="button" value="RAZ Servos" id="RAZServos" onclick="RAZServos()">
+    <br />
+    <input type="button" value="RAZ Pump" id="RAZPUMP1P" onclick="RAZPUMP1P()">
+    <br />
+    <input type="button" value="Restart" id="Restart" onclick="restart()">
+  </body>
+
+</html>
