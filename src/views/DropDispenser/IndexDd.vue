@@ -55,41 +55,7 @@
         </v-card>
       </v-dialog>
 
-      <v-card>
-        <v-card-title> Create a method</v-card-title>
-        <v-form>
-          <v-text-field v-model="method_name" label="Method name" required>
-          </v-text-field>
-          {{ message }}
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                  v-on="on"
-                  v-bind="attrs"
-                  color="primary"
-                  class="mr-4"
-                  @click="createMethod()"
-              >
-                <v-icon>mdi-open-in-new</v-icon>
-                Create
-              </v-btn>
-            </template>
-            <span>Create new method</span>
-          </v-tooltip>
 
-          <div v-if="loading === true">
-            <v-progress-circular
-                :size="30"
-                color="primary"
-                indeterminate
-            ></v-progress-circular>
-          </div>
-
-          <v-snackbar v-model="snackbar" :timeout="timeout">
-            {{ text }}
-          </v-snackbar>
-        </v-form>
-      </v-card>
     </v-container>
 
     <v-container>
@@ -102,6 +68,94 @@
             item-key="id_method_name"
             class="elevation-1"
         >
+          <!-- Table header-->
+
+          <template v-slot:top>
+            <v-toolbar
+                flat
+            >
+              <v-spacer/>
+
+              <!-- Create Method Dialog-->
+
+              <v-dialog
+                  v-model="dialog"
+                  max-width="500px"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      color="primary"
+                      dark
+                      class="mb-2"
+                      v-bind="attrs"
+                      v-on="on"
+                  >
+                    New Method
+                  </v-btn>
+                </template>
+
+                <!-- Create method form -->
+
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Create a method</span>
+                  </v-card-title>
+
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col
+                            cols="12"
+                            sm="6"
+                            md="4"
+                        >
+                          <v-text-field
+                              v-model="method_name"
+                              label="Method name"
+                              aria-required="true"
+                          ></v-text-field>
+                        </v-col>
+
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="secondary"
+                           @click="dialog=false"
+                    >
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                        color="primary"
+                        @click="createMethod"
+                    >
+                      Save
+                    </v-btn>
+
+                    <!-- Waiting progress -->
+
+                    <div v-if="loading === true">
+                      <v-progress-circular
+                          :size="30"
+                          color="primary"
+                          indeterminate
+                      />
+                    </div>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+
+              <!-- Message banner -->
+
+              <v-snackbar v-model="snackbar" :timeout="timeout">
+                {{ text }}
+              </v-snackbar>
+            </v-toolbar>
+
+          </template>
+
           <!-- Line custom date -->
 
           <template v-slot:[`item.date`]="{ item }">
@@ -357,6 +411,7 @@ export default {
             this.text = "Method created correctly";
             this.loading = false;
             this.snackbar = true;
+            this.dialog=false
             this.fetchMethods();
           } else {
             this.text = "Couldn't create method";
