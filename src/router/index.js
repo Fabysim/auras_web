@@ -45,6 +45,7 @@ const routes = [
         component: SensorManagerView,
     },
 
+
 ]
 
 const router = new VueRouter({

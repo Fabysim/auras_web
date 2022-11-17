@@ -4,7 +4,7 @@ import vuetify from './plugins/vuetify'
 import router from './router'
 import store from './store'
 
-Vue.prototype.$api = "10.10.17.130:8443/"
+Vue.prototype.$api = "10.10.14.106:8443/"
 Vue.config.productionTip = false
 
 new Vue({
@@ -13,3 +13,4 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+

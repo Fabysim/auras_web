@@ -306,6 +306,7 @@ export default {
           .then(
               (response) => {
 
+
                 if (response.status === 204) {
 
                   this.displayedMessage = "Method updated correctly";
@@ -326,7 +327,7 @@ export default {
     /*--------------------------------------------------------------------------
      * Used to create a method into the database
      * -------------------------------------------------------------------------*/
-    fetchMethods() {
+      fetchMethods() {
 
       axios.get('http://' + this.$api + "api/Methods")
           .then(
