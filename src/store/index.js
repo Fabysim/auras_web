@@ -9,7 +9,8 @@ export default new Vuex.Store({
         aurasIp: '10.10.17.140:81',
         ddIp: '10.10.17.140:81',
         csIp: '10.10.17.241:81',
-        api : '10.10.17.130:8443/'
+        api : '10.10.17.130:8443/',
+        mecatechIp:'10.10.15.101'
     },
     getters: {},
     mutations: {},

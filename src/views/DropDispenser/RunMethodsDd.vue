@@ -12,7 +12,7 @@
           item-key="id_method_name"
           class="elevation-1"
         >
-          <template v-slot:item.actions="{ item }">
+          <template v-slot:[`item.actions`]="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -24,8 +24,8 @@
                   color="primary"
                   @click="redirect('ViewMethod', item.id_method_list)"
                 >
-                <v-icon>mdi-power</v-icon>
-                  Start
+                <v-icon>mdi-play-circle-outline</v-icon>
+
                 </v-btn>
               </template>
               <span>Run this method</span>

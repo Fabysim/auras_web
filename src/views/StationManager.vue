@@ -28,16 +28,15 @@ export default {
 
 
     itemsAuras: [
-      {text: 'Start Auras', icon: 'mdi-play-circle-outline', url: 'IndexAuras'},
+      {text: 'Start Auras', icon: 'mdi-power', url: 'IndexAuras'},
       {text: 'Auras Network', icon: 'mdi-access-point-network', url: 'AurasNetwork'},
     ],
     itemsDD: [
-      {text: 'Drop Dispenser Run', icon: 'mdi-play-circle-outline', url: 'DropDRun'},
-      {text: 'Drop Dispenser Configuration', icon: 'mdi-cog-outline', url: 'IndexDd'},
+      {text: 'Drop Dispenser Run', icon: 'mdi-power', url: 'IndexDd'},
       {text: 'Drop Dispenser Network', icon: 'mdi-access-point-network', url: 'DropDNetwork'},
     ],
     itemsCS: [
-      {text: 'Color sensor Run', icon: 'mdi-play-circle-outline', url: 'colorSensor'},
+      {text: 'Color sensor Run', icon: 'mdi-power', url: 'colorSensor'},
       {text: 'Color sensor Network', icon: 'mdi-access-point-network', url: 'CsNetwork'},
     ],
   }),

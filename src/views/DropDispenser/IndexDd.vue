@@ -107,10 +107,12 @@
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn color="green"
+                         small
                          v-on="on"
                          v-bind="attrs"
                          @click="SetMethodRename(item.id_method_list)">
                     <v-icon
+                        small
                         color="white"
 
                     >
@@ -123,38 +125,8 @@
 
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="blue-grey"
-                         v-on="on"
-                         v-bind="attrs"
-                         @click="Duplicate(item.id_method_list)">
-                    <v-icon
-                        color="white"
-                    >
-                      mdi-content-duplicate
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Duplicate</span>
-              </v-tooltip>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="primary"
-                         v-on="on"
-                         v-bind="attrs"
-                         @click="Redirect('DdConfigMethod', item.id_method_list)">
-                    <v-icon
-                        color="White"
-                    >
-                      mdi-table-edit
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Edit</span>
-              </v-tooltip>
-
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
                   <v-btn color="red"
+                         small
                          v-on="on"
                          v-bind="attrs"
                          @click="DeleteConfirmation(item.id_method_list)">
@@ -166,6 +138,62 @@
                 </template>
                 <span>Delete</span>
               </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="blue-grey"
+                         small
+                         v-on="on"
+                         v-bind="attrs"
+                         @click="Duplicate(item.id_method_list)">
+                    <v-icon
+                        small
+                        color="white"
+                    >
+                      mdi-content-duplicate
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Duplicate</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="#f29633"
+                         small
+                         v-on="on"
+                         v-bind="attrs"
+                         @click="Redirect('DdConfigMethod', item.id_method_list)">
+                    <v-icon
+                        small
+                        color="White"
+                    >
+                      mdi-cog-outline
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Edit</span>
+              </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                      small
+                      v-on="on"
+                      v-bind="attrs"
+                      class="white--text"
+                      color="primary"
+                      @click="Redirect('ViewMethod', item.id_method_list)"
+                  >
+                    <v-icon
+                        small>
+                      mdi-play-circle-outline
+                    </v-icon>
+
+                  </v-btn>
+                </template>
+                <span>Run this method</span>
+              </v-tooltip>
+
             </div>
           </template>
         </v-data-table>

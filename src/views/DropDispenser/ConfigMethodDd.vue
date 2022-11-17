@@ -258,7 +258,7 @@ export default {
     setTimeout(() => {
       this.iframeWin.postMessage(
         {
-          ESP_IP: this.$store.state.esp32_Ip,
+          ESP_IP: this.$store.state.mecatechIp,
           Execution: "false",
           Id_method_list: this.$route.params.id_method_list,
         },

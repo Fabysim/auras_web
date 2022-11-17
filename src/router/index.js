@@ -9,6 +9,7 @@ import RunAurasView from "@/views/Auras/RunAurasView";
 import IndexDd from "@/views/DropDispenser/IndexDd";
 import DdConfigMethod from "@/views/DropDispenser/ConfigMethodDd";
 import DdUpdateMethod from "@/views/DropDispenser/UpdateMethodDd";
+import ViewMethodDd from "@/views/DropDispenser/ViewMethodDd";
 
 
 Vue.use(VueRouter)
@@ -61,6 +62,12 @@ const routes = [
         path: '/edit/:id_method',
         name: 'DdUpdateMethod',
         component: DdUpdateMethod,
+    },
+    {
+        path: '/view/:id_method_list',
+        name: 'ViewMethod',
+        component: ViewMethodDd,
+
     },
 
 
