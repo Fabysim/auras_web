@@ -264,6 +264,7 @@ export default {
           'Name': this.editedItem.name
         }
 
+
         axios.post('http://' + this.$aurasApi + "api/Methods", params)
             .then(
                 (response) => {
