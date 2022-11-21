@@ -147,7 +147,7 @@
 import PlatFormCard from '@/components/PlatformCard.vue'
 import VueHorizontal from 'vue-horizontal'
 import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css'
-import axios from "axios";
+
 
 
 export default {
@@ -240,27 +240,7 @@ export default {
     close() {
     },
 
-    TestWebservice() {
 
-      let params = {
-        'name': 'provided'
-      }
-
-      axios.post('http://' + this.$api + 'api/Hello', params).then(
-          response => {
-            if (response.status === 201) {
-
-              axios.get('http://' + this.$api + "api/Hello").then((response) => {
-                if (response.status === 200) {
-                  console.log(response.data)
-                }
-              });
-            }
-          }
-      );
-
-
-    }
   }
 }
 </script>
