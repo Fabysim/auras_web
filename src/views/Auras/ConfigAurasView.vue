@@ -1,9 +1,11 @@
 <template>
-  <div class="home">
-    <!-- Tables -->
+  <div id="home">
 
-    <v-card>
-      <vue-horizontal scroll class="horizontal">
+    <!-- Method Tables -->
+
+    <v-card style="padding: 20px">
+      <v-card-title class="justify-center">Entire method</v-card-title>
+      <vue-horizontal scroll snap="end">
         <table>
           <tr>
             <td>
@@ -11,9 +13,10 @@
                 <v-card-title class="justify-center text-color">{{ module1Name }}</v-card-title>
                 <v-card-text>
                   <v-data-table
-                      :headers="module1"
-                      :items="module1Data"
+                      :headers="trayHeader"
+                      :items="trayMethodData"
                       :hide-default-footer="true"
+                      disable-pagination
                   />
 
                 </v-card-text>
@@ -21,27 +24,30 @@
             </td>
             <td>
               <v-card>
-                <v-card-title class="justify-center text-color">{{ module2Name }}</v-card-title>
+                <v-card-title class="justify-center text-color">
+                  {{ module2Name }}
+                </v-card-title>
                 <v-card-text>
                   <v-data-table
-                      :headers="module2"
-                      :items="module2Data"
+                      :headers="liquidDispenserHeader"
+                      :items="liquidDispenserMethodData"
                       :hide-default-footer="true"
+                      disable-pagination
                   />
                 </v-card-text>
               </v-card>
             </td>
             <td>
               <v-card>
-                <v-card-title class="justify-center text-color" style="color: dodgerblue">{{
-                    module3Name
-                  }}
+                <v-card-title class="justify-center text-color" style="color: dodgerblue">
+                  {{ module3Name }}
                 </v-card-title>
                 <v-card-text>
                   <v-data-table
-                      :headers="module3"
-                      :items="module3Data"
+                      :headers="dropDispenserHeader"
+                      :items="dropDispenserMethodData"
                       :hide-default-footer="true"
+                      disable-pagination
                   />
 
                 </v-card-text>
@@ -52,9 +58,10 @@
                 <v-card-title class="justify-center text-color">{{ module4Name }}</v-card-title>
                 <v-card-text>
                   <v-data-table
-                      :headers="module4"
-                      :items="module4Data"
+                      :headers="TLCMMHeader"
+                      :items="tlcMMMethodData"
                       :hide-default-footer="true"
+                      disable-pagination
                   />
 
                 </v-card-text>
@@ -68,6 +75,7 @@
                       :headers="moduleComment"
                       :items="moduleCommentData"
                       :hide-default-footer="true"
+                      disable-pagination
                   >
                     <template v-slot:body="{ items, headers }">
                       <tbody v-if="items.length > 0">
@@ -94,7 +102,9 @@
                       </tbody>
                       <tbody v-else>
                       <tr>
-                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">No data available</td>
+                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">No data
+                          available
+                        </td>
                       </tr>
                       </tbody>
                     </template>
@@ -104,41 +114,22 @@
                 </v-card-text>
               </v-card>
             </td>
-            <td style="padding-left: 50px">
-              <v-btn style="background-color: dodgerblue; color: white;"
-                     @click="SaveMethod">
-                Save Method
-              </v-btn>
-            </td>
+
           </tr>
         </table>
       </vue-horizontal>
+      <v-card-actions class="justify-center">
+        <v-btn style="background-color: dodgerblue; color: white;"
+               @click="SaveMethod">
+          Save Method
+        </v-btn>
+      </v-card-actions>
+
     </v-card>
 
-    <v-btn color="primary"
-           @click="SaveLine">
-      Save step
-    </v-btn>
-
     <!-- PlatForms -->
-    <vue-horizontal responsive snap="end" class="platforms">
-      <table>
-        <tr>
-          <td>
-            <PlatFormCard v-bind:name="module1Name" ref="plateForm1"/>
-          </td>
-          <td>
-            <PlatFormCard v-bind:name="module2Name" ref="plateForm2"/>
-          </td>
-          <td>
-            <PlatFormCard v-bind:name="module3Name" ref="plateForm3"/>
-          </td>
-          <td>
-            <PlatFormCard v-bind:name="module4Name" ref="plateForm4"/>
-          </td>
-        </tr>
-      </table>
-    </vue-horizontal>
+    <PlatFormCard @lineSaved="SaveLine" ref="plateForm1"/>
+
   </div>
 </template>
 
@@ -147,7 +138,6 @@
 import PlatFormCard from '@/components/PlatformCard.vue'
 import VueHorizontal from 'vue-horizontal'
 import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css'
-
 
 
 export default {
@@ -159,75 +149,108 @@ export default {
 
   data: () => ({
     lineNumber: 0,
-    module1Name: 'Tray',
-    module2Name: 'Liquid Dispenser',
-    module3Name: 'Drop Dispenser',
-    module4Name: 'TLC Migration Module',
 
-    module1: [
+    //Modules Names
+    module1Name: '',
+    module2Name: '',
+    module3Name: '',
+    module4Name: '',
 
-      {text: 'Step', value: 'Step', align: 'start', width: 82},
-      {text: 'Value1', value: 'Step1', width: 82},
-      {text: 'Value2', value: 'Step2', width: 82},
-      {text: 'Value3', value: 'Step3', width: 82},
-      {text: 'Value4', value: 'Step4', width: 82},
+    // Modules tables
+    trayHeader: [
+
+      {text: 'Step', value: 'Step', align: 'start', width: 82, sortable: true},
+      {text: 'Value1', value: 'Step1', width: 82, sortable: false},
+      {text: 'Value2', value: 'Step2', width: 82, sortable: false},
+      {text: 'Value3', value: 'Step3', width: 82, sortable: false},
+      {text: 'Value4', value: 'Step4', width: 82, sortable: false},
     ],
-    module1Data: [],
-    module2: [
-      {text: 'Value1', value: 'Step1', width: 82},
-      {text: 'Value2', value: 'Step2', width: 82},
-      {text: 'Value3', value: 'Step3', width: 82},
-      {text: 'Value4', value: 'Step4', width: 82},
+    trayMethodData: [],
+    trayStepData: [],
+
+    liquidDispenserHeader: [
+      {text: 'Value1', value: 'Step1', width: 82, sortable: false},
+      {text: 'Value2', value: 'Step2', width: 82, sortable: false},
+      {text: 'Value3', value: 'Step3', width: 82, sortable: false},
+      {text: 'Value4', value: 'Step4', width: 82, sortable: false},
     ],
-    module2Data: [],
-    module3: [
-      {text: 'Value1', value: 'Step1', width: 82},
-      {text: 'Value2', value: 'Step2', width: 82},
-      {text: 'Value3', value: 'Step3', width: 82},
-      {text: 'Value4', value: 'Step4', width: 82},
+    liquidDispenserMethodData: [],
+    liquidDispenserStepData: [],
+
+    dropDispenserHeader: [
+      {text: "S1", value: "S1", width: 82, sortable: false},
+      {text: "S2", value: "S2", width: 82, sortable: false},
+      {text: "S3", value: "S3", width: 82, sortable: false},
+      {text: "S4", value: "S4", width: 82, sortable: false},
+      {text: "S5", value: "S5", width: 82, sortable: false},
+      {text: "S6", value: "S6", width: 82, sortable: false},
+      {text: "S7", value: "S7", width: 82, sortable: false},
+      {text: "S8", value: "S8", width: 82, sortable: false},
+      {text: "Position PS1", value: "PS1P", width: 82, sortable: false},
+      {text: "Speed PS1", value: "PS1S", width: 82, sortable: false},
+      {text: "Position PS2", value: "PS2P", width: 82, sortable: false},
+      {text: "Speed PS2", value: "PS2S", width: 82, sortable: false},
+      {text: "Rotations pump", value: "PUMP1P", width: 82, sortable: false},
+      {text: "Speed pump (rpm)", value: "PUMP1S", width: 82, sortable: false},
     ],
-    module3Data: [],
-    module4: [
-      {text: 'Value1', value: 'Step1', width: 82},
-      {text: 'Value2', value: 'Step2', width: 82},
-      {text: 'Value3', value: 'Step3', width: 82},
-      {text: 'Value4', value: 'Step4', width: 82},
+    dropDispenserMethodData: [],
+    dropDispenserStepData: [],
+
+    TLCMMHeader: [
+      {text: 'Value1', value: 'Step1', width: 82, sortable: false},
+      {text: 'Value2', value: 'Step2', width: 82, sortable: false},
+      {text: 'Value3', value: 'Step3', width: 82, sortable: false},
+      {text: 'Value4', value: 'Step4', width: 82, sortable: false},
     ],
-    module4Data: [],
+    tlcMMMethodData: [],
+    TLCMMStepData: [],
+
+
     moduleComment: [
-      {text: 'Comment', value: 'Comment', width: 82},
+      {text: 'Comment', value: 'Comment', width: 82, sortable: false},
     ],
     moduleCommentData: [],
   }),
 
+  beforeMount() {
+
+    this.loadModulesNames();
+  },
+
+
   methods: {
+
+    /*------------------------------------------------------------------------
+    * Method used to add a step in the currently created method
+    * ------------------------------------------------------------------------*/
     SaveLine() {
 
-      let copy1 = JSON.parse(JSON.stringify(this.$refs.plateForm1.moduleData[0]));
-      let copy2 = JSON.parse(JSON.stringify(this.$refs.plateForm2.moduleData[0]));
-      let copy3 = JSON.parse(JSON.stringify(this.$refs.plateForm3.moduleData[0]));
-      let copy4 = JSON.parse(JSON.stringify(this.$refs.plateForm4.moduleData[0]));
-      let comment = {Comment: ''};
+      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.dropDispenserStepData[0]));
+      let trayStepStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.trayStepData[0]));
+      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.tlcMMStepData[0]));
+      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.liquidDispenserStepData[0]));
 
-      copy1['Step'] = this.lineNumber++;
-      copy2['Step'] = this.lineNumber++;
-      copy3['Step'] = this.lineNumber++;
-      copy4['Step'] = this.lineNumber++;
+      let comment = {Comment: this.$refs.plateForm1.comment};
 
-      this.$data.module1Data.push(copy1);
-      this.$data.module2Data.push(copy2);
-      this.$data.module3Data.push(copy3);
-      this.$data.module4Data.push(copy4);
+      this.$data.dropDispenserMethodData.push(dropDispenserStep);
+      this.$data.trayMethodData.push(trayStepStep);
+      this.$data.tlcMMMethodData.push(tlcMMStep);
+      this.$data.liquidDispenserMethodData.push(liquidDispenserStep);
+
       this.$data.moduleCommentData.push(comment);
 
-    },
-    SaveMethod() {
-      this.$data.module1Data = [];
-      this.$data.module2Data = [];
-      this.$data.module3Data = [];
-      this.$data.module4Data = [];
+      this.$refs.plateForm1.resetTables();
 
-      console.log(this.$data.moduleCommentData);
+    },
+
+    /*------------------------------------------------------------------------
+    * Method used to save a method into the database
+    * ------------------------------------------------------------------------*/
+    SaveMethod() {
+      this.$data.trayMethodData.clear();
+      this.$data.liquidDispenserMethodData = [];
+      this.$data.dropDispenserMethodData = [];
+      this.$data.tlcMMMethodData = [];
       this.$data.moduleCommentData = [];
     },
 
@@ -240,6 +263,17 @@ export default {
     close() {
     },
 
+    /*------------------------------------------------------------------------
+    * Method used to load all modules names
+    * ------------------------------------------------------------------------*/
+    loadModulesNames() {
+
+      this.module1Name = this.$store.state.module1Name;
+      this.module2Name = this.$store.state.module2Name;
+      this.module3Name = this.$store.state.module3Name;
+      this.module4Name = this.$store.state.module4Name;
+    }
+
 
   }
 }
@@ -247,10 +281,7 @@ export default {
 
 
 <style scoped>
-.platforms {
-  height: 768px;
-  margin: 25px;
-}
+
 
 .text-color {
   color: dodgerblue;

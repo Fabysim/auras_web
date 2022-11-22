@@ -2,7 +2,7 @@
   <v-card>
     <v-data-table
         :headers="headers"
-        :items="dessertations"
+        :items="desserts"
         item-key="name"
         class="elevation-1">
       <template v-slot:body="{ items, headers }">
@@ -52,7 +52,7 @@ export default {
         { text: "Protein (g)", value: "protein" },
         { text: "Iron (%)", value: "iron" },
       ],
-      dessertations: [
+      desserts: [
         {
           id: 1,
           name: "Frozen Yogurt",

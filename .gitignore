@@ -6,7 +6,7 @@ node_modules
 # local env files
 .env.local
 .env.*.local
-/views/PlayGround.vue
+**/PlayGround.vue
 
 # Log files
 npm-debug.log*

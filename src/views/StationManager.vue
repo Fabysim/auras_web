@@ -55,8 +55,5 @@ export default {
 }
 
 
-.platforms{
-  height: 768px ;
-}
 
 </style>

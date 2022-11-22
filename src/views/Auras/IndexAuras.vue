@@ -17,7 +17,7 @@
           <!-- Create Method Dialog-->
 
           <v-dialog
-              v-model="dialog"
+              v-model="dialogRename"
               max-width="500px"
           >
             <template v-slot:activator="{ on, attrs }">
@@ -61,7 +61,7 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="secondary"
-                       @click="dialog=false"
+                       @click="dialogRename=false"
                 >
                   Cancel
                 </v-btn>
@@ -128,7 +128,7 @@
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="duplicateMethod(item.id)"
+                   @click="DeleteConfirmation(item.id)"
             >
               <v-icon small>
                 mdi-delete
@@ -146,7 +146,7 @@
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="deleteIMethod(item)">
+                   @click="deleteMethod(item)">
               <v-icon color="white" small>
                 mdi-content-duplicate
               </v-icon>
@@ -192,6 +192,27 @@
       </template>
 
     </v-data-table>
+
+    <!--    Delete confirmation dialog-->
+
+    <v-dialog v-model="dialogDelete" max-width="800px">
+      <v-card>
+        <v-card-title class="headline">
+          Are you sure you want to delete this item?
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn color="secondary" @click="dialogDelete = false">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" @click="deleteMethod()">
+            Delete
+          </v-btn>
+          <v-spacer/>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 
@@ -202,11 +223,13 @@ export default {
   name: "IndexAuras",
   data: () => ({
 
-    dialog: false,
+    dialogRename: false,
+    dialogDelete: false,
     loading: false,
     snackbar: false,
     timeout: 2000,
     displayedMessage: '',
+    deletedMethodId: '',
 
     headers: [
       {
@@ -273,7 +296,7 @@ export default {
 
                     this.displayedMessage = "Method created correctly";
                     this.methods.unshift(response.data);
-                    this.dialog = false;
+                    this.dialogRename = false;
 
                   } else {
 
@@ -302,15 +325,13 @@ export default {
      * -------------------------------------------------------------------------*/
     updateMethod(item) {
 
-      axios.put('http://' + this.$api + "api/Methods/" + item.id, item)
+      axios.put('http://' + this.$aurasApi + "api/Methods/" + item.id, item)
           .then(
               (response) => {
-
-
                 if (response.status === 204) {
 
                   this.displayedMessage = "Method updated correctly";
-                  this.dialog = false;
+                  this.dialogRename = false;
 
                 } else {
 
@@ -327,9 +348,9 @@ export default {
     /*--------------------------------------------------------------------------
      * Used to create a method into the database
      * -------------------------------------------------------------------------*/
-      fetchMethods() {
+    fetchMethods() {
 
-      axios.get('http://' + this.$api + "api/Methods")
+      axios.get('http://' + this.$aurasApi + "api/Methods")
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -340,6 +361,38 @@ export default {
               (error) => {
                 console.log(error.data)
               });
+    },
+
+    /*--------------------------------------------------------------------------
+    /*--------------------------------------------------------------------------
+    * Delete method
+    * -------------------------------------------------------------------------*/
+    deleteMethod() {
+
+      axios.delete('http://' + this.$aurasApi + 'api/Methods/' + this.deletedMethodId)
+          .then(
+              (response) => {
+                if (response.status === 204) {
+                  this.displayedMessage = "Method deleted correctly";
+                  this.fetchMethods();
+                }
+              })
+          .catch(
+              (error) => {
+                this.displayedMessage = "Error deleting method";
+                console.log(error.data);
+              });
+      this.snackbar = true;
+      this.dialogDelete = false;
+      this.removeFocusToAll();
+    },
+
+    /*--------------------------------------------------------------------------
+     * Delete confirmation
+     * -------------------------------------------------------------------------*/
+    DeleteConfirmation(idMethod) {
+      this.dialogDelete = true;
+      this.deletedMethodId = idMethod;
     },
 
     /*--------------------------------------------------------------------------
@@ -348,38 +401,21 @@ export default {
     renameMethod(item) {
       this.editedIndex = this.methods.indexOf(item)
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.dialogRename = true
       this.removeFocusToAll();
 
     },
 
     /*--------------------------------------------------------------------------
-     * Delete method
+     * Removes focus from all items
      * -------------------------------------------------------------------------*/
     removeFocusToAll() {
       document.activeElement.blur();
     },
 
-    /*--------------------------------------------------------------------------
-     * Delete method
-     * -------------------------------------------------------------------------*/
-    deleteIMethod(item) {
 
-      axios.delete('http://' + this.$api + 'api/Methods/' + item.id)
-          .then(
-              (response) => {
-                if (response.status === 200) {
-                  this.methods = response.data;
-                }
-              })
-          .catch(
-              (error) => {
-                console.log(error.data)
-              });
-      this.removeFocusToAll();
-    },
     /*--------------------------------------------------------------------------
-     * Close dialog and reset editedItem
+     * Duplicates a method with all its steps
      * -------------------------------------------------------------------------*/
     duplicateMethod(item) {
       console.log(item)
@@ -388,7 +424,7 @@ export default {
      * Close dialog and reset editedItem
      * -------------------------------------------------------------------------*/
     close() {
-      this.dialog = false
+      this.dialogRename = false
       this.$nextTick(() => {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
