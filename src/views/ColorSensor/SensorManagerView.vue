@@ -215,6 +215,7 @@
 
 import {Bar} from 'vue-chartjs'
 import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale} from 'chart.js'
+import axios from "axios";
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -329,8 +330,11 @@ export default {
   },
 
   async mounted() {
-    this.espIP = this.$store.state.csIp;
-    this.connectToWebSocket();
+
+    this.fetchNetworkByName('Color Sensor');
+
+    //console.log(this.$store.state.csIp)
+
   },
 
   watch: {
@@ -368,18 +372,7 @@ export default {
   methods: {
 
 
-    /*--------------------------------------------------------------------------
-    * Close and reconnect to websocket
-    * -------------------------------------------------------------------------*/
-    reconnectColorSensorWebSocket() {
 
-      this.connection.onclose = function () {
-      }; // disable onclose handler first
-
-      this.connection.close();
-      this.connectToWebSocket();
-    }
-    ,
     /*--------------------------------------------------------------------------
     * Connection to websocket
     * -------------------------------------------------------------------------*/
@@ -541,9 +534,7 @@ export default {
       if (json["cValuesS1"] !== undefined && json["cValuesS2"] !== undefined) {
         this.cValuesS1 = json["cValuesS1"];
         this.cValuesS2 = json["cValuesS2"];
-        this.initialized = true;
       }
-
 
     },
 
@@ -667,6 +658,10 @@ export default {
       }
 
     },
+
+    /*--------------------------------------------------------------------------
+     * Copies sensor data to clipboard (unsecure)
+     * --------------------------------------------------------------------------*/
     unsecuredCopyToClipboard(text) {
       const textArea = document.createElement("textarea");
       textArea.value = text;
@@ -679,12 +674,33 @@ export default {
         console.error('Unable to copy to clipboard', err);
       }
       document.body.removeChild(textArea);
-    }
+    },
 
+    /*--------------------------------------------------------------------------
+    * Retrieves all Ip addresses from database
+   * --------------------------------------------------------------------------*/
+    fetchNetworkByName(name) {
+
+      axios.get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
+          .then(
+              (response) => {
+                if (response.status === 200) {
+                  this.networks = response.data;
+                  this.espIP = this.networks['ipAddress'];
+                  this.connectToWebSocket();
+
+                }
+              })
+          .catch(
+              (error) => {
+                console.log(error.data)
+              });
+    },
 
   }
 
 }
+
 </script>
 
 <style>

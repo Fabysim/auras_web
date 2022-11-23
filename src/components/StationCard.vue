@@ -74,6 +74,10 @@
 </template>
 
 <script>
+
+
+import axios from "axios";
+
 export default {
   name: "StationCard",
   components: {},
@@ -88,13 +92,16 @@ export default {
     return {
       settings: false,
       IpAddress: '2',
-      currentApp: ''
+      currentApp: '',
+      networks: [],
     }
   },
+
+
   methods: {
-   /*--------------------------------------------------------------------------
-   * Route redirection
-   * -------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------
+    * Route redirection
+    * -------------------------------------------------------------------------*/
     RedirectTo(route) {
 
       if (route.toLowerCase().includes('network')) {
@@ -110,43 +117,93 @@ export default {
     * -------------------------------------------------------------------------*/
     SetCurrentApp(route) {
 
-
       this.currentApp = '';
 
-      if (route.toLowerCase().includes('auras')) {
-        this.currentApp = 'auras';
-        this.IpAddress = this.$store.state.aurasIp;
-      } else if (route.toLowerCase().includes('drop')) {
-        this.currentApp = 'drop';
-        this.IpAddress = this.$store.state.ddIp;
-      } else {
-        this.currentApp = 'colorSensor';
-        this.IpAddress = this.$store.state.csIp;
-      }
+      if (route.toLowerCase().includes('auras'))
+        this.currentApp = 'Auras';
+      else if (route.toLowerCase().includes('drop'))
+        this.currentApp = 'Drop Dispenser';
+      else
+        this.currentApp = 'Color Sensor';
+
+      this.fetchNetworkByName(this.currentApp);
+
     },
 
-   /*--------------------------------------------------------------------------
-    * Dave Ip locally
-    *-------------------------------------------------------------------------*/
+    /*--------------------------------------------------------------------------
+     * Retrieves all Ip addresses from database
+    * --------------------------------------------------------------------------*/
+    fetchNetworkByName(name) {
+
+      axios.get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
+          .then(
+              (response) => {
+                if (response.status === 200) {
+                  this.networks = response.data;
+
+                  this.IpAddress = this.networks['ipAddress'];
+
+                }
+              })
+          .catch(
+              (error) => {
+                console.log(error.data)
+              });
+    },
+
+    /*--------------------------------------------------------------------------
+     * Updates an app address ip in database
+    * --------------------------------------------------------------------------*/
     SaveIp() {
-      switch (this.currentApp) {
-        case 'auras':
-          this.$store.state.aurasIp = this.IpAddress;
-          break;
-        case 'drop':
-          this.$store.state.ddIp = this.IpAddress;
-          break;
-        case 'colorSensor':
-          this.$store.state.csIp = this.IpAddress;
-          break;
-        default:
-          break;
+
+      if (this.networks['ipAddress'] === this.IpAddress) {
+        this.settings = false;
+        return;
       }
 
-      this.$store.state.csIp = this.espIP;
-      this.settings = false;
+      this.networks['ipAddress'] = this.IpAddress;
 
+      axios.put('http://' + this.$aurasApi + "api/networks/" + this.networks['id'], this.networks)
+          .then(
+              (response) => {
+                if (response.status === 200) {
+                  this.this.networks = response.data;
+                  this.IpAddress = this.networks[0]['ipAddress'];
+                }
+              })
+          .catch(
+              (error) => {
+                console.log(error.data)
+              });
+      this.settings = false;
     },
+    /*
+        /!*--------------------------------------------------------------------------
+         * Called to update an IP address
+         *-------------------------------------------------------------------------*!/
+        SaveIp() {
+
+          switch (this.currentApp) {
+            case 'auras':
+              this.$store.state.aurasIp = this.IpAddress;
+              break;
+            case 'drop':
+              this.$store.state.ddIp = this.IpAddress;
+              break;
+            case 'colorSensor':
+
+              this.$store.state.csIp = this.IpAddress;
+
+              console.log('second: ' + this.$store.state.csIp)
+              break;
+            default:
+              break;
+          }
+
+          this.$store.state.csIp = this.espIP;
+
+
+        },*/
 
   }
 
