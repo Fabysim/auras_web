@@ -220,7 +220,7 @@ import axios from "axios";
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 export default {
-  name: "SensorManagerView",
+  name: "IndexColorSView",
   components: {Bar},
 
   data: () => ({
@@ -331,10 +331,7 @@ export default {
 
   async mounted() {
 
-    this.fetchNetworkByName('Color Sensor');
-
-    //console.log(this.$store.state.csIp)
-
+    this.getNetworkByName('Color Sensor');
   },
 
   watch: {
@@ -679,7 +676,7 @@ export default {
     /*--------------------------------------------------------------------------
     * Retrieves all Ip addresses from database
    * --------------------------------------------------------------------------*/
-    fetchNetworkByName(name) {
+    getNetworkByName(name) {
 
       axios.get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
           .then(
@@ -695,6 +692,12 @@ export default {
               (error) => {
                 console.log(error.data)
               });
+    },
+    /*--------------------------------------------------------------------------
+    * Removes focus from all items
+    * -------------------------------------------------------------------------*/
+    removeFocusToAll() {
+      document.activeElement.blur();
     },
 
   }

@@ -32,13 +32,82 @@
             </td>
             <!-- Drop Dispenser -->
             <td>
-              <v-card height="170">
+              <v-card height="250">
                 <v-card-title class="justify-center">{{ dropDispenser }}</v-card-title>
                 <v-data-table
                     :headers="dropDispenserHeader"
                     :items="dropDispenserStepData"
                     :hide-default-footer="true"
-                />
+                >
+                  <template v-slot:[`item.PS1P`]="{ item }">
+                    <table>
+                      <tr>
+                        <td>
+                          <v-select
+                              v-model="selectedPS1Option"
+                              :items="item.PS1P"
+                          >
+
+                          </v-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td v-if="PS1Position">
+                          <v-text-field
+                              label="volume in µL"
+                              v-model="PS1PositionValue"
+                          />
+                        </td>
+                        <td v-if="!PS1Position">
+                          <v-select
+                              required
+                              label="choose"
+                              v-model="PS1StopContractor"
+                              :items="contractors"
+                          >
+
+                          </v-select>
+                        </td>
+                      </tr>
+                    </table>
+                  </template>
+
+
+                  <template v-slot:[`item.PS2P`]="{ item }">
+                    <table>
+                      <tr>
+                        <td>
+                          <v-select
+                              v-model="selectedPS2Option"
+                              :items="item.PS2P"
+                          >
+
+                          </v-select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td v-if="PS2Position">
+                          <v-text-field
+                              label="volume in µL"
+                              v-model="PS2PositionValue"
+                          />
+                        </td>
+                        <td v-if="!PS2Position">
+                          <v-select
+                              required
+                              label="choose"
+                              v-model="PS2StopContractor"
+                              :items="contractors"
+                          >
+
+                          </v-select>
+                        </td>
+                      </tr>
+                    </table>
+
+                  </template>
+
+                </v-data-table>
               </v-card>
             </td>
             <!-- TLC Migration Module -->
@@ -165,12 +234,24 @@ export default {
     timeoutValue: 0,
     angle: 45,
 
+    //PS selection
+    selectedPS1Option: 'Position',
+    selectedPS2Option: 'Position',
+    PS1Position: true,
+    PS2Position: true,
+    PS1PositionValue: '',
+    PS2PositionValue: '',
+    PS1StopContractor: '',
+    PS2StopContractor: '',
+    contractors: [],
 
     //Modules Names
     tray: '',
     liquidDispenser: '',
     dropDispenser: '',
     tlcMigrationModule: '',
+    phMeter: 'PhMeter',
+    gina: 'Gina',
 
     // Comments
 
@@ -216,9 +297,9 @@ export default {
       {text: "S6", value: "S6", width: 82},
       {text: "S7", value: "S7", width: 82},
       {text: "S8", value: "S8", width: 82},
-      {text: "Position PS1", value: "PS1P", width: 82},
+      {text: "PS1", value: "PS1P", width: 150},
       {text: "Speed PS1", value: "PS1S", width: 82},
-      {text: "Position PS2", value: "PS2P", width: 82},
+      {text: "PS2", value: "PS2P", width: 150},
       {text: "Speed PS2", value: "PS2S", width: 82},
       {text: "Rotations pump", value: "PUMP1P", width: 82},
       {text: "Speed pump (rpm)", value: "PUMP1S", width: 82},
@@ -233,9 +314,9 @@ export default {
         S6: 0,
         S7: 0,
         S8: 0,
-        PS1P: 0,
+        PS1P: ['Position', 'Stopped by'],
         PS1S: 0,
-        PS2P: 0,
+        PS2P: ['Position', 'Stopped by'],
         PS2S: 0,
         PUMP1P: 0,
         PUMP1S: 0
@@ -260,11 +341,20 @@ export default {
 
   mounted() {
     this.loadModulesNames();
+    this.contractors.push(this.tray, this.liquidDispenser, this.dropDispenser, this.tlcMigrationModule, this.phMeter, this.gina);
   },
 
   watch: {
     waitingConditionsType() {
       this.waitingConditionsType === 'timeout' ? this.timeoutSelected = true : this.timeoutSelected = false;
+    },
+    selectedPS1Option() {
+      if (this.selectedPS1Option !== 'Position')
+        this.PS1Position = false;
+    },
+    selectedPS2Option() {
+      if (this.selectedPS2Option !== 'Position')
+        this.PS2Position = false;
     }
   },
   methods: {
@@ -383,29 +473,29 @@ export default {
 
 #img-pinch1 {
   position: absolute;
-  left: 35px;
-  top: 300px;
+  left: 115px;
+  top: 280px;
   display: inline-block;
 }
 
 #img-pinch2 {
   position: absolute;
-  left: 35px;
-  top: 380px;
+  left: 115px;
+  top: 360px;
   display: inline-block;
 }
 
 #img-pinch3 {
   position: absolute;
-  left: 30px;
-  top: 470px;
+  left: 115px;
+  top: 450px;
   display: inline-block;
 }
 
 #img-pinch4 {
   position: absolute;
-  left: 30px;
-  top: 550px;
+  left: 115px;
+  top: 530px;
   display: inline-block;
 }
 

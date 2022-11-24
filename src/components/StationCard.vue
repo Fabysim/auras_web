@@ -21,7 +21,7 @@
                  color="secondary">
             Cancel
           </v-btn>
-          <v-btn @click="SaveIp"
+          <v-btn @click="saveIp"
                  color="primary">
             Save
           </v-btn>
@@ -55,7 +55,7 @@
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon v-text="item.icon"
                           x-large
-                          @click="RedirectTo(item.url)"
+                          @click="redirectTo(item.url)"
                           v-bind="attrs"
                           v-on="on"
                           style="cursor: pointer"/>
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       settings: false,
-      IpAddress: '2',
+      IpAddress: '',
       currentApp: '',
       networks: [],
     }
@@ -102,11 +102,11 @@ export default {
     /*--------------------------------------------------------------------------
     * Route redirection
     * -------------------------------------------------------------------------*/
-    RedirectTo(route) {
+    redirectTo(route) {
 
       if (route.toLowerCase().includes('network')) {
         this.settings = true;
-        this.SetCurrentApp(route);
+        this.setCurrentApp(route);
 
       } else {
         this.$router.push({name: route});
@@ -115,7 +115,7 @@ export default {
     /*--------------------------------------------------------------------------
     * Set current App name
     * -------------------------------------------------------------------------*/
-    SetCurrentApp(route) {
+    setCurrentApp(route) {
 
       this.currentApp = '';
 
@@ -154,7 +154,7 @@ export default {
     /*--------------------------------------------------------------------------
      * Updates an app address ip in database
     * --------------------------------------------------------------------------*/
-    SaveIp() {
+    saveIp() {
 
       if (this.networks['ipAddress'] === this.IpAddress) {
         this.settings = false;
@@ -177,34 +177,13 @@ export default {
               });
       this.settings = false;
     },
-    /*
-        /!*--------------------------------------------------------------------------
-         * Called to update an IP address
-         *-------------------------------------------------------------------------*!/
-        SaveIp() {
 
-          switch (this.currentApp) {
-            case 'auras':
-              this.$store.state.aurasIp = this.IpAddress;
-              break;
-            case 'drop':
-              this.$store.state.ddIp = this.IpAddress;
-              break;
-            case 'colorSensor':
-
-              this.$store.state.csIp = this.IpAddress;
-
-              console.log('second: ' + this.$store.state.csIp)
-              break;
-            default:
-              break;
-          }
-
-          this.$store.state.csIp = this.espIP;
-
-
-        },*/
-
+    /*--------------------------------------------------------------------------
+      * Removes focus from all items
+      * -------------------------------------------------------------------------*/
+    removeFocusToAll() {
+      document.activeElement.blur();
+    },
   }
 
 
@@ -213,8 +192,4 @@ export default {
 
 <style scoped>
 
-.v-content .v-card.v-sheet.theme--light {
-  background-color: #ffffff !important;
-  border-left: 5px solid red !important
-}
 </style>

@@ -102,8 +102,8 @@
                       </tbody>
                       <tbody v-else>
                       <tr>
-                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">No data
-                          available
+                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                          No data available
                         </td>
                       </tr>
                       </tbody>

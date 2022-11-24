@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import StationManager from '../views/StationManager.vue'
-import SensorManagerView from "@/views/ColorSensor/SensorManagerView";
+import IndexColorSView from "@/views/ColorSensor/IndexColorSView";
 import PlayGround from "@/views/PlayGround";
-import IndexAuras from "@/views/Auras/IndexAuras";
+import IndexAuras from "@/views/Auras/IndexAurasView";
 import ConfigAurasView from "@/views/Auras/ConfigAurasView";
 import RunAurasView from "@/views/Auras/RunAurasView";
-import IndexDd from "@/views/DropDispenser/IndexDd";
+import IndexDd from "@/views/DropDispenser/IndexDropDView";
 import DdConfigMethod from "@/views/DropDispenser/ConfigMethodDd";
 import DdUpdateMethod from "@/views/DropDispenser/UpdateMethodDd";
 import ViewMethodDd from "@/views/DropDispenser/ViewMethodDd";
@@ -46,7 +46,7 @@ const routes = [
     {
         path: '/colorSensor',
         name: 'colorSensor',
-        component: SensorManagerView,
+        component: IndexColorSView,
     },
     {
         path: '/config',
