@@ -447,7 +447,7 @@ export default {
 
 
     /*--------------------------------------------------------------------------
-     * Save and edit method
+     * Redirection to another page
      * -------------------------------------------------------------------------*/
     redirectTo(route, idMethod) {
       this.$router.push({name: route, params: {idMethod: idMethod}});

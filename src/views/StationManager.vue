@@ -36,7 +36,7 @@ export default {
       {text: 'Drop Dispenser Network', icon: 'mdi-access-point-network', url: 'DropDNetwork'},
     ],
     itemsCS: [
-      {text: 'Color sensor Run', icon: 'mdi-power', url: 'colorSensor'},
+      {text: 'Color sensor Run', icon: 'mdi-power', url: 'IndexColorSensor'},
       {text: 'Color sensor Network', icon: 'mdi-access-point-network', url: 'CsNetwork'},
     ],
   }),

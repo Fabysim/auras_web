@@ -45,7 +45,7 @@ const routes = [
     },
     {
         path: '/colorSensor',
-        name: 'colorSensor',
+        name: 'IndexColorSensor',
         component: IndexColorSView,
     },
     {

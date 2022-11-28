@@ -145,6 +145,7 @@
                     </div>
                   </v-card-actions>
                 </v-card>
+
               </v-dialog>
 
               <!-- Message banner -->
@@ -152,17 +153,18 @@
               <v-snackbar v-model="snackbar" :timeout="timeout">
                 {{ text }}
               </v-snackbar>
+
             </v-toolbar>
 
           </template>
 
-          <!-- Line custom date -->
+          <!-- Custom date -->
 
           <template v-slot:[`item.date`]="{ item }">
             <span>{{ new Date(item.date).toLocaleString() }}</span>
           </template>
 
-          <!-- Line custom actions -->
+          <!-- Actions -->
 
           <template v-slot:[`item.rename`]="{ item }">
             <v-tooltip bottom>
@@ -171,7 +173,7 @@
                        small
                        v-on="on"
                        v-bind="attrs"
-                       @click="SetMethodRename(item.id_method_list)">
+                       @click="setMethodRename(item.id_method_list)">
                   <v-icon
                       small
                       class="mr-2"
@@ -191,7 +193,7 @@
                        small
                        v-on="on"
                        v-bind="attrs"
-                       @click="DeleteConfirmation(item.id_method_list)">
+                       @click="deleteConfirmation(item.id_method_list)">
                   <v-icon
                       small
                       color="white"
@@ -211,7 +213,7 @@
                        small
                        v-on="on"
                        v-bind="attrs"
-                       @click="Duplicate(item.id_method_list)">
+                       @click="duplicateMethod(item.id_method_list)">
                   <v-icon
                       small
                       color="white"
@@ -231,7 +233,7 @@
                        small
                        v-on="on"
                        v-bind="attrs"
-                       @click="Redirect('DdConfigMethod', item.id_method_list)">
+                       @click="redirectTo('DdConfigMethod', item.id_method_list)">
                   <v-icon
                       small
                       color="White"
@@ -253,7 +255,7 @@
                     v-bind="attrs"
                     class="white--text"
                     color="success"
-                    @click="Redirect('ViewMethod', item.id_method_list)"
+                    @click="redirectTo('ViewMethod', item.id_method_list)"
                 >
                   <v-icon
                       small>
@@ -285,7 +287,7 @@
           >Cancel
           </v-btn
           >
-          <v-btn color="blue darken-1" text @click="RenameMethod()">
+          <v-btn color="blue darken-1" text @click="renameMethod()">
             Rename
           </v-btn>
           <v-spacer/>
@@ -305,7 +307,7 @@
           >Cancel
           </v-btn
           >
-          <v-btn color="blue darken-1" text @click="DeleteMethod()">
+          <v-btn color="blue darken-1" text @click="deleteMethod()">
             Delete
           </v-btn>
           <v-spacer/>
@@ -325,6 +327,7 @@ export default {
     return {
       netDialog: false,
       dialogDelete: false,
+      dialog:false,
       updateName: false,
       snackbar: false,
       deletedId: "",
@@ -411,7 +414,7 @@ export default {
             this.text = "Method created correctly";
             this.loading = false;
             this.snackbar = true;
-            this.dialog=false
+            this.dialog = false
             this.fetchMethods();
           } else {
             this.text = "Couldn't create method";
@@ -436,12 +439,12 @@ export default {
       });
     },
 
-    DeleteConfirmation(id_method_list) {
+    deleteConfirmation(id_method_list) {
       this.dialogDelete = true;
       this.deletedId = id_method_list;
     },
 
-    DeleteMethod() {
+    deleteMethod() {
       this.loading = true;
       axios.delete('http://' + this.$ddApi + "methods/" + this.deletedId).then((response) => {
         if (response.data.status === "success") {
@@ -456,12 +459,12 @@ export default {
       });
     },
 
-    SetMethodRename(id_method_list) {
+    setMethodRename(id_method_list) {
       this.selectedMethodId = id_method_list;
       this.updateName = true;
     },
 
-    Duplicate(id_method_list) {
+    duplicateMethod(id_method_list) {
       axios.get('http://' + this.$ddApi + "editmethod/" + id_method_list).then((response) => {
         if (response.data.status === "success") {
           this.text = "Successfully updated";
@@ -475,7 +478,7 @@ export default {
       });
     },
 
-    RenameMethod() {
+    renameMethod() {
       this.loading = true;
       if (this.method_name !== "" && typeof this.method_name !== undefined) {
         const params = {
@@ -509,7 +512,7 @@ export default {
       }
     },
 
-    Redirect(route, id) {
+    redirectTo(route, id) {
       this.$router.push({name: route, params: {id_method_list: id}});
     },
   },

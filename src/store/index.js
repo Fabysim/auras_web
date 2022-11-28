@@ -13,10 +13,12 @@ export default new Vuex.Store({
         mecatechIp:'10.10.15.101',
 
         // Modules Names
-        module1Name: 'Tray',
-        module2Name: 'Liquid Dispenser',
-        module3Name: 'Drop Dispenser',
-        module4Name: 'TLC Migration Module',
+        trayModuleName: 'Tray',
+        liquidDispenserModuleName: 'Liquid Dispenser',
+        dropDispenserModuleName: 'Drop Dispenser',
+        tlcMigrationModuleName: 'TLC Migration',
+        phMeterModuleName: 'PH Meter',
+        GinaModuleName: 'Gina',
     },
     getters: {},
     mutations: {},

@@ -5,7 +5,7 @@
         color="#FF0000"
     >
       <div class="d-flex align-center"
-           @click=" RedirectTo('home')"
+           @click=" redirectTo('home')"
            style="cursor: pointer">
 
         <v-img
@@ -19,8 +19,20 @@
         />
       </div>
       <v-spacer/>
-      <v-btn text @click="RedirectTo('playground')">
-        Playground
+      <v-btn text
+             color="#FFFFFF"
+             @click ="redirectTo('IndexAuras')">
+        Auras
+      </v-btn>
+      <v-btn text
+             color="#FFFFFF"
+             @click ="redirectTo('IndexColorSensor')">
+        Color sensor
+      </v-btn>
+      <v-btn text
+             color="#FFFFFF"
+             @click ="redirectTo('IndexDd')">
+        Drop dispenser
       </v-btn>
 
     </v-app-bar>
@@ -38,7 +50,8 @@
 export default {
   name: 'App',
   methods: {
-    RedirectTo(route) {
+    redirectTo(route) {
+
       if (this.$route.name !== route)
         this.$router.push({name: route})
     }
