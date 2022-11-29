@@ -3,7 +3,7 @@
 
     <!-- Modules' tables -->
 
-    <v-card >
+    <v-card>
       <v-card-title class="justify-center">
         Method: {{ currentMethod.name }}
         <v-spacer/>
@@ -44,12 +44,46 @@
                 <v-card>
                   <v-card-title class="justify-center text-color">{{ trayModule.name }}</v-card-title>
                   <v-card-text>
+
                     <v-data-table
                         :headers="trayModule.columns"
                         :items="trayModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-                    />
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
+
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+
+                    </v-data-table>
 
                   </v-card-text>
                 </v-card>
@@ -62,14 +96,48 @@
                   <v-card-title class="justify-center text-color">
                     {{ liquidDispenserModule.name }}
                   </v-card-title>
+
                   <v-card-text>
                     <v-data-table
                         :headers="liquidDispenserModule.columns"
                         :items="liquidDispenserModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-                    />
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
+
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
                   </v-card-text>
+
                 </v-card>
               </td>
 
@@ -80,14 +148,46 @@
                   <v-card-title class="justify-center text-color" style="color: dodgerblue">
                     {{ dropDispenserModule.name }}
                   </v-card-title>
+
                   <v-card-text>
                     <v-data-table
                         :headers="dropDispenserModule.columns"
                         :items="dropDispenserModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-                    />
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
 
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
                   </v-card-text>
                 </v-card>
               </td>
@@ -103,7 +203,39 @@
                         :items="tlcMigrationModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-                    />
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
+
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
 
                   </v-card-text>
                 </v-card>
@@ -120,7 +252,39 @@
                         :items="phMeterModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-                    />
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
+
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
 
                   </v-card-text>
                 </v-card>
@@ -139,8 +303,40 @@
                         :items="waitingCondition.data"
                         :hide-default-footer="true"
                         disable-pagination
-                    />
+                    >
+                    <template v-slot:body="{ items, headers }">
+                      <tbody v-if="items.length > 0">
+                      <tr v-for="(item,idx) in items" :key="idx">
+                        <td v-for="(header,key) in headers" :key="key">
+                          <v-edit-dialog
+                              :return-value.sync="item[header.value]"
+                              @save="save"
+                              @cancel="cancel"
+                              @open="open"
+                              @close="close"
 
+                          > {{ item[header.value] }}
+                            <template v-slot:input>
+                              <v-text-field
+                                  v-model="item[header.value]"
+                                  label="Edit"
+                                  single-line
+                              ></v-text-field>
+                            </template>
+                          </v-edit-dialog>
+                        </td>
+                      </tr>
+                      </tbody>
+                      <tbody v-else>
+                      <tr>
+                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                          No data available
+                        </td>
+                      </tr>
+                      </tbody>
+                    </template>
+
+                    </v-data-table>
                   </v-card-text>
                 </v-card>
               </td>
@@ -208,8 +404,8 @@
       </v-card-actions>
     </v-card>
 
-      <!-- PlatForms -->
-      <PlatFormCard @lineSaved="SaveLine" ref="plateForm"/>
+    <!-- PlatForms -->
+    <PlatFormCard @lineSaved="SaveLine" ref="plateForm"/>
 
   </div>
 </template>
@@ -305,7 +501,7 @@ export default {
     commentModule: {
       name: '',
       columns: [
-        {text: 'Comment', value: 'Comment', width: 82, sortable: false},
+        {text: 'Comment', value: 'Comment', width: 120, sortable: false},
       ],
       data: []
     },
@@ -320,7 +516,7 @@ export default {
 
     waitingCondition: {
       name: 'Waiting condition',
-      columns: [{text: 'Waiting condition', value: 'WaitingCondition', width: 82, sortable: false}],
+      columns: [{text: 'Waiting condition', value: 'WaitingCondition', width: 160, sortable: false}],
       data: []
     }
 

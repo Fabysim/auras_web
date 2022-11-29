@@ -196,7 +196,7 @@
     <!--Image    -->
 
     <div id="image-container">
-      <vue-horizontal scroll>
+      <vue-scroll-snap :horizontal="true">
         <v-img ID="img-machine" src="../assets/Assemblage_210504.png"/>
         <v-img @click="rotate('img-pinch1')" class="pinch" ID="img-pinch1" src="../assets/pinch25a.png"/>
         <v-img @click="rotate('img-pinch2')" class="pinch" ID="img-pinch2" src="../assets/pinch25b.png"/>
@@ -208,7 +208,7 @@
         <v-img @click="rotate('img-pinch8')" class="pinch" ID="img-pinch8" src="../assets/pinch25a.png"/>
         <v-img class="pinch" ID="img-Pump1R" src="../assets/Pump1R.png"/>
         <v-img class="pinch" ID="img-Pump1L" src="../assets/Pump1L.png"/>-->
-      </vue-horizontal>
+      </vue-scroll-snap>
     </div>
 
   </div>
@@ -561,7 +561,7 @@ export default {
   top: 530px;
   display: inline-block;
 }
-
+/*
 #img-pinch5 {
   position: absolute;
   left: 275px;
@@ -597,5 +597,5 @@ export default {
   position: absolute;
   top: 776px;
   left: 440px;
-}
+}*/
 </style>
