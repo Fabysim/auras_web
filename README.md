@@ -91,6 +91,11 @@ npm install vue-horizontal-scroll --save
 npm i vue-horizontal
 ```
 
+### vue-scroll-snap
+```
+npm install vue-scroll-snap --save
+```
+
 ### Create project
 ```
 vue create project_name

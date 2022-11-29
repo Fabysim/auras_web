@@ -5,12 +5,12 @@
 
     <v-card style="padding: 20px">
       <v-card-title class="justify-center">Define a step</v-card-title>
-      <vue-horizontal scroll snap="center">
+      <vue-scroll-snap :horizontal="true">
         <table>
           <tr>
             <!-- Tray -->
             <td>
-              <v-card height="255">
+              <v-card height="265">
                 <v-card-title class="justify-center">{{ trayModule.name }}</v-card-title>
                 <v-data-table
                     :headers="trayModule.columns"
@@ -22,7 +22,7 @@
 
             <!-- Liquid Dispenser -->
             <td>
-              <v-card height="255">
+              <v-card height="265">
                 <v-card-title class="justify-center">{{ liquidDispenserModule.name }}</v-card-title>
                 <v-data-table
                     :headers="liquidDispenserModule.columns"
@@ -34,12 +34,13 @@
 
             <!-- Drop Dispenser -->
             <td>
-              <v-card height="255">
+              <v-card height="265">
                 <v-card-title class="justify-center">{{ dropDispenserModule.name }}</v-card-title>
                 <v-data-table
                     :headers="dropDispenserModule.columns"
                     :items="dropDispenserModule.data"
                     :hide-default-footer="true"
+
                 >
                   <template v-slot:[`item.PS1P`]="{ item }">
                     <table>
@@ -114,7 +115,7 @@
 
             <!-- TLC Migration Module -->
             <td>
-              <v-card height="255">
+              <v-card height="265">
                 <v-card-title class="justify-center">{{ tlcModule.name }}</v-card-title>
                 <v-data-table
                     :headers="tlcModule.columns"
@@ -126,7 +127,7 @@
 
             <!-- PH Meter -->
             <td>
-              <v-card height="255">
+              <v-card height="265">
                 <v-card-title class="justify-center">{{ phMeterModule.name }}</v-card-title>
                 <v-data-table
                     :headers="phMeterModule.columns"
@@ -138,7 +139,7 @@
 
             <!--Waiting condition-->
             <td>
-              <v-card height="255" width="230" style="padding: 20px">
+              <v-card height="265" width="230" style="padding: 20px">
                 <v-card-title class="justify-center"> Waiting condition</v-card-title>
                 <table>
                   <tr>
@@ -173,7 +174,7 @@
 
             <!-- Comments -->
             <td>
-              <v-card height="255" style="padding: 20px">
+              <v-card height="265" width="230" style="padding: 20px">
                 <v-card-title class="justify-center"> Comment</v-card-title>
                 <v-text-field label="Enter a comment" v-model="comment"/>
               </v-card>
@@ -181,7 +182,7 @@
 
           </tr>
         </table>
-      </vue-horizontal>
+      </vue-scroll-snap>
 
       <v-card-actions class="justify-center">
         <v-btn color="primary"
@@ -214,12 +215,13 @@
 </template>
 
 <script>
-import VueHorizontal from "vue-horizontal";
+
+import VueScrollSnap from "vue-scroll-snap";
 
 export default {
   name: "PlatFormCard",
   components: {
-    VueHorizontal
+    VueScrollSnap
   },
   props: ['name'],
 
@@ -407,7 +409,7 @@ export default {
     /*------------------------------------------------------------------------
     * Method to reset tables after a step is set
     * ------------------------------------------------------------------------*/
-    resetTables() {
+    resetPlatformTables() {
       this.timeoutValue = 0;
       this.comment = '';
 
@@ -469,13 +471,14 @@ export default {
     * DropDispenser: Method used to set each pinch valve value
     * ------------------------------------------------------------------------*/
     setStepValues(angle, StepNr) {
+      console.log(angle + ' - ' + StepNr)
 
       if (angle === 0)
-        this.dropDispenserStepData[0][StepNr] = 0;
+        this.dropDispenserModule.data[0][StepNr] = 0;
       else if (angle === 45)
-        this.dropDispenserStepData[0][StepNr] = 1;
+        this.dropDispenserModule.data[0][StepNr] = 1;
       else
-        this.dropDispenserStepData[0][StepNr] = 2;
+        this.dropDispenserModule.data[0][StepNr] = 2;
     },
 
     /*------------------------------------------------------------------------
@@ -489,6 +492,11 @@ export default {
       this.tlcModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
       this.ginaModule.name = this.$store.state.GinaModuleName;
+
+      this.PSElement.PS1StopContractor
+          = this.PSElement.PS2StopContractor
+          = this.waitingCondition.instrumentSelected
+          = this.liquidDispenserModule.name;
 
       this.instrumentsList.push(
           this.trayModule.name,

@@ -1,9 +1,9 @@
 <template>
-  <div id="home">
+  <div>
 
     <!-- Modules' tables -->
 
-    <v-card style="padding: 20px">
+    <v-card >
       <v-card-title class="justify-center">
         Method: {{ currentMethod.name }}
         <v-spacer/>
@@ -18,7 +18,7 @@
                   class="white--text"
                   min-width="150"
               >
-                <v-icon>mdi-file-excel</v-icon>
+                <v-icon color="#FFFFFF">mdi-file-excel</v-icon>
                 <span class="mr-2">Download</span>
               </v-btn>
             </template>
@@ -26,169 +26,190 @@
           </v-tooltip>
         </download-excel>
         <v-spacer/>
-        <v-btn color="#9e42f5"
+        <v-btn color="#a83248"
+               class="white--text"
                @click="redirectTo('IndexAuras')"
         >
           All Methods
         </v-btn>
-
-
       </v-card-title>
-      <vue-horizontal scroll snap="end">
-        <table>
-          <tr>
-            <!--Tray module-->
 
-            <td>
-              <v-card>
-                <v-card-title class="justify-center text-color">{{ trayModule.name }}</v-card-title>
-                <v-card-text>
-                  <v-data-table
-                      :headers="trayModule.columns"
-                      :items="trayModule.data"
-                      :hide-default-footer="true"
-                      disable-pagination
-                  />
+      <v-card-text style="padding: 20px">
+        <vue-scroll-snap :horizontal="true">
+          <table>
+            <tr>
+              <!--Tray module-->
 
-                </v-card-text>
-              </v-card>
-            </td>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color">{{ trayModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="trayModule.columns"
+                        :items="trayModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    />
 
-            <!--Liquid dispenser module-->
+                  </v-card-text>
+                </v-card>
+              </td>
 
-            <td>
-              <v-card>
-                <v-card-title class="justify-center text-color">
-                  {{ liquidDispenserModule.name }}
-                </v-card-title>
-                <v-card-text>
-                  <v-data-table
-                      :headers="liquidDispenserModule.columns"
-                      :items="liquidDispenserModule.data"
-                      :hide-default-footer="true"
-                      disable-pagination
-                  />
-                </v-card-text>
-              </v-card>
-            </td>
+              <!--Liquid dispenser module-->
 
-            <!--Drop dispenser module-->
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color">
+                    {{ liquidDispenserModule.name }}
+                  </v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="liquidDispenserModule.columns"
+                        :items="liquidDispenserModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    />
+                  </v-card-text>
+                </v-card>
+              </td>
 
-            <td>
-              <v-card>
-                <v-card-title class="justify-center text-color" style="color: dodgerblue">
-                  {{ dropDispenserModule.name }}
-                </v-card-title>
-                <v-card-text>
-                  <v-data-table
-                      :headers="dropDispenserModule.columns"
-                      :items="dropDispenserModule.data"
-                      :hide-default-footer="true"
-                      disable-pagination
-                  />
+              <!--Drop dispenser module-->
 
-                </v-card-text>
-              </v-card>
-            </td>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color" style="color: dodgerblue">
+                    {{ dropDispenserModule.name }}
+                  </v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="dropDispenserModule.columns"
+                        :items="dropDispenserModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    />
 
-            <!--TLC Module-->
+                  </v-card-text>
+                </v-card>
+              </td>
 
-            <td>
-              <v-card>
-                <v-card-title class="justify-center text-color">{{ tlcMigrationModule.name }}</v-card-title>
-                <v-card-text>
-                  <v-data-table
-                      :headers="tlcMigrationModule.columns"
-                      :items="tlcMigrationModule.data"
-                      :hide-default-footer="true"
-                      disable-pagination
-                  />
+              <!--TLC Module-->
 
-                </v-card-text>
-              </v-card>
-            </td>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color">{{ tlcMigrationModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="tlcMigrationModule.columns"
+                        :items="tlcMigrationModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    />
 
-            <!--PH Meter Module-->
+                  </v-card-text>
+                </v-card>
+              </td>
 
-            <td>
-              <v-card>
-                <v-card-title class="justify-center text-color">{{ phMeterModule.name }}</v-card-title>
-                <v-card-text>
-                  <v-data-table
-                      :headers="phMeterModule.columns"
-                      :items="phMeterModule.data"
-                      :hide-default-footer="true"
-                      disable-pagination
-                  />
+              <!--PH Meter Module-->
 
-                </v-card-text>
-              </v-card>
-            </td>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color">{{ phMeterModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="phMeterModule.columns"
+                        :items="phMeterModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    />
 
-            <!--Comments-->
+                  </v-card-text>
+                </v-card>
+              </td>
 
-            <td>
-              <v-card>
-                <v-card-title class="justify-center text-color">Comment</v-card-title>
-                <v-card-text>
-                  <v-data-table
-                      :headers="commentModule.columns"
-                      :items="commentModule.data"
-                      :hide-default-footer="true"
-                      disable-pagination
-                  >
-                    <template v-slot:body="{ items, headers }">
-                      <tbody v-if="items.length > 0">
-                      <tr v-for="(item,idx) in items" :key="idx">
-                        <td v-for="(header,key) in headers" :key="key">
-                          <v-edit-dialog
-                              :return-value.sync="item[header.value]"
-                              @save="save"
-                              @cancel="cancel"
-                              @open="open"
-                              @close="close"
+              <!--waiting condition-->
 
-                          > {{ item[header.value] }}
-                            <template v-slot:input>
-                              <v-text-field
-                                  v-model="item[header.value]"
-                                  label="Edit"
-                                  single-line
-                              ></v-text-field>
-                            </template>
-                          </v-edit-dialog>
-                        </td>
-                      </tr>
-                      </tbody>
-                      <tbody v-else>
-                      <tr>
-                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                          No data available
-                        </td>
-                      </tr>
-                      </tbody>
-                    </template>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color">
+                    {{ waitingCondition.name }}
+                  </v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="waitingCondition.columns"
+                        :items="waitingCondition.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    />
 
-                  </v-data-table>
+                  </v-card-text>
+                </v-card>
+              </td>
 
-                </v-card-text>
-              </v-card>
-            </td>
+              <!--Comments-->
 
-          </tr>
-        </table>
-      </vue-horizontal>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center text-color">Comment</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="commentModule.columns"
+                        :items="commentModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
+
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+
+                    </v-data-table>
+
+                  </v-card-text>
+                </v-card>
+              </td>
+
+            </tr>
+          </table>
+        </vue-scroll-snap>
+      </v-card-text>
+
       <v-card-actions class="justify-center">
         <v-btn style="background-color: dodgerblue; color: white;"
                @click="SaveMethod">
           Save Method
         </v-btn>
       </v-card-actions>
-
     </v-card>
 
-    <!-- PlatForms -->
-    <PlatFormCard @lineSaved="SaveLine" ref="plateForm1"/>
+      <!-- PlatForms -->
+      <PlatFormCard @lineSaved="SaveLine" ref="plateForm"/>
 
   </div>
 </template>
@@ -196,8 +217,8 @@
 <script>
 // @ is an alias to /src
 import PlatFormCard from '@/components/PlatformCard.vue'
-import VueHorizontal from 'vue-horizontal'
-import 'vue-horizontal-scroll/dist/vue-horizontal-scroll.css'
+
+import VueScrollSnap from "vue-scroll-snap";
 import axios from "axios";
 
 
@@ -205,7 +226,7 @@ export default {
   name: 'AurasConfigView',
   components: {
     PlatFormCard,
-    VueHorizontal
+    VueScrollSnap
   },
 
   data: () => ({
@@ -297,6 +318,12 @@ export default {
       data: []
     },
 
+    waitingCondition: {
+      name: 'Waiting condition',
+      columns: [{text: 'Waiting condition', value: 'WaitingCondition', width: 82, sortable: false}],
+      data: []
+    }
+
   }),
 
   mounted() {
@@ -309,7 +336,7 @@ export default {
   methods: {
 
     /*------------------------------------------------------------------------
-    * Method used to add a step in the currently created method
+    * Function used to add a step in the currently created method
     * ------------------------------------------------------------------------*/
     SaveLine() {
 
@@ -319,88 +346,122 @@ export default {
       this.saveTlcMigrationStep();
       this.savePhMeterStep();
       this.saveCommentsStep();
+      this.saveWaitingConditionStep();
 
-      this.$refs.plateForm1.resetTables();
+      this.$refs.plateForm.resetPlatformTables();
 
     },
 
-
     /*------------------------------------------------------------------------
-    * Method used to extract Tray step data
+    * Function used to extract Tray step data
     * ------------------------------------------------------------------------*/
     saveCommentsStep() {
 
-      let comment = {Comment: this.$refs.plateForm1.comment};
+      let comment = {Comment: this.$refs.plateForm.comment};
       this.$data.commentModule.data.push(comment);
     },
+
     /*------------------------------------------------------------------------
-    * Method used to extract phMeterModule step data
+    * Function used to extract phMeterModule step data
     * ------------------------------------------------------------------------*/
     savePhMeterStep() {
-      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.phMeterModule.data[0]));
+      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
       this.$data.phMeterModule.data.push(phMeterStep);
-
     },
+
     /*------------------------------------------------------------------------
-    * Method used to extract liquidDispenserModule step data
+    * Function used to extract liquidDispenserModule step data
     * ------------------------------------------------------------------------*/
     saveLiquidDispenserStep() {
 
-      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.liquidDispenserModule.data[0]));
+      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
       this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
     },
+
     /*------------------------------------------------------------------------
-    * Method used to extract tlcModule step data
+    * Function used to extract tlcModule step data
     * ------------------------------------------------------------------------*/
     saveTlcMigrationStep() {
-      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.tlcModule.data[0]));
+      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcModule.data[0]));
       this.$data.tlcMigrationModule.data.push(tlcMMStep);
     },
+
     /*------------------------------------------------------------------------
-    * Method used to extract trayModule step data
-    * ------------------------------------------------------------------------*/
+     * Function used to extract trayModule step data
+     * ------------------------------------------------------------------------*/
     saveTrayStep() {
 
-      let trayStepStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.trayModule.data[0]));
-
-    /*  let step ={
-        'Step': JSON.parse(JSON.stringify(this.currentStep))
-      }*/
-
-     console.log(trayStepStep)
-      this.$data.trayModule.data.push(trayStepStep);
-
+      let trayModuleStep = JSON.parse(JSON.stringify(this.$refs.plateForm.trayModule.data[0]));
+      trayModuleStep.Step = JSON.parse(JSON.stringify(this.currentStep));
+      this.$data.trayModule.data.push(trayModuleStep);
       this.currentStep++;
     },
+
     /*------------------------------------------------------------------------
-    * Method used to extract dropDispenserModule step data
+    * Function used to extract waiting condition step data
     * ------------------------------------------------------------------------*/
+    saveWaitingConditionStep() {
+
+      let waitingConditionStep = '';
+
+      if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
+
+        waitingConditionStep = {'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption};
+
+      } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
+
+        waitingConditionStep = {
+          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': ' + this.$refs.plateForm.waitingCondition.timeoutValue
+        };
+
+      } else {
+
+        waitingConditionStep = {
+          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': ' + this.$refs.plateForm.waitingCondition.instrumentSelected
+        };
+
+      }
+
+      this.waitingCondition.data.push(waitingConditionStep);
+
+    },
+    /*------------------------------------------------------------------------
+     * Function used to extract dropDispenserModule step data
+     * ------------------------------------------------------------------------*/
     saveDropDispenserStep() {
 
-      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm1.dropDispenserModule.data[0]));
+      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
 
-      if (this.$refs.plateForm1.PSElement.PS1Position === true)
-        dropDispenserStep.PS1P = JSON.parse(JSON.stringify(this.$refs.plateForm1.PSElement.PS1PositionValue));
+      if (this.$refs.plateForm.PSElement.PS1Position === true)
+        dropDispenserStep.PS1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS1PositionValue));
       else
-        dropDispenserStep.PS1P = JSON.parse(JSON.stringify(this.$refs.plateForm1.PSElement.PS1StopContractor));
+        dropDispenserStep.PS1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS1StopContractor));
 
-      if (this.$refs.plateForm1.PSElement.PS2Position === true)
-        dropDispenserStep.PS2P = JSON.parse(JSON.stringify(this.$refs.plateForm1.PSElement.PS2PositionValue));
+      if (this.$refs.plateForm.PSElement.PS2Position === true)
+        dropDispenserStep.PS2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS2PositionValue));
       else
-        dropDispenserStep.PS2P = JSON.parse(JSON.stringify(this.$refs.plateForm1.PSElement.PS2StopContractor));
+        dropDispenserStep.PS2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS2StopContractor));
 
       this.$data.dropDispenserModule.data.push(dropDispenserStep);
     },
 
     /*------------------------------------------------------------------------
-    * Method used to save a method into the database
+    * Function used to save a method into the database
     * ------------------------------------------------------------------------*/
     SaveMethod() {
+      this.resetData();
+    },
+
+    /*------------------------------------------------------------------------
+     * Function to reset tables' data after it's been saved in database
+     * ------------------------------------------------------------------------*/
+    resetData() {
       this.$data.trayModule.data = [];
       this.$data.liquidDispenserModule.data = [];
       this.$data.dropDispenserModule.data = [];
       this.$data.tlcMigrationModule.data = [];
       this.$data.commentModule.data = [];
+      this.waitingCondition = '';
     },
 
     save() {
@@ -412,8 +473,10 @@ export default {
     close() {
     },
 
+    /*------------------------------------------------------------------------
+     * Function to fetch current method name
+     * ------------------------------------------------------------------------*/
     fetchMethodName() {
-
       axios
           .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
           .then((response) => {
@@ -424,9 +487,10 @@ export default {
             }
           });
     },
+
     /*------------------------------------------------------------------------
-    * Method used to load all modules names
-    * ------------------------------------------------------------------------*/
+     * Function used to load all modules names
+     * ------------------------------------------------------------------------*/
     loadModulesNames() {
 
       this.trayModule.name = this.$store.state.trayModuleName;
@@ -435,9 +499,10 @@ export default {
       this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
     },
+
     /*--------------------------------------------------------------------------
-      *  Redirection to another page
-      * -------------------------------------------------------------------------*/
+     *  Redirection to another page
+     * -------------------------------------------------------------------------*/
     redirectTo(route) {
       this.$router.push({name: route});
     }
