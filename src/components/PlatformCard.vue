@@ -31,53 +31,60 @@
                 </v-card>
               </td>
 
-              <!-- Liquid Dispenser -->
+              <!-- Drop Dispenser -->
               <td>
                 <v-card height="265">
                   <v-card-title class="justify-center module-title-color">
-                    {{ liquidDispenserModule.name }}
+                    <!--{{ dropDispenserModule.name }}-->
+                    DD
+                  </v-card-title>
+                  <v-card-text class="justify-center">
+                    <v-data-table
+                        :headers="dropDispenserModule.columns"
+                        :items="dropDispenserModule.data"
+                        :hide-default-footer="true"
+                    />
+                  </v-card-text>
+
+                </v-card>
+              </td>
+
+              <!-- Liquid Dispenser -->
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">{{
+                      liquidDispenserModule.name
+                    }}
                   </v-card-title>
                   <v-data-table
                       :headers="liquidDispenserModule.columns"
                       :items="liquidDispenserModule.data"
                       :hide-default-footer="true"
-                  />
-                </v-card>
-              </td>
-
-              <!-- Drop Dispenser -->
-              <td>
-                <v-card height="265">
-                  <v-card-title class="justify-center module-title-color">{{ dropDispenserModule.name }}</v-card-title>
-                  <v-data-table
-                      :headers="dropDispenserModule.columns"
-                      :items="dropDispenserModule.data"
-                      :hide-default-footer="true"
 
                   >
-                    <template v-slot:[`item.PS1P`]="{ item }">
+                    <template v-slot:[`item.SP1P`]="{ item }">
                       <table>
                         <tr>
                           <td>
                             <v-select
                                 v-model="PSElement.selectedPS1Option"
-                                :items="item.PS1P"
+                                :items="item.SP1P"
                             />
 
                           </td>
                         </tr>
                         <tr>
-                          <td v-if="PSElement.PS1Position">
+                          <td v-if="PSElement.SP1Position">
                             <v-text-field
                                 label="volume in µL"
-                                v-model="PSElement.PS1PositionValue"
+                                v-model="PSElement.SP1PositionValue"
                             />
                           </td>
-                          <td v-if="!PSElement.PS1Position">
+                          <td v-if="!PSElement.SP1Position">
                             <v-select
                                 required
                                 label="choose instrument"
-                                v-model="PSElement.PS1StopContractor"
+                                v-model="PSElement.SP1StopContractor"
                                 :items="instrumentsList"
                             />
 
@@ -86,29 +93,60 @@
                       </table>
                     </template>
 
-                    <template v-slot:[`item.PS2P`]="{ item }">
+                    <template v-slot:[`item.SP2P`]="{ item }">
                       <table>
                         <tr>
                           <td>
                             <v-select
                                 v-model="PSElement.selectedPS2Option"
-                                :items="item.PS2P"
+                                :items="item.SP2P"
                             />
 
                           </td>
                         </tr>
                         <tr>
-                          <td v-if="PSElement.PS2Position">
+                          <td v-if="PSElement.SP2Position">
                             <v-text-field
                                 label="volume in µL"
-                                v-model="PSElement.PS2PositionValue"
+                                v-model="PSElement.SP2PositionValue"
                             />
                           </td>
-                          <td v-if="!PSElement.PS2Position">
+                          <td v-if="!PSElement.SP2Position">
                             <v-select
                                 required
                                 label="choose instrument"
-                                v-model="PSElement.PS2StopContractor"
+                                v-model="PSElement.SP2StopContractor"
+                                :items="instrumentsList"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+
+                    </template>
+
+                    <template v-slot:[`item.SP3P`]="{ item }">
+                      <table>
+                        <tr>
+                          <td>
+                            <v-select
+                                v-model="PSElement.selectedPS3Option"
+                                :items="item.SP3P"
+                            />
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td v-if="PSElement.SP3Position">
+                            <v-text-field
+                                label="volume in µL"
+                                v-model="PSElement.SP3PositionValue"
+                            />
+                          </td>
+                          <td v-if="!PSElement.SP3Position">
+                            <v-select
+                                required
+                                label="choose instrument"
+                                v-model="PSElement.SP3StopContractor"
                                 :items="instrumentsList"
                             />
                           </td>
@@ -199,11 +237,15 @@
 
     <div id="image-container">
       <vue-scroll-snap :horizontal="true">
-        <v-img ID="img-machine" src="../assets/Assemblage_210504.png"/>
-        <v-img @click="rotate('img-pinch1')" class="pinch" ID="img-pinch1" src="../assets/pinch25a.png"/>
-        <v-img @click="rotate('img-pinch2')" class="pinch" ID="img-pinch2" src="../assets/pinch25b.png"/>
-        <v-img @click="rotate('img-pinch3')" class="pinch" ID="img-pinch3" src="../assets/pinch25c.png"/>
-        <v-img @click="rotate('img-pinch4')" class="pinch" ID="img-pinch4" src="../assets/pinch25d.png"/>
+        <v-img ID="img-machine" src="../assets/Liquid Dispenser Images/Assemblage_210504.png"/>
+        <v-img @click="rotate('img-pinch1')" class="pinch" ID="img-pinch1"
+               src="../assets/Liquid Dispenser Images/pinch25a.png"/>
+        <v-img @click="rotate('img-pinch2')" class="pinch" ID="img-pinch2"
+               src="../assets/Liquid Dispenser Images/pinch25b.png"/>
+        <v-img @click="rotate('img-pinch3')" class="pinch" ID="img-pinch3"
+               src="../assets/Liquid Dispenser Images/pinch25c.png"/>
+        <v-img @click="rotate('img-pinch4')" class="pinch" ID="img-pinch4"
+               src="../assets/Liquid Dispenser Images/pinch25d.png"/>
         <!--<v-img @click="rotate('img-pinch5')" class="pinch" ID="img-pinch5" src="../assets/pinch25a.png"/>
         <v-img @click="rotate('img-pinch6')" class="pinch" ID="img-pinch6" src="../assets/pinch25a.png"/>
         <v-img @click="rotate('img-pinch7')" class="pinch" ID="img-pinch7" src="../assets/pinch25a.png"/>
@@ -236,12 +278,16 @@ export default {
     PSElement: {
       selectedPS1Option: 'Position',
       selectedPS2Option: 'Position',
-      PS1Position: true,
-      PS2Position: true,
-      PS1PositionValue: 0,
-      PS2PositionValue: 0,
-      PS1StopContractor: '',
-      PS2StopContractor: '',
+      selectedPS3Option: 'Position',
+      SP1Position: true,
+      SP2Position: true,
+      SP3Position: true,
+      SP1PositionValue: 0,
+      SP2PositionValue: 0,
+      SP3PositionValue: 0,
+      SP1StopContractor: '',
+      SP2StopContractor: '',
+      SP3StopContractor: '',
     },
 
     instrumentsList: [],
@@ -265,35 +311,24 @@ export default {
       name: '',
       columns: [
 
-        {text: 'Value1', value: 'Step1', align: 'start', width: 82},
-        {text: 'Value2', value: 'Step2', width: 82},
-        {text: 'Value3', value: 'Step3', width: 82},
-        {text: 'Value4', value: 'Step4', width: 82},
+        {text: 'Value', value: 'value1', align: 'start', width: 82},
       ],
       data: [
         {
-          Step1: 0,
-          Step2: 0,
-          Step3: 0,
-          Step4: 0
+          value1: 0,
         }
       ]
     },
 
-    liquidDispenserModule: {
+    spModule: {
       name: '',
       columns: [
-        {text: 'Value1', value: 'Step1', width: 82},
-        {text: 'Value2', value: 'Step2', width: 82},
-        {text: 'Value3', value: 'Step3', width: 82},
-        {text: 'Value4', value: 'Step4', width: 82},
+
+        {text: 'Syr', value: 'SyrValue', align: 'start', width: 82},
       ],
       data: [
         {
-          Step1: 0,
-          Step2: 0,
-          Step3: 0,
-          Step4: 0,
+          StdValue: 0,
         }
       ]
     },
@@ -301,35 +336,53 @@ export default {
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: "S1", value: "S1", width: 82},
-        {text: "S2", value: "S2", width: 82},
-        {text: "S3", value: "S3", width: 82},
-        {text: "S4", value: "S4", width: 82},
-        {text: "S5", value: "S5", width: 82},
-        {text: "S6", value: "S6", width: 82},
-        {text: "S7", value: "S7", width: 82},
-        {text: "S8", value: "S8", width: 82},
-        {text: "PS1 Target", value: "PS1P", width: 150},
-        {text: "PS1 Speed", value: "PS1S", width: 82},
-        {text: "PS2 Target", value: "PS2P", width: 150},
-        {text: "PS2 Speed", value: "PS2S", width: 82},
+        {text: 'Std', value: 'stdValue', width: 82},
+      ],
+      data: [
+        {
+          stdValue: 0,
+        }
+      ]
+    },
+
+    liquidDispenserModule: {
+      name: '',
+      columns: [
+        {text: "LDS1", value: "LDS1", width: 82},
+        {text: "LDS2", value: "LDS2", width: 82},
+        {text: "LDS3", value: "LDS3", width: 82},
+        {text: "LDS4", value: "LDS4", width: 82},
+        {text: "LDS5", value: "LDS5", width: 82},
+        {text: "LDS6", value: "LDS6", width: 82},
+        {text: "LDS7", value: "LDS7", width: 82},
+        {text: "LDS8", value: "LDS8", width: 82},
+        {text: "LDS9", value: "LDS9", width: 82},
+        {text: "SP1 Target", value: "SP1P", width: 150},
+        {text: "SP1 Speed", value: "SP1", width: 82},
+        {text: "SP2 Target", value: "SP2P", width: 150},
+        {text: "SP2 Speed", value: "SP2", width: 82},
+        {text: "SP3 Target", value: "SP3P", width: 150},
+        {text: "SP3 Speed", value: "SP3", width: 82},
         {text: "Rotations pump", value: "PUMP1P", width: 82},
         {text: "Speed pump (rpm)", value: "PUMP1S", width: 82},
       ],
       data: [
         {
-          S1: 0,
-          S2: 0,
-          S3: 0,
-          S4: 0,
-          S5: 0,
-          S6: 0,
-          S7: 0,
-          S8: 0,
-          PS1P: ['Position', 'Stopped by'],
-          PS1S: 0,
-          PS2P: ['Position', 'Stopped by'],
-          PS2S: 0,
+          LDS1: 0,
+          LDS2: 0,
+          LDS3: 0,
+          LDS4: 0,
+          LDS5: 0,
+          LDS6: 0,
+          LDS7: 0,
+          LDS8: 0,
+          LDS9: 0,
+          SP1P: ['Position', 'Stopped by'],
+          SP1: 0,
+          SP2P: ['Position', 'Stopped by'],
+          SP2: 0,
+          SP3P: ['Position', 'Stopped by'],
+          SP3: 0,
           PUMP1P: 0,
           PUMP1S: 0
         }
@@ -398,11 +451,14 @@ export default {
     },
 
     'PSElement.selectedPS1Option'() {
-      this.PSElement.selectedPS1Option !== 'Position' ? this.PSElement.PS1Position = false : this.PSElement.PS1Position = true;
+      this.PSElement.selectedPS1Option !== 'Position' ? this.PSElement.SP1Position = false : this.PSElement.SP1Position = true;
 
     },
     'PSElement.selectedPS2Option'() {
-      this.PSElement.selectedPS2Option !== 'Position' ? this.PSElement.PS2Position = false : this.PSElement.PS2Position = true;
+      this.PSElement.selectedPS2Option !== 'Position' ? this.PSElement.SP2Position = false : this.PSElement.SP2Position = true;
+    },
+    'PSElement.selectedPS3Option'() {
+      this.PSElement.selectedPS3Option !== 'Position' ? this.PSElement.SP3Position = false : this.PSElement.SP3Position = true;
     }
 
   },
@@ -416,6 +472,7 @@ export default {
       this.waitingCondition.selectedOption = 'None';
       this.PSElement.selectedPS1Option = 'Position';
       this.PSElement.selectedPS2Option = 'Position';
+      this.PSElement.selectedPS3Option = 'Position';
       this.comment = '';
 
     },
@@ -478,11 +535,11 @@ export default {
     setStepValues(angle, StepNr) {
 
       if (angle === 0)
-        this.dropDispenserModule.data[0][StepNr] = 0;
+        this.liquidDispenserModule.data[0][StepNr] = 0;
       else if (angle === 45)
-        this.dropDispenserModule.data[0][StepNr] = 1;
+        this.liquidDispenserModule.data[0][StepNr] = 1;
       else
-        this.dropDispenserModule.data[0][StepNr] = 2;
+        this.liquidDispenserModule.data[0][StepNr] = 2;
     },
 
     /*------------------------------------------------------------------------
@@ -491,21 +548,22 @@ export default {
     loadModulesNames() {
 
       this.trayModule.name = this.$store.state.trayModuleName;
-      this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
+      this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.tlcModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
       this.ginaModule.name = this.$store.state.GinaModuleName;
 
-      this.PSElement.PS1StopContractor
-          = this.PSElement.PS2StopContractor
-          = this.waitingCondition.instrumentSelected
-          = this.liquidDispenserModule.name;
+      this.PSElement.SP1StopContractor
+          = this.PSElement.SP2StopContractor
+          = this.PSElement.SP3StopContractor
+          = this.dropDispenserModule.name;
 
+      this.waitingCondition.instrumentSelected = this.ginaModule.name;
       this.instrumentsList.push(
           this.trayModule.name,
-          this.liquidDispenserModule.name,
           this.dropDispenserModule.name,
+          this.liquidDispenserModule.name,
           this.tlcModule.name,
           this.phMeterModule.name,
           this.ginaModule.name

@@ -13,7 +13,7 @@
             class="shrink mr-2"
             contain
 
-            :src="require('./assets/ElysiaRaytest_Logo.png')"
+            :src="require('./assets/Liquid Dispenser Images/ElysiaRaytest_Logo.png')"
             transition="scale-transition"
             width="200"
         />

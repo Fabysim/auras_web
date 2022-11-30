@@ -40,369 +40,335 @@
       </v-card-title>
 
       <!-- Modules' tables -->
+      <vue-scroll-snap style="width:100%; overflow: hidden"
+                       :horizontal="true">
 
-      <v-card-text style="padding: 20px">
-        <vue-scroll-snap :horizontal="true">
-          <table>
-            <tr>
-              <!--Tray module-->
+        <v-data-table :headers="stepModule.columns"
+                      :hide-default-footer="true"
+                      disable-pagination>
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">{{ trayModule.name }}</v-card-title>
-                  <v-card-text>
+        </v-data-table>
 
-                    <v-data-table
-                        :headers="trayModule.columns"
-                        :items="trayModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save(item[header.value], key, trayModule.name, idx)"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+        <v-card-text style="padding: 20px;width:90%">
+          <vue-scroll-snap :horizontal="true">
+            <table>
+              <tr>
+                <!--Tray module-->
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model.number="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                    type="number"
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">{{ trayModule.name }}</v-card-title>
+                    <v-card-text>
 
-                    </v-data-table>
+                      <v-data-table
 
-                  </v-card-text>
-                </v-card>
-              </td>
+                          :headers="trayModule.columns"
+                          :items="trayModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, trayModule.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-              <!--Liquid dispenser module-->
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model.number="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">
-                    {{ liquidDispenserModule.name }}
-                  </v-card-title>
+                      </v-data-table>
 
-                  <v-card-text>
-                    <v-data-table
-                        :headers="liquidDispenserModule.columns"
-                        :items="liquidDispenserModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+                    </v-card-text>
+                  </v-card>
+                </td>
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-                    </v-data-table>
-                  </v-card-text>
+                <!--Liquid dispenser module-->
 
-                </v-card>
-              </td>
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">
+                      <!--{{ dropDispenserModule.name }}-->
+                      DD
+                    </v-card-title>
 
-              <!--Drop dispenser module-->
+                    <v-card-text>
+                      <v-data-table
+                          :headers="dropDispenserModule.columns"
+                          :items="dropDispenserModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, dropDispenserModule.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
-                    {{ dropDispenserModule.name }}
-                  </v-card-title>
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
+                    </v-card-text>
 
-                  <v-card-text>
-                    <v-data-table
-                        :headers="dropDispenserModule.columns"
-                        :items="dropDispenserModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+                  </v-card>
+                </td>
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-                    </v-data-table>
-                  </v-card-text>
-                </v-card>
-              </td>
+                <!--Drop dispenser module-->
 
-              <!--TLC Module-->
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
+                      {{ liquidDispenserModule.name }}
+                    </v-card-title>
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">{{ tlcMigrationModule.name }}</v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="tlcMigrationModule.columns"
-                        :items="tlcMigrationModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+                    <v-card-text>
+                      <v-data-table
+                          :headers="liquidDispenserModule.columns"
+                          :items="liquidDispenserModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, liquidDispenserModule.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-                    </v-data-table>
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
+                    </v-card-text>
+                  </v-card>
+                </td>
 
-                  </v-card-text>
-                </v-card>
-              </td>
+                <!--TLC Module-->
 
-              <!--PH Meter Module-->
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">{{ tlcMigrationModule.name }}</v-card-title>
+                    <v-card-text>
+                      <v-data-table
+                          :headers="tlcMigrationModule.columns"
+                          :items="tlcMigrationModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, tlcMigrationModule.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="phMeterModule.columns"
-                        :items="phMeterModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-                    </v-data-table>
+                    </v-card-text>
+                  </v-card>
+                </td>
 
-                  </v-card-text>
-                </v-card>
-              </td>
+                <!--PH Meter Module-->
 
-              <!--waiting condition-->
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
+                    <v-card-text>
+                      <v-data-table
+                          :headers="phMeterModule.columns"
+                          :items="phMeterModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, phMeterModule.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">
-                    {{ waitingCondition.name }}
-                  </v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="waitingCondition.columns"
-                        :items="waitingCondition.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
+                    </v-card-text>
+                  </v-card>
+                </td>
 
-                    </v-data-table>
-                  </v-card-text>
-                </v-card>
-              </td>
+                <!--waiting condition-->
 
-              <!--Comments-->
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">
+                      {{ waitingCondition.name }}
+                    </v-card-title>
+                    <v-card-text>
+                      <v-data-table
+                          :headers="waitingCondition.columns"
+                          :items="waitingCondition.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, waitingCondition.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">Comment</v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="commentModule.columns"
-                        :items="commentModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog
-                                :return-value.sync="item[header.value]"
-                                @save="save"
-                                @cancel="cancel"
-                                @open="open"
-                                @close="close"
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
 
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                        <tbody v-else>
-                        <tr>
-                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                            No data available
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
+                      </v-data-table>
+                    </v-card-text>
+                  </v-card>
+                </td>
 
-                    </v-data-table>
+                <!--Comments-->
 
-                  </v-card-text>
-                </v-card>
-              </td>
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">Comment</v-card-title>
+                    <v-card-text>
+                      <v-data-table
+                          :headers="commentModule.columns"
+                          :items="commentModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog
+                                  :return-value.sync="item[header.value]"
+                                  @save="save(item[header.value], key, commentModule.name, idx)"
+                                  @cancel="cancel"
+                                  @open="open"
+                                  @close="close"
 
-            </tr>
-          </table>
-        </vue-scroll-snap>
-      </v-card-text>
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+
+                      </v-data-table>
+
+                    </v-card-text>
+                  </v-card>
+                </td>
+
+              </tr>
+            </table>
+          </vue-scroll-snap>
+        </v-card-text>
+
+        <v-data-table :headers="stepModule.columns"
+                      :hide-default-footer="true"
+                      disable-pagination/>
+      </vue-scroll-snap>
+
 
     </v-card>
 
@@ -435,14 +401,40 @@ export default {
     currentMethod: '',
     currentStep: 0,
 
+    stepModule: {
+      name: '',
+      columns: [
+        {text: 'Step', value: 'Step', align: 'start', width: 82, sortable: true},
+      ],
+      data: []
+    },
+
     trayModule: {
       name: '',
       columns: [
         {text: 'Step', value: 'Step', align: 'start', width: 82, sortable: true},
-        {text: 'Value1', value: 'Step1', width: 82, sortable: false},
-        {text: 'Value2', value: 'Step2', width: 82, sortable: false},
-        {text: 'Value3', value: 'Step3', width: 82, sortable: false},
-        {text: 'Value4', value: 'Step4', width: 82, sortable: false},
+        {text: 'Value1', value: 'value1', width: 82, sortable: false}
+      ],
+      data: []
+    },
+
+    spModule: {
+      name: '',
+      columns: [
+
+        {text: 'Syr', value: 'SyrValue', align: 'start', width: 82},
+      ],
+      data: [
+        {
+          StdValue: 0,
+        }
+      ]
+    },
+
+    dropDispenserModule: {
+      name: '',
+      columns: [
+        {text: 'Value', value: 'stdValue', width: 82, sortable: false},
       ],
       data: []
     },
@@ -450,29 +442,21 @@ export default {
     liquidDispenserModule: {
       name: '',
       columns: [
-        {text: 'Value1', value: 'Step1', width: 82, sortable: false},
-        {text: 'Value2', value: 'Step2', width: 82, sortable: false},
-        {text: 'Value3', value: 'Step3', width: 82, sortable: false},
-        {text: 'Value4', value: 'Step4', width: 82, sortable: false},
-      ],
-      data: []
-    },
-
-    dropDispenserModule: {
-      name: '',
-      columns: [
-        {text: "S1", value: "S1", width: 82, sortable: false},
-        {text: "S2", value: "S2", width: 82, sortable: false},
-        {text: "S3", value: "S3", width: 82, sortable: false},
-        {text: "S4", value: "S4", width: 82, sortable: false},
-        {text: "S5", value: "S5", width: 82, sortable: false},
-        {text: "S6", value: "S6", width: 82, sortable: false},
-        {text: "S7", value: "S7", width: 82, sortable: false},
-        {text: "S8", value: "S8", width: 82, sortable: false},
-        {text: "PS1 Target", value: "PS1P", width: 82, sortable: false},
-        {text: "PS1 Speed", value: "PS1S", width: 82, sortable: false},
-        {text: "PS2 Target", value: "PS2P", width: 82, sortable: false},
-        {text: "PS2 Speed", value: "PS2S", width: 100, sortable: false},
+        {text: "LDS1", value: "LDS1", width: 82, sortable: false},
+        {text: "LDS2", value: "LDS2", width: 82, sortable: false},
+        {text: "LDS3", value: "LDS3", width: 82, sortable: false},
+        {text: "LDS4", value: "LDS4", width: 82, sortable: false},
+        {text: "LDS5", value: "LDS5", width: 82, sortable: false},
+        {text: "LDS6", value: "LDS6", width: 82, sortable: false},
+        {text: "LDS7", value: "LDS7", width: 82, sortable: false},
+        {text: "LDS8", value: "LDS8", width: 82, sortable: false},
+        {text: "LDS9", value: "LDS9", width: 82, sortable: false},
+        {text: "SP1 Target", value: "SP1P", width: 150, sortable: false},
+        {text: "SP1 Speed", value: "SP1", width: 82, sortable: false},
+        {text: "SP2 Target", value: "SP2P", width: 150, sortable: false},
+        {text: "SP2 Speed", value: "SP2", width: 82, sortable: false},
+        {text: "SP3 Target", value: "SP2P", width: 150, sortable: false},
+        {text: "SP3 Speed", value: "SP3", width: 82, sortable: false},
         {text: "Rotations pump", value: "PUMP1P", width: 82, sortable: false},
         {text: "Speed pump (rpm)", value: "PUMP1S", width: 82, sortable: false},
       ],
@@ -591,8 +575,8 @@ export default {
     * ------------------------------------------------------------------------*/
     getSingleMethodLine() {
       return this.trayModule.data.concat(
-          this.liquidDispenserModule.data,
           this.dropDispenserModule.data,
+          this.liquidDispenserModule.data,
           this.tlcMigrationModule.data,
           this.phMeterModule.data,
           this.waitingCondition.data,
@@ -604,8 +588,8 @@ export default {
      * ------------------------------------------------------------------------*/
     resetData() {
       this.$data.trayModule.data = [];
-      this.$data.liquidDispenserModule.data = [];
       this.$data.dropDispenserModule.data = [];
+      this.$data.liquidDispenserModule.data = [];
       this.$data.tlcMigrationModule.data = [];
       this.$data.phMeterModule.data = [];
       this.waitingCondition.data = [];
@@ -637,8 +621,9 @@ export default {
     /*------------------------------------------------------------------------
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
-    updateMethodStep(step) {
+    updateMethodStep(step, stepNr) {
 
+      console.log('Update step Nr: ' + stepNr);
       console.log(step);
     },
 
@@ -646,7 +631,35 @@ export default {
 
       console.log('Value: ' + value + ' - col: ' + col + ' - device: ' + name + ' - line: ' + line);
 
-      this.updateMethodStep(this.trayModule.data.find(({Step}) => Step === line));
+
+      switch (name) {
+
+        case this.trayModule.name:
+          this.updateMethodStep(this.trayModule.data.find(({Step}) => Step === line), line);
+          break;
+        case this.dropDispenserModule.name:
+          this.updateMethodStep(this.dropDispenserModule.data[line], line);
+
+          break;
+        case this.liquidDispenserModule.name:
+          this.updateMethodStep(this.liquidDispenserModule.data[line], line);
+          break;
+        case this.tlcMigrationModule.name:
+          this.updateMethodStep(this.tlcMigrationModule.data[line], line);
+          break;
+        case this.phMeterModule.name:
+          this.updateMethodStep(this.phMeterModule.data[line], line);
+          break;
+        case this.waitingCondition.name:
+          this.updateMethodStep(this.waitingCondition.data[line], line);
+          break;
+        case this.commentModule.name:
+          this.updateMethodStep(this.commentModule.data[line], line);
+          break;
+        default:
+          break;
+      }
+
 
     },
     cancel() {
@@ -661,8 +674,8 @@ export default {
     initializeModulesNames() {
 
       this.trayModule.name = this.$store.state.trayModuleName;
-      this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
+      this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
     },
@@ -697,8 +710,10 @@ export default {
     * ------------------------------------------------------------------------*/
     saveLiquidDispenserStep() {
 
-      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
-      this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
+      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
+      this.$data.dropDispenserModule.data.push(dropDispenserStep);
+
+      console.log(dropDispenserStep)
     },
 
     /*------------------------------------------------------------------------
@@ -751,19 +766,19 @@ export default {
      * ------------------------------------------------------------------------*/
     saveDropDispenserStep() {
 
-      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
+      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
 
-      if (this.$refs.plateForm.PSElement.PS1Position === true)
-        dropDispenserStep.PS1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS1PositionValue));
+      if (this.$refs.plateForm.PSElement.SP1Position === true)
+        dropDispenserStep.SP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP1PositionValue));
       else
-        dropDispenserStep.PS1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS1StopContractor));
+        dropDispenserStep.SP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP1StopContractor));
 
-      if (this.$refs.plateForm.PSElement.PS2Position === true)
-        dropDispenserStep.PS2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS2PositionValue));
+      if (this.$refs.plateForm.PSElement.SP2Position === true)
+        dropDispenserStep.SP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP2PositionValue));
       else
-        dropDispenserStep.PS2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.PS2StopContractor));
+        dropDispenserStep.SP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP2StopContractor));
 
-      this.$data.dropDispenserModule.data.push(dropDispenserStep);
+      this.$data.liquidDispenserModule.data.push(dropDispenserStep);
     },
 
 
