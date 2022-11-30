@@ -1,196 +1,198 @@
 <template>
 
   <div id="platform">
-    <!--Tables-->
 
-    <v-card style="padding: 20px">
-      <v-card-title class="justify-center">Define a step</v-card-title>
-      <vue-scroll-snap :horizontal="true">
-        <table>
-          <tr>
-            <!-- Tray -->
-            <td>
-              <v-card height="265">
-                <v-card-title class="justify-center">{{ trayModule.name }}</v-card-title>
-                <v-data-table
-                    :headers="trayModule.columns"
-                    :items="trayModule.data"
-                    :hide-default-footer="true"
-                />
-              </v-card>
-            </td>
+    <!--Actions-->
 
-            <!-- Liquid Dispenser -->
-            <td>
-              <v-card height="265">
-                <v-card-title class="justify-center">{{ liquidDispenserModule.name }}</v-card-title>
-                <v-data-table
-                    :headers="liquidDispenserModule.columns"
-                    :items="liquidDispenserModule.data"
-                    :hide-default-footer="true"
-                />
-              </v-card>
-            </td>
-
-            <!-- Drop Dispenser -->
-            <td>
-              <v-card height="265">
-                <v-card-title class="justify-center">{{ dropDispenserModule.name }}</v-card-title>
-                <v-data-table
-                    :headers="dropDispenserModule.columns"
-                    :items="dropDispenserModule.data"
-                    :hide-default-footer="true"
-
-                >
-                  <template v-slot:[`item.PS1P`]="{ item }">
-                    <table>
-                      <tr>
-                        <td>
-                          <v-select
-                              v-model="PSElement.selectedPS1Option"
-                              :items="item.PS1P"
-                          >
-
-                          </v-select>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td v-if="PSElement.PS1Position">
-                          <v-text-field
-                              label="volume in µL"
-                              v-model="PSElement.PS1PositionValue"
-                          />
-                        </td>
-                        <td v-if="!PSElement.PS1Position">
-                          <v-select
-                              required
-                              label="choose instrument"
-                              v-model="PSElement.PS1StopContractor"
-                              :items="instrumentsList"
-                          >
-
-                          </v-select>
-                        </td>
-                      </tr>
-                    </table>
-                  </template>
-
-                  <template v-slot:[`item.PS2P`]="{ item }">
-                    <table>
-                      <tr>
-                        <td>
-                          <v-select
-                              v-model="PSElement.selectedPS2Option"
-                              :items="item.PS2P"
-                          >
-
-                          </v-select>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td v-if="PSElement.PS2Position">
-                          <v-text-field
-                              label="volume in µL"
-                              v-model="PSElement.PS2PositionValue"
-                          />
-                        </td>
-                        <td v-if="!PSElement.PS2Position">
-                          <v-select
-                              required
-                              label="choose instrument"
-                              v-model="PSElement.PS2StopContractor"
-                              :items="instrumentsList"
-                          >
-
-                          </v-select>
-                        </td>
-                      </tr>
-                    </table>
-
-                  </template>
-
-                </v-data-table>
-              </v-card>
-            </td>
-
-            <!-- TLC Migration Module -->
-            <td>
-              <v-card height="265">
-                <v-card-title class="justify-center">{{ tlcModule.name }}</v-card-title>
-                <v-data-table
-                    :headers="tlcModule.columns"
-                    :items="tlcModule.data"
-                    :hide-default-footer="true"
-                />
-              </v-card>
-            </td>
-
-            <!-- PH Meter -->
-            <td>
-              <v-card height="265">
-                <v-card-title class="justify-center">{{ phMeterModule.name }}</v-card-title>
-                <v-data-table
-                    :headers="phMeterModule.columns"
-                    :items="phMeterModule.data"
-                    :hide-default-footer="true"
-                />
-              </v-card>
-            </td>
-
-            <!--Waiting condition-->
-            <td>
-              <v-card height="265" width="230" style="padding: 20px">
-                <v-card-title class="justify-center"> Waiting condition</v-card-title>
-                <table>
-                  <tr>
-                    <td>
-                      <v-select
-                          v-model="waitingCondition.selectedOption"
-                          :items="waitingCondition.items"
-                      >
-
-                      </v-select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td v-if="waitingCondition.instrumentOptionSelected">
-                      <v-select
-                          label="choose instrument"
-                          v-model="waitingCondition.instrumentSelected"
-                          :items="instrumentsList"
-                      />
-                    </td>
-                    <td v-if="waitingCondition.timeoutOptionSelected">
-                      <v-text-field
-                          label="timeout in ms"
-                          v-model="waitingCondition.timeoutValue"
-                      />
-                    </td>
-                  </tr>
-                </table>
-
-              </v-card>
-            </td>
-
-            <!-- Comments -->
-            <td>
-              <v-card height="265" width="230" style="padding: 20px">
-                <v-card-title class="justify-center"> Comment</v-card-title>
-                <v-text-field label="Enter a comment" v-model="comment"/>
-              </v-card>
-            </td>
-
-          </tr>
-        </table>
-      </vue-scroll-snap>
-
-      <v-card-actions class="justify-center">
-        <v-btn color="primary"
-               style="margin-top: 20px"
+    <v-card class="table">
+      <v-card-title class="justify-center">
+        Define a step
+        <v-spacer/>
+        <v-btn style="background-color: dodgerblue; color: white;"
                @click="$emit('lineSaved')">
           Save step
         </v-btn>
-      </v-card-actions>
+      </v-card-title>
+
+      <!--Tables-->
+      <v-card-text style="padding-left: 20px; padding-right: 20px">
+        <vue-scroll-snap :horizontal="true">
+          <table>
+            <tr>
+              <!-- Tray -->
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">{{ trayModule.name }}</v-card-title>
+                  <v-data-table
+                      :headers="trayModule.columns"
+                      :items="trayModule.data"
+                      :hide-default-footer="true"
+                  />
+                </v-card>
+              </td>
+
+              <!-- Liquid Dispenser -->
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">
+                    {{ liquidDispenserModule.name }}
+                  </v-card-title>
+                  <v-data-table
+                      :headers="liquidDispenserModule.columns"
+                      :items="liquidDispenserModule.data"
+                      :hide-default-footer="true"
+                  />
+                </v-card>
+              </td>
+
+              <!-- Drop Dispenser -->
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">{{ dropDispenserModule.name }}</v-card-title>
+                  <v-data-table
+                      :headers="dropDispenserModule.columns"
+                      :items="dropDispenserModule.data"
+                      :hide-default-footer="true"
+
+                  >
+                    <template v-slot:[`item.PS1P`]="{ item }">
+                      <table>
+                        <tr>
+                          <td>
+                            <v-select
+                                v-model="PSElement.selectedPS1Option"
+                                :items="item.PS1P"
+                            />
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td v-if="PSElement.PS1Position">
+                            <v-text-field
+                                label="volume in µL"
+                                v-model="PSElement.PS1PositionValue"
+                            />
+                          </td>
+                          <td v-if="!PSElement.PS1Position">
+                            <v-select
+                                required
+                                label="choose instrument"
+                                v-model="PSElement.PS1StopContractor"
+                                :items="instrumentsList"
+                            />
+
+                          </td>
+                        </tr>
+                      </table>
+                    </template>
+
+                    <template v-slot:[`item.PS2P`]="{ item }">
+                      <table>
+                        <tr>
+                          <td>
+                            <v-select
+                                v-model="PSElement.selectedPS2Option"
+                                :items="item.PS2P"
+                            />
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td v-if="PSElement.PS2Position">
+                            <v-text-field
+                                label="volume in µL"
+                                v-model="PSElement.PS2PositionValue"
+                            />
+                          </td>
+                          <td v-if="!PSElement.PS2Position">
+                            <v-select
+                                required
+                                label="choose instrument"
+                                v-model="PSElement.PS2StopContractor"
+                                :items="instrumentsList"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+
+                    </template>
+
+                  </v-data-table>
+                </v-card>
+              </td>
+
+              <!-- TLC Migration Module -->
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">{{ tlcModule.name }}</v-card-title>
+                  <v-data-table
+                      :headers="tlcModule.columns"
+                      :items="tlcModule.data"
+                      :hide-default-footer="true"
+                  />
+                </v-card>
+              </td>
+
+              <!-- PH Meter -->
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
+                  <v-data-table
+                      :headers="phMeterModule.columns"
+                      :items="phMeterModule.data"
+                      :hide-default-footer="true"
+                  />
+                </v-card>
+              </td>
+
+              <!--Waiting condition-->
+              <td>
+                <v-card height="265" width="230" style="padding: 20px">
+                  <v-card-title class="justify-center module-title-color"> Waiting condition</v-card-title>
+                  <table>
+                    <tr>
+                      <td>
+                        <v-select
+                            v-model="waitingCondition.selectedOption"
+                            :items="waitingCondition.items"
+                        >
+
+                        </v-select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td v-if="waitingCondition.instrumentOptionSelected">
+                        <v-select
+                            label="choose instrument"
+                            v-model="waitingCondition.instrumentSelected"
+                            :items="instrumentsList"
+                        />
+                      </td>
+                      <td v-if="waitingCondition.timeoutOptionSelected">
+                        <v-text-field
+                            label="timeout in ms"
+                            v-model="waitingCondition.timeoutValue"
+                        />
+                      </td>
+                    </tr>
+                  </table>
+
+                </v-card>
+              </td>
+
+              <!-- Comments -->
+              <td>
+                <v-card height="265" width="230" style="padding: 20px">
+                  <v-card-title class="justify-center module-title-color"> Comment</v-card-title>
+                  <v-text-field label="Enter a comment" v-model="comment"/>
+                </v-card>
+              </td>
+
+            </tr>
+          </table>
+        </vue-scroll-snap>
+
+      </v-card-text>
     </v-card>
 
     <!--Image    -->
@@ -410,7 +412,10 @@ export default {
     * Method to reset tables after a step is set
     * ------------------------------------------------------------------------*/
     resetPlatformTables() {
-      this.timeoutValue = 0;
+      this.waitingCondition.timeoutValue = 0;
+      this.waitingCondition.selectedOption = 'None';
+      this.PSElement.selectedPS1Option = 'Position';
+      this.PSElement.selectedPS2Option = 'Position';
       this.comment = '';
 
     },
@@ -471,7 +476,6 @@ export default {
     * DropDispenser: Method used to set each pinch valve value
     * ------------------------------------------------------------------------*/
     setStepValues(angle, StepNr) {
-      console.log(angle + ' - ' + StepNr)
 
       if (angle === 0)
         this.dropDispenserModule.data[0][StepNr] = 0;
@@ -512,20 +516,31 @@ export default {
 </script>
 
 <style scoped>
+
+.table {
+  z-index: 2;
+}
+
+.module-title-color {
+  color: dodgerblue;
+}
+
 #platform {
   position: relative;
 }
 
 #image-container {
   position: absolute;
-  height: 800px;
   width: 1000px;
   left: 500px;
+  top: 290px;
+  z-index: 1;
 }
 
 #img-machine {
-  height: 800px;
+  height: 760px;
   width: 800px;
+
 }
 
 .pinch {
@@ -536,31 +551,32 @@ export default {
 
 #img-pinch1 {
   position: absolute;
-  left: 115px;
-  top: 280px;
+  left: 130px;
+  top: 270px;
   display: inline-block;
 }
 
 #img-pinch2 {
   position: absolute;
-  left: 115px;
-  top: 360px;
+  left: 130px;
+  top: 340px;
   display: inline-block;
 }
 
 #img-pinch3 {
   position: absolute;
-  left: 115px;
-  top: 450px;
+  left: 130px;
+  top: 420px;
   display: inline-block;
 }
 
 #img-pinch4 {
   position: absolute;
-  left: 115px;
-  top: 530px;
+  left: 130px;
+  top: 500px;
   display: inline-block;
 }
+
 /*
 #img-pinch5 {
   position: absolute;

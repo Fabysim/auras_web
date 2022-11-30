@@ -1,13 +1,19 @@
 <template>
   <div>
 
-    <!-- Modules' tables -->
-
+    <!--Actions-->
     <v-card>
       <v-card-title class="justify-center">
         Method: {{ currentMethod.name }}
-        <v-spacer/>
 
+        <v-spacer/>
+        <v-btn color="#a83248"
+               class="white--text"
+               @click="redirectTo('IndexAuras')"
+        >
+          All Methods
+        </v-btn>
+        <v-spacer/>
         <download-excel :data="downloadedData" :name="currentMethod.name + '.xls'">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -25,14 +31,15 @@
             <span>Download method in Excel</span>
           </v-tooltip>
         </download-excel>
+
         <v-spacer/>
-        <v-btn color="#a83248"
-               class="white--text"
-               @click="redirectTo('IndexAuras')"
-        >
-          All Methods
+        <v-btn style="background-color: dodgerblue; color: white;"
+               @click="saveMethod">
+          Save Method
         </v-btn>
       </v-card-title>
+
+      <!-- Modules' tables -->
 
       <v-card-text style="padding: 20px">
         <vue-scroll-snap :horizontal="true">
@@ -42,7 +49,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color">{{ trayModule.name }}</v-card-title>
+                  <v-card-title class="justify-center module-title-color">{{ trayModule.name }}</v-card-title>
                   <v-card-text>
 
                     <v-data-table
@@ -57,7 +64,7 @@
                           <td v-for="(header,key) in headers" :key="key">
                             <v-edit-dialog
                                 :return-value.sync="item[header.value]"
-                                @save="save"
+                                @save="save(item[header.value], key, trayModule.name, idx)"
                                 @cancel="cancel"
                                 @open="open"
                                 @close="close"
@@ -65,9 +72,10 @@
                             > {{ item[header.value] }}
                               <template v-slot:input>
                                 <v-text-field
-                                    v-model="item[header.value]"
+                                    v-model.number="item[header.value]"
                                     label="Edit"
                                     single-line
+                                    type="number"
                                 ></v-text-field>
                               </template>
                             </v-edit-dialog>
@@ -93,7 +101,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color">
+                  <v-card-title class="justify-center module-title-color">
                     {{ liquidDispenserModule.name }}
                   </v-card-title>
 
@@ -145,7 +153,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color" style="color: dodgerblue">
+                  <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
                     {{ dropDispenserModule.name }}
                   </v-card-title>
 
@@ -196,7 +204,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color">{{ tlcMigrationModule.name }}</v-card-title>
+                  <v-card-title class="justify-center module-title-color">{{ tlcMigrationModule.name }}</v-card-title>
                   <v-card-text>
                     <v-data-table
                         :headers="tlcMigrationModule.columns"
@@ -245,7 +253,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color">{{ phMeterModule.name }}</v-card-title>
+                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
                   <v-card-text>
                     <v-data-table
                         :headers="phMeterModule.columns"
@@ -294,7 +302,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color">
+                  <v-card-title class="justify-center module-title-color">
                     {{ waitingCondition.name }}
                   </v-card-title>
                   <v-card-text>
@@ -304,37 +312,37 @@
                         :hide-default-footer="true"
                         disable-pagination
                     >
-                    <template v-slot:body="{ items, headers }">
-                      <tbody v-if="items.length > 0">
-                      <tr v-for="(item,idx) in items" :key="idx">
-                        <td v-for="(header,key) in headers" :key="key">
-                          <v-edit-dialog
-                              :return-value.sync="item[header.value]"
-                              @save="save"
-                              @cancel="cancel"
-                              @open="open"
-                              @close="close"
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog
+                                :return-value.sync="item[header.value]"
+                                @save="save"
+                                @cancel="cancel"
+                                @open="open"
+                                @close="close"
 
-                          > {{ item[header.value] }}
-                            <template v-slot:input>
-                              <v-text-field
-                                  v-model="item[header.value]"
-                                  label="Edit"
-                                  single-line
-                              ></v-text-field>
-                            </template>
-                          </v-edit-dialog>
-                        </td>
-                      </tr>
-                      </tbody>
-                      <tbody v-else>
-                      <tr>
-                        <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
-                          No data available
-                        </td>
-                      </tr>
-                      </tbody>
-                    </template>
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                        <tbody v-else>
+                        <tr>
+                          <td :colspan="headers.length" style="text-align: center; color: gray; opacity: 0.6;">
+                            No data available
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
 
                     </v-data-table>
                   </v-card-text>
@@ -345,7 +353,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center text-color">Comment</v-card-title>
+                  <v-card-title class="justify-center module-title-color">Comment</v-card-title>
                   <v-card-text>
                     <v-data-table
                         :headers="commentModule.columns"
@@ -396,15 +404,10 @@
         </vue-scroll-snap>
       </v-card-text>
 
-      <v-card-actions class="justify-center">
-        <v-btn style="background-color: dodgerblue; color: white;"
-               @click="SaveMethod">
-          Save Method
-        </v-btn>
-      </v-card-actions>
     </v-card>
 
     <!-- PlatForms -->
+
     <PlatFormCard @lineSaved="SaveLine" ref="plateForm"/>
 
   </div>
@@ -523,11 +526,10 @@ export default {
   }),
 
   mounted() {
-    this.loadModulesNames();
+    this.initializeModulesNames();
     this.fetchMethodName();
 
   },
-
 
   methods: {
 
@@ -544,13 +546,137 @@ export default {
       this.saveCommentsStep();
       this.saveWaitingConditionStep();
 
+      this.createMethodData();
       this.$refs.plateForm.resetPlatformTables();
 
     },
 
     /*------------------------------------------------------------------------
-    * Function used to extract Tray step data
+    * Function create all method's data
     * ------------------------------------------------------------------------*/
+    createMethodData() {
+
+      let methodStep = this.getSingleMethodLine();
+
+
+      if (this.currentMethod.data === undefined) {
+
+        this.$data.currentMethod.data = [];
+        for (let i = 0; i < methodStep.length; i++) {
+          let objectLength = Object.keys(methodStep[i]).length;
+
+          this.$data.currentMethod.data[i] = new Array(objectLength);
+          this.$data.currentMethod.data[i].push(methodStep[i]);
+        }
+
+      } else {
+        for (let i = 0; i < this.currentMethod.data.length; i++)
+          this.$data.currentMethod.data[i].push(methodStep[i]);
+      }
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function used to save a method into the database
+    * ------------------------------------------------------------------------*/
+    saveMethod() {
+
+      this.postMethod();
+      this.resetData();
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to concatenate all modules' data
+    * ------------------------------------------------------------------------*/
+    getSingleMethodLine() {
+      return this.trayModule.data.concat(
+          this.liquidDispenserModule.data,
+          this.dropDispenserModule.data,
+          this.tlcMigrationModule.data,
+          this.phMeterModule.data,
+          this.waitingCondition.data,
+          this.$data.commentModule.data);
+    },
+
+    /*------------------------------------------------------------------------
+     * Function to reset tables' data after it's been saved in database
+     * ------------------------------------------------------------------------*/
+    resetData() {
+      this.$data.trayModule.data = [];
+      this.$data.liquidDispenserModule.data = [];
+      this.$data.dropDispenserModule.data = [];
+      this.$data.tlcMigrationModule.data = [];
+      this.$data.phMeterModule.data = [];
+      this.waitingCondition.data = [];
+      this.$data.commentModule.data = [];
+    },
+
+    /*------------------------------------------------------------------------
+     * Function to fetch current method name
+     * ------------------------------------------------------------------------*/
+    fetchMethodName() {
+      axios
+          .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
+          .then((response) => {
+            if (response.status === 200) {
+              this.currentMethod = response.data;
+            } else {
+              this.message = response.data.message;
+            }
+          });
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to send method's line to database
+    * ------------------------------------------------------------------------*/
+    postMethod() {
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to update method's data to database
+    * ------------------------------------------------------------------------*/
+    updateMethodStep(step) {
+
+      console.log(step);
+    },
+
+    save(value, col, name, line) {
+
+      console.log('Value: ' + value + ' - col: ' + col + ' - device: ' + name + ' - line: ' + line);
+
+      this.updateMethodStep(this.trayModule.data.find(({Step}) => Step === line));
+
+    },
+    cancel() {
+    },
+    open() {
+    },
+    close() {
+    },
+    /*------------------------------------------------------------------------
+     * Function used to load all modules names
+     * ------------------------------------------------------------------------*/
+    initializeModulesNames() {
+
+      this.trayModule.name = this.$store.state.trayModuleName;
+      this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
+      this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
+      this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
+      this.phMeterModule.name = this.$store.state.phMeterModuleName;
+    },
+
+    /*--------------------------------------------------------------------------
+     *  Redirection to another page
+     * -------------------------------------------------------------------------*/
+    redirectTo(route) {
+      this.$router.push({name: route});
+    },
+
+    /*------------------------------------------------------------------------
+   * Function used to extract Tray step data
+   * ------------------------------------------------------------------------*/
     saveCommentsStep() {
 
       let comment = {Comment: this.$refs.plateForm.comment};
@@ -561,6 +687,7 @@ export default {
     * Function used to extract phMeterModule step data
     * ------------------------------------------------------------------------*/
     savePhMeterStep() {
+
       let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
       this.$data.phMeterModule.data.push(phMeterStep);
     },
@@ -601,23 +728,21 @@ export default {
       let waitingConditionStep = '';
 
       if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
-
-        waitingConditionStep = {'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption};
-
-      } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
-
         waitingConditionStep = {
-          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': ' + this.$refs.plateForm.waitingCondition.timeoutValue
+          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption
         };
-
-      } else {
-
+      } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
         waitingConditionStep = {
-          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': ' + this.$refs.plateForm.waitingCondition.instrumentSelected
+          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': '
+              + this.$refs.plateForm.waitingCondition.timeoutValue
+        };
+      } else {
+        waitingConditionStep = {
+          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': '
+              + this.$refs.plateForm.waitingCondition.instrumentSelected
         };
 
       }
-
       this.waitingCondition.data.push(waitingConditionStep);
 
     },
@@ -641,67 +766,6 @@ export default {
       this.$data.dropDispenserModule.data.push(dropDispenserStep);
     },
 
-    /*------------------------------------------------------------------------
-    * Function used to save a method into the database
-    * ------------------------------------------------------------------------*/
-    SaveMethod() {
-      this.resetData();
-    },
-
-    /*------------------------------------------------------------------------
-     * Function to reset tables' data after it's been saved in database
-     * ------------------------------------------------------------------------*/
-    resetData() {
-      this.$data.trayModule.data = [];
-      this.$data.liquidDispenserModule.data = [];
-      this.$data.dropDispenserModule.data = [];
-      this.$data.tlcMigrationModule.data = [];
-      this.$data.commentModule.data = [];
-      this.waitingCondition = '';
-    },
-
-    save() {
-    },
-    cancel() {
-    },
-    open() {
-    },
-    close() {
-    },
-
-    /*------------------------------------------------------------------------
-     * Function to fetch current method name
-     * ------------------------------------------------------------------------*/
-    fetchMethodName() {
-      axios
-          .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
-          .then((response) => {
-            if (response.status === 200) {
-              this.currentMethod = response.data;
-            } else {
-              this.message = response.data.message;
-            }
-          });
-    },
-
-    /*------------------------------------------------------------------------
-     * Function used to load all modules names
-     * ------------------------------------------------------------------------*/
-    loadModulesNames() {
-
-      this.trayModule.name = this.$store.state.trayModuleName;
-      this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
-      this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
-      this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
-      this.phMeterModule.name = this.$store.state.phMeterModuleName;
-    },
-
-    /*--------------------------------------------------------------------------
-     *  Redirection to another page
-     * -------------------------------------------------------------------------*/
-    redirectTo(route) {
-      this.$router.push({name: route});
-    }
 
   }
 }
@@ -711,7 +775,7 @@ export default {
 <style scoped>
 
 
-.text-color {
+.module-title-color {
   color: dodgerblue;
 }
 
