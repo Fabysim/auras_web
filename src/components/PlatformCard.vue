@@ -43,7 +43,40 @@
                         :headers="dropDispenserModule.columns"
                         :items="dropDispenserModule.data"
                         :hide-default-footer="true"
-                    />
+                    >
+
+                      <template v-slot:[`item.stdValue`]="{ item }">
+                        <table>
+                          <tr>
+                            <td>
+                              <v-select
+                                  v-model="PSElement.selectedStdOption"
+                                  :items="item.stdValue"
+                              />
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td v-if="PSElement.StdPosition">
+                              <v-text-field
+                                  label="volume in µL"
+                                  v-model="PSElement.StdPositionValue"
+                              />
+                            </td>
+                            <td v-if="!PSElement.StdPosition">
+                              <v-select
+                                  required
+                                  label="choose instrument"
+                                  v-model="PSElement.StdStopContractor"
+                                  :items="instrumentsList"
+                              />
+                            </td>
+                          </tr>
+                        </table>
+
+                      </template>
+
+                    </v-data-table>
                   </v-card-text>
 
                 </v-card>
@@ -65,7 +98,8 @@
                     <template v-slot:[`item.SP1P`]="{ item }">
                       <table>
                         <tr>
-                          <td>
+                          <td
+                              class="text-center">
                             <v-select
                                 v-model="PSElement.selectedPS1Option"
                                 :items="item.SP1P"
@@ -279,15 +313,19 @@ export default {
       selectedPS1Option: 'Position',
       selectedPS2Option: 'Position',
       selectedPS3Option: 'Position',
+      selectedStdOption: 'Position',
       SP1Position: true,
       SP2Position: true,
       SP3Position: true,
+      StdPosition: true,
       SP1PositionValue: 0,
       SP2PositionValue: 0,
       SP3PositionValue: 0,
+      StdPositionValue: 0,
       SP1StopContractor: '',
       SP2StopContractor: '',
       SP3StopContractor: '',
+      StdStopContractor: '',
     },
 
     instrumentsList: [],
@@ -311,7 +349,7 @@ export default {
       name: '',
       columns: [
 
-        {text: 'Value', value: 'value1', align: 'start', width: 82},
+        {text: 'Value', value: 'value1', width: 82, align: 'center'},
       ],
       data: [
         {
@@ -324,7 +362,7 @@ export default {
       name: '',
       columns: [
 
-        {text: 'Syr', value: 'SyrValue', align: 'start', width: 82},
+        {text: 'Syr', value: 'SyrValue', width: 82, align: 'center'},
       ],
       data: [
         {
@@ -336,11 +374,11 @@ export default {
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Std', value: 'stdValue', width: 82},
+        {text: 'Standards', value: 'stdValue', width: 150, align: 'center'},
       ],
       data: [
         {
-          stdValue: 0,
+          stdValue: ['Position', 'Stopped by'],
         }
       ]
     },
@@ -348,23 +386,23 @@ export default {
     liquidDispenserModule: {
       name: '',
       columns: [
-        {text: "LDS1", value: "LDS1", width: 82},
-        {text: "LDS2", value: "LDS2", width: 82},
-        {text: "LDS3", value: "LDS3", width: 82},
-        {text: "LDS4", value: "LDS4", width: 82},
-        {text: "LDS5", value: "LDS5", width: 82},
-        {text: "LDS6", value: "LDS6", width: 82},
-        {text: "LDS7", value: "LDS7", width: 82},
-        {text: "LDS8", value: "LDS8", width: 82},
-        {text: "LDS9", value: "LDS9", width: 82},
-        {text: "SP1 Target", value: "SP1P", width: 150},
-        {text: "SP1 Speed", value: "SP1", width: 82},
-        {text: "SP2 Target", value: "SP2P", width: 150},
-        {text: "SP2 Speed", value: "SP2", width: 82},
-        {text: "SP3 Target", value: "SP3P", width: 150},
-        {text: "SP3 Speed", value: "SP3", width: 82},
-        {text: "Rotations pump", value: "PUMP1P", width: 82},
-        {text: "Speed pump (rpm)", value: "PUMP1S", width: 82},
+        {text: "LDS1", value: "LDS1", width: 82, align: 'center'},
+        {text: "LDS2", value: "LDS2", width: 82, align: 'center'},
+        {text: "LDS3", value: "LDS3", width: 82, align: 'center'},
+        {text: "LDS4", value: "LDS4", width: 82, align: 'center'},
+        {text: "LDS5", value: "LDS5", width: 82, align: 'center'},
+        {text: "LDS6", value: "LDS6", width: 82, align: 'center'},
+        {text: "LDS7", value: "LDS7", width: 82, align: 'center'},
+        {text: "LDS8", value: "LDS8", width: 82, align: 'center'},
+        {text: "LDS9", value: "LDS9", width: 82, align: 'center'},
+        {text: "SP1 Target", value: "SP1P", width: 150, align: 'center'},
+        {text: "SP1 Speed", value: "SP1", width: 150, align: 'center'},
+        {text: "SP2 Target", value: "SP2P", width: 150, align: 'center'},
+        {text: "SP2 Speed", value: "SP2", width: 150, align: 'center'},
+        {text: "SP3 Target", value: "SP3P", width: 150, align: 'center'},
+        {text: "SP3 Speed", value: "SP3", width: 150, align: 'center'},
+        {text: "Rotations pump", value: "PUMP1P", width: 150, align: 'center'},
+        {text: "Speed pump (rpm)", value: "PUMP1S", width: 150, align: 'center'},
       ],
       data: [
         {
@@ -392,34 +430,34 @@ export default {
     tlcModule: {
       name: '',
       columns: [
-        {text: 'Value1', value: 'Step1', width: 82},
-        {text: 'Value2', value: 'Step2', width: 82},
-        {text: 'Value3', value: 'Step3', width: 82},
-        {text: 'Value4', value: 'Step4', width: 82},
+        {text: 'Value1', value: 'Value1', width: 82, align: 'center'},
+        {text: 'Value2', value: 'Value2', width: 82, align: 'center'},
+        {text: 'Value3', value: 'Value3', width: 82, align: 'center'},
+        {text: 'Value4', value: 'Value4', width: 82, align: 'center'},
       ],
       data: [
         {
-          Step1: 0,
-          Step2: 0,
-          Step3: 0,
-          Step4: 0,
+          Value1: 0,
+          Value2: 0,
+          Value3: 0,
+          Value4: 0,
         }]
     },
 
     phMeterModule: {
       name: '',
       columns: [
-        {text: 'Value1', value: 'Step1', width: 82},
-        {text: 'Value2', value: 'Step2', width: 82},
-        {text: 'Value3', value: 'Step3', width: 82},
-        {text: 'Value4', value: 'Step4', width: 82},
+        {text: 'Value1', value: 'Value1', width: 82, align: 'center'},
+        {text: 'Value2', value: 'Value2', width: 82, align: 'center'},
+        {text: 'Value3', value: 'Value3', width: 82, align: 'center'},
+        {text: 'Value4', value: 'Value4', width: 82, align: 'center'},
       ],
       data: [
         {
-          Step1: 0,
-          Step2: 0,
-          Step3: 0,
-          Step4: 0,
+          Value1: 0,
+          Value2: 0,
+          Value3: 0,
+          Value4: 0,
         }]
     },
 
@@ -459,6 +497,9 @@ export default {
     },
     'PSElement.selectedPS3Option'() {
       this.PSElement.selectedPS3Option !== 'Position' ? this.PSElement.SP3Position = false : this.PSElement.SP3Position = true;
+    },
+    'PSElement.selectedStdOption'() {
+      this.PSElement.selectedStdOption !== 'Position' ? this.PSElement.StdPosition = false : this.PSElement.StdPosition = true;
     }
 
   },
@@ -468,11 +509,19 @@ export default {
     * Method to reset tables after a step is set
     * ------------------------------------------------------------------------*/
     resetPlatformTables() {
-      this.waitingCondition.timeoutValue = 0;
+      this.waitingCondition.timeoutValue =
+          this.PSElement.SP1PositionValue =
+              this.PSElement.SP2PositionValue =
+                  this.PSElement.SP3PositionValue =
+                      this.PSElement.StdPositionValue = 0;
+
+
       this.waitingCondition.selectedOption = 'None';
-      this.PSElement.selectedPS1Option = 'Position';
-      this.PSElement.selectedPS2Option = 'Position';
-      this.PSElement.selectedPS3Option = 'Position';
+      this.PSElement.selectedPS1Option =
+          this.PSElement.selectedPS2Option =
+              this.PSElement.selectedPS3Option =
+                  this.PSElement.selectedStdOption = 'Position';
+
       this.comment = '';
 
     },
@@ -547,6 +596,7 @@ export default {
     * ------------------------------------------------------------------------*/
     loadModulesNames() {
 
+      // Initialize names
       this.trayModule.name = this.$store.state.trayModuleName;
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
@@ -554,12 +604,16 @@ export default {
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
       this.ginaModule.name = this.$store.state.GinaModuleName;
 
-      this.PSElement.SP1StopContractor
-          = this.PSElement.SP2StopContractor
-          = this.PSElement.SP3StopContractor
-          = this.dropDispenserModule.name;
+      // Initialize all modules default instrument
+      this.PSElement.SP1StopContractor =
+          this.PSElement.SP2StopContractor =
+              this.PSElement.SP3StopContractor =
+                  this.PSElement.StdStopContractor = this.dropDispenserModule.name;
 
+      //Initialize default waitingCondition instrument
       this.waitingCondition.instrumentSelected = this.ginaModule.name;
+
+      // Initialize instruments list
       this.instrumentsList.push(
           this.trayModule.name,
           this.dropDispenserModule.name,
