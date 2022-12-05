@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <!--Actions-->
+    <!--Method actions-->
     <v-card>
       <v-card-title class="justify-center">
         Method: {{ currentMethod.name }}
@@ -51,15 +51,17 @@
                           :items="stepModule.data"
                           :hide-default-footer="true"
                           disable-pagination>
+
               <template v-slot:body="{ items, headers }">
                 <tbody v-if="items.length > 0">
                 <tr v-for="(item,idx) in items" :key="idx">
-                  <td v-for="(header,key) in headers" :key="key">
+                  <td v-for="(header,column) in headers" :key="column">
                     <v-edit-dialog
+                        large
                         :return-value.sync="item[header.value]"
-                        @save="updateLine(item[header.value], key, trayModule.name, idx)"
+                        @save="updateLine(item[header.value], column, stepModule.name, idx)"
                         @cancel="cancelLineUpdate"
-                        @open="open"
+                        @open="open(item[header.value], column, stepModule.name, idx)"
                         @close="close"
 
                     > {{ item[header.value] }}
@@ -103,12 +105,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, trayModule.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, trayModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -150,12 +152,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, dropDispenserModule.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, dropDispenserModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -195,12 +197,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -236,12 +238,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, tlcMigrationModule.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, tlcMigrationModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -278,12 +280,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -322,12 +324,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, waitingCondition.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, waitingCondition.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -364,12 +366,12 @@
                           <tbody v-if="items.length > 0">
                           <tr v-for="(item,idx) in items" :key="idx">
                             <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog
-                                  :return-value.sync="item[header.value]"
-                                  @save="updateLine(item[header.value], key, commentModule.name, idx)"
-                                  @cancel="cancelLineUpdate"
-                                  @open="open"
-                                  @close="close"
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, commentModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
@@ -397,7 +399,7 @@
           </vue-scroll-snap>
         </v-card>
 
-        <!--Actions-->
+        <!--Step actions-->
 
         <v-card elevation="0">
           <v-card-title class="justify-center module-title-color">{{ actionsModule.name }}</v-card-title>
@@ -458,7 +460,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="dialogDeleteSnackbar" :timeout="timeout">
+    <v-snackbar v-model="snackbar" :timeout="timeout">
       {{ message }}
     </v-snackbar>
 
@@ -487,7 +489,7 @@ export default {
     currentMethod: '',
     currentStep: 0,
     dialogDelete: false,
-    dialogDeleteSnackbar: false,
+    snackbar: false,
     deletedIndex: '',
     timeout: 1000,
     message: '',
@@ -497,9 +499,11 @@ export default {
     stepModule: {
       name: '',
       columns: [
-        {text: 'Step', value: 'Step', align: 'center', width: 82, sortable: true},
+        {text: 'Step', value: 'step', align: 'center', width: 82, sortable: true},
       ],
-      data: []
+      data: [],
+      oldValue: '',
+      newValue:''
     },
 
     actionsModule: {
@@ -664,9 +668,10 @@ export default {
 
     beforeDelete(index) {
 
-      this.dialogDelete= true;
+      this.dialogDelete = true;
       this.deletedIndex = index;
     },
+
     /*------------------------------------------------------------------------
     * Function create all method's data
     * ------------------------------------------------------------------------*/
@@ -684,7 +689,7 @@ export default {
 
       this.message = 'Step deleted';
       this.dialogDelete = false;
-      this.dialogDeleteSnackbar = true;
+      this.snackbar = true;
     },
 
     /*------------------------------------------------------------------------
@@ -746,6 +751,9 @@ export default {
     * ------------------------------------------------------------------------*/
     updateLine(value, col, name, line) {
 
+/*
+      let valid = false;*/
+
       switch (name) {
 
         case this.trayModule.name:
@@ -776,21 +784,52 @@ export default {
           this.updateMethodStep(this.commentModule.data[line], line);
           break;
 
+        case this.stepModule.name:
+
+           this.checkStepNumberValidity(value);
+         /* console.log(valid)
+          if (valid) {
+
+            this.updateMethodStep(this.stepModule.data[line], line);
+            console.log('here 3a')
+          } else {
+            console.log('here 3b')
+            console.log(this.stepModule.newValue)
+            this.stepModule.data[line].step = this.stepModule.oldValue;
+            console.log(this.stepModule.data[line].step)
+          }*/
+          break;
+
         default:
           break;
       }
 
 
     },
+    /*------------------------------------------------------------------------
+     * Function to check if the new step number is valid
+     * ------------------------------------------------------------------------*/
+    checkStepNumberValidity(lineNumber) {
+
+      return !(parseInt(lineNumber) < 0 || parseInt(lineNumber) > this.stepModule.data.length - 1);
+    },
 
     cancelLineUpdate() {
     },
 
-    open() {
+    open(value, col, name, line) {
+
+     this.stepModule.newValue = this.stepModule.data[line].step;
+
+      console.log('here 1')
+      if (name === this.stepModule.name)
+        this.stepModule.oldValue = this.stepModule.data[line].step;
+
     },
 
     close() {
     },
+
     /*------------------------------------------------------------------------
      * Function used to load all modules names
      * ------------------------------------------------------------------------*/
@@ -861,7 +900,7 @@ export default {
      * ------------------------------------------------------------------------*/
     getStepModuleLine() {
 
-      let step = {Step: JSON.parse(JSON.stringify(this.currentStep))};
+      let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
       this.$data.stepModule.data.push(step);
       let line = {line: JSON.parse(JSON.stringify(this.currentStep++))};
       this.$data.actionsModule.data.push(line);

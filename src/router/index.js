@@ -6,10 +6,10 @@ import PlayGround from "@/views/PlayGround";
 import IndexAuras from "@/views/Auras/IndexAurasView";
 import ConfigAurasView from "@/views/Auras/ConfigAurasView";
 import RunAurasView from "@/views/Auras/RunAurasView";
-import IndexDd from "@/views/DropDispenser/IndexDropDView";
-import DdConfigMethod from "@/views/DropDispenser/ConfigMethodDd";
-import DdUpdateMethod from "@/views/DropDispenser/UpdateMethodDd";
-import ViewMethodDd from "@/views/DropDispenser/ViewMethodDd";
+import IndexDd from "@/views/LiquidDispenser/IndexDropDView";
+import DdConfigMethod from "@/views/LiquidDispenser/ConfigMethodDd";
+import DdUpdateMethod from "@/views/LiquidDispenser/UpdateMethodDd";
+import ViewMethodDd from "@/views/LiquidDispenser/ViewMethodDd";
 
 
 Vue.use(VueRouter)

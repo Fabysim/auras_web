@@ -559,19 +559,19 @@ export default {
 
       switch (id) {
         case 'img-pinch1':
-          this.setStepValues(angle, 'S1');
+          this.setStepValues(angle, 'LDS1');
           break;
 
         case 'img-pinch2':
-          this.setStepValues(angle, 'S2');
+          this.setStepValues(angle, 'LDS2');
           break;
 
         case 'img-pinch3':
-          this.setStepValues(angle, 'S3');
+          this.setStepValues(angle, 'LDS3');
           break;
 
         case 'img-pinch4':
-          this.setStepValues(angle, 'S4');
+          this.setStepValues(angle, 'LDS4');
           break;
 
 
@@ -579,7 +579,7 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-    * DropDispenser: Method used to set each pinch valve value
+    * LiquidDispenser: Method used to set each pinch valve value
     * ------------------------------------------------------------------------*/
     setStepValues(angle, StepNr) {
 
