@@ -1,7 +1,7 @@
 <template>
   <div>
-
     <!--Method actions-->
+
     <v-card>
       <v-card-title class="justify-center">
         Method: {{ currentMethod.name }}
@@ -40,10 +40,11 @@
       </v-card-title>
 
       <!-- Method data -->
-      <vue-scroll-snap style="width:100%; overflow: hidden"
-                       :horizontal="true">
+
+      <vue-scroll-snap style="width:100%; overflow: hidden" :horizontal="true">
 
         <!--Steps -->
+
         <v-card elevation="0">
           <v-card-title class="justify-center module-title-color">{{ stepModule.name }}</v-card-title>
           <v-card-text>
@@ -132,96 +133,6 @@
                   </v-card>
                 </td>
 
-                <!--Liquid dispenser module-->
-
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color">
-                      <!--{{ dropDispenserModule.name }}-->
-                      DD
-                    </v-card-title>
-
-                    <v-card-text>
-                      <v-data-table
-                          :headers="dropDispenserModule.columns"
-                          :items="dropDispenserModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, dropDispenserModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open"
-                                             @close="close"
-
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <v-text-field
-                                      v-model="item[header.value]"
-                                      label="Edit"
-                                      single-line
-                                  ></v-text-field>
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table>
-                    </v-card-text>
-
-                  </v-card>
-                </td>
-
-                <!--Drop dispenser module-->
-
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
-                      {{ liquidDispenserModule.name }}
-                    </v-card-title>
-
-                    <v-card-text>
-                      <v-data-table
-                          :headers="liquidDispenserModule.columns"
-                          :items="liquidDispenserModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open"
-                                             @close="close"
-
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <v-text-field
-                                      v-model="item[header.value]"
-                                      label="Edit"
-                                      single-line
-                                  ></v-text-field>
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table>
-                    </v-card-text>
-                  </v-card>
-                </td>
-
                 <!--TLC Module-->
 
                 <td>
@@ -302,6 +213,96 @@
                         </template>
                       </v-data-table>
 
+                    </v-card-text>
+                  </v-card>
+                </td>
+
+                <!--Drop dispenser module-->
+
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color">
+                      <!--{{ dropDispenserModule.name }}-->
+                      DD
+                    </v-card-title>
+
+                    <v-card-text>
+                      <v-data-table
+                          :headers="dropDispenserModule.columns"
+                          :items="dropDispenserModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.Value], key, dropDispenserModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
+
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
+                    </v-card-text>
+
+                  </v-card>
+                </td>
+
+                <!--Liquid dispenser module-->
+
+                <td>
+                  <v-card>
+                    <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
+                      {{ liquidDispenserModule.name }}
+                    </v-card-title>
+
+                    <v-card-text>
+                      <v-data-table
+                          :headers="liquidDispenserModule.columns"
+                          :items="liquidDispenserModule.data"
+                          :hide-default-footer="true"
+                          disable-pagination
+                      >
+                        <template v-slot:body="{ items, headers }">
+                          <tbody v-if="items.length > 0">
+                          <tr v-for="(item,idx) in items" :key="idx">
+                            <td v-for="(header,key) in headers" :key="key">
+                              <v-edit-dialog large
+                                             :return-value.sync="item[header.value]"
+                                             @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
+                                             @cancel="cancelLineUpdate"
+                                             @open="open"
+                                             @close="close"
+
+                              > {{ item[header.value] }}
+                                <template v-slot:input>
+                                  <v-text-field
+                                      v-model="item[header.value]"
+                                      label="Edit"
+                                      single-line
+                                  ></v-text-field>
+                                </template>
+                              </v-edit-dialog>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
                     </v-card-text>
                   </v-card>
                 </td>
@@ -392,8 +393,6 @@
                     </v-card-text>
                   </v-card>
                 </td>
-
-
               </tr>
             </table>
           </vue-scroll-snap>
@@ -417,7 +416,7 @@
                         v-bind="attrs"
                         color="red"
                         min-width="150"
-                        @click="beforeDelete(item.line)"
+                        @click="beforeDelete(item.step)"
                     >
                       mdi-delete
                     </v-icon>
@@ -503,16 +502,7 @@ export default {
       ],
       data: [],
       oldValue: '',
-      newValue:''
-    },
-
-    actionsModule: {
-      name: '',
-      columns: [
-        {text: 'Actions', value: 'actions', align: 'center', width: 82, sortable: false},
-        {text: 'Line', value: 'line', align: ' d-none', width: 82, sortable: false},
-      ],
-      data: []
+      newValue: ''
     },
 
     trayModule: {
@@ -523,23 +513,26 @@ export default {
       data: []
     },
 
-    spModule: {
-      name: '',
-      columns: [
-
-        {text: 'Syr', value: 'syrValue', align: 'center', width: 82},
-      ],
-      data: [
-        {
-          StdValue: 0,
-        }
-      ]
-    },
-
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Standards', value: 'stdValue', width: 150, sortable: false, align: 'center'},
+        {text: 'Value', value: 'Value', width: 150, sortable: false, align: 'center'},
+      ],
+      data: []
+    },
+
+    tlcMigrationModule: {
+      name: '',
+      columns: [
+        {text: 'Position', value: 'position', width: 150, align: 'center'},
+      ],
+      data: []
+    },
+
+    phMeterModule: {
+      name: '',
+      columns: [
+        {text: 'Position', value: 'position', width: 100, align: 'center'},
       ],
       data: []
     },
@@ -568,33 +561,17 @@ export default {
       data: []
     },
 
-    tlcMigrationModule: {
-      name: '',
-      columns: [
-        {text: 'Value1', value: 'Value1', width: 82, sortable: false, align: 'center'},
-        {text: 'Value2', value: 'Value2', width: 82, sortable: false, align: 'center'},
-        {text: 'Value3', value: 'Value3', width: 82, sortable: false, align: 'center'},
-        {text: 'Value4', value: 'Value4', width: 82, sortable: false, align: 'center'},
-      ],
-      data: []
-    },
-
-    phMeterModule: {
-      name: '',
-      columns: [
-        {text: 'Value1', value: 'Value1', width: 82, sortable: false, align: 'center'},
-        {text: 'Value2', value: 'Value2', width: 82, sortable: false, align: 'center'},
-        {text: 'Value3', value: 'Value3', width: 82, sortable: false, align: 'center'},
-        {text: 'Value4', value: 'Value4', width: 82, sortable: false, align: 'center'},
-      ],
-      data: []
-    },
-
     commentModule: {
       name: '',
       columns: [
         {text: 'Comment', value: 'Comment', width: 120, sortable: false, align: 'center'},
       ],
+      data: []
+    },
+
+    waitingCondition: {
+      name: 'Waiting condition',
+      columns: [{text: 'Waiting condition', value: 'WaitingCondition', width: 160, sortable: false}],
       data: []
     },
 
@@ -606,12 +583,14 @@ export default {
       data: []
     },
 
-    waitingCondition: {
-      name: 'Waiting condition',
-      columns: [{text: 'Waiting condition', value: 'WaitingCondition', width: 160, sortable: false}],
+    actionsModule: {
+      name: '',
+      columns: [
+        {text: 'Actions', value: 'actions', align: 'center', width: 82, sortable: false},
+        {text: 'Step', value: 'step', align: ' d-none', width: 82, sortable: false},
+      ],
       data: []
     },
-
 
   }),
 
@@ -628,18 +607,19 @@ export default {
     * ------------------------------------------------------------------------*/
     async SaveLine() {
 
+      this.extractStepModuleLine();
       this.extractLiquidDispenserLine();
-      this.getTrayModuleLine();
+      this.extractTrayModuleLine();
       this.extractDropDispenserModuleLine();
-      this.getTlcMigrationModuleLine();
-      this.getPhMeterModuleLine();
-      this.getCommentModuleLine();
-      this.getWaitingConditionLine();
-      this.getStepModuleLine();
+      this.extractTlcMigrationModuleLine();
+      this.extractPhMeterModuleLine();
+      this.extractCommentModuleLine();
+      this.extractWaitingConditionLine();
 
       this.createMethodData();
       this.$refs.plateForm.resetPlatformTables();
 
+      this.currentStep++;
     },
 
     /*------------------------------------------------------------------------
@@ -751,9 +731,6 @@ export default {
     * ------------------------------------------------------------------------*/
     updateLine(value, col, name, line) {
 
-/*
-      let valid = false;*/
-
       switch (name) {
 
         case this.trayModule.name:
@@ -786,18 +763,18 @@ export default {
 
         case this.stepModule.name:
 
-           this.checkStepNumberValidity(value);
-         /* console.log(valid)
-          if (valid) {
+          this.checkStepNumberValidity(value);
+          /* console.log(valid)
+           if (valid) {
 
-            this.updateMethodStep(this.stepModule.data[line], line);
-            console.log('here 3a')
-          } else {
-            console.log('here 3b')
-            console.log(this.stepModule.newValue)
-            this.stepModule.data[line].step = this.stepModule.oldValue;
-            console.log(this.stepModule.data[line].step)
-          }*/
+             this.updateMethodStep(this.stepModule.data[line], line);
+             console.log('here 3a')
+           } else {
+             console.log('here 3b')
+             console.log(this.stepModule.newValue)
+             this.stepModule.data[line].step = this.stepModule.oldValue;
+             console.log(this.stepModule.data[line].step)
+           }*/
           break;
 
         default:
@@ -819,7 +796,7 @@ export default {
 
     open(value, col, name, line) {
 
-     this.stepModule.newValue = this.stepModule.data[line].step;
+      this.stepModule.newValue = this.stepModule.data[line].step;
 
       console.log('here 1')
       if (name === this.stepModule.name)
@@ -870,7 +847,7 @@ export default {
     /*------------------------------------------------------------------------
     * Function used to extract phMeterModule step data
     * ------------------------------------------------------------------------*/
-    getPhMeterModuleLine() {
+    extractPhMeterModuleLine() {
 
       let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
       this.$data.phMeterModule.data.push(phMeterStep);
@@ -880,7 +857,7 @@ export default {
     /*------------------------------------------------------------------------
     * Function used to extract tlcModule step data
     * ------------------------------------------------------------------------*/
-    getTlcMigrationModuleLine() {
+    extractTlcMigrationModuleLine() {
       let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcModule.data[0]));
       this.$data.tlcMigrationModule.data.push(tlcMMStep);
     },
@@ -888,7 +865,7 @@ export default {
     /*------------------------------------------------------------------------
      * Function used to extract trayModule step data
      * ------------------------------------------------------------------------*/
-    getTrayModuleLine() {
+    extractTrayModuleLine() {
 
       let trayModuleStep = JSON.parse(JSON.stringify(this.$refs.plateForm.trayModule.data[0]));
       this.$data.trayModule.data.push(trayModuleStep);
@@ -898,18 +875,18 @@ export default {
     /*-------------------------------------------------------------------------
      * Function to create the method steps
      * ------------------------------------------------------------------------*/
-    getStepModuleLine() {
+    extractStepModuleLine() {
 
       let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
       this.$data.stepModule.data.push(step);
-      let line = {line: JSON.parse(JSON.stringify(this.currentStep++))};
+      let line = {line: JSON.parse(JSON.stringify(this.currentStep))};
       this.$data.actionsModule.data.push(line);
 
     },
     /*------------------------------------------------------------------------
  * Function used to extract Tray step data
  * ------------------------------------------------------------------------*/
-    getCommentModuleLine() {
+    extractCommentModuleLine() {
 
       let comment = {Comment: this.$refs.plateForm.comment};
       this.$data.commentModule.data.push(comment);
@@ -919,7 +896,7 @@ export default {
     /*------------------------------------------------------------------------
     * Function used to extract waiting condition step data
     * ------------------------------------------------------------------------*/
-    getWaitingConditionLine() {
+    extractWaitingConditionLine() {
 
       let waitingConditionStep = '';
 
@@ -942,6 +919,7 @@ export default {
       this.waitingCondition.data.push(waitingConditionStep);
 
     },
+
     /*------------------------------------------------------------------------
      * Function used to extract dropDispenserModule step data
      * ------------------------------------------------------------------------*/
@@ -949,15 +927,15 @@ export default {
 
       let LiquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
 
-      if (this.$refs.plateForm.PSElement.SP1Position === true)
-        LiquidDispenserStep.SP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP1PositionValue));
+      if (this.$refs.plateForm.SPElements.LdSp1PositionMode === true)
+        LiquidDispenserStep.SP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp1PositionValue));
       else
-        LiquidDispenserStep.SP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP1StopContractor));
+        LiquidDispenserStep.SP1P = -1;
 
-      if (this.$refs.plateForm.PSElement.SP2Position === true)
-        LiquidDispenserStep.SP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP2PositionValue));
+      if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true)
+        LiquidDispenserStep.SP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp2PositionValue));
       else
-        LiquidDispenserStep.SP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.SP2StopContractor));
+        LiquidDispenserStep.SP2P = -1;
 
       this.$data.liquidDispenserModule.data.push(LiquidDispenserStep);
     },
@@ -969,13 +947,10 @@ export default {
 
       let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
 
-      if (this.$refs.plateForm.PSElement.StdPosition === true)
-        dropDispenserStep.stdValue = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.StdPositionValue));
-      else
-        dropDispenserStep.stdValue = JSON.parse(JSON.stringify(this.$refs.plateForm.PSElement.StdStopContractor));
-
+      dropDispenserStep.Type = this.$refs.plateForm.SPElements.selectedSpDdOption;
+      dropDispenserStep.Step = JSON.parse(JSON.stringify(this.currentStep));
+      console.log(dropDispenserStep);
       this.$data.dropDispenserModule.data.push(dropDispenserStep);
-
     },
   }
 }

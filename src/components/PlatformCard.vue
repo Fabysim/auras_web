@@ -31,169 +31,8 @@
                 </v-card>
               </td>
 
-              <!-- Drop Dispenser -->
-              <td>
-                <v-card height="265">
-                  <v-card-title class="justify-center module-title-color">
-                    <!--{{ dropDispenserModule.name }}-->
-                    DD
-                  </v-card-title>
-                  <v-card-text class="justify-center">
-                    <v-data-table
-                        :headers="dropDispenserModule.columns"
-                        :items="dropDispenserModule.data"
-                        :hide-default-footer="true"
-                    >
-
-                      <template v-slot:[`item.stdValue`]="{ item }">
-                        <table>
-                          <tr>
-                            <td>
-                              <v-select
-                                  v-model="PSElement.selectedStdOption"
-                                  :items="item.stdValue"
-                              />
-
-                            </td>
-                          </tr>
-                          <tr>
-                            <td v-if="PSElement.StdPosition">
-                              <v-text-field
-                                  label="volume in µL"
-                                  v-model="PSElement.StdPositionValue"
-                              />
-                            </td>
-                            <td v-if="!PSElement.StdPosition">
-                              <v-select
-                                  required
-                                  label="choose instrument"
-                                  v-model="PSElement.StdStopContractor"
-                                  :items="instrumentsList"
-                              />
-                            </td>
-                          </tr>
-                        </table>
-
-                      </template>
-
-                    </v-data-table>
-                  </v-card-text>
-
-                </v-card>
-              </td>
-
-              <!-- Liquid Dispenser -->
-              <td>
-                <v-card height="265">
-                  <v-card-title class="justify-center module-title-color">{{
-                      liquidDispenserModule.name
-                    }}
-                  </v-card-title>
-                  <v-data-table
-                      :headers="liquidDispenserModule.columns"
-                      :items="liquidDispenserModule.data"
-                      :hide-default-footer="true"
-
-                  >
-                    <template v-slot:[`item.SP1P`]="{ item }">
-                      <table>
-                        <tr>
-                          <td
-                              class="text-center">
-                            <v-select
-                                v-model="PSElement.selectedPS1Option"
-                                :items="item.SP1P"
-                            />
-
-                          </td>
-                        </tr>
-                        <tr>
-                          <td v-if="PSElement.SP1Position">
-                            <v-text-field
-                                label="volume in µL"
-                                v-model="PSElement.SP1PositionValue"
-                            />
-                          </td>
-                          <td v-if="!PSElement.SP1Position">
-                            <v-select
-                                required
-                                label="choose instrument"
-                                v-model="PSElement.SP1StopContractor"
-                                :items="instrumentsList"
-                            />
-
-                          </td>
-                        </tr>
-                      </table>
-                    </template>
-
-                    <template v-slot:[`item.SP2P`]="{ item }">
-                      <table>
-                        <tr>
-                          <td>
-                            <v-select
-                                v-model="PSElement.selectedPS2Option"
-                                :items="item.SP2P"
-                            />
-
-                          </td>
-                        </tr>
-                        <tr>
-                          <td v-if="PSElement.SP2Position">
-                            <v-text-field
-                                label="volume in µL"
-                                v-model="PSElement.SP2PositionValue"
-                            />
-                          </td>
-                          <td v-if="!PSElement.SP2Position">
-                            <v-select
-                                required
-                                label="choose instrument"
-                                v-model="PSElement.SP2StopContractor"
-                                :items="instrumentsList"
-                            />
-                          </td>
-                        </tr>
-                      </table>
-
-                    </template>
-
-                    <template v-slot:[`item.SP3P`]="{ item }">
-                      <table>
-                        <tr>
-                          <td>
-                            <v-select
-                                v-model="PSElement.selectedPS3Option"
-                                :items="item.SP3P"
-                            />
-
-                          </td>
-                        </tr>
-                        <tr>
-                          <td v-if="PSElement.SP3Position">
-                            <v-text-field
-                                label="volume in µL"
-                                v-model="PSElement.SP3PositionValue"
-                            />
-                          </td>
-                          <td v-if="!PSElement.SP3Position">
-                            <v-select
-                                required
-                                label="choose instrument"
-                                v-model="PSElement.SP3StopContractor"
-                                :items="instrumentsList"
-                            />
-                          </td>
-                        </tr>
-                      </table>
-
-                    </template>
-
-                  </v-data-table>
-                </v-card>
-              </td>
-
               <!-- TLC Migration Module -->
+
               <td>
                 <v-card height="265">
                   <v-card-title class="justify-center module-title-color">{{ tlcModule.name }}</v-card-title>
@@ -206,6 +45,7 @@
               </td>
 
               <!-- PH Meter -->
+
               <td>
                 <v-card height="265">
                   <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
@@ -217,7 +57,140 @@
                 </v-card>
               </td>
 
+              <!-- Drop Dispenser -->
+
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">
+                    <!--{{ dropDispenserModule.name }}-->
+                    DD
+                  </v-card-title>
+                  <v-card-text class="justify-center">
+                    <v-data-table
+                        :headers="dropDispenserModule.columns"
+                        :items="dropDispenserModule.data"
+                        :hide-default-footer="true"
+                    >
+                      <template v-slot:[`item.Value`]="{ item }">
+                        <table>
+                          <tr>
+                            <td>
+                              <v-select
+                                  v-model="SPElements.selectedSpDdOption"
+                                  :items="SPElements.options"
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <v-select
+                                  v-model="SPElements.selectedSpDdSubOption"
+                                  :items="SPElements.subOptions"
+                              />
+                            </td>
+                            <td v-if="SPElements.DdSpPositionMode">
+                              <v-text-field
+                                  label="µL"
+                                  v-model.number="item.Value"
+                              />
+                            </td>
+                          </tr>
+                        </table>
+
+                      </template>
+
+                    </v-data-table>
+                  </v-card-text>
+                </v-card>
+              </td>
+
+              <!-- Liquid Dispenser -->
+
+              <td>
+                <v-card height="265">
+                  <v-card-title class="justify-center module-title-color">
+                    {{ liquidDispenserModule.name }}
+                  </v-card-title>
+                  <v-data-table
+                      :headers="liquidDispenserModule.columns"
+                      :items="liquidDispenserModule.data"
+                      :hide-default-footer="true"
+                  >
+                    <template v-slot:[`item.SP1P`]="{ item }">
+                      <table>
+                        <tr>
+                          <td class="text-center">
+                            <v-select
+                                v-model="SPElements.selectedSpLd1Option"
+                                :items="item.SP1P"
+                            />
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td v-if="SPElements.LdSp1PositionMode">
+                            <v-text-field
+                                label="volume in µL"
+                                v-model="SPElements.LdSp1PositionValue"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+                    </template>
+
+                    <template v-slot:[`item.SP2P`]="{ item }">
+                      <table>
+                        <tr>
+                          <td>
+                            <v-select
+                                v-model="SPElements.selectedSpLd2Option"
+                                :items="item.SP2P"
+                            />
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td v-if="SPElements.LdSp2PositionMode">
+                            <v-text-field
+                                label="volume in µL"
+                                v-model="SPElements.LdSp2PositionValue"
+                            />
+                          </td>
+                        </tr>
+                      </table>
+
+                    </template>
+
+                    <template v-slot:[`item.SP3P`]="{ item }">
+                      <table>
+                        <tr>
+                          <td>
+                            <v-select
+                                v-model="SPElements.selectedSpLd3Option"
+                                :items="item.SP3P"
+                            />
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td v-if="SPElements.LdSp3PositionMode">
+                            <v-text-field
+                                label="volume in µL"
+                                v-model="SPElements.LdSp3PositionValue"
+                            />
+                          </td>
+
+                        </tr>
+                      </table>
+
+                    </template>
+
+                  </v-data-table>
+                </v-card>
+              </td>
+
               <!--Waiting condition-->
+
               <td>
                 <v-card height="265" width="230" style="padding: 20px">
                   <v-card-title class="justify-center module-title-color"> Waiting condition</v-card-title>
@@ -253,6 +226,7 @@
               </td>
 
               <!-- Comments -->
+
               <td>
                 <v-card height="265" width="230" style="padding: 20px">
                   <v-card-title class="justify-center module-title-color"> Comment</v-card-title>
@@ -309,39 +283,25 @@ export default {
 
     //PS selection
 
-    PSElement: {
-      selectedPS1Option: 'Position',
-      selectedPS2Option: 'Position',
-      selectedPS3Option: 'Position',
-      selectedStdOption: 'Position',
-      SP1Position: true,
-      SP2Position: true,
-      SP3Position: true,
-      StdPosition: true,
-      SP1PositionValue: 0,
-      SP2PositionValue: 0,
-      SP3PositionValue: 0,
-      StdPositionValue: 0,
-      SP1StopContractor: '',
-      SP2StopContractor: '',
-      SP3StopContractor: '',
-      StdStopContractor: '',
+    SPElements: {
+      selectedSpLd1Option: 'Position',
+      selectedSpLd2Option: 'Position',
+      selectedSpLd3Option: 'Position',
+      selectedSpDdOption: 'Standards',
+      selectedSpDdSubOption: 'Position',
+      LdSp1PositionMode: true,
+      LdSp2PositionMode: true,
+      LdSp3PositionMode: true,
+      DdSpPositionMode: true,
+      LdSp1PositionValue: 0,
+      LdSp2PositionValue: 0,
+      LdSp3PositionValue: 0,
+      DdSpPositionValue: 0,
+      options: ['Standards', 'QC sample'],
+      subOptions: ['Position', 'Drop detected']
     },
 
     instrumentsList: [],
-
-
-    //Waiting Condition
-
-    waitingCondition: {
-      items: ['None', 'Instrument', 'Timeout'],
-      selectedOption: 'None',
-      noItemSelected: true,
-      instrumentOptionSelected: false,
-      timeoutOptionSelected: false,
-      timeoutValue: 0,
-      instrumentSelected: '',
-    },
 
     //Modules
 
@@ -358,29 +318,41 @@ export default {
       ]
     },
 
-    spModule: {
-      name: '',
-      columns: [
-
-        {text: 'Syr', value: 'SyrValue', width: 82, align: 'center'},
-      ],
-      data: [
-        {
-          StdValue: 0,
-        }
-      ]
-    },
-
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Standards', value: 'stdValue', width: 150, align: 'center'},
+        {text: 'Value', value: 'Value', width: 250, align: 'center'},
       ],
       data: [
         {
-          stdValue: ['Position', 'Stopped by'],
-        }
+          Value: 0,
+          Type: '',
+          Step: ''
+        },
       ]
+    },
+
+    tlcModule: {
+      name: '',
+      columns: [
+        {text: 'Position', value: 'position', width: 170, align: 'center'},
+      ],
+      data: [
+        {
+          position: 0,
+        }]
+    },
+
+    phMeterModule: {
+      name: '',
+      columns: [
+        {text: 'Position', value: 'position', width: 150, align: 'center'},
+
+      ],
+      data: [
+        {
+          position: 0
+        }]
     },
 
     liquidDispenserModule: {
@@ -415,11 +387,11 @@ export default {
           LDS7: 0,
           LDS8: 0,
           LDS9: 0,
-          SP1P: ['Position', 'Stopped by'],
+          SP1P: ['Position', 'Drop detected'],
           SP1: 0,
-          SP2P: ['Position', 'Stopped by'],
+          SP2P: ['Position', 'Drop detected'],
           SP2: 0,
-          SP3P: ['Position', 'Stopped by'],
+          SP3P: ['Position', 'Drop detected'],
           SP3: 0,
           PUMP1P: 0,
           PUMP1S: 0
@@ -427,44 +399,22 @@ export default {
       ]
     },
 
-    tlcModule: {
-      name: '',
-      columns: [
-        {text: 'Value1', value: 'Value1', width: 82, align: 'center'},
-        {text: 'Value2', value: 'Value2', width: 82, align: 'center'},
-        {text: 'Value3', value: 'Value3', width: 82, align: 'center'},
-        {text: 'Value4', value: 'Value4', width: 82, align: 'center'},
-      ],
-      data: [
-        {
-          Value1: 0,
-          Value2: 0,
-          Value3: 0,
-          Value4: 0,
-        }]
-    },
-
-    phMeterModule: {
-      name: '',
-      columns: [
-        {text: 'Value1', value: 'Value1', width: 82, align: 'center'},
-        {text: 'Value2', value: 'Value2', width: 82, align: 'center'},
-        {text: 'Value3', value: 'Value3', width: 82, align: 'center'},
-        {text: 'Value4', value: 'Value4', width: 82, align: 'center'},
-      ],
-      data: [
-        {
-          Value1: 0,
-          Value2: 0,
-          Value3: 0,
-          Value4: 0,
-        }]
-    },
-
     ginaModule: {
       name: '',
       columns: [],
       data: []
+    },
+
+    //Waiting Condition
+
+    waitingCondition: {
+      items: ['None', 'Instrument', 'Timeout'],
+      selectedOption: 'None',
+      noItemSelected: true,
+      instrumentOptionSelected: false,
+      timeoutOptionSelected: false,
+      timeoutValue: 0,
+      instrumentSelected: '',
     },
 
     // Comments
@@ -475,7 +425,7 @@ export default {
   }),
 
   mounted() {
-    this.loadModulesNames();
+    this.initialization();
   },
 
   watch: {
@@ -488,18 +438,20 @@ export default {
       this.waitingCondition.selectedOption === 'Timeout' ? this.waitingCondition.timeoutOptionSelected = true : this.waitingCondition.timeoutOptionSelected = false;
     },
 
-    'PSElement.selectedPS1Option'() {
-      this.PSElement.selectedPS1Option !== 'Position' ? this.PSElement.SP1Position = false : this.PSElement.SP1Position = true;
+    'SPElements.selectedSpLd1Option'() {
+      this.SPElements.selectedSpLd1Option !== 'Position' ? this.SPElements.LdSp1PositionMode = false : this.SPElements.LdSp1PositionMode = true;
 
     },
-    'PSElement.selectedPS2Option'() {
-      this.PSElement.selectedPS2Option !== 'Position' ? this.PSElement.SP2Position = false : this.PSElement.SP2Position = true;
+    'SPElements.selectedSpLd2Option'() {
+      this.SPElements.selectedSpLd2Option !== 'Position' ? this.SPElements.LdSp2PositionMode = false : this.SPElements.LdSp2PositionMode = true;
     },
-    'PSElement.selectedPS3Option'() {
-      this.PSElement.selectedPS3Option !== 'Position' ? this.PSElement.SP3Position = false : this.PSElement.SP3Position = true;
+    'SPElements.selectedSpLd3Option'() {
+      this.SPElements.selectedSpLd3Option !== 'Position' ? this.SPElements.LdSp3PositionMode = false : this.SPElements.LdSp3PositionMode = true;
     },
-    'PSElement.selectedStdOption'() {
-      this.PSElement.selectedStdOption !== 'Position' ? this.PSElement.StdPosition = false : this.PSElement.StdPosition = true;
+    'SPElements.selectedSpDdSubOption'() {
+      this.SPElements.selectedSpDdSubOption !== 'Position' ? this.SPElements.DdSpPositionMode = false : this.SPElements.DdSpPositionMode = true;
+      this.SPElements.selectedSpDdSubOption !== 'Position' ? this.dropDispenserModule.data[0].Value = -1 : this.dropDispenserModule.data[0].Value = 0;
+
     }
 
   },
@@ -510,17 +462,18 @@ export default {
     * ------------------------------------------------------------------------*/
     resetPlatformTables() {
       this.waitingCondition.timeoutValue =
-          this.PSElement.SP1PositionValue =
-              this.PSElement.SP2PositionValue =
-                  this.PSElement.SP3PositionValue =
-                      this.PSElement.StdPositionValue = 0;
+          this.SPElements.LdSp1PositionValue =
+              this.SPElements.LdSp2PositionValue =
+                  this.SPElements.LdSp3PositionValue =
+                      this.SPElements.DdSpPositionValue = 0;
 
 
       this.waitingCondition.selectedOption = 'None';
-      this.PSElement.selectedPS1Option =
-          this.PSElement.selectedPS2Option =
-              this.PSElement.selectedPS3Option =
-                  this.PSElement.selectedStdOption = 'Position';
+      this.SPElements.selectedSpLd1Option =
+          this.SPElements.selectedSpLd2Option =
+              this.SPElements.selectedSpLd3Option = 'Position';
+
+      this.SPElements.selectedSpDdOption = 'Standards';
 
       this.comment = '';
 
@@ -594,7 +547,7 @@ export default {
     /*------------------------------------------------------------------------
     * Method used to load modules names
     * ------------------------------------------------------------------------*/
-    loadModulesNames() {
+    initialization() {
 
       // Initialize names
       this.trayModule.name = this.$store.state.trayModuleName;
@@ -605,10 +558,10 @@ export default {
       this.ginaModule.name = this.$store.state.GinaModuleName;
 
       // Initialize all modules default instrument
-      this.PSElement.SP1StopContractor =
-          this.PSElement.SP2StopContractor =
-              this.PSElement.SP3StopContractor =
-                  this.PSElement.StdStopContractor = this.dropDispenserModule.name;
+      this.SPElements.SP1StopContractor =
+          this.SPElements.SP2StopContractor =
+              this.SPElements.SP3StopContractor =
+                  this.SPElements.StdStopContractor = this.dropDispenserModule.name;
 
       //Initialize default waitingCondition instrument
       this.waitingCondition.instrumentSelected = this.ginaModule.name;
