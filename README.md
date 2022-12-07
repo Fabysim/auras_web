@@ -101,5 +101,10 @@ npm install vue-scroll-snap --save
 vue create project_name
 ```
 
+### Linq
+```
+npm i linq-to-typescript
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

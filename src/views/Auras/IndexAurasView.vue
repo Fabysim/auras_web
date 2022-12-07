@@ -128,7 +128,7 @@
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="DeleteConfirmation(item.id)"
+                   @click="deleteConfirmation(item.id)"
             >
               <v-icon small>
                 mdi-delete
@@ -247,12 +247,7 @@ export default {
       {text: 'Configuration', value: 'config', sortable: false, width: '5%'},
       {text: 'Run', value: 'run', sortable: false, width: '10%'},
     ],
-    methods: [{
-      name: '',
-      date: '',
-      actions: '',
-      config: ''
-    }],
+    methods: [],
     editedIndex: -1,
 
     editedItem: {
@@ -390,7 +385,7 @@ export default {
     /*--------------------------------------------------------------------------
      * Delete confirmation
      * -------------------------------------------------------------------------*/
-    DeleteConfirmation(idMethod) {
+    deleteConfirmation(idMethod) {
       this.dialogDelete = true;
       this.deletedMethodId = idMethod;
     },

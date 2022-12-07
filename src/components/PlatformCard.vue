@@ -309,11 +309,12 @@ export default {
       name: '',
       columns: [
 
-        {text: 'Value', value: 'value1', width: 82, align: 'center'},
+        {text: 'Value', value: 'Value', width: 82, align: 'center'},
       ],
       data: [
         {
-          value1: 0,
+          Value: 0,
+          Step: ''
         }
       ]
     },
@@ -335,11 +336,12 @@ export default {
     tlcModule: {
       name: '',
       columns: [
-        {text: 'Position', value: 'position', width: 170, align: 'center'},
+        {text: 'Position', value: 'Position', width: 170, align: 'center'},
       ],
       data: [
         {
-          position: 0,
+          Position: 0,
+          Step: ''
         }]
     },
 
@@ -351,7 +353,8 @@ export default {
       ],
       data: [
         {
-          position: 0
+          position: 0,
+          Step: ''
         }]
     },
 
@@ -394,15 +397,10 @@ export default {
           SP3P: ['Position', 'Drop detected'],
           SP3: 0,
           PUMP1P: 0,
-          PUMP1S: 0
+          PUMP1S: 0,
+          Step: ''
         }
       ]
-    },
-
-    ginaModule: {
-      name: '',
-      columns: [],
-      data: []
     },
 
     //Waiting Condition
@@ -415,11 +413,33 @@ export default {
       timeoutOptionSelected: false,
       timeoutValue: 0,
       instrumentSelected: '',
+      data: [
+        {
+          Type: '',
+          Value: 0,
+          Step: ''
+        }
+      ],
     },
 
     // Comments
 
     comment: '',
+
+    // Other Modules
+
+    ginaModule: {
+      name: '',
+      columns: [],
+      data: []
+    },
+
+    aurasModule: {
+      name: '',
+      columns: [],
+      data: []
+    },
+
 
 
   }),
@@ -555,7 +575,8 @@ export default {
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.tlcModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
-      this.ginaModule.name = this.$store.state.GinaModuleName;
+      this.ginaModule.name = this.$store.state.ginaModuleName;
+      this.aurasModule.name = this.$store.state.aurasModuleName;
 
       // Initialize all modules default instrument
       this.SPElements.SP1StopContractor =
@@ -568,12 +589,8 @@ export default {
 
       // Initialize instruments list
       this.instrumentsList.push(
-          this.trayModule.name,
-          this.dropDispenserModule.name,
-          this.liquidDispenserModule.name,
-          this.tlcModule.name,
-          this.phMeterModule.name,
-          this.ginaModule.name
+          this.ginaModule.name,
+          this.aurasModule.name
       );
     }
   }

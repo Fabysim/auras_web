@@ -32,11 +32,6 @@
           </v-tooltip>
         </download-excel>
 
-        <v-spacer/>
-        <v-btn style="background-color: dodgerblue; color: white;"
-               @click="saveMethod">
-          Save Method
-        </v-btn>
       </v-card-title>
 
       <!-- Method data -->
@@ -416,7 +411,7 @@
                         v-bind="attrs"
                         color="red"
                         min-width="150"
-                        @click="beforeDelete(item.step)"
+                        @click="confirmDelete(item.step)"
                     >
                       mdi-delete
                     </v-icon>
@@ -460,7 +455,7 @@
       </v-card>
     </v-dialog>
     <v-snackbar v-model="snackbar" :timeout="timeout">
-      {{ message }}
+      {{ displayedMessage }}
     </v-snackbar>
 
   </div>
@@ -486,12 +481,13 @@ export default {
     lineNumber: 0,
     downloadedData: [],
     currentMethod: '',
+    modulesList: [],
     currentStep: 0,
     dialogDelete: false,
     snackbar: false,
     deletedIndex: '',
     timeout: 1000,
-    message: '',
+    displayedMessage: '',
 
     //Modules variables
 
@@ -508,7 +504,7 @@ export default {
     trayModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'value1', width: 82, sortable: false}
+        {text: 'Value', value: 'Value', width: 82, sortable: false}
       ],
       data: []
     },
@@ -524,7 +520,7 @@ export default {
     tlcMigrationModule: {
       name: '',
       columns: [
-        {text: 'Position', value: 'position', width: 150, align: 'center'},
+        {text: 'Position', value: 'Position', width: 150, align: 'center'},
       ],
       data: []
     },
@@ -571,7 +567,7 @@ export default {
 
     waitingCondition: {
       name: 'Waiting condition',
-      columns: [{text: 'Waiting condition', value: 'WaitingCondition', width: 160, sortable: false}],
+      columns: [{text: 'Waiting condition', value: 'DisplayedInfo', width: 160, sortable: false}],
       data: []
     },
 
@@ -596,7 +592,8 @@ export default {
 
   mounted() {
     this.initializeModulesNames();
-    this.fetchMethodName();
+    this.fetchMethod();
+    this.fetchModules();
 
   },
 
@@ -608,52 +605,30 @@ export default {
     async SaveLine() {
 
       this.extractStepModuleLine();
-      this.extractLiquidDispenserLine();
-      this.extractTrayModuleLine();
-      this.extractDropDispenserModuleLine();
-      this.extractTlcMigrationModuleLine();
-      this.extractPhMeterModuleLine();
-      this.extractCommentModuleLine();
-      this.extractWaitingConditionLine();
+      this.saveTrayModuleLine();
+      this.saveLiquidDispenserLine();
+      this.saveDropDispenserModuleLine();
+      this.saveTlcMigrationModuleLine();
+      this.savePhMeterModuleLine();
+      this.saveCommentModuleLine();
+      this.saveWaitingConditionLine();
 
-      this.createMethodData();
       this.$refs.plateForm.resetPlatformTables();
 
       this.currentStep++;
     },
 
     /*------------------------------------------------------------------------
-    * Function create all method's data
+    * Function to confirm the deletion of a step of current method
     * ------------------------------------------------------------------------*/
-    createMethodData() {
-
-      let methodStep = this.getSingleMethodLine();
-
-      if (this.currentMethod.data === undefined) {
-
-        this.$data.currentMethod.data = [];
-        for (let i = 0; i < methodStep.length; i++) {
-          let objectLength = Object.keys(methodStep[i]).length;
-
-          this.$data.currentMethod.data[i] = new Array(objectLength);
-          this.$data.currentMethod.data[i].push(methodStep[i]);
-        }
-
-      } else {
-        for (let i = 0; i < this.currentMethod.data.length; i++)
-          this.$data.currentMethod.data[i].push(methodStep[i]);
-      }
-
-    },
-
-    beforeDelete(index) {
+    confirmDelete(index) {
 
       this.dialogDelete = true;
       this.deletedIndex = index;
     },
 
     /*------------------------------------------------------------------------
-    * Function create all method's data
+    * Function to delete a step of current method
     * ------------------------------------------------------------------------*/
     async deleteStep(index) {
 
@@ -667,45 +642,38 @@ export default {
       this.actionsModule.data.splice(index, 1);
       this.commentModule.data.splice(index, 1);
 
-      this.message = 'Step deleted';
+      this.displayedMessage = 'Step deleted';
       this.dialogDelete = false;
       this.snackbar = true;
     },
 
-    /*------------------------------------------------------------------------
-    * Function used to save a method into the database
-    * ------------------------------------------------------------------------*/
-    saveMethod() {
-
-      this.postMethod();
-      this.resetData();
-
-    },
 
     /*------------------------------------------------------------------------
-    * Function to concatenate all modules' data
-    * ------------------------------------------------------------------------*/
-    getSingleMethodLine() {
-      return this.trayModule.data.concat(
-          this.dropDispenserModule.data,
-          this.liquidDispenserModule.data,
-          this.tlcMigrationModule.data,
-          this.phMeterModule.data,
-          this.waitingCondition.data,
-          this.$data.commentModule.data);
-    },
-
-    /*------------------------------------------------------------------------
-     * Function to fetch current method name
+     * Function to fetch current method data
      * ------------------------------------------------------------------------*/
-    fetchMethodName() {
+    fetchMethod() {
+
       axios
           .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
           .then((response) => {
             if (response.status === 200) {
               this.currentMethod = response.data;
             } else {
-              this.message = response.data.message;
+              this.displayedMessage = response.data.message;
+            }
+          });
+    },
+    /*------------------------------------------------------------------------
+     * Function to fetch all modules data
+     * ------------------------------------------------------------------------*/
+    fetchModules() {
+      axios
+          .get('http://' + this.$aurasApi + 'api/Modules')
+          .then((response) => {
+            if (response.status === 200) {
+              this.modulesList = response.data;
+            } else {
+              this.displayedMessage = response.data.message;
             }
           });
     },
@@ -713,7 +681,29 @@ export default {
     /*------------------------------------------------------------------------
     * Function to send method's line to database
     * ------------------------------------------------------------------------*/
-    postMethod() {
+    postStep(data, name) {
+/*
+
+      console.log(data)
+      console.log(name)
+*/
+
+       let url = name.replace(/ +/g, "") + 's';
+
+     axios.post('http://' + this.$aurasApi + "api/" + url, data)
+           .then(
+               (response) => {
+
+                 if (response.status === 201) {
+
+                   this.displayedMessage = "Step created correctly";
+                 } else {
+
+                   this.displayedMessage = "Could not create the step";
+                 }
+               });
+
+      this.snackbar = true;
 
     },
 
@@ -783,6 +773,7 @@ export default {
 
 
     },
+
     /*------------------------------------------------------------------------
      * Function to check if the new step number is valid
      * ------------------------------------------------------------------------*/
@@ -794,8 +785,10 @@ export default {
     cancelLineUpdate() {
     },
 
+    /*------------------------------------------------------------------------
+     * Function called when one edits a line
+     * ------------------------------------------------------------------------*/
     open(value, col, name, line) {
-
       this.stepModule.newValue = this.stepModule.data[line].step;
 
       console.log('here 1')
@@ -804,6 +797,9 @@ export default {
 
     },
 
+    /*------------------------------------------------------------------------
+     * Function called when one closes the edit line
+     * ------------------------------------------------------------------------*/
     close() {
     },
 
@@ -821,55 +817,12 @@ export default {
       this.actionsModule.name = 'Actions';
     },
 
-    /*------------------------------------------------------------------------
-     * Function to reset tables' data after it's been saved in database
-     * ------------------------------------------------------------------------*/
-    resetData() {
-      this.currentStep = 0;
-      this.$data.trayModule.data = [];
-      this.$data.dropDispenserModule.data = [];
-      this.$data.liquidDispenserModule.data = [];
-      this.$data.tlcMigrationModule.data = [];
-      this.$data.phMeterModule.data = [];
-      this.waitingCondition.data = [];
-      this.$data.commentModule.data = [];
-      this.$data.stepModule.data = [];
-      this.$data.actionsModule.data = [];
-    },
 
     /*--------------------------------------------------------------------------
      *  Redirection to another page
      * -------------------------------------------------------------------------*/
     redirectTo(route) {
       this.$router.push({name: route});
-    },
-
-    /*------------------------------------------------------------------------
-    * Function used to extract phMeterModule step data
-    * ------------------------------------------------------------------------*/
-    extractPhMeterModuleLine() {
-
-      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
-      this.$data.phMeterModule.data.push(phMeterStep);
-    },
-
-
-    /*------------------------------------------------------------------------
-    * Function used to extract tlcModule step data
-    * ------------------------------------------------------------------------*/
-    extractTlcMigrationModuleLine() {
-      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcModule.data[0]));
-      this.$data.tlcMigrationModule.data.push(tlcMMStep);
-    },
-
-    /*------------------------------------------------------------------------
-     * Function used to extract trayModule step data
-     * ------------------------------------------------------------------------*/
-    extractTrayModuleLine() {
-
-      let trayModuleStep = JSON.parse(JSON.stringify(this.$refs.plateForm.trayModule.data[0]));
-      this.$data.trayModule.data.push(trayModuleStep);
-
     },
 
     /*-------------------------------------------------------------------------
@@ -883,47 +836,54 @@ export default {
       this.$data.actionsModule.data.push(line);
 
     },
-    /*------------------------------------------------------------------------
- * Function used to extract Tray step data
- * ------------------------------------------------------------------------*/
-    extractCommentModuleLine() {
 
-      let comment = {Comment: this.$refs.plateForm.comment};
-      this.$data.commentModule.data.push(comment);
+    /*------------------------------------------------------------------------
+     * Function used to extract trayModule step data
+     * ------------------------------------------------------------------------*/
+    saveTrayModuleLine() {
+
+      let trayModuleStep = JSON.parse(JSON.stringify(this.$refs.plateForm.trayModule.data[0]));
+
+      trayModuleStep.Step = this.currentStep;
+      trayModuleStep.MethodId = this.currentMethod.id;
+
+      this.$data.trayModule.data.push(trayModuleStep);
+      // this.postStep(trayModuleStep, this.trayModule.name);
+
     },
 
+    /*------------------------------------------------------------------------
+    * Function used to extract tlcModule step data
+    * ------------------------------------------------------------------------*/
+    saveTlcMigrationModuleLine() {
+
+      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcModule.data[0]));
+      tlcMMStep.Step = this.currentStep;
+      tlcMMStep.MethodId = this.currentMethod.id;
+
+      this.$data.tlcMigrationModule.data.push(tlcMMStep);
+      //this.postStep(tlcMMStep, this.tlcMigrationModule.name);
+    },
 
     /*------------------------------------------------------------------------
-    * Function used to extract waiting condition step data
+    * Function used to extract liquidDispenserModule step data
     * ------------------------------------------------------------------------*/
-    extractWaitingConditionLine() {
+    saveDropDispenserModuleLine() {
 
-      let waitingConditionStep = '';
+      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
 
-      if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
-        waitingConditionStep = {
-          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption
-        };
-      } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
-        waitingConditionStep = {
-          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': '
-              + this.$refs.plateForm.waitingCondition.timeoutValue
-        };
-      } else {
-        waitingConditionStep = {
-          'WaitingCondition': this.$refs.plateForm.waitingCondition.selectedOption + ': '
-              + this.$refs.plateForm.waitingCondition.instrumentSelected
-        };
+      dropDispenserStep.Type = this.$refs.plateForm.SPElements.selectedSpDdOption;
+      dropDispenserStep.Step = this.currentStep;
+      dropDispenserStep.MethodId = this.currentMethod.id;
 
-      }
-      this.waitingCondition.data.push(waitingConditionStep);
-
+      this.$data.dropDispenserModule.data.push(dropDispenserStep);
+     // this.postStep(dropDispenserStep, this.dropDispenserModule.name);
     },
 
     /*------------------------------------------------------------------------
      * Function used to extract dropDispenserModule step data
      * ------------------------------------------------------------------------*/
-    extractLiquidDispenserLine() {
+    saveLiquidDispenserLine() {
 
       let LiquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
 
@@ -937,21 +897,81 @@ export default {
       else
         LiquidDispenserStep.SP2P = -1;
 
+      if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true)
+        LiquidDispenserStep.SP3P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp3PositionValue));
+      else
+        LiquidDispenserStep.SP3P = -1;
+
+      LiquidDispenserStep.Step = this.currentStep;
+      LiquidDispenserStep.MethodId = this.currentMethod.id;
+
       this.$data.liquidDispenserModule.data.push(LiquidDispenserStep);
+      this.postStep(LiquidDispenserStep, this.liquidDispenserModule.name);
     },
 
     /*------------------------------------------------------------------------
-    * Function used to extract liquidDispenserModule step data
+    * Function used to extract phMeterModule step data
     * ------------------------------------------------------------------------*/
-    extractDropDispenserModuleLine() {
+    savePhMeterModuleLine() {
 
-      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
-
-      dropDispenserStep.Type = this.$refs.plateForm.SPElements.selectedSpDdOption;
-      dropDispenserStep.Step = JSON.parse(JSON.stringify(this.currentStep));
-      console.log(dropDispenserStep);
-      this.$data.dropDispenserModule.data.push(dropDispenserStep);
+      this.$refs.plateForm.phMeterModule.data[0].Step = this.currentStep;
+      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
+      this.$data.phMeterModule.data.push(phMeterStep);
     },
+    /*------------------------------------------------------------------------
+    * Function used to extract waiting condition step data
+    * ------------------------------------------------------------------------*/
+    saveWaitingConditionLine() {
+
+      let displayedInfoStep = '';
+      this.$refs.plateForm.waitingCondition.data[0].Step = this.currentStep;
+
+      //DisplayedInfo is for UI displaying purpose
+      if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
+
+        displayedInfoStep = {
+          DisplayedInfo: this.$refs.plateForm.waitingCondition.selectedOption,
+          Type: this.$refs.plateForm.waitingCondition.selectedOption,
+          Value: 0,
+          Step: this.currentStep
+        };
+
+      } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
+
+        displayedInfoStep = {
+          DisplayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
+              + this.$refs.plateForm.waitingCondition.timeoutValue,
+          Type: '',
+          Value: this.$refs.plateForm.waitingCondition.timeoutValue,
+          Step: this.currentStep
+        };
+
+      } else {
+        displayedInfoStep = {
+
+          DisplayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
+              + this.$refs.plateForm.waitingCondition.instrumentSelected,
+          Type: '',
+          Value: 0,
+          InstrumentId: this.modulesList.find(l => l.name === this.$refs.plateForm.waitingCondition.instrumentSelected).id,
+          Step: this.currentStep
+        };
+      }
+
+      this.waitingCondition.data.push(displayedInfoStep);
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function used to extract Tray step data
+    * ------------------------------------------------------------------------*/
+    saveCommentModuleLine() {
+
+      let comment = {Comment: this.$refs.plateForm.comment};
+      this.$data.commentModule.data.push(comment);
+    },
+
+
   }
 }
 </script>
