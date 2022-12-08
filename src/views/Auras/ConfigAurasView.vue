@@ -83,6 +83,15 @@
           <vue-scroll-snap :horizontal="true">
             <table>
               <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="absorbing-column"></th>
+              </tr>
+              <tr>
                 <!--Tray module-->
 
                 <td>
@@ -488,6 +497,7 @@ export default {
     deletedIndex: '',
     timeout: 1000,
     displayedMessage: '',
+    stepCount: 0,
 
     //Modules variables
 
@@ -504,7 +514,7 @@ export default {
     trayModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'Value', width: 82, sortable: false}
+        {text: 'Value', value: 'value', width: 82, sortable: false}
       ],
       data: []
     },
@@ -512,7 +522,7 @@ export default {
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'Value', width: 150, sortable: false, align: 'center'},
+        {text: 'Value', value: 'displayedInfo', width: 150, sortable: false, align: 'center'},
       ],
       data: []
     },
@@ -520,7 +530,7 @@ export default {
     tlcMigrationModule: {
       name: '',
       columns: [
-        {text: 'Position', value: 'Position', width: 150, align: 'center'},
+        {text: 'Position', value: 'position', width: 150, align: 'center'},
       ],
       data: []
     },
@@ -536,23 +546,23 @@ export default {
     liquidDispenserModule: {
       name: '',
       columns: [
-        {text: "LDS1", value: "LDS1", width: 82, sortable: false, align: 'center'},
-        {text: "LDS2", value: "LDS2", width: 82, sortable: false, align: 'center'},
-        {text: "LDS3", value: "LDS3", width: 82, sortable: false, align: 'center'},
-        {text: "LDS4", value: "LDS4", width: 82, sortable: false, align: 'center'},
-        {text: "LDS5", value: "LDS5", width: 82, sortable: false, align: 'center'},
-        {text: "LDS6", value: "LDS6", width: 82, sortable: false, align: 'center'},
-        {text: "LDS7", value: "LDS7", width: 82, sortable: false, align: 'center'},
-        {text: "LDS8", value: "LDS8", width: 82, sortable: false, align: 'center'},
-        {text: "LDS9", value: "LDS9", width: 82, sortable: false, align: 'center'},
-        {text: "SP1 Target", value: "SP1P", width: 150, sortable: false, align: 'center'},
-        {text: "SP1 Speed", value: "SP1", width: 150, sortable: false, align: 'center'},
-        {text: "SP2 Target", value: "SP2P", width: 150, sortable: false, align: 'center'},
-        {text: "SP2 Speed", value: "SP2", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Target", value: "SP2P", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Speed", value: "SP3", width: 150, sortable: false, align: 'center'},
-        {text: "Rotations pump", value: "PUMP1P", width: 150, sortable: false, align: 'center'},
-        {text: "Speed pump (rpm)", value: "PUMP1S", width: 150, sortable: false, align: 'center'},
+        {text: "LDS1", value: "ldS1", width: 82, sortable: false, align: 'center'},
+        {text: "LDS2", value: "ldS2", width: 82, sortable: false, align: 'center'},
+        {text: "LDS3", value: "ldS3", width: 82, sortable: false, align: 'center'},
+        {text: "LDS4", value: "ldS4", width: 82, sortable: false, align: 'center'},
+        {text: "LDS5", value: "ldS5", width: 82, sortable: false, align: 'center'},
+        {text: "LDS6", value: "ldS6", width: 82, sortable: false, align: 'center'},
+        {text: "LDS7", value: "ldS7", width: 82, sortable: false, align: 'center'},
+        {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
+        {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
+        {text: "SP1 Target", value: "sP1P", width: 150, sortable: false, align: 'center'},
+        {text: "SP1 Speed", value: "sP1", width: 150, sortable: false, align: 'center'},
+        {text: "SP2 Target", value: "sP2P", width: 150, sortable: false, align: 'center'},
+        {text: "SP2 Speed", value: "sP2", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Target", value: "sP3P", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Speed", value: "sP3", width: 150, sortable: false, align: 'center'},
+        {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
+        {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
       ],
       data: []
     },
@@ -560,22 +570,20 @@ export default {
     commentModule: {
       name: '',
       columns: [
-        {text: 'Comment', value: 'Comment', width: 120, sortable: false, align: 'center'},
+        {text: 'Comment', value: 'content', width: 350, sortable: false, align: 'center'},
       ],
       data: []
     },
 
     waitingCondition: {
       name: 'Waiting condition',
-      columns: [{text: 'Waiting condition', value: 'DisplayedInfo', width: 160, sortable: false}],
+      columns: [{text: 'Waiting condition', value: 'displayedInfo', width: 160, sortable: false}],
       data: []
     },
 
     ginaModule: {
       name: '',
-      columns: [
-        {text: 'Comment', value: 'Comment', width: 82, sortable: false, align: 'center'},
-      ],
+      columns: [],
       data: []
     },
 
@@ -593,7 +601,8 @@ export default {
   mounted() {
     this.initializeModulesNames();
     this.fetchMethod();
-    this.fetchModules();
+    this.fetchModulesList();
+    this.loadModulesData();
 
   },
 
@@ -606,12 +615,12 @@ export default {
 
       this.extractStepModuleLine();
       this.saveTrayModuleLine();
-      this.saveLiquidDispenserLine();
-      this.saveDropDispenserModuleLine();
       this.saveTlcMigrationModuleLine();
       this.savePhMeterModuleLine();
-      this.saveCommentModuleLine();
+      this.saveDropDispenserModuleLine();
+      this.saveLiquidDispenserLine();
       this.saveWaitingConditionLine();
+      this.saveCommentModuleLine();
 
       this.$refs.plateForm.resetPlatformTables();
 
@@ -666,7 +675,7 @@ export default {
     /*------------------------------------------------------------------------
      * Function to fetch all modules data
      * ------------------------------------------------------------------------*/
-    fetchModules() {
+    fetchModulesList() {
       axios
           .get('http://' + this.$aurasApi + 'api/Modules')
           .then((response) => {
@@ -679,34 +688,106 @@ export default {
     },
 
     /*------------------------------------------------------------------------
+    * Function to load all method's data
+    * ------------------------------------------------------------------------*/
+    async loadModulesData() {
+
+      this.fetchData(this.trayModule);
+      this.fetchData(this.tlcMigrationModule);
+      this.fetchData(this.phMeterModule);
+      this.fetchData(this.dropDispenserModule);
+      this.fetchData(this.liquidDispenserModule);
+      this.fetchData(this.waitingCondition);
+      this.fetchData(this.commentModule);
+
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function load number of actual steps
+    * ------------------------------------------------------------------------*/
+    loadDdDisplayedInfo() {
+
+      for (let i = 0; i < this.dropDispenserModule.data.length; i++) {
+        this.dropDispenserModule.data[i].displayedInfo = this.dropDispenserModule.data[i].type +
+            ': ' +
+            this.dropDispenserModule.data[i].value;
+
+        console.log(this.dropDispenserModule.data[i].displayedInfo);
+      }
+    },
+    /*------------------------------------------------------------------------
+     * Function load number of actual steps
+     * ------------------------------------------------------------------------*/
+    loadStepsAndActions(length) {
+
+      for (let i = 0; i < length; i++) {
+
+        let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
+        this.$data.stepModule.data.push(step);
+        let line = {line: JSON.parse(JSON.stringify(this.currentStep))};
+        this.$data.actionsModule.data.push(line);
+        this.currentStep++;
+
+      }
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to call module's webservice
+    * ------------------------------------------------------------------------*/
+    async fetchData(module) {
+
+      let uri = this.getModuleUri(module.name);
+
+      await axios
+          .get('http://' + this.$aurasApi + 'api/' + uri)
+          .then(async (response) => {
+            if (response.status === 200) {
+              module.data = await response.data;
+
+              //Set stepModule data and actions
+
+              if (this.stepCount === 0) {
+                this.loadStepsAndActions(module.data.length);
+                this.stepCount++;
+              }
+              // Set drop dispenser displayed info
+              if(module.name.includes('Drop'))
+                this.loadDdDisplayedInfo();
+            } else {
+              this.displayedMessage = response.data.message;
+            }
+          });
+    },
+
+    /*------------------------------------------------------------------------
     * Function to send method's line to database
     * ------------------------------------------------------------------------*/
-    postStep(data, name) {
-/*
+    async postStep(moduleData, moduleName) {
 
-      console.log(data)
-      console.log(name)
-*/
+      let url = this.getModuleUri(moduleName);
 
-       let url = name.replace(/ +/g, "") + 's';
+      axios.post('http://' + this.$aurasApi + "api/" + url, moduleData)
+          .then(
+              (response) => {
 
-     axios.post('http://' + this.$aurasApi + "api/" + url, data)
-           .then(
-               (response) => {
+                if (response.status === 201)
+                  this.displayedMessage = "Step created correctly";
+                else
+                  this.displayedMessage = "Could not create the step";
 
-                 if (response.status === 201) {
-
-                   this.displayedMessage = "Step created correctly";
-                 } else {
-
-                   this.displayedMessage = "Could not create the step";
-                 }
-               });
+              });
 
       this.snackbar = true;
 
     },
 
+    /*------------------------------------------------------------------------
+    * Function to update method's data to database
+    * ------------------------------------------------------------------------*/
+    getModuleUri(moduleName) {
+      return moduleName.replace(/ +/g, "") + 's';
+    },
     /*------------------------------------------------------------------------
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
@@ -813,6 +894,7 @@ export default {
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
+      this.commentModule.name = this.$store.state.commentModuleName;
       this.stepModule.name = 'Steps';
       this.actionsModule.name = 'Actions';
     },
@@ -844,11 +926,11 @@ export default {
 
       let trayModuleStep = JSON.parse(JSON.stringify(this.$refs.plateForm.trayModule.data[0]));
 
-      trayModuleStep.Step = this.currentStep;
-      trayModuleStep.MethodId = this.currentMethod.id;
+      trayModuleStep.step = this.currentStep;
+      trayModuleStep.methodId = this.currentMethod.id;
 
       this.$data.trayModule.data.push(trayModuleStep);
-      // this.postStep(trayModuleStep, this.trayModule.name);
+      this.postStep(trayModuleStep, this.trayModule.name);
 
     },
 
@@ -858,11 +940,11 @@ export default {
     saveTlcMigrationModuleLine() {
 
       let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcModule.data[0]));
-      tlcMMStep.Step = this.currentStep;
-      tlcMMStep.MethodId = this.currentMethod.id;
+      tlcMMStep.step = this.currentStep;
+      tlcMMStep.methodId = this.currentMethod.id;
 
       this.$data.tlcMigrationModule.data.push(tlcMMStep);
-      //this.postStep(tlcMMStep, this.tlcMigrationModule.name);
+      this.postStep(tlcMMStep, this.tlcMigrationModule.name);
     },
 
     /*------------------------------------------------------------------------
@@ -872,12 +954,17 @@ export default {
 
       let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
 
-      dropDispenserStep.Type = this.$refs.plateForm.SPElements.selectedSpDdOption;
-      dropDispenserStep.Step = this.currentStep;
-      dropDispenserStep.MethodId = this.currentMethod.id;
+      dropDispenserStep.type = this.$refs.plateForm.SPElements.selectedSpDdOption;
+      dropDispenserStep.step = this.currentStep;
+      dropDispenserStep.methodId = this.currentMethod.id;
+
+      if (this.$refs.plateForm.SPElements.DdSpPositionMode === false)
+        dropDispenserStep.value = -1;
+
+      dropDispenserStep.displayedInfo = this.$refs.plateForm.SPElements.selectedSpDdOption + ': ' + dropDispenserStep.value;
 
       this.$data.dropDispenserModule.data.push(dropDispenserStep);
-     // this.postStep(dropDispenserStep, this.dropDispenserModule.name);
+      this.postStep(dropDispenserStep, this.dropDispenserModule.name);
     },
 
     /*------------------------------------------------------------------------
@@ -888,22 +975,22 @@ export default {
       let LiquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
 
       if (this.$refs.plateForm.SPElements.LdSp1PositionMode === true)
-        LiquidDispenserStep.SP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp1PositionValue));
+        LiquidDispenserStep.sP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp1PositionValue));
       else
-        LiquidDispenserStep.SP1P = -1;
+        LiquidDispenserStep.sP1P = -1;
 
       if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true)
-        LiquidDispenserStep.SP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp2PositionValue));
+        LiquidDispenserStep.sP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp2PositionValue));
       else
-        LiquidDispenserStep.SP2P = -1;
+        LiquidDispenserStep.sP2P = -1;
 
-      if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true)
-        LiquidDispenserStep.SP3P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp3PositionValue));
+      if (this.$refs.plateForm.SPElements.LdSp3PositionMode === true)
+        LiquidDispenserStep.sP3P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp3PositionValue));
       else
-        LiquidDispenserStep.SP3P = -1;
+        LiquidDispenserStep.sP3P = -1;
 
-      LiquidDispenserStep.Step = this.currentStep;
-      LiquidDispenserStep.MethodId = this.currentMethod.id;
+      LiquidDispenserStep.step = this.currentStep;
+      LiquidDispenserStep.methodId = this.currentMethod.id;
 
       this.$data.liquidDispenserModule.data.push(LiquidDispenserStep);
       this.postStep(LiquidDispenserStep, this.liquidDispenserModule.name);
@@ -914,51 +1001,53 @@ export default {
     * ------------------------------------------------------------------------*/
     savePhMeterModuleLine() {
 
-      this.$refs.plateForm.phMeterModule.data[0].Step = this.currentStep;
       let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
+
+      phMeterStep.step = this.currentStep;
+      phMeterStep.methodId = this.currentMethod.id;
       this.$data.phMeterModule.data.push(phMeterStep);
+
+      this.postStep(phMeterStep, this.phMeterModule.name);
     },
     /*------------------------------------------------------------------------
     * Function used to extract waiting condition step data
     * ------------------------------------------------------------------------*/
     saveWaitingConditionLine() {
 
-      let displayedInfoStep = '';
-      this.$refs.plateForm.waitingCondition.data[0].Step = this.currentStep;
+      let waitingConditionStep = '';
 
       //DisplayedInfo is for UI displaying purpose
       if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
 
-        displayedInfoStep = {
-          DisplayedInfo: this.$refs.plateForm.waitingCondition.selectedOption,
-          Type: this.$refs.plateForm.waitingCondition.selectedOption,
-          Value: 0,
-          Step: this.currentStep
+        waitingConditionStep = {
+          displayedInfo: this.$refs.plateForm.waitingCondition.selectedOption,
+          Value: 0
         };
 
       } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
 
-        displayedInfoStep = {
-          DisplayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
+        waitingConditionStep = {
+          displayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
               + this.$refs.plateForm.waitingCondition.timeoutValue,
-          Type: '',
-          Value: this.$refs.plateForm.waitingCondition.timeoutValue,
-          Step: this.currentStep
+          Value: this.$refs.plateForm.waitingCondition.timeoutValue
         };
 
       } else {
-        displayedInfoStep = {
+        waitingConditionStep = {
 
-          DisplayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
+          displayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
               + this.$refs.plateForm.waitingCondition.instrumentSelected,
-          Type: '',
           Value: 0,
-          InstrumentId: this.modulesList.find(l => l.name === this.$refs.plateForm.waitingCondition.instrumentSelected).id,
-          Step: this.currentStep
+          InstrumentId: this.modulesList.find(l => l.name === this.$refs.plateForm.waitingCondition.instrumentSelected).id
         };
       }
 
-      this.waitingCondition.data.push(displayedInfoStep);
+      waitingConditionStep.step = this.currentStep;
+      waitingConditionStep.methodId = this.currentMethod.id;
+      waitingConditionStep.type = this.$refs.plateForm.waitingCondition.selectedOption
+
+      this.waitingCondition.data.push(waitingConditionStep);
+      this.postStep(waitingConditionStep, this.waitingCondition.name);
 
     },
 
@@ -967,8 +1056,13 @@ export default {
     * ------------------------------------------------------------------------*/
     saveCommentModuleLine() {
 
-      let comment = {Comment: this.$refs.plateForm.comment};
-      this.$data.commentModule.data.push(comment);
+      let commentStep = {
+        content: this.$refs.plateForm.comment,
+        Step: this.currentStep,
+        methodId: this.currentMethod.id
+      };
+      this.$data.commentModule.data.push(commentStep);
+      this.postStep(commentStep, this.commentModule.name);
     },
 
 
@@ -979,6 +1073,15 @@ export default {
 
 <style scoped>
 
+table {
+  table-layout: auto;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table .absorbing-column {
+  width: 100%;
+}
 
 .module-title-color {
   color: dodgerblue;

@@ -71,7 +71,7 @@
                         :items="dropDispenserModule.data"
                         :hide-default-footer="true"
                     >
-                      <template v-slot:[`item.Value`]="{ item }">
+                      <template v-slot:[`item.value`]="{ item }">
                         <table>
                           <tr>
                             <td>
@@ -91,7 +91,7 @@
                             <td v-if="SPElements.DdSpPositionMode">
                               <v-text-field
                                   label="µL"
-                                  v-model.number="item.Value"
+                                  v-model.number="item.value"
                               />
                             </td>
                           </tr>
@@ -116,13 +116,13 @@
                       :items="liquidDispenserModule.data"
                       :hide-default-footer="true"
                   >
-                    <template v-slot:[`item.SP1P`]="{ item }">
+                    <template v-slot:[`item.sP1P`]="{ item }">
                       <table>
                         <tr>
                           <td class="text-center">
                             <v-select
                                 v-model="SPElements.selectedSpLd1Option"
-                                :items="item.SP1P"
+                                :items="item.sP1P"
                             />
 
                           </td>
@@ -138,13 +138,13 @@
                       </table>
                     </template>
 
-                    <template v-slot:[`item.SP2P`]="{ item }">
+                    <template v-slot:[`item.sP2P`]="{ item }">
                       <table>
                         <tr>
                           <td>
                             <v-select
                                 v-model="SPElements.selectedSpLd2Option"
-                                :items="item.SP2P"
+                                :items="item.sP2P"
                             />
 
                           </td>
@@ -161,13 +161,13 @@
 
                     </template>
 
-                    <template v-slot:[`item.SP3P`]="{ item }">
+                    <template v-slot:[`item.sP3P`]="{ item }">
                       <table>
                         <tr>
                           <td>
                             <v-select
                                 v-model="SPElements.selectedSpLd3Option"
-                                :items="item.SP3P"
+                                :items="item.sP3P"
                             />
 
                           </td>
@@ -309,12 +309,11 @@ export default {
       name: '',
       columns: [
 
-        {text: 'Value', value: 'Value', width: 82, align: 'center'},
+        {text: 'Value', value: 'value', width: 82, align: 'center'},
       ],
       data: [
         {
-          Value: 0,
-          Step: ''
+          value: 0
         }
       ]
     },
@@ -322,13 +321,11 @@ export default {
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'Value', width: 250, align: 'center'},
+        {text: 'Value', value: 'value', width: 250, align: 'center'},
       ],
       data: [
         {
-          Value: 0,
-          Type: '',
-          Step: ''
+          value: 0,
         },
       ]
     },
@@ -336,12 +333,11 @@ export default {
     tlcModule: {
       name: '',
       columns: [
-        {text: 'Position', value: 'Position', width: 170, align: 'center'},
+        {text: 'Position', value: 'position', width: 170, align: 'center'},
       ],
       data: [
         {
-          Position: 0,
-          Step: ''
+          position: 0,
         }]
     },
 
@@ -354,51 +350,49 @@ export default {
       data: [
         {
           position: 0,
-          Step: ''
         }]
     },
 
     liquidDispenserModule: {
       name: '',
       columns: [
-        {text: "LDS1", value: "LDS1", width: 82, align: 'center'},
-        {text: "LDS2", value: "LDS2", width: 82, align: 'center'},
-        {text: "LDS3", value: "LDS3", width: 82, align: 'center'},
-        {text: "LDS4", value: "LDS4", width: 82, align: 'center'},
-        {text: "LDS5", value: "LDS5", width: 82, align: 'center'},
-        {text: "LDS6", value: "LDS6", width: 82, align: 'center'},
-        {text: "LDS7", value: "LDS7", width: 82, align: 'center'},
-        {text: "LDS8", value: "LDS8", width: 82, align: 'center'},
-        {text: "LDS9", value: "LDS9", width: 82, align: 'center'},
-        {text: "SP1 Target", value: "SP1P", width: 150, align: 'center'},
-        {text: "SP1 Speed", value: "SP1", width: 150, align: 'center'},
-        {text: "SP2 Target", value: "SP2P", width: 150, align: 'center'},
-        {text: "SP2 Speed", value: "SP2", width: 150, align: 'center'},
-        {text: "SP3 Target", value: "SP3P", width: 150, align: 'center'},
-        {text: "SP3 Speed", value: "SP3", width: 150, align: 'center'},
-        {text: "Rotations pump", value: "PUMP1P", width: 150, align: 'center'},
-        {text: "Speed pump (rpm)", value: "PUMP1S", width: 150, align: 'center'},
+        {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
+        {text: "LDS2", value: "ldS2", width: 82, align: 'center'},
+        {text: "LDS3", value: "ldS3", width: 82, align: 'center'},
+        {text: "LDS4", value: "ldS4", width: 82, align: 'center'},
+        {text: "LDS5", value: "ldS5", width: 82, align: 'center'},
+        {text: "LDS6", value: "ldS6", width: 82, align: 'center'},
+        {text: "LDS7", value: "ldS7", width: 82, align: 'center'},
+        {text: "LDS8", value: "ldS8", width: 82, align: 'center'},
+        {text: "LDS9", value: "ldS9", width: 82, align: 'center'},
+        {text: "SP1 Target", value: "sP1P", width: 150, align: 'center'},
+        {text: "SP1 Speed", value: "sP1", width: 150, align: 'center'},
+        {text: "SP2 Target", value: "sP2P", width: 150, align: 'center'},
+        {text: "SP2 Speed", value: "sP2", width: 150, align: 'center'},
+        {text: "SP3 Target", value: "sP3P", width: 150, align: 'center'},
+        {text: "SP3 Speed", value: "sP3", width: 150, align: 'center'},
+        {text: "Rotations pump", value: "pumP1P", width: 150, align: 'center'},
+        {text: "Speed pump (rpm)", value: "pumP1S", width: 150, align: 'center'},
       ],
       data: [
         {
-          LDS1: 0,
-          LDS2: 0,
-          LDS3: 0,
-          LDS4: 0,
-          LDS5: 0,
-          LDS6: 0,
-          LDS7: 0,
-          LDS8: 0,
-          LDS9: 0,
-          SP1P: ['Position', 'Drop detected'],
-          SP1: 0,
-          SP2P: ['Position', 'Drop detected'],
-          SP2: 0,
-          SP3P: ['Position', 'Drop detected'],
-          SP3: 0,
-          PUMP1P: 0,
-          PUMP1S: 0,
-          Step: ''
+          ldS1: 0,
+          ldS2: 0,
+          ldS3: 0,
+          ldS4: 0,
+          ldS5: 0,
+          ldS6: 0,
+          ldS7: 0,
+          ldS8: 0,
+          ldS9: 0,
+          sP1P: ['Position', 'Drop detected'],
+          sP1: 0,
+          sP2P: ['Position', 'Drop detected'],
+          sP2: 0,
+          sP3P: ['Position', 'Drop detected'],
+          sP3: 0,
+          pumP1P: 0,
+          pumP1S: 0,
         }
       ]
     },

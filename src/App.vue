@@ -32,7 +32,7 @@
       <v-btn text
              color="#FFFFFF"
              @click ="redirectTo('IndexDd')">
-        Drop dispenser
+        Liquid dispenser
       </v-btn>
 
     </v-app-bar>

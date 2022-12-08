@@ -7,7 +7,6 @@ export default new Vuex.Store({
     state: {
         // Ip Addresses
         currentIp: '',
-        aurasIp: '10.10.17.140:81',
         ddIp: '10.10.17.140:81',
         csIp: '10.10.17.241:81',
         mecatechIp:'10.10.15.101',
@@ -20,6 +19,7 @@ export default new Vuex.Store({
         phMeterModuleName: 'PH Meter',
         ginaModuleName: 'Gina',
         aurasModuleName: 'Auras',
+        commentModuleName: 'Comment',
     },
     getters: {},
     mutations: {},
