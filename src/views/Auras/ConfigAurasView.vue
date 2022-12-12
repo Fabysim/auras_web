@@ -58,7 +58,7 @@
                         @save="updateLine(item[header.value], column, stepModule.name, idx)"
                         @cancel="cancelLineUpdate"
                         @open="open(item[header.value], column, stepModule.name, idx)"
-                        @close="close"
+                        @close="close(item[header.value], column, stepModule.name, idx)"
 
                     > {{ item[header.value] }}
                       <template v-slot:input>
@@ -82,15 +82,7 @@
         <v-card elevation="0" style="width:88%">
           <vue-scroll-snap :horizontal="true">
             <table>
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th class="absorbing-column"></th>
-              </tr>
+
               <tr>
                 <!--Tray module-->
 
@@ -250,11 +242,30 @@
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
-                                  <v-text-field
-                                      v-model="item[header.value]"
-                                      label="Edit"
-                                      single-line
-                                  ></v-text-field>
+                                  <table>
+                                    <tr>
+                                      <td>
+                                        <v-select
+                                            v-model="SPElements.selectedSpDdOption"
+                                            :items="SPElements.ddOptions"
+                                        />
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <v-select
+                                            v-model="SPElements.selectedSpDdSubOption"
+                                            :items="SPElements.ldOptions"
+                                        />
+                                      </td>
+                                      <td v-if="SPElements.DdSpPositionMode">
+                                        <v-text-field
+                                            label="µL"
+                                            v-model.number="item.value"
+                                        />
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </template>
                               </v-edit-dialog>
                             </td>
@@ -290,15 +301,36 @@
                                              :return-value.sync="item[header.value]"
                                              @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
                                              @cancel="cancelLineUpdate"
-                                             @open="open"
+                                             @open="open(item[header.value], key, liquidDispenserModule.name, idx)"
                                              @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
-                                  <v-text-field
-                                      v-model="item[header.value]"
-                                      label="Edit"
-                                      single-line
+                                  <table
+                                      v-if="header.value ==='sP1P' || header.value ==='sP2P' || header.value ==='sP3P'">
+                                    <tr>
+                                      <td class="text-center">
+                                        <v-select
+                                            v-model="SPElements.selectedSpLdOption"
+                                            :items="SPElements.ldOptions"
+                                        />
+
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <v-text-field
+                                            label="volume in µL"
+                                            v-model="SPElements.ldSpPositionValue"
+                                        />
+                                      </td>
+                                    </tr>
+                                  </table>
+
+                                  <v-text-field v-else
+                                                v-model="item[header.value]"
+                                                label="Edit"
+                                                single-line
                                   ></v-text-field>
                                 </template>
                               </v-edit-dialog>
@@ -463,15 +495,15 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="snackbar" :timeout="timeout">
-      {{ displayedMessage }}
+    <v-snackbar v-model="snackbar.show" :timeout="timeout" :color="snackbar.color">
+      {{ snackbar.message }}
     </v-snackbar>
 
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+
 import PlatFormCard from '@/components/PlatformCard.vue'
 
 import VueScrollSnap from "vue-scroll-snap";
@@ -493,22 +525,45 @@ export default {
     modulesList: [],
     currentStep: 0,
     dialogDelete: false,
-    snackbar: false,
+    snackbar: {show: false, message: null, color: null},
     deletedIndex: '',
-    timeout: 1000,
+    timeout: 2000,
     displayedMessage: '',
     stepCount: 0,
 
     //Modules variables
 
+    SPElements: {
+      selectedSpLdOption: '',
+      selectedSpDdSubOption: '',
+      DdSpPositionMode: '',
+      ldSpPositionValue: 0,
+      ldSpOldValue: 0,
+      ldSpNewValue: 0,
+      ddOptions: ['Standards', 'QC sample'],
+      ldOptions: ['Position', 'Drop detected']
+    },
+
     stepModule: {
       name: '',
       columns: [
-        {text: 'Step', value: 'step', align: 'center', width: 82, sortable: true},
+        {
+          text: 'Step',
+          value: 'step',
+          align: 'center',
+          width: 82,
+          sortable: true
+        },
       ],
       data: [],
-      oldValue: '',
-      newValue: ''
+      updateStep: [
+        {
+          oldValue: '',
+          newValue: '',
+          stepToUpdate: false
+        }
+      ],
+
     },
 
     trayModule: {
@@ -606,6 +661,7 @@ export default {
 
   },
 
+
   methods: {
 
     /*------------------------------------------------------------------------
@@ -651,11 +707,10 @@ export default {
       this.actionsModule.data.splice(index, 1);
       this.commentModule.data.splice(index, 1);
 
-      this.displayedMessage = 'Step deleted';
+      this.snackbar.message = 'Step deleted';
+      this.snackbar.show = true;
       this.dialogDelete = false;
-      this.snackbar = true;
     },
-
 
     /*------------------------------------------------------------------------
      * Function to fetch current method data
@@ -668,10 +723,11 @@ export default {
             if (response.status === 200) {
               this.currentMethod = response.data;
             } else {
-              this.displayedMessage = response.data.message;
+              this.snackbar.message = response.data.message;
             }
           });
     },
+
     /*------------------------------------------------------------------------
      * Function to fetch all modules data
      * ------------------------------------------------------------------------*/
@@ -682,7 +738,7 @@ export default {
             if (response.status === 200) {
               this.modulesList = response.data;
             } else {
-              this.displayedMessage = response.data.message;
+              this.snackbar.message = response.data.message;
             }
           });
     },
@@ -699,6 +755,24 @@ export default {
       this.fetchData(this.liquidDispenserModule);
       this.fetchData(this.waitingCondition);
       this.fetchData(this.commentModule);
+    },
+
+    /*------------------------------------------------------------------------
+      * Function to set LiquidDispenserModule's update info
+      * ------------------------------------------------------------------------*/
+    loadLiquidDispenserUpdateInfo() {
+
+      this.liquidDispenserModule.data.forEach(function (line) {
+
+        line.sP1P >= 0 ? line.selectedSpLd1Option = 'Position' : line.selectedSpLd1Option = 'Drop detected';
+        line.sP2P >= 0 ? line.selectedSpLd2Option = 'Position' : line.selectedSpLd2Option = 'Drop detected';
+        line.sP3P >= 0 ? line.selectedSpLd3Option = 'Position' : line.selectedSpLd3Option = 'Drop detected';
+
+        line.sP1P >= 0 ? line.ldSp1PositionMode = true : line.ldSp1PositionMode = false;
+        line.sP2P >= 0 ? line.ldSp2PositionMode = true : line.ldSp2PositionMode = false;
+        line.sP3P >= 0 ? line.ldSp3PositionMode = true : line.ldSp3PositionMode = false;
+
+      });
 
 
     },
@@ -706,14 +780,33 @@ export default {
     /*------------------------------------------------------------------------
     * Function load number of actual steps
     * ------------------------------------------------------------------------*/
-    loadDdDisplayedInfo() {
+    loadDropDispenserDisplayedInfo() {
 
       for (let i = 0; i < this.dropDispenserModule.data.length; i++) {
         this.dropDispenserModule.data[i].displayedInfo = this.dropDispenserModule.data[i].type +
             ': ' +
             this.dropDispenserModule.data[i].value;
+      }
+    },
 
-        console.log(this.dropDispenserModule.data[i].displayedInfo);
+    /*------------------------------------------------------------------------
+    * Function to load the number of actual steps
+    * ------------------------------------------------------------------------*/
+    loadWCDisplayedInfo() {
+
+      for (let i = 0; i < this.waitingCondition.data.length; i++) {
+        let info = '';
+
+        if (this.waitingCondition.data[i].type.toLowerCase() === 'instrument') {
+
+          info = this.modulesList.find(l => l.id === this.waitingCondition.data[i].instrumentId)
+          info = ': ' + info['name']
+
+        } else if (this.waitingCondition.data[i].type.toLowerCase() === 'timeout') {
+
+          info = ': ' + this.waitingCondition.data[i].value
+        }
+        this.waitingCondition.data[i].displayedInfo = this.waitingCondition.data[i].type + info;
       }
     },
     /*------------------------------------------------------------------------
@@ -746,16 +839,23 @@ export default {
               module.data = await response.data;
 
               //Set stepModule data and actions
-
-              if (this.stepCount === 0) {
+              if (0 === this.stepCount++)
                 this.loadStepsAndActions(module.data.length);
-                this.stepCount++;
-              }
-              // Set drop dispenser displayed info
-              if(module.name.includes('Drop'))
-                this.loadDdDisplayedInfo();
+
+              // Set drop dispenser's displayed info
+              if (module.name.toLowerCase().includes('drop'))
+                this.loadDropDispenserDisplayedInfo();
+
+              // Set liquid dispenser's displayed info
+              if (module.name.toLowerCase().includes('liquid'))
+                this.loadLiquidDispenserUpdateInfo();
+
+              // Set waiting condition's displayed info
+              if (module.name.toLowerCase().includes('waiting'))
+                this.loadWCDisplayedInfo();
+
             } else {
-              this.displayedMessage = response.data.message;
+              this.snackbar.message = response.data.message;
             }
           });
     },
@@ -772,13 +872,13 @@ export default {
               (response) => {
 
                 if (response.status === 201)
-                  this.displayedMessage = "Step created correctly";
+                  this.snackbar.message = "Step created correctly";
                 else
-                  this.displayedMessage = "Could not create the step";
+                  this.snackbar.message = "Could not create the step";
 
               });
 
-      this.snackbar = true;
+      this.snackbar.show = true;
 
     },
 
@@ -788,13 +888,34 @@ export default {
     getModuleUri(moduleName) {
       return moduleName.replace(/ +/g, "") + 's';
     },
+
     /*------------------------------------------------------------------------
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
-    updateMethodStep(step, stepNr) {
+    updateModule(data, stepNr, name) {
 
-      console.log('Update step Nr: ' + stepNr);
-      console.log(step);
+      let url = this.getModuleUri(name);
+      url = 'api/' + url + '/';
+
+      axios
+          .put('http://' + this.$aurasApi + url + data.id, data)
+          .then((response) => {
+
+            console.log(response)
+            if (response.status === 204) {
+              this.snackbar.message = "Step updated successfully";
+
+            } else {
+              this.snackbar.message = response.data.message;
+              this.snackbar.color = 'error';
+            }
+          });
+      this.snackbar.show = true;
+
+      console.log('data: ' + data.id);
+      console.log('step Nr: ' + stepNr);
+      console.log('name: ' + name);
+
     },
 
     /*------------------------------------------------------------------------
@@ -805,47 +926,41 @@ export default {
       switch (name) {
 
         case this.trayModule.name:
-          this.updateMethodStep(this.trayModule.data[line], line);
+          this.updateModule(this.trayModule.data[line], line, name);
           break;
 
         case this.dropDispenserModule.name:
-          this.updateMethodStep(this.dropDispenserModule.data[line], line);
+          this.updateModule(this.dropDispenserModule.data[line], line, name);
           break;
 
         case this.liquidDispenserModule.name:
-          this.updateMethodStep(this.liquidDispenserModule.data[line], line);
+          this.updateModule(this.liquidDispenserModule.data[line], line, name);
           break;
 
         case this.tlcMigrationModule.name:
-          this.updateMethodStep(this.tlcMigrationModule.data[line], line);
+          this.updateModule(this.tlcMigrationModule.data[line], line, name);
           break;
 
         case this.phMeterModule.name:
-          this.updateMethodStep(this.phMeterModule.data[line], line);
+          this.updateModule(this.phMeterModule.data[line], line, name);
           break;
 
         case this.waitingCondition.name:
-          this.updateMethodStep(this.waitingCondition.data[line], line);
+          this.updateModule(this.waitingCondition.data[line], line, name);
           break;
 
         case this.commentModule.name:
-          this.updateMethodStep(this.commentModule.data[line], line);
+          this.updateModule(this.commentModule.data[line], line, name);
           break;
 
         case this.stepModule.name:
 
-          this.checkStepNumberValidity(value);
-          /* console.log(valid)
-           if (valid) {
+          if (this.checkStepNumberValidity(value)) {
 
-             this.updateMethodStep(this.stepModule.data[line], line);
-             console.log('here 3a')
-           } else {
-             console.log('here 3b')
-             console.log(this.stepModule.newValue)
-             this.stepModule.data[line].step = this.stepModule.oldValue;
-             console.log(this.stepModule.data[line].step)
-           }*/
+            this.stepModule.updateStep[0].stepToUpdate = true;
+            //this.updateModule(this.stepModule.data[line], line, name);
+
+          }
           break;
 
         default:
@@ -855,14 +970,6 @@ export default {
 
     },
 
-    /*------------------------------------------------------------------------
-     * Function to check if the new step number is valid
-     * ------------------------------------------------------------------------*/
-    checkStepNumberValidity(lineNumber) {
-
-      return !(parseInt(lineNumber) < 0 || parseInt(lineNumber) > this.stepModule.data.length - 1);
-    },
-
     cancelLineUpdate() {
     },
 
@@ -870,18 +977,38 @@ export default {
      * Function called when one edits a line
      * ------------------------------------------------------------------------*/
     open(value, col, name, line) {
-      this.stepModule.newValue = this.stepModule.data[line].step;
 
-      console.log('here 1')
       if (name === this.stepModule.name)
-        this.stepModule.oldValue = this.stepModule.data[line].step;
+        this.stepModule.updateStep[0].oldValue = this.stepModule.data[line].step;
 
+      if (name === this.liquidDispenserModule.name) {
+        this.SPElements.selectedSpLdOption = this.liquidDispenserModule.data[line].selectedSpLd1Option;
+        this.SPElements.ldSpPositionValue =this.SPElements.ldSpOldValue = value;
+
+        console.log(this.SPElements.selectedSpLdOption)
+      }
     },
 
     /*------------------------------------------------------------------------
      * Function called when one closes the edit line
      * ------------------------------------------------------------------------*/
-    close() {
+    close(value, col, name, line) {
+
+      if (name === this.stepModule.name && this.stepModule.updateStep[0].stepToUpdate === false) {
+        this.stepModule.data[line].step = this.stepModule.updateStep[0].oldValue;
+        this.snackbar.message = 'The step must be > 0 and < ' + this.stepModule.data.length;
+        this.snackbar.color = 'error'
+        this.snackbar.show = true;
+      }
+      this.stepModule.updateStep[0].stepToUpdate = false;
+    },
+
+    /*------------------------------------------------------------------------
+     * Function to check if the new step number is valid
+     * ------------------------------------------------------------------------*/
+    checkStepNumberValidity(lineNumber) {
+
+      return !(parseInt(lineNumber) < 0 || parseInt(lineNumber) > this.stepModule.data.length - 1);
     },
 
     /*------------------------------------------------------------------------
@@ -898,7 +1025,6 @@ export default {
       this.stepModule.name = 'Steps';
       this.actionsModule.name = 'Actions';
     },
-
 
     /*--------------------------------------------------------------------------
      *  Redirection to another page
@@ -972,28 +1098,44 @@ export default {
      * ------------------------------------------------------------------------*/
     saveLiquidDispenserLine() {
 
-      let LiquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
+      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
 
-      if (this.$refs.plateForm.SPElements.LdSp1PositionMode === true)
-        LiquidDispenserStep.sP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp1PositionValue));
-      else
-        LiquidDispenserStep.sP1P = -1;
+      liquidDispenserStep.selectedSpLd1Option = '';
+      liquidDispenserStep.selectedSpLd2Option = '';
+      liquidDispenserStep.selectedSpLd3Option = '';
 
-      if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true)
-        LiquidDispenserStep.sP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp2PositionValue));
-      else
-        LiquidDispenserStep.sP2P = -1;
+      if (this.$refs.plateForm.SPElements.LdSp1PositionMode === true) {
+        liquidDispenserStep.sP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp1PositionValue));
+        liquidDispenserStep.selectedSpLd1Option = 'Position';
+      } else {
 
-      if (this.$refs.plateForm.SPElements.LdSp3PositionMode === true)
-        LiquidDispenserStep.sP3P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp3PositionValue));
-      else
-        LiquidDispenserStep.sP3P = -1;
+        liquidDispenserStep.sP1P = -1;
+        liquidDispenserStep.selectedSpLd1Option = 'Drop detected';
 
-      LiquidDispenserStep.step = this.currentStep;
-      LiquidDispenserStep.methodId = this.currentMethod.id;
+      }
 
-      this.$data.liquidDispenserModule.data.push(LiquidDispenserStep);
-      this.postStep(LiquidDispenserStep, this.liquidDispenserModule.name);
+      if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true) {
+        liquidDispenserStep.sP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp2PositionValue));
+        liquidDispenserStep.selectedSpLd2Option = 'Position';
+      } else {
+
+        liquidDispenserStep.sP2P = -1;
+        liquidDispenserStep.selectedSpLd1Option = 'Drop detected';
+      }
+
+      if (this.$refs.plateForm.SPElements.LdSp3PositionMode === true) {
+        liquidDispenserStep.sP3P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp3PositionValue));
+        liquidDispenserStep.selectedSpLd2Option = 'Position';
+      } else {
+        liquidDispenserStep.sP3P = -1;
+        liquidDispenserStep.selectedSpLd1Option = 'Drop detected';
+
+      }
+      liquidDispenserStep.step = this.currentStep;
+      liquidDispenserStep.methodId = this.currentMethod.id;
+
+      this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
+      this.postStep(liquidDispenserStep, this.liquidDispenserModule.name);
     },
 
     /*------------------------------------------------------------------------

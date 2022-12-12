@@ -146,7 +146,7 @@ export default {
       PUMP1S: "",
       PUMP1P: "",
       Pause: "",
-      PauseText: "true",
+      pauseText: "true",
       Delay: "",
       description: "",
       id_method: "",
@@ -163,7 +163,7 @@ export default {
   },
   methods: {
     sendData() {
-      this.PauseText = this.Pause == true ? 1 : 0;
+      this.pauseText = this.Pause === true ? 1 : 0;
 
       const params = {
         id_method: this.id_method,
@@ -183,7 +183,7 @@ export default {
         PS2S: this.PS2S,
         PUMP1S: this.PUMP1S,
         PUMP1P: this.PUMP1P,
-        Pause: this.PauseText,
+        Pause: this.pauseText,
         Delay: this.Delay,
         description: this.description,
         method_name: this.method_name,
@@ -192,7 +192,7 @@ export default {
       axios
         .put(this.$api + "config/" + this.id_method_list, params)
         .then((response) => {
-          console.log(response);
+
           if (response.data.status === "success") {
             this.text = "Step modified successfully";
 
@@ -242,7 +242,7 @@ export default {
             this.description = this.stepData[0]["description"];
             this.step = this.stepData[0]["step"];
 
-            this.PauseText = this.stepData[0]["Pause"] == 1 ? "true" : "";
+            this.pauseText = this.stepData[0]["Pause"] === 1 ? "true" : "";
           } else {
             this.message = response.data.message;
           }
