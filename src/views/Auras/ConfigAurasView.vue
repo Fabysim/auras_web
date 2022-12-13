@@ -235,33 +235,33 @@
                             <td v-for="(header,key) in headers" :key="key">
                               <v-edit-dialog large
                                              :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.Value], key, dropDispenserModule.name, idx)"
+                                             @save="updateLine(item[header.value], key, dropDispenserModule.name, idx)"
                                              @cancel="cancelLineUpdate"
-                                             @open="open"
-                                             @close="close"
-
-                              > {{ item[header.value] }}
+                                             @open="open(item[header.value], key, dropDispenserModule.name, idx)"
+                                             @close="close">
+                                {{ item[header.value] }}
                                 <template v-slot:input>
                                   <table>
                                     <tr>
                                       <td>
                                         <v-select
-                                            v-model="SPElements.selectedSpDdOption"
-                                            :items="SPElements.ddOptions"
+                                            v-model="SPElements.selectedInstrumentComponent"
+                                            :items="SPElements.instrumentComponents"
                                         />
                                       </td>
                                     </tr>
                                     <tr>
                                       <td>
                                         <v-select
-                                            v-model="SPElements.selectedSpDdSubOption"
-                                            :items="SPElements.ldOptions"
+                                            v-model="SPElements.selectedSpDDTarget"
+                                            :items="SPElements.spTargets"
                                         />
                                       </td>
-                                      <td v-if="SPElements.DdSpPositionMode">
+                                      <td>
                                         <v-text-field
+                                            v-if="isVisibleDD"
                                             label="µL"
-                                            v-model.number="item.value"
+                                            v-model.number="SPElements.ddSpPositionValue"
                                         />
                                       </td>
                                     </tr>
@@ -311,8 +311,8 @@
                                     <tr>
                                       <td class="text-center">
                                         <v-select
-                                            v-model="SPElements.selectedSpLdOption"
-                                            :items="SPElements.ldOptions"
+                                            v-model="SPElements.selectedSpLDTarget"
+                                            :items="SPElements.spTargets"
                                         />
 
                                       </td>
@@ -321,6 +321,7 @@
                                       <td>
                                         <v-text-field
                                             label="volume in µL"
+                                            v-if="isVisibleLD"
                                             v-model="SPElements.ldSpPositionValue"
                                         />
                                       </td>
@@ -365,16 +366,38 @@
                                              :return-value.sync="item[header.value]"
                                              @save="updateLine(item[header.value], key, waitingCondition.name, idx)"
                                              @cancel="cancelLineUpdate"
-                                             @open="open"
+                                             @open="open(item[header.value], key, waitingCondition.name, idx)"
                                              @close="close"
 
                               > {{ item[header.value] }}
                                 <template v-slot:input>
-                                  <v-text-field
-                                      v-model="item[header.value]"
-                                      label="Edit"
-                                      single-line
-                                  ></v-text-field>
+                                  <table>
+                                    <tr>
+                                      <td>
+                                        <v-select
+                                            v-model="updateWaitingCondition.selectedOption"
+                                            :items="updateWaitingCondition.items"
+                                        >
+
+                                        </v-select>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td v-if="updateWaitingCondition.instrumentOptionSelected">
+                                        <v-select
+                                            label="choose instrument"
+                                            v-model="updateWaitingCondition.selectedInstrument"
+                                            :items="updateWaitingCondition.instrumentsList"
+                                        />
+                                      </td>
+                                      <td v-if="updateWaitingCondition.timeoutOptionSelected">
+                                        <v-text-field
+                                            label="timeout in ms"
+                                            v-model="updateWaitingCondition.timeoutValue"
+                                        />
+                                      </td>
+                                    </tr>
+                                  </table>
                                 </template>
                               </v-edit-dialog>
                             </td>
@@ -530,18 +553,35 @@ export default {
     timeout: 2000,
     displayedMessage: '',
     stepCount: 0,
+    isVisibleLD: false,
+    isVisibleDD: false,
 
     //Modules variables
 
     SPElements: {
-      selectedSpLdOption: '',
-      selectedSpDdSubOption: '',
-      DdSpPositionMode: '',
+      selectedSpLDTarget: '',
+      selectedSpDDTarget: '',
+      selectedInstrumentComponent: '',
       ldSpPositionValue: 0,
+      ddSpPositionValue: 0,
       ldSpOldValue: 0,
       ldSpNewValue: 0,
-      ddOptions: ['Standards', 'QC sample'],
-      ldOptions: ['Position', 'Drop detected']
+      ddSpOldValue: 0,
+      ddSpNewValue: 0,
+      instrumentComponents: ['Standards', 'QC sample'],
+      spTargets: ['Position', 'Drop detected'],
+    },
+
+    updateWaitingCondition: {
+      selectedOption: '',
+      items: ['None', 'Instrument', 'Timeout'],
+      instrumentOptionSelected: false,
+      timeoutOptionSelected: false,
+      selectedInstrument: '',
+      selectedOldInstrument: 'Gina',
+      timeoutValue: '',
+      timeoutOldValue: 0,
+      instrumentsList: ['Gina', 'Auras'],
     },
 
     stepModule: {
@@ -661,6 +701,66 @@ export default {
 
   },
 
+  watch: {
+
+    /*------------------------------------------------------------------------
+    * Function used to watch the changes in Liquid dispenser SP elements
+    * ------------------------------------------------------------------------*/
+    'SPElements.selectedSpLDTarget'() {
+
+      if (this.SPElements.selectedSpLDTarget === 'Position') {
+        this.isVisibleLD = true;
+        this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue;
+      } else {
+        this.isVisibleLD = false;
+        this.SPElements.ldSpPositionValue = -1;
+      }
+    },
+    /*------------------------------------------------------------------------
+    * Function used to watch the changes in Drop dispenser SP elements
+    * ------------------------------------------------------------------------*/
+    'SPElements.selectedSpDDTarget'() {
+
+      if (this.SPElements.selectedSpDDTarget === 'Position') {
+        this.isVisibleDD = true;
+        this.SPElements.ddSpPositionValue = this.SPElements.ddSpOldValue === -1 ? 0 : this.SPElements.ddSpOldValue;
+      } else {
+        this.isVisibleDD = false;
+        this.SPElements.ddSpPositionValue = -1;
+      }
+    },
+
+    /*------------------------------------------------------------------------
+    * Function used to watch the changes in the waiting condition module
+    * ------------------------------------------------------------------------*/
+    'updateWaitingCondition.selectedOption'() {
+
+      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'none') {
+        this.updateWaitingCondition.instrumentOptionSelected = false;
+        this.updateWaitingCondition.timeoutOptionSelected = false;
+      }
+
+      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'instrument') {
+        this.updateWaitingCondition.instrumentOptionSelected = true;
+        this.updateWaitingCondition.timeoutOptionSelected = false;
+
+        this.updateWaitingCondition.selectedInstrument = this.updateWaitingCondition.selectedOldInstrument;
+
+      }
+
+      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout') {
+        this.updateWaitingCondition.instrumentOptionSelected = false;
+        this.updateWaitingCondition.timeoutOptionSelected = true;
+          this.updateWaitingCondition.timeoutValue = this.updateWaitingCondition.timeoutOldValue;
+      }
+    },
+
+    /*------------------------------------------------------------------------
+    * Function used to watch the changes in the waiting condition module
+    * ------------------------------------------------------------------------*/
+    'updateWaitingCondition.selectedInstrument'() {
+    },
+  },
 
   methods: {
 
@@ -764,17 +864,15 @@ export default {
 
       this.liquidDispenserModule.data.forEach(function (line) {
 
-        line.sP1P >= 0 ? line.selectedSpLd1Option = 'Position' : line.selectedSpLd1Option = 'Drop detected';
-        line.sP2P >= 0 ? line.selectedSpLd2Option = 'Position' : line.selectedSpLd2Option = 'Drop detected';
-        line.sP3P >= 0 ? line.selectedSpLd3Option = 'Position' : line.selectedSpLd3Option = 'Drop detected';
+        line.sP1P >= 0 ? line.selectedSpLd1Target = 'Position' : line.selectedSpLd1Target = 'Drop detected';
+        line.sP2P >= 0 ? line.selectedSpLd2Target = 'Position' : line.selectedSpLd2Target = 'Drop detected';
+        line.sP3P >= 0 ? line.selectedSpLd3Target = 'Position' : line.selectedSpLd3Target = 'Drop detected';
 
-        line.sP1P >= 0 ? line.ldSp1PositionMode = true : line.ldSp1PositionMode = false;
-        line.sP2P >= 0 ? line.ldSp2PositionMode = true : line.ldSp2PositionMode = false;
-        line.sP3P >= 0 ? line.ldSp3PositionMode = true : line.ldSp3PositionMode = false;
+        line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
+        line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
+        line.sP3P >= 0 ? line.ldSp3PositionSelected = true : line.ldSp3PositionSelected = false;
 
       });
-
-
     },
 
     /*------------------------------------------------------------------------
@@ -783,9 +881,15 @@ export default {
     loadDropDispenserDisplayedInfo() {
 
       for (let i = 0; i < this.dropDispenserModule.data.length; i++) {
-        this.dropDispenserModule.data[i].displayedInfo = this.dropDispenserModule.data[i].type +
-            ': ' +
-            this.dropDispenserModule.data[i].value;
+
+        let displayedTarget = '';
+        let spTarget = '';
+
+        this.dropDispenserModule.data[i].value >= 0 ? displayedTarget = this.dropDispenserModule.data[i].value : displayedTarget = 'Drop detected';
+        this.dropDispenserModule.data[i].value >= 0 ? spTarget = 'Position' : spTarget = 'Drop detected';
+        this.dropDispenserModule.data[i].selectedInstrumentComponent = this.dropDispenserModule.data[i].type;
+        this.dropDispenserModule.data[i].displayedInfo = this.dropDispenserModule.data[i].type + ': ' + displayedTarget;
+        this.dropDispenserModule.data[i].spTarget = spTarget;
       }
     },
 
@@ -795,8 +899,8 @@ export default {
     loadWCDisplayedInfo() {
 
       for (let i = 0; i < this.waitingCondition.data.length; i++) {
-        let info = '';
 
+        let info = '';
         if (this.waitingCondition.data[i].type.toLowerCase() === 'instrument') {
 
           info = this.modulesList.find(l => l.id === this.waitingCondition.data[i].instrumentId)
@@ -809,6 +913,7 @@ export default {
         this.waitingCondition.data[i].displayedInfo = this.waitingCondition.data[i].type + info;
       }
     },
+
     /*------------------------------------------------------------------------
      * Function load number of actual steps
      * ------------------------------------------------------------------------*/
@@ -974,18 +1079,54 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-     * Function called when one edits a line
+     * Function called when one edits a line (initialize dialog data)
      * ------------------------------------------------------------------------*/
     open(value, col, name, line) {
 
+      // Step Module
       if (name === this.stepModule.name)
         this.stepModule.updateStep[0].oldValue = this.stepModule.data[line].step;
 
+      // Liquid Dispenser Module
       if (name === this.liquidDispenserModule.name) {
-        this.SPElements.selectedSpLdOption = this.liquidDispenserModule.data[line].selectedSpLd1Option;
-        this.SPElements.ldSpPositionValue =this.SPElements.ldSpOldValue = value;
 
-        console.log(this.SPElements.selectedSpLdOption)
+        this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue = value;
+        value >= 0 ? this.isVisibleLD = true : this.isVisibleLD = false;
+        value >= 0 ? this.SPElements.selectedSpLDTarget = 'Position' : this.SPElements.selectedSpLDTarget = 'Drop detected';
+
+      }
+
+      //Drop Dispenser Module
+      if (name === this.dropDispenserModule.name) {
+
+        value = this.dropDispenserModule.data[line].value;
+        this.SPElements.selectedInstrumentComponent = this.dropDispenserModule.data[line].type;
+        this.SPElements.ddSpPositionValue = this.SPElements.ddSpOldValue = value;
+        value >= 0 ? this.isVisibleDD = true : this.isVisibleDD = false;
+        value >= 0 ? this.SPElements.selectedSpDDTarget = 'Position' : this.SPElements.selectedSpDDTarget = 'Drop detected';
+      }
+
+      //Waiting Condition
+      if (name === this.waitingCondition.name) {
+        value = this.waitingCondition.data[line].type;
+
+        this.updateWaitingCondition.selectedOption = value;
+        this.updateWaitingCondition.timeoutOptionSelected = false;
+        this.updateWaitingCondition.instrumentOptionSelected = false;
+
+        if (value.toLowerCase() === 'instrument') {
+          this.updateWaitingCondition.instrumentOptionSelected = true;
+          this.updateWaitingCondition.timeoutOptionSelected = false;
+          this.updateWaitingCondition.selectedInstrument = this.modulesList.find(i => i.id === this.waitingCondition.data[line].instrumentId).name
+          this.updateWaitingCondition.selectedOldInstrument = this.updateWaitingCondition.selectedInstrument;
+        }
+        if (value.toLowerCase() === 'timeout') {
+          this.updateWaitingCondition.timeoutOptionSelected = true;
+          this.updateWaitingCondition.instrumentOptionSelected = false;
+          this.updateWaitingCondition.timeoutOldValue = this.updateWaitingCondition.timeoutValue = this.waitingCondition.data[line].value;
+        }
+
+        console.log(this.updateWaitingCondition.selectedInstrument)
       }
     },
 
@@ -1001,6 +1142,23 @@ export default {
         this.snackbar.show = true;
       }
       this.stepModule.updateStep[0].stepToUpdate = false;
+
+      // Reset waiting condition  values
+      if (name === this.waitingCondition.name) {
+        this.updateWaitingCondition.timeoutOldValue = 0;
+        this.updateWaitingCondition.selectedOldInstrument = 'Gina';
+      }
+
+      //Reset SPElements values
+      if (name === this.dropDispenserModule.name) {
+        this.SPElements.ddSpOldValue = 0;
+        this.SPElements.ddSpNewValue = 0;
+      }
+
+      if (name === this.liquidDispenserModule.name) {
+        this.SPElements.ldSpNewValue = 0;
+        this.SPElements.ldSpOldValue = 0;
+      }
     },
 
     /*------------------------------------------------------------------------
