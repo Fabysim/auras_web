@@ -307,7 +307,7 @@
                               > {{ item[header.value] }}
                                 <template v-slot:input>
                                   <table
-                                      v-if="header.value ==='sP1P' || header.value ==='sP2P' || header.value ==='sP3P'">
+                                      v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
                                     <tr>
                                       <td class="text-center">
                                         <v-select
@@ -349,12 +349,12 @@
                 <td>
                   <v-card>
                     <v-card-title class="justify-center module-title-color">
-                      {{ waitingCondition.name }}
+                      {{ waitingConditionModule.name }}
                     </v-card-title>
                     <v-card-text>
                       <v-data-table
-                          :headers="waitingCondition.columns"
-                          :items="waitingCondition.data"
+                          :headers="waitingConditionModule.columns"
+                          :items="waitingConditionModule.data"
                           :hide-default-footer="true"
                           disable-pagination
                       >
@@ -364,9 +364,9 @@
                             <td v-for="(header,key) in headers" :key="key">
                               <v-edit-dialog large
                                              :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, waitingCondition.name, idx)"
+                                             @save="updateLine(item[header.value], key, waitingConditionModule.name, idx)"
                                              @cancel="cancelLineUpdate"
-                                             @open="open(item[header.value], key, waitingCondition.name, idx)"
+                                             @open="open(item[header.value], key, waitingConditionModule.name, idx)"
                                              @close="close"
 
                               > {{ item[header.value] }}
@@ -650,11 +650,11 @@ export default {
         {text: "LDS7", value: "ldS7", width: 82, sortable: false, align: 'center'},
         {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
         {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
-        {text: "SP1 Target", value: "sP1P", width: 150, sortable: false, align: 'center'},
+        {text: "SP1 Target", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed", value: "sP1", width: 150, sortable: false, align: 'center'},
-        {text: "SP2 Target", value: "sP2P", width: 150, sortable: false, align: 'center'},
+        {text: "SP2 Target", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Speed", value: "sP2", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Target", value: "sP3P", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Target", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Speed", value: "sP3", width: 150, sortable: false, align: 'center'},
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
@@ -670,7 +670,7 @@ export default {
       data: []
     },
 
-    waitingCondition: {
+    waitingConditionModule: {
       name: 'Waiting condition',
       columns: [{text: 'Waiting condition', value: 'displayedInfo', width: 160, sortable: false}],
       data: []
@@ -711,6 +711,8 @@ export default {
       if (this.SPElements.selectedSpLDTarget === 'Position') {
         this.isVisibleLD = true;
         this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue;
+        if (this.SPElements.ldSpPositionValue === -1)
+          this.SPElements.ldSpPositionValue = 0;
       } else {
         this.isVisibleLD = false;
         this.SPElements.ldSpPositionValue = -1;
@@ -751,15 +753,10 @@ export default {
       if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout') {
         this.updateWaitingCondition.instrumentOptionSelected = false;
         this.updateWaitingCondition.timeoutOptionSelected = true;
-          this.updateWaitingCondition.timeoutValue = this.updateWaitingCondition.timeoutOldValue;
+        this.updateWaitingCondition.timeoutValue = this.updateWaitingCondition.timeoutOldValue;
       }
     },
 
-    /*------------------------------------------------------------------------
-    * Function used to watch the changes in the waiting condition module
-    * ------------------------------------------------------------------------*/
-    'updateWaitingCondition.selectedInstrument'() {
-    },
   },
 
   methods: {
@@ -803,7 +800,7 @@ export default {
       this.liquidDispenserModule.data.splice(index, 1);
       this.tlcMigrationModule.data.splice(index, 1);
       this.phMeterModule.data.splice(index, 1);
-      this.waitingCondition.data.splice(index, 1);
+      this.waitingConditionModule.data.splice(index, 1);
       this.actionsModule.data.splice(index, 1);
       this.commentModule.data.splice(index, 1);
 
@@ -853,7 +850,7 @@ export default {
       this.fetchData(this.phMeterModule);
       this.fetchData(this.dropDispenserModule);
       this.fetchData(this.liquidDispenserModule);
-      this.fetchData(this.waitingCondition);
+      this.fetchData(this.waitingConditionModule);
       this.fetchData(this.commentModule);
     },
 
@@ -871,6 +868,10 @@ export default {
         line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
         line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
         line.sP3P >= 0 ? line.ldSp3PositionSelected = true : line.ldSp3PositionSelected = false;
+
+        line.sP1P >= 0 ? line.displayedSP1Info = line.selectedSpLd1Target + ': ' + line.sP1P : line.displayedSP1Info = line.selectedSpLd1Target;
+        line.sP2P >= 0 ? line.displayedSP2Info = line.selectedSpLd2Target + ': ' + line.sP2P : line.displayedSP2Info = line.selectedSpLd2Target;
+        line.sP3P >= 0 ? line.displayedSP3Info = line.selectedSpLd3Target + ': ' + line.sP3P : line.displayedSP3Info = line.selectedSpLd3Target;
 
       });
     },
@@ -898,19 +899,19 @@ export default {
     * ------------------------------------------------------------------------*/
     loadWCDisplayedInfo() {
 
-      for (let i = 0; i < this.waitingCondition.data.length; i++) {
+      for (let i = 0; i < this.waitingConditionModule.data.length; i++) {
 
         let info = '';
-        if (this.waitingCondition.data[i].type.toLowerCase() === 'instrument') {
+        if (this.waitingConditionModule.data[i].type.toLowerCase() === 'instrument') {
 
-          info = this.modulesList.find(l => l.id === this.waitingCondition.data[i].instrumentId)
+          info = this.modulesList.find(l => l.id === this.waitingConditionModule.data[i].instrumentId)
           info = ': ' + info['name']
 
-        } else if (this.waitingCondition.data[i].type.toLowerCase() === 'timeout') {
+        } else if (this.waitingConditionModule.data[i].type.toLowerCase() === 'timeout') {
 
-          info = ': ' + this.waitingCondition.data[i].value
+          info = ': ' + this.waitingConditionModule.data[i].value
         }
-        this.waitingCondition.data[i].displayedInfo = this.waitingCondition.data[i].type + info;
+        this.waitingConditionModule.data[i].displayedInfo = this.waitingConditionModule.data[i].type + info;
       }
     },
 
@@ -1022,6 +1023,98 @@ export default {
       console.log('name: ' + name);
 
     },
+    /*------------------------------------------------------------------------
+    * Function to extract Liquid Dispenser's updated data from the update dialog
+    * ------------------------------------------------------------------------*/
+    extractLiquidDispenserDataFromDialog(col, line) {
+
+      if (this.SPElements.ldSpPositionValue !== 0 && this.SPElements.ldSpPositionValue !== this.SPElements.ldSpOldValue) {
+        if (col === 9)
+          this.liquidDispenserModule.data[line].sP1P = this.SPElements.ldSpPositionValue;
+        if (col === 11)
+          this.liquidDispenserModule.data[line].sP2P = this.SPElements.ldSpPositionValue;
+        if (col === 13)
+          this.liquidDispenserModule.data[line].sP3P = this.SPElements.ldSpPositionValue;
+      }
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to extract Drop Dispenser's updated data from the update dialog
+    * ------------------------------------------------------------------------*/
+    extractDropDispenserDataFromDialog(line) {
+      this.dropDispenserModule.data[line].type = this.SPElements.selectedInstrumentComponent;
+      this.SPElements.selectedSpDDTarget === 'Position' ?
+          this.dropDispenserModule.data[line].value = this.SPElements.ddSpPositionValue :
+          this.dropDispenserModule.data[line].value = -1;
+
+    },
+
+    /*--------------------------------------------------------------------------------
+    * Function to extract Waiting Condition's updated data from the update dialog
+    * ------------------------------------------------------------------------------*/
+    extractWaitingConditionDataFromDialog(line) {
+      this.waitingConditionModule.data[line].type = this.updateWaitingCondition.selectedOption;
+      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'instrument')
+        this.waitingConditionModule.data[line].instrumentId = this.modulesList.find(m => m.name === this.updateWaitingCondition.selectedInstrument).id
+
+      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout')
+        this.waitingConditionModule.data[line].value = this.updateWaitingCondition.timeoutValue;
+    },
+
+    /*---------------------------------------------------------------------------
+    * Function to load selected load Liquid Dispenser's data into update dialog
+    * --------------------------------------------------------------------------*/
+    loadLiquidDispenserDataInDialog(value, col, line) {
+
+      console.log('passe')
+
+      if (col === 9)
+        value = this.liquidDispenserModule.data[line].sP1P;
+      if (col === 11)
+        value = this.liquidDispenserModule.data[line].sP2P;
+      if (col === 13)
+        value = this.liquidDispenserModule.data[line].sP3P;
+
+      this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue = value;
+      value >= 0 ? this.isVisibleLD = true : this.isVisibleLD = false;
+      value >= 0 ? this.SPElements.selectedSpLDTarget = 'Position' : this.SPElements.selectedSpLDTarget = 'Drop detected';
+    },
+
+    /*----------------------------------------------------------------------------------
+    * Function to load selected load Drop Dispenser's data into update dialog
+    * ---------------------------------------------------------------------------------*/
+    loadDropDispenserDataInDialog(value, line) {
+
+      value = this.dropDispenserModule.data[line].value;
+      this.SPElements.selectedInstrumentComponent = this.dropDispenserModule.data[line].type;
+      this.SPElements.ddSpPositionValue = this.SPElements.ddSpOldValue = value;
+      value >= 0 ? this.isVisibleDD = true : this.isVisibleDD = false;
+      value >= 0 ? this.SPElements.selectedSpDDTarget = 'Position' : this.SPElements.selectedSpDDTarget = 'Drop detected';
+    },
+
+    /*----------------------------------------------------------------------------------
+    * Function to load selected load Waiting Condition's data into update dialog
+    * ---------------------------------------------------------------------------------*/
+    loadWaitingConditionDataInDialog(value, line) {
+
+      value = this.waitingConditionModule.data[line].type;
+
+      this.updateWaitingCondition.selectedOption = value;
+      this.updateWaitingCondition.timeoutOptionSelected = false;
+      this.updateWaitingCondition.instrumentOptionSelected = false;
+
+      if (value.toLowerCase() === 'instrument') {
+        this.updateWaitingCondition.instrumentOptionSelected = true;
+        this.updateWaitingCondition.timeoutOptionSelected = false;
+        this.updateWaitingCondition.selectedInstrument = this.modulesList.find(i => i.id === this.waitingConditionModule.data[line].instrumentId).name
+        this.updateWaitingCondition.selectedOldInstrument = this.updateWaitingCondition.selectedInstrument;
+      }
+      if (value.toLowerCase() === 'timeout') {
+        this.updateWaitingCondition.timeoutOptionSelected = true;
+        this.updateWaitingCondition.instrumentOptionSelected = false;
+        this.updateWaitingCondition.timeoutOldValue = this.updateWaitingCondition.timeoutValue = this.waitingConditionModule.data[line].value;
+      }
+    },
 
     /*------------------------------------------------------------------------
     * Function to retrieve updated line and module
@@ -1035,11 +1128,15 @@ export default {
           break;
 
         case this.dropDispenserModule.name:
+          this.extractDropDispenserDataFromDialog(line);
           this.updateModule(this.dropDispenserModule.data[line], line, name);
+          setTimeout(() => this.fetchData(this.dropDispenserModule), 1000);
           break;
 
         case this.liquidDispenserModule.name:
+          this.extractLiquidDispenserDataFromDialog(col, line);
           this.updateModule(this.liquidDispenserModule.data[line], line, name);
+          setTimeout(() => this.fetchData(this.liquidDispenserModule), 1000);
           break;
 
         case this.tlcMigrationModule.name:
@@ -1050,8 +1147,10 @@ export default {
           this.updateModule(this.phMeterModule.data[line], line, name);
           break;
 
-        case this.waitingCondition.name:
-          this.updateModule(this.waitingCondition.data[line], line, name);
+        case this.waitingConditionModule.name:
+          this.extractWaitingConditionDataFromDialog(line);
+          this.updateModule(this.waitingConditionModule.data[line], line, name);
+          setTimeout(() => this.fetchData(this.waitingConditionModule), 1000);
           break;
 
         case this.commentModule.name:
@@ -1083,51 +1182,28 @@ export default {
      * ------------------------------------------------------------------------*/
     open(value, col, name, line) {
 
-      // Step Module
-      if (name === this.stepModule.name)
-        this.stepModule.updateStep[0].oldValue = this.stepModule.data[line].step;
 
-      // Liquid Dispenser Module
-      if (name === this.liquidDispenserModule.name) {
+      switch (name) {
+        case this.stepModule.name:
+          this.stepModule.updateStep[0].oldValue = this.stepModule.data[line].step;
+          break;
 
-        this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue = value;
-        value >= 0 ? this.isVisibleLD = true : this.isVisibleLD = false;
-        value >= 0 ? this.SPElements.selectedSpLDTarget = 'Position' : this.SPElements.selectedSpLDTarget = 'Drop detected';
+        case this.liquidDispenserModule.name:
+          this.loadLiquidDispenserDataInDialog(value, col, line);
+          break;
 
+        case this.dropDispenserModule.name:
+          this.loadDropDispenserDataInDialog(value, line);
+          break;
+
+        case this.waitingConditionModule.name:
+          this.loadWaitingConditionDataInDialog(value, line);
+          break;
+
+        default:
+          break;
       }
 
-      //Drop Dispenser Module
-      if (name === this.dropDispenserModule.name) {
-
-        value = this.dropDispenserModule.data[line].value;
-        this.SPElements.selectedInstrumentComponent = this.dropDispenserModule.data[line].type;
-        this.SPElements.ddSpPositionValue = this.SPElements.ddSpOldValue = value;
-        value >= 0 ? this.isVisibleDD = true : this.isVisibleDD = false;
-        value >= 0 ? this.SPElements.selectedSpDDTarget = 'Position' : this.SPElements.selectedSpDDTarget = 'Drop detected';
-      }
-
-      //Waiting Condition
-      if (name === this.waitingCondition.name) {
-        value = this.waitingCondition.data[line].type;
-
-        this.updateWaitingCondition.selectedOption = value;
-        this.updateWaitingCondition.timeoutOptionSelected = false;
-        this.updateWaitingCondition.instrumentOptionSelected = false;
-
-        if (value.toLowerCase() === 'instrument') {
-          this.updateWaitingCondition.instrumentOptionSelected = true;
-          this.updateWaitingCondition.timeoutOptionSelected = false;
-          this.updateWaitingCondition.selectedInstrument = this.modulesList.find(i => i.id === this.waitingCondition.data[line].instrumentId).name
-          this.updateWaitingCondition.selectedOldInstrument = this.updateWaitingCondition.selectedInstrument;
-        }
-        if (value.toLowerCase() === 'timeout') {
-          this.updateWaitingCondition.timeoutOptionSelected = true;
-          this.updateWaitingCondition.instrumentOptionSelected = false;
-          this.updateWaitingCondition.timeoutOldValue = this.updateWaitingCondition.timeoutValue = this.waitingCondition.data[line].value;
-        }
-
-        console.log(this.updateWaitingCondition.selectedInstrument)
-      }
     },
 
     /*------------------------------------------------------------------------
@@ -1144,7 +1220,7 @@ export default {
       this.stepModule.updateStep[0].stepToUpdate = false;
 
       // Reset waiting condition  values
-      if (name === this.waitingCondition.name) {
+      if (name === this.waitingConditionModule.name) {
         this.updateWaitingCondition.timeoutOldValue = 0;
         this.updateWaitingCondition.selectedOldInstrument = 'Gina';
       }
@@ -1157,6 +1233,8 @@ export default {
 
       if (name === this.liquidDispenserModule.name) {
         this.SPElements.ldSpNewValue = 0;
+        this.SPElements.ldSpOldValue = 0;
+        this.SPElements.ldSpPositionValue = 0
         this.SPElements.ldSpOldValue = 0;
       }
     },
@@ -1346,8 +1424,8 @@ export default {
       waitingConditionStep.methodId = this.currentMethod.id;
       waitingConditionStep.type = this.$refs.plateForm.waitingCondition.selectedOption
 
-      this.waitingCondition.data.push(waitingConditionStep);
-      this.postStep(waitingConditionStep, this.waitingCondition.name);
+      this.waitingConditionModule.data.push(waitingConditionStep);
+      this.postStep(waitingConditionStep, this.waitingConditionModule.name);
 
     },
 
