@@ -904,8 +904,7 @@ export default {
         let info = '';
         if (this.waitingConditionModule.data[i].type.toLowerCase() === 'instrument') {
 
-          info = this.modulesList.find(l => l.id === this.waitingConditionModule.data[i].instrumentId)
-          info = ': ' + info['name']
+          info = ': ' + this.modulesList.find(l => l.id === this.waitingConditionModule.data[i].instrumentId).name;
 
         } else if (this.waitingConditionModule.data[i].type.toLowerCase() === 'timeout') {
 
@@ -992,22 +991,22 @@ export default {
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
     getModuleUri(moduleName) {
+      if (moduleName.toLowerCase().includes('step'))
+        moduleName = 'methods/step';
       return moduleName.replace(/ +/g, "") + 's';
     },
 
     /*------------------------------------------------------------------------
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
-    updateModule(data, stepNr, name) {
+    updateModule(data, name) {
 
       let url = this.getModuleUri(name);
       url = 'api/' + url + '/';
-
       axios
           .put('http://' + this.$aurasApi + url + data.id, data)
           .then((response) => {
 
-            console.log(response)
             if (response.status === 204) {
               this.snackbar.message = "Step updated successfully";
 
@@ -1017,12 +1016,8 @@ export default {
             }
           });
       this.snackbar.show = true;
-
-      console.log('data: ' + data.id);
-      console.log('step Nr: ' + stepNr);
-      console.log('name: ' + name);
-
     },
+
     /*------------------------------------------------------------------------
     * Function to extract Liquid Dispenser's updated data from the update dialog
     * ------------------------------------------------------------------------*/
@@ -1124,46 +1119,50 @@ export default {
       switch (name) {
 
         case this.trayModule.name:
-          this.updateModule(this.trayModule.data[line], line, name);
+          this.updateModule(this.trayModule.data[line], name);
           break;
 
         case this.dropDispenserModule.name:
           this.extractDropDispenserDataFromDialog(line);
-          this.updateModule(this.dropDispenserModule.data[line], line, name);
+          this.updateModule(this.dropDispenserModule.data[line], name);
           setTimeout(() => this.fetchData(this.dropDispenserModule), 1000);
           break;
 
         case this.liquidDispenserModule.name:
           this.extractLiquidDispenserDataFromDialog(col, line);
-          this.updateModule(this.liquidDispenserModule.data[line], line, name);
+          this.updateModule(this.liquidDispenserModule.data[line], name);
           setTimeout(() => this.fetchData(this.liquidDispenserModule), 1000);
           break;
 
         case this.tlcMigrationModule.name:
-          this.updateModule(this.tlcMigrationModule.data[line], line, name);
+          this.updateModule(this.tlcMigrationModule.data[line], name);
           break;
 
         case this.phMeterModule.name:
-          this.updateModule(this.phMeterModule.data[line], line, name);
+          this.updateModule(this.phMeterModule.data[line], name);
           break;
 
         case this.waitingConditionModule.name:
           this.extractWaitingConditionDataFromDialog(line);
-          this.updateModule(this.waitingConditionModule.data[line], line, name);
+          this.updateModule(this.waitingConditionModule.data[line], name);
           setTimeout(() => this.fetchData(this.waitingConditionModule), 1000);
           break;
 
         case this.commentModule.name:
-          this.updateModule(this.commentModule.data[line], line, name);
+          this.updateModule(this.commentModule.data[line], name);
           break;
 
         case this.stepModule.name:
 
           if (this.checkStepNumberValidity(value)) {
 
-            this.stepModule.updateStep[0].stepToUpdate = true;
-            //this.updateModule(this.stepModule.data[line], line, name);
+            console.log(line);
+            this.stepModule.data[line].id = line;
+            this.stepModule.data[line].newValue = this.stepModule.data[line].step;
+            this.stepModule.data[line].oldValue = this.stepModule.updateStep[0].oldValue;
 
+            this.stepModule.updateStep[0].stepToUpdate = true;
+            this.updateModule(this.stepModule.data[line], name);
           }
           break;
 
@@ -1185,6 +1184,7 @@ export default {
 
       switch (name) {
         case this.stepModule.name:
+
           this.stepModule.updateStep[0].oldValue = this.stepModule.data[line].step;
           break;
 
@@ -1213,8 +1213,8 @@ export default {
 
       if (name === this.stepModule.name && this.stepModule.updateStep[0].stepToUpdate === false) {
         this.stepModule.data[line].step = this.stepModule.updateStep[0].oldValue;
-        this.snackbar.message = 'The step must be > 0 and < ' + this.stepModule.data.length;
-        this.snackbar.color = 'error'
+        this.snackbar.color = 'error';
+        this.snackbar.message = 'Step out of bounds';
         this.snackbar.show = true;
       }
       this.stepModule.updateStep[0].stepToUpdate = false;
