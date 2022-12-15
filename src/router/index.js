@@ -4,8 +4,8 @@ import StationManager from '../views/StationManager.vue'
 import IndexColorSView from "@/views/ColorSensor/IndexColorSView";
 import PlayGround from "@/views/PlayGround";
 import IndexAuras from "@/views/Auras/IndexAurasView";
-import ConfigAurasView from "@/views/Auras/ConfigAurasView";
-import RunAurasView from "@/views/Auras/RunAurasView";
+import AurasConfigMethodView from "@/views/Auras/ConfigMethodView";
+import RunAurasView from "@/views/Auras/RunMethodView";
 import IndexDd from "@/views/LiquidDispenser/IndexDropDView";
 import DdConfigMethod from "@/views/LiquidDispenser/ConfigMethodDd";
 import DdUpdateMethod from "@/views/LiquidDispenser/UpdateMethodDd";
@@ -36,7 +36,7 @@ const routes = [
     {
         path: '/configAuras/:idMethod',
         name: 'ConfigAuras',
-        component: ConfigAurasView,
+        component: AurasConfigMethodView,
     },
     {
         path: '/runAuras/:idMethod',

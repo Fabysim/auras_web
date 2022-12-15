@@ -32,6 +32,13 @@
           </v-tooltip>
         </download-excel>
 
+        <v-spacer/>
+        <v-btn color="primary"
+               class="white--text"
+               @click="loadModulesData()"
+        >
+          Refresh
+        </v-btn>
       </v-card-title>
 
       <!-- Method data -->
@@ -475,7 +482,7 @@
                         v-bind="attrs"
                         color="red"
                         min-width="150"
-                        @click="confirmDelete(item.step)"
+                        @click="confirmDelete(item.line)"
                     >
                       mdi-delete
                     </v-icon>
@@ -534,7 +541,7 @@ import axios from "axios";
 
 
 export default {
-  name: 'AurasConfigView',
+  name: 'AurasConfigMethodView',
   components: {
     PlatFormCard,
     VueScrollSnap
@@ -787,27 +794,24 @@ export default {
 
       this.dialogDelete = true;
       this.deletedIndex = index;
+
     },
 
     /*------------------------------------------------------------------------
     * Function to delete a step of current method
     * ------------------------------------------------------------------------*/
-    async deleteStep(index) {
+    async deleteStep() {
 
-      this.stepModule.data.splice(index, 1);
-      this.trayModule.data.splice(index, 1);
-      this.dropDispenserModule.data.splice(index, 1);
-      this.liquidDispenserModule.data.splice(index, 1);
-      this.tlcMigrationModule.data.splice(index, 1);
-      this.phMeterModule.data.splice(index, 1);
-      this.waitingConditionModule.data.splice(index, 1);
-      this.actionsModule.data.splice(index, 1);
-      this.commentModule.data.splice(index, 1);
-
-      this.snackbar.message = 'Step deleted';
-      this.snackbar.show = true;
       this.dialogDelete = false;
-    },
+      let data = {
+        id: this.deletedIndex,
+        methodId: this.currentMethod.id
+      };
+
+      this.updateModule(data, 'methods/deleteStep');
+
+      setTimeout(() => this.loadModulesData(), 1500);
+   },
 
     /*------------------------------------------------------------------------
      * Function to fetch current method data
@@ -844,7 +848,10 @@ export default {
     * Function to load all method's data
     * ------------------------------------------------------------------------*/
     async loadModulesData() {
-
+      this.stepCount = 0;
+      this.currentStep = 0;
+      this.stepModule.data = [];
+      this.actionsModule.data = [];
       this.fetchData(this.trayModule);
       this.fetchData(this.tlcMigrationModule);
       this.fetchData(this.phMeterModule);
@@ -991,8 +998,6 @@ export default {
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
     getModuleUri(moduleName) {
-      if (moduleName.toLowerCase().includes('step'))
-        moduleName = 'methods/step';
       return moduleName.replace(/ +/g, "") + 's';
     },
 
@@ -1003,12 +1008,16 @@ export default {
 
       let url = this.getModuleUri(name);
       url = 'api/' + url + '/';
+
+      console.log('http://' + this.$aurasApi + url + data.id);
       axios
           .put('http://' + this.$aurasApi + url + data.id, data)
           .then((response) => {
 
             if (response.status === 204) {
-              this.snackbar.message = "Step updated successfully";
+              name.toLowerCase().includes('delete')
+                  ? this.snackbar.message = "Step deleted successfully"
+                  : this.snackbar.message = "Step updated successfully";
 
             } else {
               this.snackbar.message = response.data.message;
@@ -1155,14 +1164,21 @@ export default {
         case this.stepModule.name:
 
           if (this.checkStepNumberValidity(value)) {
+            if (this.stepModule.data[line].step !== this.stepModule.updateStep[0].oldValue) {
 
-            console.log(line);
-            this.stepModule.data[line].id = line;
-            this.stepModule.data[line].newValue = this.stepModule.data[line].step;
-            this.stepModule.data[line].oldValue = this.stepModule.updateStep[0].oldValue;
+              this.stepModule.data[line].id = line;
+              this.stepModule.data[line].newValue = this.stepModule.data[line].step;
+              this.stepModule.data[line].oldValue = this.stepModule.updateStep[0].oldValue;
+              this.stepModule.data[line].methodId = this.currentMethod.id;
 
-            this.stepModule.updateStep[0].stepToUpdate = true;
-            this.updateModule(this.stepModule.data[line], name);
+              this.stepModule.updateStep[0].stepToUpdate = true;
+              this.updateModule(this.stepModule.data[line], 'methods/editStep');
+              this.stepCount = 0;
+
+              setTimeout(() => this.loadModulesData(), 1500);
+
+            }
+
           }
           break;
 
@@ -1180,7 +1196,6 @@ export default {
      * Function called when one edits a line (initialize dialog data)
      * ------------------------------------------------------------------------*/
     open(value, col, name, line) {
-
 
       switch (name) {
         case this.stepModule.name:
