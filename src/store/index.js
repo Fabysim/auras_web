@@ -20,6 +20,9 @@ export default new Vuex.Store({
         ginaModuleName: 'Gina',
         aurasModuleName: 'Auras',
         commentModuleName: 'Comment',
+        lalModuleName: 'LAL',
+
+
     },
     getters: {},
     mutations: {},

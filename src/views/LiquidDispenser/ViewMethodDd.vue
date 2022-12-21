@@ -349,7 +349,7 @@ export default {
         this.nextStep = JSONobj.stepFinished + 1;
 
         //If there is a pause after this finshed step
-        if (this.Pause == 1) {
+        if (this.Pause === 1) {
           this.pauseTransmission();
           this.DisplayPauseAlert();
         }
@@ -370,7 +370,7 @@ export default {
 
     DisplayPauseAlert() {
       let text = "Press OK to resume the process";
-      if (confirm(text) == true) {
+      if (confirm(text) === true) {
         this.AutomaticTransmission();
       } else {
         this.stopTransmission();
@@ -414,7 +414,7 @@ export default {
 
       this.inPause = false;
       this.stopped = false;
-      if (this.count1 == this.total) {
+      if (this.count1 === this.total) {
         this.count1 = 0;
         this.count = -1;
         this.nextStep = 0;
@@ -468,11 +468,7 @@ export default {
 
     /* --------------      Transmits the data to ESP    ----------- */
     postDataToESP() {
-      if (this.total === this.step + 1) {
-        this.endOfTransmission = true;
-      } else {
-        this.endOfTransmission = false;
-      }
+      this.endOfTransmission = this.total === this.step + 1;
       this.loading = true;
       const params = JSON.stringify({
         step: this.step,

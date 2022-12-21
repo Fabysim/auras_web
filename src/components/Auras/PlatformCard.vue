@@ -189,6 +189,28 @@
                 </v-card>
               </td>
 
+              <!--LAL Module-->
+
+              <td>
+                <v-card height="265" width="230" style="padding: 20px">
+                  <v-card-title class="justify-center module-title-color"> LAL</v-card-title>
+                  <table>
+                    <tr>
+                      <td>
+                        <v-select
+                            label="Select a PS"
+                            v-model="lalModule.data.sp"
+                            :items="lalModule.items"
+                        >
+
+                        </v-select>
+                      </td>
+                    </tr>
+
+                  </table>
+
+                </v-card>
+              </td>
               <!--Waiting condition-->
 
               <td>
@@ -245,15 +267,15 @@
 
     <div id="image-container">
       <vue-scroll-snap :horizontal="true">
-        <v-img ID="img-machine" src="../assets/Liquid Dispenser Images/Assemblage_210504.png"/>
+        <v-img ID="img-machine" src="../../assets/Liquid Dispenser Images/Assemblage_210504.png"/>
         <v-img @click="rotate('img-pinch1')" class="pinch" ID="img-pinch1"
-               src="../assets/Liquid Dispenser Images/pinch25a.png"/>
+               src="../../assets/Liquid Dispenser Images/pinch25a.png"/>
         <v-img @click="rotate('img-pinch2')" class="pinch" ID="img-pinch2"
-               src="../assets/Liquid Dispenser Images/pinch25b.png"/>
+               src="../../assets/Liquid Dispenser Images/pinch25b.png"/>
         <v-img @click="rotate('img-pinch3')" class="pinch" ID="img-pinch3"
-               src="../assets/Liquid Dispenser Images/pinch25c.png"/>
+               src="../../assets/Liquid Dispenser Images/pinch25c.png"/>
         <v-img @click="rotate('img-pinch4')" class="pinch" ID="img-pinch4"
-               src="../assets/Liquid Dispenser Images/pinch25d.png"/>
+               src="../../assets/Liquid Dispenser Images/pinch25d.png"/>
         <!--<v-img @click="rotate('img-pinch5')" class="pinch" ID="img-pinch5" src="../assets/pinch25a.png"/>
         <v-img @click="rotate('img-pinch6')" class="pinch" ID="img-pinch6" src="../assets/pinch25a.png"/>
         <v-img @click="rotate('img-pinch7')" class="pinch" ID="img-pinch7" src="../assets/pinch25a.png"/>
@@ -397,6 +419,12 @@ export default {
       ]
     },
 
+    lalModule: {
+      items: ['None','SP1', 'SP2', 'SP3'],
+      data: {sp: 'None'},
+
+    },
+
     //Waiting Condition
 
     waitingCondition: {
@@ -433,7 +461,6 @@ export default {
       columns: [],
       data: []
     },
-
 
 
   }),
@@ -489,6 +516,7 @@ export default {
 
       this.SPElements.selectedSpDdOption = 'Standards';
 
+      this.lalModule.selectedSP = '';
       this.comment = '';
 
     },
