@@ -420,8 +420,10 @@ export default {
     },
 
     lalModule: {
-      items: ['None','SP1', 'SP2', 'SP3'],
-      data: {sp: 'None'},
+      items: ['None', 'SP1', 'SP2', 'SP3'],
+      data: {
+        sp: 'None'
+      },
 
     },
 
@@ -516,7 +518,7 @@ export default {
 
       this.SPElements.selectedSpDdOption = 'Standards';
 
-      this.lalModule.selectedSP = '';
+      this.lalModule.sp = '';
       this.comment = '';
 
     },

@@ -848,6 +848,7 @@ export default {
       this.saveLiquidDispenserLine();
       this.saveWaitingConditionLine();
       this.saveCommentModuleLine();
+      this.saveLalModuleLine();
 
       this.$refs.plateForm.resetPlatformTables();
 
@@ -1007,7 +1008,7 @@ export default {
       let uri = this.getModuleUri(module.name);
 
       await axios
-          .get('http://' + this.$aurasApi + 'api/' + uri)
+          .get('http://' + this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
           .then(async (response) => {
             if (response.status === 200) {
               module.data = await response.data;
@@ -1060,7 +1061,7 @@ export default {
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
     getModuleUri(moduleName) {
-      return moduleName.replace(/ +/g, "") + 's';
+      return moduleName.replace(/ +/g, "") + 's/';
     },
 
     /*------------------------------------------------------------------------
@@ -1069,7 +1070,7 @@ export default {
     updateModule(data, name) {
 
       let url = this.getModuleUri(name);
-      url = 'api/' + url + '/';
+      url = 'api/' + url;
 
       axios
           .put('http://' + this.$aurasApi + url + data.id, data)
@@ -1547,6 +1548,20 @@ export default {
       };
       this.$data.commentModule.data.push(commentStep);
       this.postStep(commentStep, this.commentModule.name);
+    },
+
+    /*------------------------------------------------------------------------
+    * Function used to extract Tray step data
+    * ------------------------------------------------------------------------*/
+    saveLalModuleLine() {
+
+      let lalStep = {
+        sp: this.$refs.plateForm.lalModule.data.sp,
+        step: this.currentStep,
+        methodId: this.currentMethod.id
+      };
+      this.$data.lalModule.data.push(lalStep);
+      this.postStep(lalStep, this.lalModule.name);
     },
 
 

@@ -476,9 +476,10 @@ export default {
         console.log("Disconnected from websocket");
       }
     },
+
     /*--------------------------------------------------------------------------
-  * Retrieves all Ip addresses from database
- * --------------------------------------------------------------------------*/
+    * Retrieves all Ip addresses from database
+    * --------------------------------------------------------------------------*/
     fetchNetworkByName(name) {
       axios
           .get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
@@ -582,7 +583,7 @@ export default {
       let uri = this.getModuleUri(module.name);
 
       await axios
-          .get('http://' + this.$aurasApi + 'api/' + uri)
+          .get('http://' + this.$aurasApi + 'api/' + uri+ this.$route.params.idMethod)
           .then(async (response) => {
             if (response.status === 200) {
               module.data = await response.data;
@@ -613,7 +614,7 @@ export default {
     * Function to update method's data to database
     * ------------------------------------------------------------------------*/
     getModuleUri(moduleName) {
-      return moduleName.replace(/ +/g, "") + 's';
+      return moduleName.replace(/ +/g, "") + 's/';
     },
 
     /*------------------------------------------------------------------------
