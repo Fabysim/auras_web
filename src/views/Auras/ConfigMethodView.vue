@@ -97,51 +97,6 @@
           <table>
 
             <tr>
-              <!--Tray module-->
-
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">{{ trayModule.name }}</v-card-title>
-                  <v-card-text>
-
-                    <v-data-table
-
-                        :headers="trayModule.columns"
-                        :items="trayModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog large
-                                           :return-value.sync="item[header.value]"
-                                           @save="updateLine(item[header.value], key, trayModule.name, idx)"
-                                           @cancel="cancelLineUpdate"
-                                           @open="open"
-                                           @close="close"
-
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-text-field
-                                    v-model.number="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-
-                    </v-data-table>
-
-                  </v-card-text>
-                </v-card>
-              </td>
-
               <!--TLC Module-->
 
               <td>
@@ -162,16 +117,13 @@
                                            :return-value.sync="item[header.value]"
                                            @save="updateLine(item[header.value], key, tlcMigrationModule.name, idx)"
                                            @cancel="cancelLineUpdate"
-                                           @open="open"
+                                           @open="open(item[header.value], key, tlcMigrationModule.name, idx)"
                                            @close="close"
 
                             > {{ item[header.value] }}
                               <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
+                                <v-select :items="tlcMigrationModule.items"
+                                          v-model="tlcMigrationModule.update.selectedOption"/>
                               </template>
                             </v-edit-dialog>
                           </td>
@@ -193,6 +145,7 @@
                     <v-data-table
                         :headers="phMeterModule.columns"
                         :items="phMeterModule.data"
+                        style="min-width: 150px"
                         :hide-default-footer="true"
                         disable-pagination
                     >
@@ -258,23 +211,20 @@
                                   <tr>
                                     <td>
                                       <v-select
-                                          v-model="SPElements.selectedInstrumentComponent"
-                                          :items="SPElements.instrumentComponents"
+
                                       />
                                     </td>
                                   </tr>
                                   <tr>
                                     <td>
                                       <v-select
-                                          v-model="SPElements.selectedSpDDTarget"
-                                          :items="SPElements.spTargets"
+
                                       />
                                     </td>
                                     <td>
                                       <v-text-field
                                           v-if="isVisibleDD"
                                           label="µL"
-                                          v-model.number="SPElements.ddSpPositionValue"
                                       />
                                     </td>
                                   </tr>
@@ -324,8 +274,6 @@
                                   <tr>
                                     <td class="text-center">
                                       <v-select
-                                          v-model="SPElements.selectedSpLDTarget"
-                                          :items="SPElements.spTargets"
                                       />
 
                                     </td>
@@ -335,7 +283,6 @@
                                       <v-text-field
                                           label="volume in µL"
                                           v-if="isVisibleLD"
-                                          v-model="SPElements.ldSpPositionValue"
                                       />
                                     </td>
                                   </tr>
@@ -352,56 +299,6 @@
                         </tr>
                         </tbody>
                       </template>
-                    </v-data-table>
-                  </v-card-text>
-                </v-card>
-              </td>
-
-              <!--Lal condition-->
-
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">
-                    {{ lalModule.name }}
-                  </v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="lalModule.columns"
-                        :items="lalModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog large
-                                           :return-value.sync="item[header.value]"
-                                           @save="updateLine(item[header.value], key, lalModule.name, idx)"
-                                           @cancel="cancelLineUpdate"
-                                           @open="open(item[header.value], key, lalModule.name, idx)"
-                                           @close="close"
-
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <table>
-                                  <tr>
-                                    <td>
-                                      <v-select
-                                          v-model="item[header.value]"
-                                          :items="SPElements.spNames"
-                                      />
-
-                                    </td>
-                                  </tr>
-                                </table>
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-
                     </v-data-table>
                   </v-card-text>
                 </v-card>
@@ -515,6 +412,7 @@
                   </v-card-text>
                 </v-card>
               </td>
+
             </tr>
           </table>
         </vue-scroll-snap>
@@ -622,23 +520,6 @@ export default {
 
     //Modules variables
 
-    SPElements: {
-      selectedSpLDTarget: '',
-      selectedSpDDTarget: '',
-      selectedInstrumentComponent: '',
-      ldSpPositionValue: 0,
-      ddSpPositionValue: 0,
-      ldSpOldValue: 0,
-      ldSpNewValue: 0,
-      ddSpOldValue: 0,
-      ddSpNewValue: 0,
-      instrumentComponents: ['Standards', 'QC sample'],
-      spTargets: ['Position', 'Drop detected'],
-      spNames: ['none', 'sp1', 'sp2', 'sp3'],
-    },
-
-    updateLalModule: {},
-
     updateWaitingCondition: {
       selectedOption: '',
       items: ['None', 'Instrument', 'Timeout'],
@@ -673,10 +554,22 @@ export default {
 
     },
 
-    trayModule: {
+    tlcMigrationModule: {
+      name: '',
+      items: ['Idle position', 'Ready position', 'Cycle', 'Redeposit tab'],
+      columns: [
+        {text: 'Position', value: 'description', width: 150, align: 'center'},
+      ],
+      data: [],
+      update: {
+        selectedOption: ''
+      },
+    },
+
+    phMeterModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'value', width: 82, sortable: false}
+        {text: 'Position', value: 'description', width: 100, align: 'center'},
       ],
       data: []
     },
@@ -684,34 +577,11 @@ export default {
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'displayedInfo', width: 150, sortable: false, align: 'center'},
+        {text: 'Value', value: 'description', width: 150, sortable: false, align: 'center'},
       ],
       data: []
     },
 
-    tlcMigrationModule: {
-      name: '',
-      columns: [
-        {text: 'Position', value: 'position', width: 150, align: 'center'},
-      ],
-      data: []
-    },
-
-    phMeterModule: {
-      name: '',
-      columns: [
-        {text: 'Position', value: 'position', width: 100, align: 'center'},
-      ],
-      data: []
-    },
-
-    lalModule: {
-      name: '',
-      columns: [
-        {text: 'Way out', value: 'sp', width: 100, align: 'center'},
-      ],
-      data: []
-    },
 
     liquidDispenserModule: {
       name: '',
@@ -726,11 +596,11 @@ export default {
         {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
         {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
         {text: "SP1 Target", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
-        {text: "SP1 Speed", value: "sP1", width: 150, sortable: false, align: 'center'},
+        {text: "SP1 Speed", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Target", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
-        {text: "SP2 Speed", value: "sP2", width: 150, sortable: false, align: 'center'},
+        {text: "SP2 Speed", value: "sP2S", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Target", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Speed", value: "sP3", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Speed", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
       ],
@@ -747,7 +617,7 @@ export default {
 
     waitingConditionModule: {
       name: 'Waiting condition',
-      columns: [{text: 'Waiting condition', value: 'displayedInfo', width: 160, sortable: false}],
+      columns: [{text: 'Waiting condition', value: 'description', width: 160, sortable: false}],
       data: []
     },
 
@@ -841,14 +711,12 @@ export default {
     async SaveLine() {
 
       this.extractStepModuleLine();
-      this.saveTrayModuleLine();
       this.saveTlcMigrationModuleLine();
       this.savePhMeterModuleLine();
       this.saveDropDispenserModuleLine();
       this.saveLiquidDispenserLine();
       this.saveWaitingConditionLine();
       this.saveCommentModuleLine();
-      this.saveLalModuleLine();
 
       this.$refs.plateForm.resetPlatformTables();
 
@@ -931,17 +799,25 @@ export default {
 
       this.liquidDispenserModule.data.forEach(function (line) {
 
-        line.sP1P >= 0 ? line.selectedSpLd1Target = 'Position' : line.selectedSpLd1Target = 'Drop detected';
-        line.sP2P >= 0 ? line.selectedSpLd2Target = 'Position' : line.selectedSpLd2Target = 'Drop detected';
-        line.sP3P >= 0 ? line.selectedSpLd3Target = 'Position' : line.selectedSpLd3Target = 'Drop detected';
+        line.sP1P === 0 ? line.displayedSP1Info = 'None' : '';
+        line.sP2P === 0 ? line.displayedSP2Info = 'None' : '';
+        line.sP3P === 0 ? line.displayedSP3Info = 'None' : '';
+
+        line.sP1P === -1 ? line.displayedSP1Info = 'QC sample drop' : '';
+        line.sP2P === -1 ? line.displayedSP2Info = 'QC sample drop' : '';
+        line.sP3P === -1 ? line.displayedSP3Info = 'QC sample drop' : '';
+
+        line.sP1P === -2 ? line.displayedSP1Info = 'Fill LAL cartridge' : '';
+        line.sP2P === -2 ? line.displayedSP2Info = 'Fill LAL cartridge' : '';
+        line.sP3P === -2 ? line.displayedSP3Info = 'Fill LAL cartridge' : '';
+
+        line.sP1P >= 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P : '';
+        line.sP2P >= 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P : '';
+        line.sP3P >= 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P : '';
 
         line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
         line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
         line.sP3P >= 0 ? line.ldSp3PositionSelected = true : line.ldSp3PositionSelected = false;
-
-        line.sP1P >= 0 ? line.displayedSP1Info = line.selectedSpLd1Target + ': ' + line.sP1P : line.displayedSP1Info = line.selectedSpLd1Target;
-        line.sP2P >= 0 ? line.displayedSP2Info = line.selectedSpLd2Target + ': ' + line.sP2P : line.displayedSP2Info = line.selectedSpLd2Target;
-        line.sP3P >= 0 ? line.displayedSP3Info = line.selectedSpLd3Target + ': ' + line.sP3P : line.displayedSP3Info = line.selectedSpLd3Target;
 
       });
     },
@@ -969,19 +845,11 @@ export default {
     * ------------------------------------------------------------------------*/
     loadWCDisplayedInfo() {
 
-      for (let i = 0; i < this.waitingConditionModule.data.length; i++) {
+      for (let i = 0; i < this.waitingConditionModule.data.length; i++)
+        this.waitingConditionModule.data[i].description.toLowerCase() === 'timeout' ?
+            this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value : '';
 
-        let info = '';
-        if (this.waitingConditionModule.data[i].type.toLowerCase() === 'instrument') {
 
-          info = ': ' + this.allModulesList.find(l => l.id === this.waitingConditionModule.data[i].instrumentId).name;
-
-        } else if (this.waitingConditionModule.data[i].type.toLowerCase() === 'timeout') {
-
-          info = ': ' + this.waitingConditionModule.data[i].value
-        }
-        this.waitingConditionModule.data[i].displayedInfo = this.waitingConditionModule.data[i].type + info;
-      }
     },
 
     /*------------------------------------------------------------------------
@@ -1017,15 +885,12 @@ export default {
               if (0 === this.stepCount++)
                 this.loadStepsAndActions(module.data.length);
 
-              // Set drop dispenser's displayed info
               if (module.name.toLowerCase().includes('drop'))
                 this.loadDropDispenserDisplayedInfo();
 
-              // Set liquid dispenser's displayed info
               if (module.name.toLowerCase().includes('liquid'))
                 this.loadLiquidDispenserUpdateInfo();
 
-              // Set waiting condition's displayed info
               if (module.name.toLowerCase().includes('waiting'))
                 this.loadWCDisplayedInfo();
 
@@ -1039,7 +904,6 @@ export default {
     * Function to send method's line to database
     * ------------------------------------------------------------------------*/
     async postStep(moduleData, moduleName) {
-
       let url = this.getModuleUri(moduleName);
 
       axios.post('http://' + this.$aurasApi + "api/" + url, moduleData)
@@ -1052,7 +916,6 @@ export default {
                   this.snackbar.message = "Could not create the step";
 
               });
-
       this.snackbar.show = true;
 
     },
@@ -1094,24 +957,41 @@ export default {
     * ------------------------------------------------------------------------*/
     extractLiquidDispenserDataFromDialog(col, line) {
 
-      if (this.SPElements.ldSpPositionValue !== 0 && this.SPElements.ldSpPositionValue !== this.SPElements.ldSpOldValue) {
-        if (col === 9)
-          this.liquidDispenserModule.data[line].sP1P = this.SPElements.ldSpPositionValue;
-        if (col === 11)
-          this.liquidDispenserModule.data[line].sP2P = this.SPElements.ldSpPositionValue;
-        if (col === 13)
-          this.liquidDispenserModule.data[line].sP3P = this.SPElements.ldSpPositionValue;
-      }
+      console.log(col, line)
+
     },
 
     /*------------------------------------------------------------------------
     * Function to extract Drop Dispenser's updated data from the update dialog
     * ------------------------------------------------------------------------*/
     extractDropDispenserDataFromDialog(line) {
-      this.dropDispenserModule.data[line].type = this.SPElements.selectedInstrumentComponent;
-      this.SPElements.selectedSpDDTarget === 'Position' ?
-          this.dropDispenserModule.data[line].value = this.SPElements.ddSpPositionValue :
-          this.dropDispenserModule.data[line].value = -1;
+      console.log(line)
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to extract Drop Dispenser's updated data from the update dialog
+    * ------------------------------------------------------------------------*/
+    extractTlcMigrationDataFromDialog(line) {
+
+      this.tlcMigrationModule.data[line].description = this.tlcMigrationModule.update.selectedOption;
+      switch (this.tlcMigrationModule.update.selectedOption) {
+
+        case "Idle position":
+          this.tlcMigrationModule.data[line].position = 0;
+          break;
+        case "Ready position":
+          this.tlcMigrationModule.data[line].position = 1;
+          break;
+        case "Cycle":
+          this.tlcMigrationModule.data[line].position = 2;
+          break;
+        case "Redeposit tab":
+          this.tlcMigrationModule.data[line].position = 3;
+          break;
+        default:
+          this.tlcMigrationModule.data[line].position = 0;
+          break;
+      }
 
     },
 
@@ -1152,19 +1032,21 @@ export default {
       if (col === 13)
         value = this.liquidDispenserModule.data[line].sP3P;
 
-      this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue = value;
       value >= 0 ? this.isVisibleLD = true : this.isVisibleLD = false;
-      value >= 0 ? this.SPElements.selectedSpLDTarget = 'Position' : this.SPElements.selectedSpLDTarget = 'Drop detected';
     },
 
+    /*---------------------------------------------------------------------------
+    * Function to load selected load Tlc Migration's data into update dialog
+    * --------------------------------------------------------------------------*/
+    loadTlcMigrationDataInDialog(value) {
+      this.tlcMigrationModule.update.selectedOption = value;
+    },
     /*----------------------------------------------------------------------------------
     * Function to load selected load Drop Dispenser's data into update dialog
     * ---------------------------------------------------------------------------------*/
     loadDropDispenserDataInDialog(value, line) {
 
       value = this.dropDispenserModule.data[line].value;
-      this.SPElements.selectedInstrumentComponent = this.dropDispenserModule.data[line].type;
-      this.SPElements.ddSpPositionValue = this.SPElements.ddSpOldValue = value;
       value >= 0 ? this.isVisibleDD = true : this.isVisibleDD = false;
       value >= 0 ? this.SPElements.selectedSpDDTarget = 'Position' : this.SPElements.selectedSpDDTarget = 'Drop detected';
     },
@@ -1192,13 +1074,7 @@ export default {
       }
     },
 
-    /*----------------------------------------------------------------------------------
-    * Function to load selected lal's data into update dialog
-    * ---------------------------------------------------------------------------------*/
-    lalDataInDialog(value) {
 
-      this.updateLalModule.selectedSP = value;
-    },
     /*------------------------------------------------------------------------
     * Function to retrieve updated line and module
     * ------------------------------------------------------------------------*/
@@ -1206,8 +1082,10 @@ export default {
 
       switch (name) {
 
-        case this.trayModule.name:
-          this.updateModule(this.trayModule.data[line], name);
+        case this.tlcMigrationModule.name:
+          this.extractTlcMigrationDataFromDialog(line);
+          this.updateModule(this.tlcMigrationModule.data[line], name);
+          setTimeout(() => this.fetchData(this.tlcMigrationModule), 1000);
           break;
 
         case this.dropDispenserModule.name:
@@ -1222,9 +1100,6 @@ export default {
           setTimeout(() => this.fetchData(this.liquidDispenserModule), 1000);
           break;
 
-        case this.tlcMigrationModule.name:
-          this.updateModule(this.tlcMigrationModule.data[line], name);
-          break;
 
         case this.phMeterModule.name:
           this.updateModule(this.phMeterModule.data[line], name);
@@ -1235,11 +1110,6 @@ export default {
           this.updateModule(this.waitingConditionModule.data[line], name);
           setTimeout(() => this.fetchData(this.waitingConditionModule), 1000);
           break;
-
-        case this.lalModule.name:
-          this.updateModule(this.lalModule.data[line], name);
-          break;
-
 
         case this.commentModule.name:
           this.updateModule(this.commentModule.data[line], name);
@@ -1272,8 +1142,11 @@ export default {
 
       switch (name) {
         case this.stepModule.name:
-
           this.stepModule.updateStep[0].oldValue = this.stepModule.data[line].step;
+          break;
+
+        case this.tlcMigrationModule.name:
+          this.loadTlcMigrationDataInDialog(value, col, line);
           break;
 
         case this.liquidDispenserModule.name:
@@ -1286,10 +1159,6 @@ export default {
 
         case this.waitingConditionModule.name:
           this.loadWaitingConditionDataInDialog(line);
-          break;
-
-        case this.lalModule.name:
-          this.lalDataInDialog(value, line);
           break;
 
         default:
@@ -1318,18 +1187,6 @@ export default {
         this.updateWaitingCondition.selectedOldInstrument = 'Gina';
       }
 
-      //Reset SPElements values
-      if (name === this.dropDispenserModule.name) {
-        this.SPElements.ddSpOldValue = 0;
-        this.SPElements.ddSpNewValue = 0;
-      }
-
-      if (name === this.liquidDispenserModule.name) {
-        this.SPElements.ldSpNewValue = 0;
-        this.SPElements.ldSpOldValue = 0;
-        this.SPElements.ldSpPositionValue = 0
-        this.SPElements.ldSpOldValue = 0;
-      }
     },
 
     /*------------------------------------------------------------------------
@@ -1345,25 +1202,21 @@ export default {
      * ------------------------------------------------------------------------*/
     initialization() {
 
-      this.trayModule.name = this.$store.state.trayModuleName;
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
       this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
       this.commentModule.name = this.$store.state.commentModuleName;
-      this.lalModule.name = this.$store.state.lalModuleName;
       this.stepModule.name = 'Steps';
       this.actionsModule.name = 'Actions';
 
       this.aurasModules.push(
-          this.trayModule,
           this.dropDispenserModule,
           this.phMeterModule,
           this.liquidDispenserModule,
           this.tlcMigrationModule,
           this.commentModule,
-          this.waitingConditionModule,
-          this.lalModule);
+          this.waitingConditionModule);
     },
 
     /*--------------------------------------------------------------------------
@@ -1389,48 +1242,41 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-     * Function used to extract trayModule step data
-     * ------------------------------------------------------------------------*/
-    saveTrayModuleLine() {
-
-      let trayModuleStep = JSON.parse(JSON.stringify(this.$refs.plateForm.trayModule.data[0]));
-
-      trayModuleStep.step = this.currentStep;
-      trayModuleStep.methodId = this.currentMethod.id;
-
-      this.$data.trayModule.data.push(trayModuleStep);
-      this.postStep(trayModuleStep, this.trayModule.name);
-
-    },
-
-    /*------------------------------------------------------------------------
     * Function used to extract tlcModule step data
     * ------------------------------------------------------------------------*/
     saveTlcMigrationModuleLine() {
 
-      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcModule.data[0]));
+      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModule.data[0]));
       tlcMMStep.step = this.currentStep;
       tlcMMStep.methodId = this.currentMethod.id;
+      tlcMMStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModule.selectedOption));
 
       this.$data.tlcMigrationModule.data.push(tlcMMStep);
       this.postStep(tlcMMStep, this.tlcMigrationModule.name);
     },
+    /*------------------------------------------------------------------------
+      * Function used to extract phMeterModule step data
+      * ------------------------------------------------------------------------*/
+    savePhMeterModuleLine() {
 
+      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
+
+      phMeterStep.step = this.currentStep;
+      phMeterStep.methodId = this.currentMethod.id;
+      phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.selectedOption));
+      this.$data.phMeterModule.data.push(phMeterStep);
+
+      this.postStep(phMeterStep, this.phMeterModule.name);
+    },
     /*------------------------------------------------------------------------
     * Function used to extract liquidDispenserModule step data
     * ------------------------------------------------------------------------*/
     saveDropDispenserModuleLine() {
-
       let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
 
-      dropDispenserStep.type = this.$refs.plateForm.SPElements.selectedSpDdOption;
       dropDispenserStep.step = this.currentStep;
       dropDispenserStep.methodId = this.currentMethod.id;
-
-      if (this.$refs.plateForm.SPElements.DdSpPositionMode === false)
-        dropDispenserStep.value = -1;
-
-      dropDispenserStep.displayedInfo = this.$refs.plateForm.SPElements.selectedSpDdOption + ': ' + dropDispenserStep.value;
+      dropDispenserStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.selectedOption));
 
       this.$data.dropDispenserModule.data.push(dropDispenserStep);
       this.postStep(dropDispenserStep, this.dropDispenserModule.name);
@@ -1443,37 +1289,14 @@ export default {
 
       let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
 
-      liquidDispenserStep.selectedSpLd1Option = '';
-      liquidDispenserStep.selectedSpLd2Option = '';
-      liquidDispenserStep.selectedSpLd3Option = '';
+      liquidDispenserStep.displayedSP1Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP1));
+      liquidDispenserStep.displayedSP2Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP2));
+      liquidDispenserStep.displayedSP3Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP3));
 
-      if (this.$refs.plateForm.SPElements.LdSp1PositionMode === true) {
-        liquidDispenserStep.sP1P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp1PositionValue));
-        liquidDispenserStep.selectedSpLd1Option = 'Position';
-      } else {
+      liquidDispenserStep.displayedSP1Info.includes('Volume') ? liquidDispenserStep.displayedSP1Info += ': ' + liquidDispenserStep.sP1P + 'µL' : '';
+      liquidDispenserStep.displayedSP2Info.includes('Volume') ? liquidDispenserStep.displayedSP2Info += ': ' + liquidDispenserStep.sP2P + 'µL' : '';
+      liquidDispenserStep.displayedSP3Info.includes('Volume') ? liquidDispenserStep.displayedSP3Info += ': ' + liquidDispenserStep.sP3P + 'µL' : '';
 
-        liquidDispenserStep.sP1P = -1;
-        liquidDispenserStep.selectedSpLd1Option = 'Drop detected';
-
-      }
-
-      if (this.$refs.plateForm.SPElements.LdSp2PositionMode === true) {
-        liquidDispenserStep.sP2P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp2PositionValue));
-        liquidDispenserStep.selectedSpLd2Option = 'Position';
-      } else {
-
-        liquidDispenserStep.sP2P = -1;
-        liquidDispenserStep.selectedSpLd1Option = 'Drop detected';
-      }
-
-      if (this.$refs.plateForm.SPElements.LdSp3PositionMode === true) {
-        liquidDispenserStep.sP3P = JSON.parse(JSON.stringify(this.$refs.plateForm.SPElements.LdSp3PositionValue));
-        liquidDispenserStep.selectedSpLd2Option = 'Position';
-      } else {
-        liquidDispenserStep.sP3P = -1;
-        liquidDispenserStep.selectedSpLd1Option = 'Drop detected';
-
-      }
       liquidDispenserStep.step = this.currentStep;
       liquidDispenserStep.methodId = this.currentMethod.id;
 
@@ -1482,48 +1305,27 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-    * Function used to extract phMeterModule step data
-    * ------------------------------------------------------------------------*/
-    savePhMeterModuleLine() {
-
-      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
-
-      phMeterStep.step = this.currentStep;
-      phMeterStep.methodId = this.currentMethod.id;
-      this.$data.phMeterModule.data.push(phMeterStep);
-
-      this.postStep(phMeterStep, this.phMeterModule.name);
-    },
-    /*------------------------------------------------------------------------
     * Function used to extract waiting condition step data
     * ------------------------------------------------------------------------*/
     saveWaitingConditionLine() {
 
-      let waitingConditionStep = '';
 
-      //DisplayedInfo is for UI displaying purpose
+      let waitingConditionStep = {
+        description: this.$refs.plateForm.waitingCondition.selectedOption
+      };
+
       if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
-
-        waitingConditionStep = {
-          displayedInfo: this.$refs.plateForm.waitingCondition.selectedOption,
-          Value: 0
-        };
+        waitingConditionStep.value = 0;
 
       } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
 
-        waitingConditionStep = {
-          displayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
-              + this.$refs.plateForm.waitingCondition.timeoutValue,
-          Value: this.$refs.plateForm.waitingCondition.timeoutValue
-        };
+        waitingConditionStep.description += ': ' + this.$refs.plateForm.waitingCondition.timeoutValue;
+        waitingConditionStep.value = this.$refs.plateForm.waitingCondition.timeoutValue
 
       } else {
         waitingConditionStep = {
-
-          displayedInfo: this.$refs.plateForm.waitingCondition.selectedOption + ': '
-              + this.$refs.plateForm.waitingCondition.instrumentSelected,
-          Value: 0,
-          InstrumentId: this.allModulesList.find(l => l.name === this.$refs.plateForm.waitingCondition.instrumentSelected).id
+          description: this.$refs.plateForm.waitingCondition.selectedOption,
+          value: -1,
         };
       }
 
@@ -1537,7 +1339,7 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-    * Function used to extract Tray step data
+    * Function used to extract Comment step data
     * ------------------------------------------------------------------------*/
     saveCommentModuleLine() {
 
@@ -1548,20 +1350,6 @@ export default {
       };
       this.$data.commentModule.data.push(commentStep);
       this.postStep(commentStep, this.commentModule.name);
-    },
-
-    /*------------------------------------------------------------------------
-    * Function used to extract Tray step data
-    * ------------------------------------------------------------------------*/
-    saveLalModuleLine() {
-
-      let lalStep = {
-        sp: this.$refs.plateForm.lalModule.data.sp,
-        step: this.currentStep,
-        methodId: this.currentMethod.id
-      };
-      this.$data.lalModule.data.push(lalStep);
-      this.postStep(lalStep, this.lalModule.name);
     },
 
 
