@@ -159,7 +159,6 @@
                 </v-card>
               </td>
 
-
               <!--waiting condition-->
 
               <td>
@@ -440,8 +439,11 @@ export default {
      *  Run a given step
      * -------------------------------------------------------------------------*/
     runStep(step) {
+
       this.runningStep.runAllMethod = false;
       this.runningStep.number = step;
+      let stepToRun = this.loadFirstStepOfMethod();
+      this.connection.send(JSON.stringify(stepToRun));
 
     },
 
@@ -461,14 +463,9 @@ export default {
     * -------------------------------------------------------------------------*/
     runMethod() {
 
-      this.runningStep.stage = 'run';
-
       let stepToRun = this.createRunningStepData();
-
+      this.runningStep.stage = 'run';
       this.connection.send(JSON.stringify(stepToRun));
-      /*
-            console.log('step: ', stepToRun.stepNumber);
-            console.log('data: ', stepToRun.moveTo);*/
     },
 
     /*--------------------------------------------------------------------------
@@ -494,7 +491,7 @@ export default {
             break;
         }
       }
-      // console.log('received: ', data);
+       console.log('received: ', data);
     },
 
     /*--------------------------------------------------------------------------
