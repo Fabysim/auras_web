@@ -11,7 +11,13 @@
         <v-card-text>
           <v-row>
             <v-col>
-              <v-text-field v-model="IpAddress"/>
+              <v-text-field label="Ip Address" v-model="ipAddress"/>
+            </v-col>
+            <v-col>
+              <v-text-field label="Port" v-model="port"/>
+            </v-col>
+            <v-col>
+              <v-text-field label="uri" v-model="uri"/>
             </v-col>
           </v-row>
         </v-card-text>
@@ -91,7 +97,9 @@ export default {
   data() {
     return {
       settings: false,
-      IpAddress: '',
+      ipAddress: '',
+      port: '',
+      uri: '',
       currentApp: '',
       networks: [],
     }
@@ -141,13 +149,23 @@ export default {
                 if (response.status === 200) {
                   this.networks = response.data;
 
-                  this.IpAddress = this.networks['ipAddress'];
+                  let url = this.networks['ipAddress'];
+                  this.ipAddress = url.substring(0, url.indexOf(':'));
+
+                  if(url.includes('/')){
+                    this.port = url.substring(url.indexOf(':') + 1, url.indexOf('/'));
+                    this.uri = url.substring(url.indexOf('/') + 1);
+
+                  }else {
+
+                    this.port = url.substring(url.indexOf(':') + 1);
+                  }
 
                 }
               })
           .catch(
               (error) => {
-                console.log(error.data)
+                console.log('error',error.data)
               });
     },
 
@@ -156,24 +174,25 @@ export default {
     * --------------------------------------------------------------------------*/
     saveIp() {
 
-      if (this.networks['ipAddress'] === this.IpAddress) {
+      if (this.networks['ipAddress'] === this.ipAddress) {
         this.settings = false;
         return;
       }
+      this.networks['ipAddress'] = this.ipAddress + ':' + this.port;
 
-      this.networks['ipAddress'] = this.IpAddress;
+      if (this.uri) this.networks['ipAddress'] = this.networks['ipAddress'] + '/' + this.uri;
 
       axios.put('http://' + this.$aurasApi + "api/networks/" + this.networks['id'], this.networks)
           .then(
               (response) => {
                 if (response.status === 200) {
                   this.this.networks = response.data;
-                  this.IpAddress = this.networks[0]['ipAddress'];
+                  this.ipAddress = this.networks[0]['ipAddress'];
                 }
               })
           .catch(
               (error) => {
-                console.log(error.data)
+                console.log('error',error.data)
               });
       this.settings = false;
     },

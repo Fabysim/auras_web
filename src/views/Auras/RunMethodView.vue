@@ -396,7 +396,6 @@ export default {
     this.initialization();
     this.fetchModulesList();
     this.loadModulesData();
-    this.connectToWebSocket();
   },
   computed: {},
 
@@ -415,8 +414,6 @@ export default {
     }
   },
   methods: {
-
-
     /*--------------------------------------------------------------------------
      *  Sends initialization message
      * -------------------------------------------------------------------------*/
@@ -626,8 +623,9 @@ export default {
       console.log("Starting connection to WebSocket Server");
       // this.connection = new WebSocket('ws://' + this.espIP);
 
+
       try {
-        this.connection = new WebSocket("ws://127.0.0.1:81/ws");
+        this.connection = new WebSocket('ws://' + this.webSocket.ipAddress);
       } catch (Exception) {
         console.log(Exception.message)
       }
@@ -665,6 +663,9 @@ export default {
                 if (response.status === 200) {
                   let network = response.data;
                   this.webSocket.ipAddress = network['ipAddress'];
+                  console.log( this.webSocket.ipAddress);
+
+                  this.connectToWebSocket();
                 }
               })
           .catch(
@@ -677,6 +678,7 @@ export default {
     *  Redirection to another page
     * -------------------------------------------------------------------------*/
     redirectTo(route) {
+
       if (route.includes('ConfigAuras')) {
 
         this.$router.push({name: route, params: {idMethod: this.currentMethod.id}});
@@ -870,6 +872,7 @@ export default {
             }
           });
     },
+
 
     /*------------------------------------------------------------------------
       * Function to to set highlighted step style
