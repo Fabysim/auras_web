@@ -811,9 +811,9 @@ export default {
         line.sP2P === -2 ? line.displayedSP2Info = 'Fill LAL cartridge' : '';
         line.sP3P === -2 ? line.displayedSP3Info = 'Fill LAL cartridge' : '';
 
-        line.sP1P >= 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P : '';
-        line.sP2P >= 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P : '';
-        line.sP3P >= 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P : '';
+        line.sP1P >= 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
+        line.sP2P >= 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
+        line.sP3P >= 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
 
         line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
         line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
@@ -845,9 +845,13 @@ export default {
     * ------------------------------------------------------------------------*/
     loadWCDisplayedInfo() {
 
-      for (let i = 0; i < this.waitingConditionModule.data.length; i++)
+      for (let i = 0; i < this.waitingConditionModule.data.length; i++){
+
         this.waitingConditionModule.data[i].description.toLowerCase() === 'timeout' ?
-            this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value : '';
+            this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value + ' ms' :
+            this.waitingConditionModule.data[i].description.toLowerCase() === 'gina' ? 'Gina' : '';
+
+      }
 
 
     },
@@ -881,6 +885,8 @@ export default {
             if (response.status === 200) {
               module.data = await response.data;
 
+              console.log(module.name)
+              console.log(response.data)
               //Set stepModule data and actions
               if (0 === this.stepCount++)
                 this.loadStepsAndActions(module.data.length);
@@ -961,12 +967,7 @@ export default {
 
     },
 
-    /*------------------------------------------------------------------------
-    * Function to extract Drop Dispenser's updated data from the update dialog
-    * ------------------------------------------------------------------------*/
-    extractDropDispenserDataFromDialog(line) {
-      console.log(line)
-    },
+
 
     /*------------------------------------------------------------------------
     * Function to extract Drop Dispenser's updated data from the update dialog
@@ -1293,9 +1294,9 @@ export default {
       liquidDispenserStep.displayedSP2Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP2));
       liquidDispenserStep.displayedSP3Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP3));
 
-      liquidDispenserStep.displayedSP1Info.includes('Volume') ? liquidDispenserStep.displayedSP1Info += ': ' + liquidDispenserStep.sP1P + 'µL' : '';
-      liquidDispenserStep.displayedSP2Info.includes('Volume') ? liquidDispenserStep.displayedSP2Info += ': ' + liquidDispenserStep.sP2P + 'µL' : '';
-      liquidDispenserStep.displayedSP3Info.includes('Volume') ? liquidDispenserStep.displayedSP3Info += ': ' + liquidDispenserStep.sP3P + 'µL' : '';
+      liquidDispenserStep.displayedSP1Info.includes('Volume') ? liquidDispenserStep.displayedSP1Info += ': ' + liquidDispenserStep.sP1P + ' µL' : '';
+      liquidDispenserStep.displayedSP2Info.includes('Volume') ? liquidDispenserStep.displayedSP2Info += ': ' + liquidDispenserStep.sP2P + ' µL' : '';
+      liquidDispenserStep.displayedSP3Info.includes('Volume') ? liquidDispenserStep.displayedSP3Info += ': ' + liquidDispenserStep.sP3P + ' µL' : '';
 
       liquidDispenserStep.step = this.currentStep;
       liquidDispenserStep.methodId = this.currentMethod.id;
@@ -1318,8 +1319,6 @@ export default {
         waitingConditionStep.value = 0;
 
       } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
-
-        waitingConditionStep.description += ': ' + this.$refs.plateForm.waitingCondition.timeoutValue;
         waitingConditionStep.value = this.$refs.plateForm.waitingCondition.timeoutValue
 
       } else {

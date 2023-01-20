@@ -247,7 +247,6 @@ export default {
       ]
     },
 
-
     phMeterModule: {
       name: '',
       items: ['Idle position', 'QC sample', 'Rinsing', 'Tempo 1', 'Tempo 2', 'Lift'],
@@ -360,40 +359,62 @@ export default {
     },
 
     'waitingCondition.selectedOption'() {
+      this.waitingCondition.data[0].value = 0;
       this.waitingCondition.selectedOption === 'Timeout' ?
           this.waitingCondition.timeoutOptionSelected = true : this.waitingCondition.timeoutOptionSelected = false;
 
       if (this.waitingCondition.selectedOption === 'Timeout')
         this.waitingCondition.data[0].value = this.waitingCondition.timeoutValue;
-      else if (this.waitingCondition.selectedOption === 'None')
-        this.waitingCondition.data[0].value = 0;
-      else this.waitingCondition.data[0].value = 1;
+      else if (this.waitingCondition.selectedOption === 'Gina')
+        this.waitingCondition.data[0].value = -1;
 
     },
 
     'dropDispenserModule.selectedOption'() {
       this.dropDispenserModule.selectedOption === 'None' ? this.dropDispenserModule.data[0].value = 0 : this.dropDispenserModule.data[0].value = 1;
+
     },
 
     'liquidDispenserModule.selectedSP1'() {
-      this.liquidDispenserModule.selectedSP1 === 'Volume' ? this.liquidDispenserModule.sp1VolumeSelected = true : this.liquidDispenserModule.sp1VolumeSelected = false;
-      this.liquidDispenserModule.selectedSP1 === 'QC sample drop' ? this.liquidDispenserModule.data[0].sP1P = -1 : '';
-      this.liquidDispenserModule.selectedSP1 === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[0].sP1P = -2 : '';
+
+      this.liquidDispenserModule.data[0].sP1P = 0;
+      this.liquidDispenserModule.s1VolumeSelected = false;
+      if (this.liquidDispenserModule.selectedSP1 === 'Volume')
+        this.liquidDispenserModule.sp1VolumeSelected = true;
+      else if (this.liquidDispenserModule.selectedSP1 === 'QC sample drop')
+        this.liquidDispenserModule.data[0].sP1P = -1;
+      else if (this.liquidDispenserModule.selectedSP1 === 'Fill LAL cartridge')
+        this.liquidDispenserModule.data[0].sP1P = -2;
+
     },
 
     'liquidDispenserModule.selectedSP2'() {
-      this.liquidDispenserModule.selectedSP2 === 'Volume' ? this.liquidDispenserModule.sp2VolumeSelected = true : this.liquidDispenserModule.sp2VolumeSelected = false;
-      this.liquidDispenserModule.selectedSP2 === 'QC sample drop' ? this.liquidDispenserModule.data[0].sP2P = -1 : '';
-      this.liquidDispenserModule.selectedSP2 === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[0].sP2P = -2 : '';
+
+      this.liquidDispenserModule.data[0].sP2P = 0;
+      this.liquidDispenserModule.sp2VolumeSelected = false;
+      if (this.liquidDispenserModule.selectedSP2 === 'Volume')
+        this.liquidDispenserModule.sp2VolumeSelected = true;
+      else if (this.liquidDispenserModule.selectedSP2 === 'QC sample drop')
+        this.liquidDispenserModule.data[0].sP2P = -1;
+      else if (this.liquidDispenserModule.selectedSP2 === 'Fill LAL cartridge')
+        this.liquidDispenserModule.data[0].sP2P = -2;
+
     },
 
     'liquidDispenserModule.selectedSP3'() {
-      this.liquidDispenserModule.selectedSP3 === 'Volume' ? this.liquidDispenserModule.sp3VolumeSelected = true : this.liquidDispenserModule.sp3VolumeSelected = false;
-      this.liquidDispenserModule.selectedSP3 === 'QC sample drop' ? this.liquidDispenserModule.data[0].sP3P = -1 : '';
-      this.liquidDispenserModule.selectedSP3 === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[0].sP3P = -2 : '';
+
+      this.liquidDispenserModule.data[0].sP3P = 0;
+      this.liquidDispenserModule.sp3VolumeSelected = false;
+      if (this.liquidDispenserModule.selectedSP3 === 'Volume')
+        this.liquidDispenserModule.sp3VolumeSelected = true;
+      else if (this.liquidDispenserModule.selectedSP3 === 'QC sample drop')
+        this.liquidDispenserModule.data[0].sP3P = -1;
+      else if (this.liquidDispenserModule.selectedSP3 === 'Fill LAL cartridge')
+        this.liquidDispenserModule.data[0].sP3P = -2;
+
     },
 
-    'tlcModule.selectedOption'() {
+    'tlcMigrationModule.selectedOption'() {
 
       switch (this.tlcMigrationModule.selectedOption) {
         case "Idle position":
@@ -439,6 +460,7 @@ export default {
           this.phMeterModule.data[0].position = 0;
           break;
       }
+
     },
 
   },
