@@ -157,16 +157,14 @@
                                            :return-value.sync="item[header.value]"
                                            @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
                                            @cancel="cancelLineUpdate"
-                                           @open="open"
+                                           @open="open(item[header.value], key, phMeterModule.name, idx)"
                                            @close="close"
 
                             > {{ item[header.value] }}
                               <template v-slot:input>
-                                <v-text-field
-                                    v-model="item[header.value]"
-                                    label="Edit"
-                                    single-line
-                                ></v-text-field>
+                                <v-select :items="phMeterModule.items"
+                                          v-model="phMeterModule.update.selectedOption"/>
+
                               </template>
                             </v-edit-dialog>
                           </td>
@@ -207,28 +205,8 @@
                                            @close="close">
                               {{ item[header.value] }}
                               <template v-slot:input>
-                                <table>
-                                  <tr>
-                                    <td>
-                                      <v-select
-
-                                      />
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td>
-                                      <v-select
-
-                                      />
-                                    </td>
-                                    <td>
-                                      <v-text-field
-                                          v-if="isVisibleDD"
-                                          label="µL"
-                                      />
-                                    </td>
-                                  </tr>
-                                </table>
+                                <v-select :items="dropDispenserModule.items"
+                                          v-model="dropDispenserModule.update.selectedOption"/>
                               </template>
                             </v-edit-dialog>
                           </td>
@@ -272,27 +250,25 @@
                                 <table
                                     v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
                                   <tr>
-                                    <td class="text-center">
-                                      <v-select
-                                      />
-
+                                    <td>
+                                      <v-select :items="liquidDispenserModule.items"
+                                                v-model="liquidDispenserModule.update.selectedOption"/>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td>
-                                      <v-text-field
-                                          label="volume in µL"
-                                          v-if="isVisibleLD"
-                                      />
+                                    <td v-if="liquidDispenserModule.update.volumeSelected">
+                                      <v-text-field v-model="liquidDispenserModule.update.selectedValue"
+                                                    label="Volume in µL"/>
+
                                     </td>
+
                                   </tr>
                                 </table>
-
                                 <v-text-field v-else
                                               v-model="item[header.value]"
                                               label="Edit"
                                               single-line
-                                ></v-text-field>
+                                />
                               </template>
                             </v-edit-dialog>
                           </td>
@@ -343,13 +319,6 @@
                                     </td>
                                   </tr>
                                   <tr>
-                                    <td v-if="updateWaitingCondition.instrumentOptionSelected">
-                                      <v-select
-                                          label="choose instrument"
-                                          v-model="updateWaitingCondition.selectedInstrument"
-                                          :items="updateWaitingCondition.instrumentsList"
-                                      />
-                                    </td>
                                     <td v-if="updateWaitingCondition.timeoutOptionSelected">
                                       <v-text-field
                                           label="timeout in ms"
@@ -522,7 +491,7 @@ export default {
 
     updateWaitingCondition: {
       selectedOption: '',
-      items: ['None', 'Instrument', 'Timeout'],
+      items: ['None', 'Gina', 'Timeout'],
       instrumentOptionSelected: false,
       timeoutOptionSelected: false,
       selectedInstrument: '',
@@ -568,23 +537,32 @@ export default {
 
     phMeterModule: {
       name: '',
+      items: ['Idle position', 'QC sample', 'Rinsing', 'Tempo 1', 'Tempo 2', 'Lift'],
       columns: [
         {text: 'Position', value: 'description', width: 100, align: 'center'},
       ],
-      data: []
+      data: [],
+      update: {
+        selectedOption: ''
+      },
     },
 
     dropDispenserModule: {
       name: '',
+      items: ['None', 'Standards'],
       columns: [
         {text: 'Value', value: 'description', width: 150, sortable: false, align: 'center'},
       ],
-      data: []
+      data: [],
+      update: {
+        selectedOption: ''
+      },
     },
 
 
     liquidDispenserModule: {
       name: '',
+      items: ['None', 'Volume', 'QC sample drop', 'Fill LAL cartridge'],
       columns: [
         {text: "LDS1", value: "ldS1", width: 82, sortable: false, align: 'center'},
         {text: "LDS2", value: "ldS2", width: 82, sortable: false, align: 'center'},
@@ -604,7 +582,12 @@ export default {
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
       ],
-      data: []
+      data: [],
+      update: {
+        selectedOption: '',
+        selectedValue: '',
+        volumeSelected: false
+      }
     },
 
     commentModule: {
@@ -647,138 +630,38 @@ export default {
 
   watch: {
 
-    /*------------------------------------------------------------------------
-    * Function used to watch the changes in Liquid dispenser SP elements
-    * ------------------------------------------------------------------------*/
-    'SPElements.selectedSpLDTarget'() {
-
-      if (this.SPElements.selectedSpLDTarget === 'Position') {
-        this.isVisibleLD = true;
-        this.SPElements.ldSpPositionValue = this.SPElements.ldSpOldValue;
-        if (this.SPElements.ldSpPositionValue === -1)
-          this.SPElements.ldSpPositionValue = 0;
-      } else {
-        this.isVisibleLD = false;
-        this.SPElements.ldSpPositionValue = -1;
-      }
-    },
-    /*------------------------------------------------------------------------
-    * Function used to watch the changes in Drop dispenser SP elements
-    * ------------------------------------------------------------------------*/
-    'SPElements.selectedSpDDTarget'() {
-
-      if (this.SPElements.selectedSpDDTarget === 'Position') {
-        this.isVisibleDD = true;
-        this.SPElements.ddSpPositionValue = this.SPElements.ddSpOldValue === -1 ? 0 : this.SPElements.ddSpOldValue;
-      } else {
-        this.isVisibleDD = false;
-        this.SPElements.ddSpPositionValue = -1;
-      }
-    },
 
     /*------------------------------------------------------------------------
     * Function used to watch the changes in the waiting condition module
     * ------------------------------------------------------------------------*/
     'updateWaitingCondition.selectedOption'() {
 
-      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'none') {
-        this.updateWaitingCondition.instrumentOptionSelected = false;
-        this.updateWaitingCondition.timeoutOptionSelected = false;
-      }
+      if (this.updateWaitingCondition.selectedOption !== undefined && this.updateWaitingCondition.selectedOption !== '') {
 
-      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'instrument') {
-        this.updateWaitingCondition.instrumentOptionSelected = true;
-        this.updateWaitingCondition.timeoutOptionSelected = false;
+        if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'none') {
+          this.updateWaitingCondition.instrumentOptionSelected = false;
+          this.updateWaitingCondition.timeoutOptionSelected = false;
+        }
 
-        this.updateWaitingCondition.selectedInstrument = this.updateWaitingCondition.selectedOldInstrument;
+        if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'instrument') {
+          this.updateWaitingCondition.instrumentOptionSelected = true;
+          this.updateWaitingCondition.timeoutOptionSelected = false;
 
-      }
+          this.updateWaitingCondition.selectedInstrument = this.updateWaitingCondition.selectedOldInstrument;
+        }
 
-      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout') {
-        this.updateWaitingCondition.instrumentOptionSelected = false;
-        this.updateWaitingCondition.timeoutOptionSelected = true;
-        this.updateWaitingCondition.timeoutValue = this.updateWaitingCondition.timeoutOldValue;
+        if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout') {
+          this.updateWaitingCondition.instrumentOptionSelected = false;
+          this.updateWaitingCondition.timeoutOptionSelected = true;
+          this.updateWaitingCondition.timeoutValue = this.updateWaitingCondition.timeoutOldValue;
+        }
+
       }
     },
 
   },
 
   methods: {
-
-    /*------------------------------------------------------------------------
-    * Function used to add a step in the currently created method
-    * ------------------------------------------------------------------------*/
-    async SaveLine() {
-
-      this.extractStepModuleLine();
-      this.saveTlcMigrationModuleLine();
-      this.savePhMeterModuleLine();
-      this.saveDropDispenserModuleLine();
-      this.saveLiquidDispenserLine();
-      this.saveWaitingConditionLine();
-      this.saveCommentModuleLine();
-
-      this.$refs.plateForm.resetPlatformTables();
-
-      this.currentStep++;
-    },
-
-    /*------------------------------------------------------------------------
-    * Function to confirm the deletion of a step of current method
-    * ------------------------------------------------------------------------*/
-    confirmDelete(index) {
-
-      this.dialogDelete = true;
-      this.deletedIndex = index;
-
-    },
-
-    /*------------------------------------------------------------------------
-    * Function to delete a step of current method
-    * ------------------------------------------------------------------------*/
-    async deleteStep() {
-
-      this.dialogDelete = false;
-      let data = {
-        id: this.deletedIndex,
-        methodId: this.currentMethod.id
-      };
-
-      this.updateModule(data, 'methods/deleteStep');
-
-      setTimeout(() => this.loadModulesData(), 1500);
-    },
-
-    /*------------------------------------------------------------------------
-     * Function to fetch current method data
-     * ------------------------------------------------------------------------*/
-    fetchMethod() {
-
-      axios
-          .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
-          .then((response) => {
-            if (response.status === 200) {
-              this.currentMethod = response.data;
-            } else {
-              this.snackbar.message = response.data.message;
-            }
-          });
-    },
-
-    /*------------------------------------------------------------------------
-     * Function to fetch all modules data
-     * ------------------------------------------------------------------------*/
-    fetchModulesList() {
-      axios
-          .get('http://' + this.$aurasApi + 'api/Modules')
-          .then((response) => {
-            if (response.status === 200) {
-              this.allModulesList = response.data;
-            } else {
-              this.snackbar.message = response.data.message;
-            }
-          });
-    },
 
     /*------------------------------------------------------------------------
     * Function to load all method's data
@@ -845,9 +728,9 @@ export default {
     * ------------------------------------------------------------------------*/
     loadWCDisplayedInfo() {
 
-      for (let i = 0; i < this.waitingConditionModule.data.length; i++){
+      for (let i = 0; i < this.waitingConditionModule.data.length; i++) {
 
-        this.waitingConditionModule.data[i].description.toLowerCase() === 'timeout' ?
+        this.waitingConditionModule.data[i].description.toLowerCase().includes('timeout') ?
             this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value + ' ms' :
             this.waitingConditionModule.data[i].description.toLowerCase() === 'gina' ? 'Gina' : '';
 
@@ -856,117 +739,32 @@ export default {
 
     },
 
-    /*------------------------------------------------------------------------
-     * Function load number of actual steps
-     * ------------------------------------------------------------------------*/
-    loadStepsAndActions(length) {
-
-      for (let i = 0; i < length; i++) {
-
-        let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
-        this.$data.stepModule.data.push(step);
-        let line = {line: JSON.parse(JSON.stringify(this.currentStep))};
-        this.$data.actionsModule.data.push(line);
-        this.currentStep++;
-
-      }
-    },
-
-    /*------------------------------------------------------------------------
-    * Function to call module's webservice
+    /*-------------------------------------------------------------------------
+    * Function to create the method steps
     * ------------------------------------------------------------------------*/
-    async fetchData(module) {
+    extractStepModuleLine() {
 
-      let uri = this.getModuleUri(module.name);
-
-      await axios
-          .get('http://' + this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
-          .then(async (response) => {
-            if (response.status === 200) {
-              module.data = await response.data;
-
-              console.log(module.name)
-              console.log(response.data)
-              //Set stepModule data and actions
-              if (0 === this.stepCount++)
-                this.loadStepsAndActions(module.data.length);
-
-              if (module.name.toLowerCase().includes('drop'))
-                this.loadDropDispenserDisplayedInfo();
-
-              if (module.name.toLowerCase().includes('liquid'))
-                this.loadLiquidDispenserUpdateInfo();
-
-              if (module.name.toLowerCase().includes('waiting'))
-                this.loadWCDisplayedInfo();
-
-            } else {
-              this.snackbar.message = response.data.message;
-            }
-          });
-    },
-
-    /*------------------------------------------------------------------------
-    * Function to send method's line to database
-    * ------------------------------------------------------------------------*/
-    async postStep(moduleData, moduleName) {
-      let url = this.getModuleUri(moduleName);
-
-      axios.post('http://' + this.$aurasApi + "api/" + url, moduleData)
-          .then(
-              (response) => {
-
-                if (response.status === 201)
-                  this.snackbar.message = "Step created correctly";
-                else
-                  this.snackbar.message = "Could not create the step";
-
-              });
-      this.snackbar.show = true;
+      let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
+      this.$data.stepModule.data.push(step);
+      let line = {line: JSON.parse(JSON.stringify(this.currentStep))};
+      this.$data.actionsModule.data.push(line);
 
     },
-
-    /*------------------------------------------------------------------------
-    * Function to update method's data to database
-    * ------------------------------------------------------------------------*/
-    getModuleUri(moduleName) {
-      return moduleName.replace(/ +/g, "") + 's/';
-    },
-
-    /*------------------------------------------------------------------------
-    * Function to update method's data to database
-    * ------------------------------------------------------------------------*/
-    updateModule(data, name) {
-
-      let url = this.getModuleUri(name);
-      url = 'api/' + url;
-
-      axios
-          .put('http://' + this.$aurasApi + url + data.id, data)
-          .then((response) => {
-
-            if (response.status === 204) {
-              name.toLowerCase().includes('delete')
-                  ? this.snackbar.message = "Step deleted successfully"
-                  : this.snackbar.message = "Step updated successfully";
-
-            } else {
-              this.snackbar.message = response.data.message;
-              this.snackbar.color = 'error';
-            }
-          });
-      this.snackbar.show = true;
-    },
-
     /*------------------------------------------------------------------------
     * Function to extract Liquid Dispenser's updated data from the update dialog
     * ------------------------------------------------------------------------*/
     extractLiquidDispenserDataFromDialog(col, line) {
 
-      console.log(col, line)
+
+      if (col === 9)
+        this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
+      if (col === 11)
+        this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
+      if (col === 13)
+        this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
+
 
     },
-
 
 
     /*------------------------------------------------------------------------
@@ -995,17 +793,80 @@ export default {
       }
 
     },
+    /*------------------------------------------------------------------------
+    * Function to extract PH Meter's updated data from the update dialog
+    * ------------------------------------------------------------------------*/
+    extractPhMeterDataFromDialog(line) {
+
+      this.phMeterModule.data[line].description = this.phMeterModule.update.selectedOption;
+
+      switch (this.phMeterModule.update.selectedOption) {
+
+        case "Idle position":
+          this.phMeterModule.data[line].position = 0;
+          break;
+        case "QC sample":
+          this.phMeterModule.data[line].position = 1;
+          break;
+        case "Rinsing":
+          this.phMeterModule.data[line].position = 2;
+          break;
+        case "Tempo 1":
+          this.phMeterModule.data[line].position = 3;
+          break;
+        case "Tempo 2":
+          this.phMeterModule.data[line].position = 4;
+          break;
+        case "Lift":
+          this.phMeterModule.data[line].position = 5;
+          break;
+        default:
+          this.phMeterModule.data[line].position = 0;
+          break;
+      }
+    },
+    /*------------------------------------------------------------------------
+    * Function to extract Drop Dispenser's updated data from the update dialog
+    * ------------------------------------------------------------------------*/
+    extractDropDispenserDataFromDialog(line) {
+
+      this.dropDispenserModule.data[line].description = this.dropDispenserModule.update.selectedOption;
+
+      switch (this.dropDispenserModule.update.selectedOption) {
+
+        case "None":
+          this.dropDispenserModule.data[line].position = 0;
+          break;
+        case "Standards":
+          this.dropDispenserModule.data[line].position = 1;
+          break;
+        default:
+          this.dropDispenserModule.data[line].position = 0;
+          break;
+      }
+    },
 
     /*--------------------------------------------------------------------------------
     * Function to extract Waiting Condition's updated data from the update dialog
     * ------------------------------------------------------------------------------*/
     extractWaitingConditionDataFromDialog(line) {
-      this.waitingConditionModule.data[line].type = this.updateWaitingCondition.selectedOption;
-      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'instrument')
-        this.waitingConditionModule.data[line].instrumentId = this.allModulesList.find(m => m.name === this.updateWaitingCondition.selectedInstrument).id
 
-      if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout')
+      this.waitingConditionModule.data[line].type = this.updateWaitingCondition.selectedOption;
+
+      if (this.updateWaitingCondition.selectedOption.toLowerCase().includes('timeout')){
+
+        this.waitingConditionModule.data[line].description = 'Timeout';
         this.waitingConditionModule.data[line].value = this.updateWaitingCondition.timeoutValue;
+      }
+      else if(this.updateWaitingCondition.selectedOption.toLowerCase().includes('gina')){
+
+        this.waitingConditionModule.data[line].description = 'Gina';
+        this.waitingConditionModule.data[line].value = -1;
+      }
+      else{
+        this.waitingConditionModule.data[line].description = 'None';
+        this.waitingConditionModule.data[line].value = 0;
+      }
     },
 
     /*--------------------------------------------------------------------------------
@@ -1026,15 +887,32 @@ export default {
     * --------------------------------------------------------------------------*/
     loadLiquidDispenserDataInDialog(value, col, line) {
 
-      if (col === 9)
-        value = this.liquidDispenserModule.data[line].sP1P;
-      if (col === 11)
-        value = this.liquidDispenserModule.data[line].sP2P;
-      if (col === 13)
-        value = this.liquidDispenserModule.data[line].sP3P;
+      this.liquidDispenserModule.update.volumeSelected = false;
+      let volume;
 
-      value >= 0 ? this.isVisibleLD = true : this.isVisibleLD = false;
+      if (col === 9)
+        volume = this.liquidDispenserModule.data[line].sP1P;
+      if (col === 11)
+        volume = this.liquidDispenserModule.data[line].sP2P;
+      if (col === 13)
+        volume = this.liquidDispenserModule.data[line].sP3P;
+
+      if (col === 9 || col === 11 || col === 13) {
+
+        if (value.toLowerCase().includes("volume")) {
+
+          this.liquidDispenserModule.update.selectedOption = "Volume";
+          this.liquidDispenserModule.update.volumeSelected = true;
+          this.liquidDispenserModule.update.selectedValue = volume;
+
+        } else {
+          this.liquidDispenserModule.update.selectedOption = value;
+        }
+      }
+
+
     },
+
 
     /*---------------------------------------------------------------------------
     * Function to load selected load Tlc Migration's data into update dialog
@@ -1042,14 +920,18 @@ export default {
     loadTlcMigrationDataInDialog(value) {
       this.tlcMigrationModule.update.selectedOption = value;
     },
+    /*---------------------------------------------------------------------------
+    * Function to load selected load PH Meter's data into update dialog
+    * --------------------------------------------------------------------------*/
+    loadPhMeterDataInDialog(value) {
+      this.phMeterModule.update.selectedOption = value;
+    },
     /*----------------------------------------------------------------------------------
     * Function to load selected load Drop Dispenser's data into update dialog
     * ---------------------------------------------------------------------------------*/
-    loadDropDispenserDataInDialog(value, line) {
+    loadDropDispenserDataInDialog(value) {
 
-      value = this.dropDispenserModule.data[line].value;
-      value >= 0 ? this.isVisibleDD = true : this.isVisibleDD = false;
-      value >= 0 ? this.SPElements.selectedSpDDTarget = 'Position' : this.SPElements.selectedSpDDTarget = 'Drop detected';
+      this.dropDispenserModule.update.selectedOption = value;
     },
 
     /*----------------------------------------------------------------------------------
@@ -1057,22 +939,18 @@ export default {
     * ---------------------------------------------------------------------------------*/
     loadWaitingConditionDataInDialog(line) {
 
-
-      this.updateWaitingCondition.selectedOption = this.waitingConditionModule.data[line].type;
       this.updateWaitingCondition.timeoutOptionSelected = false;
       this.updateWaitingCondition.instrumentOptionSelected = false;
 
-      if (this.waitingConditionModule.data[line].type.toLowerCase() === 'instrument') {
-        this.updateWaitingCondition.instrumentOptionSelected = true;
-        this.updateWaitingCondition.timeoutOptionSelected = false;
-        this.updateWaitingCondition.selectedInstrument = this.allModulesList.find(i => i.id === this.waitingConditionModule.data[line].instrumentId).name
-        this.updateWaitingCondition.selectedOldInstrument = this.updateWaitingCondition.selectedInstrument;
-      }
-      if (this.waitingConditionModule.data[line].type.toLowerCase() === 'timeout') {
+      if (this.waitingConditionModule.data[line].description.toLowerCase().includes('timeout')) {
+        this.updateWaitingCondition.selectedOption = 'Timeout';
         this.updateWaitingCondition.timeoutOptionSelected = true;
         this.updateWaitingCondition.instrumentOptionSelected = false;
         this.updateWaitingCondition.timeoutOldValue = this.updateWaitingCondition.timeoutValue = this.waitingConditionModule.data[line].value;
+      } else {
+        this.updateWaitingCondition.selectedOption = this.waitingConditionModule.data[line].description;
       }
+
     },
 
 
@@ -1103,7 +981,9 @@ export default {
 
 
         case this.phMeterModule.name:
+          this.extractPhMeterDataFromDialog(line);
           this.updateModule(this.phMeterModule.data[line], name);
+          setTimeout(() => this.fetchData(this.phMeterModule), 1000);
           break;
 
         case this.waitingConditionModule.name:
@@ -1147,7 +1027,11 @@ export default {
           break;
 
         case this.tlcMigrationModule.name:
-          this.loadTlcMigrationDataInDialog(value, col, line);
+          this.loadTlcMigrationDataInDialog(value);
+          break;
+
+        case this.phMeterModule.name:
+          this.loadPhMeterDataInDialog(value);
           break;
 
         case this.liquidDispenserModule.name:
@@ -1155,7 +1039,7 @@ export default {
           break;
 
         case this.dropDispenserModule.name:
-          this.loadDropDispenserDataInDialog(value, line);
+          this.loadDropDispenserDataInDialog(value);
           break;
 
         case this.waitingConditionModule.name:
@@ -1230,17 +1114,6 @@ export default {
         this.$router.push({name: route});
     },
 
-    /*-------------------------------------------------------------------------
-     * Function to create the method steps
-     * ------------------------------------------------------------------------*/
-    extractStepModuleLine() {
-
-      let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
-      this.$data.stepModule.data.push(step);
-      let line = {line: JSON.parse(JSON.stringify(this.currentStep))};
-      this.$data.actionsModule.data.push(line);
-
-    },
 
     /*------------------------------------------------------------------------
     * Function used to extract tlcModule step data
@@ -1319,7 +1192,7 @@ export default {
         waitingConditionStep.value = 0;
 
       } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
-        waitingConditionStep.value = this.$refs.plateForm.waitingCondition.timeoutValue
+        waitingConditionStep.value = this.$refs.plateForm.waitingCondition.timeoutValue;
 
       } else {
         waitingConditionStep = {
@@ -1332,8 +1205,13 @@ export default {
       waitingConditionStep.methodId = this.currentMethod.id;
       waitingConditionStep.type = this.$refs.plateForm.waitingCondition.selectedOption
 
-      this.waitingConditionModule.data.push(waitingConditionStep);
       this.postStep(waitingConditionStep, this.waitingConditionModule.name);
+
+      // for UI displaying purpose
+      if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout')
+        waitingConditionStep.description += ': ' + waitingConditionStep.value + ' ms';
+
+      this.waitingConditionModule.data.push(waitingConditionStep);
 
     },
 
@@ -1351,6 +1229,180 @@ export default {
       this.postStep(commentStep, this.commentModule.name);
     },
 
+    /*------------------------------------------------------------------------
+    * Function used to add a step in the currently created method
+    * ------------------------------------------------------------------------*/
+    async SaveLine() {
+
+      this.extractStepModuleLine();
+      this.saveTlcMigrationModuleLine();
+      this.savePhMeterModuleLine();
+      this.saveDropDispenserModuleLine();
+      this.saveLiquidDispenserLine();
+      this.saveWaitingConditionLine();
+      this.saveCommentModuleLine();
+
+      this.$refs.plateForm.resetPlatformTables();
+
+      this.currentStep++;
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to confirm the deletion of a step of current method
+    * ------------------------------------------------------------------------*/
+    confirmDelete(index) {
+
+      this.dialogDelete = true;
+      this.deletedIndex = index;
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to delete a step of current method
+    * ------------------------------------------------------------------------*/
+    async deleteStep() {
+
+      this.dialogDelete = false;
+      let data = {
+        id: this.deletedIndex,
+        methodId: this.currentMethod.id
+      };
+
+      this.updateModule(data, 'methods/deleteStep');
+
+      setTimeout(() => this.loadModulesData(), 1500);
+    },
+
+    /*------------------------------------------------------------------------
+     * Function to fetch current method data
+     * ------------------------------------------------------------------------*/
+    fetchMethod() {
+
+      axios
+          .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
+          .then((response) => {
+            if (response.status === 200) {
+              this.currentMethod = response.data;
+            } else {
+              this.snackbar.message = response.data.message;
+            }
+          });
+    },
+
+    /*------------------------------------------------------------------------
+     * Function to fetch all modules data
+     * ------------------------------------------------------------------------*/
+    fetchModulesList() {
+      axios
+          .get('http://' + this.$aurasApi + 'api/Modules')
+          .then((response) => {
+            if (response.status === 200) {
+              this.allModulesList = response.data;
+            } else {
+              this.snackbar.message = response.data.message;
+            }
+          });
+    },
+
+    /*------------------------------------------------------------------------
+     * Function load number of actual steps
+     * ------------------------------------------------------------------------*/
+    loadStepsAndActions(length) {
+
+      for (let i = 0; i < length; i++) {
+
+        let step = {step: JSON.parse(JSON.stringify(this.currentStep))};
+        this.$data.stepModule.data.push(step);
+        let line = {line: JSON.parse(JSON.stringify(this.currentStep))};
+        this.$data.actionsModule.data.push(line);
+        this.currentStep++;
+
+      }
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to call module's webservice
+    * ------------------------------------------------------------------------*/
+    async fetchData(module) {
+
+      let uri = this.getModuleUri(module.name);
+
+      await axios
+          .get('http://' + this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
+          .then(async (response) => {
+            if (response.status === 200) {
+              module.data = await response.data;
+
+              //Set stepModule data and actions
+              if (0 === this.stepCount++)
+                this.loadStepsAndActions(module.data.length);
+
+              if (module.name.toLowerCase().includes('drop'))
+                this.loadDropDispenserDisplayedInfo();
+
+              if (module.name.toLowerCase().includes('liquid'))
+                this.loadLiquidDispenserUpdateInfo();
+
+              if (module.name.toLowerCase().includes('waiting'))
+                this.loadWCDisplayedInfo();
+
+            } else {
+              this.snackbar.message = response.data.message;
+            }
+          });
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to send method's line to database
+    * ------------------------------------------------------------------------*/
+    async postStep(moduleData, moduleName) {
+      let url = this.getModuleUri(moduleName);
+
+      axios.post('http://' + this.$aurasApi + "api/" + url, moduleData)
+          .then(
+              (response) => {
+
+                if (response.status === 201)
+                  this.snackbar.message = "Step created correctly";
+                else
+                  this.snackbar.message = "Could not create the step";
+
+              });
+      this.snackbar.show = true;
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to update method's data to database
+    * ------------------------------------------------------------------------*/
+    getModuleUri(moduleName) {
+      return moduleName.replace(/ +/g, "") + 's/';
+    },
+
+    /*------------------------------------------------------------------------
+    * Function to update method's data to database
+    * ------------------------------------------------------------------------*/
+    updateModule(data, name) {
+
+      let url = this.getModuleUri(name);
+      url = 'api/' + url;
+
+      axios
+          .put('http://' + this.$aurasApi + url + data.id, data)
+          .then((response) => {
+
+            if (response.status === 204) {
+              name.toLowerCase().includes('delete')
+                  ? this.snackbar.message = "Step deleted successfully"
+                  : this.snackbar.message = "Step updated successfully";
+
+            } else {
+              this.snackbar.message = response.data.message;
+              this.snackbar.color = 'error';
+            }
+          });
+      this.snackbar.show = true;
+    },
 
   }
 }

@@ -41,7 +41,7 @@
             <v-icon small>
               mdi-play-outline
             </v-icon>
-            Run method
+            Start method
           </v-btn>
         </v-card-title>
 
@@ -236,23 +236,62 @@
 
     </vue-scroll-snap>
 
+    <!--Timeout dialog-->
 
+    <v-dialog
+        v-model="timeoutDialog"
+        persistent
+        max-width="630px"
+    >
+      <v-card>
+        <v-card-title class="justify-center module-title-color">Please wait</v-card-title>
+        <v-card-text class="justify-center">
+          <CountDown v-if="timeoutDialog" v-bind:deadline="timeoutValue"/>
+        </v-card-text>
+      </v-card>
+
+    </v-dialog>
+
+    <!--Gina dialog-->
+
+    <v-dialog
+        v-model="blockingDialog"
+        persistent
+        max-width="630px"
+    >
+      <v-card>
+        <v-card-title class="justify-center module-title-color">Click on ok button to continue</v-card-title>
+        <v-card-text class="justify-center">
+          <v-btn color="red"
+                 class="ma-2 white--text"
+                 @click="unBlockDialog">
+            ok
+          </v-btn>
+        </v-card-text>
+      </v-card>
+
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import VueScrollSnap from "vue-scroll-snap";
+import CountDown from "@/components/CountDown";
 
 export default {
   name: "RunAurasView",
   components: {
-    VueScrollSnap
+    VueScrollSnap,
+    CountDown
   },
   data: () => ({
     connection: null,
     stepDialog: false,
     currentMethod: '',
+    timeoutDialog: false,
+    blockingDialog: false,
+    timeoutValue: '',
 
     allModulesList: [],
 
@@ -425,10 +464,10 @@ export default {
       let init = {
         stage: this.runningStep.stage,
         methodName: this.currentMethod.name,
-        StepsNumber: this.stepModule.totalOfSteps
+        NumberOfSteps: this.stepModule.totalOfSteps + 1
       };
 
-      this.connection.send(JSON.stringify(init));
+      this.sendToWebsocket(init);
     },
 
     stopMethodRun() {
@@ -439,12 +478,11 @@ export default {
      *  Run a given step
      * -------------------------------------------------------------------------*/
     runStep(step) {
-
       this.runningStep.runAllMethod = false;
       this.runningStep.number = step;
-      let stepToRun = this.loadFirstStepOfMethod();
-      this.connection.send(JSON.stringify(stepToRun));
-
+      let stepToRun = this.loadOnlyNecessaryElementsOfStep();
+      stepToRun.stage = 'runStep';
+      this.sendToWebsocket(stepToRun);
     },
 
     /*--------------------------------------------------------------------------
@@ -462,10 +500,17 @@ export default {
     *  Run the whole method
     * -------------------------------------------------------------------------*/
     runMethod() {
-
+      this.runningStep.stage = 'runMethod';
       let stepToRun = this.createRunningStepData();
-      this.runningStep.stage = 'run';
+      this.sendToWebsocket(stepToRun);
+    },
+
+    /*--------------------------------------------------------------------------
+     * Sends Json to websocket
+     * -------------------------------------------------------------------------*/
+    sendToWebsocket(stepToRun) {
       this.connection.send(JSON.stringify(stepToRun));
+      console.log('sent:', stepToRun)
     },
 
     /*--------------------------------------------------------------------------
@@ -480,10 +525,11 @@ export default {
         switch (obj.stage) {
 
           case 'init':
-            this.runMethod();
+            setTimeout(() => this.runMethod(), 2000);
             break;
-          case 'run':
-            this.runningStep.number++;
+          case 'runMethod':
+            this.manageWaitingCondition();
+
             break;
           case 'end':
             // End run
@@ -491,9 +537,47 @@ export default {
             break;
         }
       }
-       console.log('received: ', data);
+      console.log('received: ', data);
     },
 
+    /*--------------------------------------------------------------------------
+    * Manage Waiting Condition after each step
+    * -------------------------------------------------------------------------*/
+    manageWaitingCondition() {
+
+
+      // if (this.waitingConditionModule.data[this.runningStep.number].description.toLowerCase().includes('timeout')) {
+      if (this.waitingConditionModule.data[this.runningStep.number].value > 0) {
+
+        this.timeoutDialog = true;
+        this.timeoutValue = new Date();
+        this.timeoutValue = this.timeoutValue.setMilliseconds(this.timeoutValue.getMilliseconds() + this.waitingConditionModule.data[this.runningStep.number].value);
+        setTimeout(() => this.setTimeoutDialog(), this.waitingConditionModule.data[this.runningStep.number].value);
+
+        console.log(this.waitingConditionModule.data[this.runningStep.number].value);
+
+      } else if (this.waitingConditionModule.data[this.runningStep.number].value < 0) {
+
+        this.blockingDialog = true;
+
+      } else {
+        this.runningStep.number++;
+      }
+    },
+    /*--------------------------------------------------------------------------
+    * Hide Gina blocking dialog
+    * -------------------------------------------------------------------------*/
+    unBlockDialog() {
+      this.blockingDialog = false;
+      this.runningStep.number++;
+    },
+    /*--------------------------------------------------------------------------
+    * Create custom data to be sent
+    * -------------------------------------------------------------------------*/
+    setTimeoutDialog() {
+      this.timeoutDialog = false;
+      this.runningStep.number++;
+    },
     /*--------------------------------------------------------------------------
      * Create custom data to be sent
      * -------------------------------------------------------------------------*/
@@ -505,77 +589,84 @@ export default {
         moveTo: {}
       }
 
-      if (this.runningStep.number === 0) {
-
+      if (this.runningStep.number === 0)
         stepToRun = this.loadFirstStepOfMethod();
-
-      } else {
-
-        this.runningStep.data.tlcMigration !== this.tlcMigrationModule.data[this.runningStep.number].position
-            ? stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position : '';
-
-        this.runningStep.data.phMeter !== this.phMeterModule.data[this.runningStep.number].position
-            ? stepToRun.moveTo.phMeter = this.runningStep.data.phMeter = this.phMeterModule.data[this.runningStep.number].position : '';
-
-        this.runningStep.data.dropDispenser !== this.dropDispenserModule.data[this.runningStep.number].position
-            ? stepToRun.moveTo.dropDispenser = this.runningStep.data.dropDispenser = this.dropDispenserModule.data[this.runningStep.number].value : '';
-
-        this.runningStep.data.lds1 !== this.liquidDispenserModule.data[this.runningStep.number].ldS1
-            ? stepToRun.moveTo.lds1 = this.runningStep.data.lds1 = this.liquidDispenserModule.data[this.runningStep.number].ldS1 : '';
-
-        this.runningStep.data.lds2 !== this.liquidDispenserModule.data[this.runningStep.number].ldS2
-            ? stepToRun.moveTo.lds2 = this.runningStep.data.lds2 = this.liquidDispenserModule.data[this.runningStep.number].ldS2 : '';
-
-        this.runningStep.data.lds3 !== this.liquidDispenserModule.data[this.runningStep.number].ldS3
-            ? stepToRun.moveTo.lds3 = this.runningStep.data.lds3 = this.liquidDispenserModule.data[this.runningStep.number].ldS3 : '';
-
-        this.runningStep.data.lds4 !== this.liquidDispenserModule.data[this.runningStep.number].ldS4
-            ? stepToRun.moveTo.lds4 = this.runningStep.data.lds4 = this.liquidDispenserModule.data[this.runningStep.number].ldS4 : '';
-
-        this.runningStep.data.lds5 !== this.liquidDispenserModule.data[this.runningStep.number].ldS5
-            ? stepToRun.moveTo.lds5 = this.runningStep.data.lds5 = this.liquidDispenserModule.data[this.runningStep.number].ldS5 : '';
-
-        this.runningStep.data.lds6 !== this.liquidDispenserModule.data[this.runningStep.number].ldS6
-            ? stepToRun.moveTo.lds6 = this.runningStep.data.lds6 = this.liquidDispenserModule.data[this.runningStep.number].ldS6 : '';
-
-        this.runningStep.data.lds7 !== this.liquidDispenserModule.data[this.runningStep.number].ldS7
-            ? stepToRun.moveTo.lds7 = this.runningStep.data.lds7 = this.liquidDispenserModule.data[this.runningStep.number].ldS7 : '';
-
-        this.runningStep.data.lds8 !== this.liquidDispenserModule.data[this.runningStep.number].ldS8
-            ? stepToRun.moveTo.lds8 = this.runningStep.data.lds8 = this.liquidDispenserModule.data[this.runningStep.number].ldS8 : '';
-
-        this.runningStep.data.lds9 !== this.liquidDispenserModule.data[this.runningStep.number].ldS9
-            ? stepToRun.moveTo.lds9 = this.runningStep.data.lds9 = this.liquidDispenserModule.data[this.runningStep.number].ldS9 : '';
-
-        this.runningStep.data.sp1p !== this.liquidDispenserModule.data[this.runningStep.number].sP1P
-            ? stepToRun.moveTo.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P : '';
-
-        this.runningStep.data.sp1s !== this.liquidDispenserModule.data[this.runningStep.number].sP1S
-            ? stepToRun.moveTo.sp1s = this.runningStep.data.sp1s = this.liquidDispenserModule.data[this.runningStep.number].sP1S : '';
-
-        this.runningStep.data.sp2p !== this.liquidDispenserModule.data[this.runningStep.number].sP2P
-            ? stepToRun.moveTo.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P : '';
-
-        this.runningStep.data.sp2s !== this.liquidDispenserModule.data[this.runningStep.number].sP2S
-            ? stepToRun.moveTo.sp2s = this.runningStep.data.sp2s = this.liquidDispenserModule.data[this.runningStep.number].sP2S : '';
-
-        this.runningStep.data.sp3p !== this.liquidDispenserModule.data[this.runningStep.number].sP3P
-            ? stepToRun.moveTo.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P : '';
-
-        this.runningStep.data.sp3s !== this.liquidDispenserModule.data[this.runningStep.number].sP3S
-            ? stepToRun.moveTo.sp3s = this.runningStep.data.sp3s = this.liquidDispenserModule.data[this.runningStep.number].sP3S : '';
-
-        this.runningStep.data.pump1p !== this.liquidDispenserModule.data[this.runningStep.number].pumP1P
-            ? stepToRun.moveTo.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P : '';
-
-        this.runningStep.data.pump1s !== this.liquidDispenserModule.data[this.runningStep.number].pumP1S
-            ? stepToRun.moveTo.pump1s = this.runningStep.data.pump1s = this.liquidDispenserModule.data[this.runningStep.number].pumP1S : '';
-      }
-
-      console.log(stepToRun)
+      else
+        stepToRun = this.loadOnlyNecessaryElementsOfStep();
 
       return stepToRun;
+    },
 
+    /*--------------------------------------------------------------------------
+     * Loads only steps that have changed in a method
+     * -------------------------------------------------------------------------*/
+    loadOnlyNecessaryElementsOfStep() {
+
+      let stepToRun = {
+        stage: this.runningStep.stage,
+        stepNumber: this.runningStep.number,
+        moveTo: {}
+      }
+      this.runningStep.data.tlcMigration !== this.tlcMigrationModule.data[this.runningStep.number].position
+          ? stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position : '';
+
+      this.runningStep.data.phMeter !== this.phMeterModule.data[this.runningStep.number].position
+          ? stepToRun.moveTo.phMeter = this.runningStep.data.phMeter = this.phMeterModule.data[this.runningStep.number].position : '';
+
+      this.runningStep.data.dropDispenser !== this.dropDispenserModule.data[this.runningStep.number].position
+          ? stepToRun.moveTo.dropDispenser = this.runningStep.data.dropDispenser = this.dropDispenserModule.data[this.runningStep.number].value : '';
+
+      this.runningStep.data.lds1 !== this.liquidDispenserModule.data[this.runningStep.number].ldS1
+          ? stepToRun.moveTo.lds1 = this.runningStep.data.lds1 = this.liquidDispenserModule.data[this.runningStep.number].ldS1 : '';
+
+      this.runningStep.data.lds2 !== this.liquidDispenserModule.data[this.runningStep.number].ldS2
+          ? stepToRun.moveTo.lds2 = this.runningStep.data.lds2 = this.liquidDispenserModule.data[this.runningStep.number].ldS2 : '';
+
+      this.runningStep.data.lds3 !== this.liquidDispenserModule.data[this.runningStep.number].ldS3
+          ? stepToRun.moveTo.lds3 = this.runningStep.data.lds3 = this.liquidDispenserModule.data[this.runningStep.number].ldS3 : '';
+
+      this.runningStep.data.lds4 !== this.liquidDispenserModule.data[this.runningStep.number].ldS4
+          ? stepToRun.moveTo.lds4 = this.runningStep.data.lds4 = this.liquidDispenserModule.data[this.runningStep.number].ldS4 : '';
+
+      this.runningStep.data.lds5 !== this.liquidDispenserModule.data[this.runningStep.number].ldS5
+          ? stepToRun.moveTo.lds5 = this.runningStep.data.lds5 = this.liquidDispenserModule.data[this.runningStep.number].ldS5 : '';
+
+      this.runningStep.data.lds6 !== this.liquidDispenserModule.data[this.runningStep.number].ldS6
+          ? stepToRun.moveTo.lds6 = this.runningStep.data.lds6 = this.liquidDispenserModule.data[this.runningStep.number].ldS6 : '';
+
+      this.runningStep.data.lds7 !== this.liquidDispenserModule.data[this.runningStep.number].ldS7
+          ? stepToRun.moveTo.lds7 = this.runningStep.data.lds7 = this.liquidDispenserModule.data[this.runningStep.number].ldS7 : '';
+
+      this.runningStep.data.lds8 !== this.liquidDispenserModule.data[this.runningStep.number].ldS8
+          ? stepToRun.moveTo.lds8 = this.runningStep.data.lds8 = this.liquidDispenserModule.data[this.runningStep.number].ldS8 : '';
+
+      this.runningStep.data.lds9 !== this.liquidDispenserModule.data[this.runningStep.number].ldS9
+          ? stepToRun.moveTo.lds9 = this.runningStep.data.lds9 = this.liquidDispenserModule.data[this.runningStep.number].ldS9 : '';
+
+      this.runningStep.data.sp1p !== this.liquidDispenserModule.data[this.runningStep.number].sP1P
+          ? stepToRun.moveTo.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P : '';
+
+      this.runningStep.data.sp1s !== this.liquidDispenserModule.data[this.runningStep.number].sP1S
+          ? stepToRun.moveTo.sp1s = this.runningStep.data.sp1s = this.liquidDispenserModule.data[this.runningStep.number].sP1S : '';
+
+      this.runningStep.data.sp2p !== this.liquidDispenserModule.data[this.runningStep.number].sP2P
+          ? stepToRun.moveTo.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P : '';
+
+      this.runningStep.data.sp2s !== this.liquidDispenserModule.data[this.runningStep.number].sP2S
+          ? stepToRun.moveTo.sp2s = this.runningStep.data.sp2s = this.liquidDispenserModule.data[this.runningStep.number].sP2S : '';
+
+      this.runningStep.data.sp3p !== this.liquidDispenserModule.data[this.runningStep.number].sP3P
+          ? stepToRun.moveTo.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P : '';
+
+      this.runningStep.data.sp3s !== this.liquidDispenserModule.data[this.runningStep.number].sP3S
+          ? stepToRun.moveTo.sp3s = this.runningStep.data.sp3s = this.liquidDispenserModule.data[this.runningStep.number].sP3S : '';
+
+      this.runningStep.data.pump1p !== this.liquidDispenserModule.data[this.runningStep.number].pumP1P
+          ? stepToRun.moveTo.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P : '';
+
+      this.runningStep.data.pump1s !== this.liquidDispenserModule.data[this.runningStep.number].pumP1S
+          ? stepToRun.moveTo.pump1s = this.runningStep.data.pump1s = this.liquidDispenserModule.data[this.runningStep.number].pumP1S : '';
+      return stepToRun;
     },
 
     /*--------------------------------------------------------------------------
@@ -618,8 +709,6 @@ export default {
     connectToWebSocket() {
 
       console.log("Starting connection to WebSocket Server");
-      // this.connection = new WebSocket('ws://' + this.espIP);
-
 
       try {
         this.connection = new WebSocket('ws://' + this.webSocket.ipAddress);
@@ -633,11 +722,7 @@ export default {
       this.connection.onopen = function (event) {
         console.log(event);
         console.log("Successfully connected to the ESP32 websocket server!");
-        //this.webSocket.connected = true;
-
-        //console.log(this.webSocket.connected);
       }
-
       this.connection.onclose = function (event) {
         console.log(event);
         console.log("Disconnected from websocket");
@@ -646,7 +731,6 @@ export default {
         console.log(event);
         console.log("Error connecting to websocket");
       }
-
     },
 
     /*--------------------------------------------------------------------------
@@ -660,7 +744,7 @@ export default {
                 if (response.status === 200) {
                   let network = response.data;
                   this.webSocket.ipAddress = network['ipAddress'];
-                  console.log( this.webSocket.ipAddress);
+                  console.log(this.webSocket.ipAddress);
 
                   this.connectToWebSocket();
                 }
@@ -676,10 +760,9 @@ export default {
     * -------------------------------------------------------------------------*/
     redirectTo(route) {
 
-      if (route.includes('ConfigAuras')) {
-
+      if (route.includes('ConfigAuras'))
         this.$router.push({name: route, params: {idMethod: this.currentMethod.id}});
-      } else
+      else
         this.$router.push({name: route});
     },
 
@@ -771,9 +854,7 @@ export default {
       this.runningStep.number = 0;
       this.stepModule.data = [];
       this.actionsModule.data = [];
-
       this.allModulesList.forEach(m => this.fetchData(m));
-
     },
 
     /*------------------------------------------------------------------------
@@ -782,7 +863,6 @@ export default {
     loadStepsAndActions(length) {
 
       for (let i = 0; i < length; i++) {
-
         let step = {step: JSON.parse(JSON.stringify(this.runningStep.start))};
         this.$data.stepModule.data.push(step);
         let line = {line: JSON.parse(JSON.stringify(this.runningStep.start))};
@@ -829,10 +909,8 @@ export default {
     loadDropDispenserDisplayedInfo() {
 
       for (let i = 0; i < this.dropDispenserModule.data.length; i++) {
-
         let displayedTarget = '';
         let spTarget = '';
-
         this.dropDispenserModule.data[i].value >= 0 ? displayedTarget = this.dropDispenserModule.data[i].value : displayedTarget = 'Drop detected';
         this.dropDispenserModule.data[i].value >= 0 ? spTarget = 'Position' : spTarget = 'Drop detected';
         this.dropDispenserModule.data[i].selectedInstrumentComponent = this.dropDispenserModule.data[i].type;
@@ -847,7 +925,6 @@ export default {
     loadWCDisplayedInfo() {
 
       for (let i = 0; i < this.waitingConditionModule.data.length; i++) {
-
         this.waitingConditionModule.data[i].description.toLowerCase() === 'timeout' ?
             this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value + ' ms' :
             this.waitingConditionModule.data[i].description.toLowerCase() === 'gina' ? 'Gina' : '';
@@ -872,12 +949,10 @@ export default {
 
 
     /*------------------------------------------------------------------------
-      * Function to to set highlighted step style
-      * ------------------------------------------------------------------------*/
+     * Function to to set highlighted step style
+     * ------------------------------------------------------------------------*/
     itemRowBackground: function (item) {
-
-      return item.step === this.runningStep.number ? 'style-1' : 'style-2'
-
+      return item.step === this.runningStep.number ? 'style-1' : 'style-2';
     }
 
   }

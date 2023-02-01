@@ -88,12 +88,12 @@ export default {
   name: "StationCard",
   components: {},
 
-
   props: {
     'name': String,
     'url': String,
     'items': Array
   },
+
   data() {
     return {
       settings: false,
