@@ -25,23 +25,43 @@
           <v-btn color="#e28743"
                  class="white--text"
                  @click="pauseMethodRun"
+                 v-if="runningStep.runStarted"
           >
-            <v-icon small v-if="!runningStep.paused">
-              mdi-pause
-            </v-icon>
-            <v-icon small v-else>
-              mdi-play-outline
-            </v-icon>
-            Pause run
+            <v-row v-if="!runningStep.paused">
+              <v-icon small>
+                mdi-pause
+              </v-icon>
+              Pause run
+            </v-row>
+            <v-row v-else>
+              <v-icon small>
+                mdi-play-outline
+              </v-icon>
+              Continue run
+            </v-row>
+
           </v-btn>
+
           <v-btn color="success"
                  class="ma-2 white--text"
                  @click="initMethodRun"
+                 v-if="!runningStep.paused"
           >
             <v-icon small>
               mdi-play-outline
             </v-icon>
-            Start method
+            Start Run
+          </v-btn>
+
+          <v-btn color="success"
+                 class="ma-2 white--text"
+                 @click="initMethodRun"
+                 v-else
+          >
+            <v-icon small>
+              mdi-play-outline
+            </v-icon>
+            Restart Run
           </v-btn>
         </v-card-title>
 
@@ -297,6 +317,7 @@ export default {
 
     runningStep: {
       number: -1,
+      runStarted: false,
       stage: '',
       start: 0,
       pausePosition: '',
@@ -438,6 +459,7 @@ export default {
   computed: {},
 
   watch: {
+
     'runningStep.number'() {
 
       if (!this.runningStep.paused &&
@@ -458,6 +480,7 @@ export default {
     initMethodRun() {
 
       this.runningStep.runAllMethod = true;
+      this.runningStep.runStarted = true;
       this.runningStep.number = 0;
       this.runningStep.stage = 'init';
 
@@ -490,6 +513,7 @@ export default {
     * -------------------------------------------------------------------------*/
     pauseMethodRun() {
       this.runningStep.paused = !this.runningStep.paused;
+
       if (this.runningStep.paused)
         this.runningStep.pausePosition = this.runningStep.number;
       else
@@ -545,8 +569,12 @@ export default {
     * -------------------------------------------------------------------------*/
     manageWaitingCondition() {
 
+      if (this.runningStep.number > this.stepModule.totalOfSteps){
+        this.runningStep.runStarted = false;
+        this.runningStep.number =-1;
+      }
 
-      // if (this.waitingConditionModule.data[this.runningStep.number].description.toLowerCase().includes('timeout')) {
+
       if (this.waitingConditionModule.data[this.runningStep.number].value > 0) {
 
         this.timeoutDialog = true;
@@ -554,12 +582,8 @@ export default {
         this.timeoutValue = this.timeoutValue.setMilliseconds(this.timeoutValue.getMilliseconds() + this.waitingConditionModule.data[this.runningStep.number].value);
         setTimeout(() => this.setTimeoutDialog(), this.waitingConditionModule.data[this.runningStep.number].value);
 
-        console.log(this.waitingConditionModule.data[this.runningStep.number].value);
-
       } else if (this.waitingConditionModule.data[this.runningStep.number].value < 0) {
-
         this.blockingDialog = true;
-
       } else {
         this.runningStep.number++;
       }
@@ -744,8 +768,6 @@ export default {
                 if (response.status === 200) {
                   let network = response.data;
                   this.webSocket.ipAddress = network['ipAddress'];
-                  console.log(this.webSocket.ipAddress);
-
                   this.connectToWebSocket();
                 }
               })
