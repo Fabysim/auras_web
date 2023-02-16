@@ -424,7 +424,7 @@
 
     <!-- PlatForms -->
 
-    <PlatFormCard @lineSaved="SaveLine" ref="plateForm"/>
+    <PlatFormCard mode="config" @lineSaved="SaveLine" ref="plateForm"/>
 
     <!--Confirm deletion dialog-->
 
@@ -622,6 +622,7 @@ export default {
   }),
 
   mounted() {
+
     this.initialization();
     this.fetchMethod();
     this.fetchModulesList();
@@ -853,17 +854,15 @@ export default {
 
       this.waitingConditionModule.data[line].type = this.updateWaitingCondition.selectedOption;
 
-      if (this.updateWaitingCondition.selectedOption.toLowerCase().includes('timeout')){
+      if (this.updateWaitingCondition.selectedOption.toLowerCase().includes('timeout')) {
 
         this.waitingConditionModule.data[line].description = 'Timeout';
         this.waitingConditionModule.data[line].value = this.updateWaitingCondition.timeoutValue;
-      }
-      else if(this.updateWaitingCondition.selectedOption.toLowerCase().includes('gina')){
+      } else if (this.updateWaitingCondition.selectedOption.toLowerCase().includes('gina')) {
 
         this.waitingConditionModule.data[line].description = 'Gina';
         this.waitingConditionModule.data[line].value = -1;
-      }
-      else{
+      } else {
         this.waitingConditionModule.data[line].description = 'None';
         this.waitingConditionModule.data[line].value = 0;
       }
@@ -1403,7 +1402,6 @@ export default {
           });
       this.snackbar.show = true;
     },
-
   }
 }
 </script>

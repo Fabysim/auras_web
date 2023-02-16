@@ -256,6 +256,8 @@
 
     </vue-scroll-snap>
 
+    <PlatFormCard mode="run" @lineSaved="SaveLine" ref="plateForm"/>
+
     <!--Timeout dialog-->
 
     <v-dialog
@@ -298,11 +300,13 @@
 import axios from "axios";
 import VueScrollSnap from "vue-scroll-snap";
 import CountDown from "@/components/CountDown";
+import PlatFormCard from "@/components/Auras/PlatformCard";
 
 export default {
   name: "RunAurasView",
   components: {
     VueScrollSnap,
+    PlatFormCard,
     CountDown
   },
   data: () => ({
@@ -482,7 +486,7 @@ export default {
       this.runningStep.runAllMethod = true;
       this.runningStep.runStarted = true;
       this.runningStep.number = 0;
-      this.runningStep.stage = 'init';
+      this.runningStep.stage = 'initMethod';
 
       let init = {
         stage: this.runningStep.stage,
