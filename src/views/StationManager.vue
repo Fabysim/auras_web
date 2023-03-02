@@ -7,7 +7,7 @@
       <StationCard v-bind:name="appName2" v-bind:items="itemsCS"/>
     </v-col>
     <v-col>
-      <StationCard v-bind:name="appName3" v-bind:items="itemsDD"/>
+      <StationCard v-bind:name="appName3" v-bind:items="itemsLD"/>
     </v-col>
   </v-row>
 </template>
@@ -24,16 +24,16 @@ export default {
     settings: false,
     appName1: 'Auras',
     appName2: 'Color Sensor',
-    appName3: 'Drop Dispenser',
+    appName3: 'Liquid Dispenser',
 
 
     itemsAuras: [
       {text: 'Start Auras', icon: 'mdi-power', url: 'IndexAuras'},
       {text: 'Auras Network', icon: 'mdi-access-point-network', url: 'AurasNetwork'},
     ],
-    itemsDD: [
-      {text: 'Drop Dispenser Run', icon: 'mdi-power', url: 'IndexDd'},
-      {text: 'Drop Dispenser Network', icon: 'mdi-access-point-network', url: 'DropDNetwork'},
+    itemsLD: [
+      {text: 'Liquid Dispenser Run', icon: 'mdi-power', url: 'IndexLd'},
+      {text: 'Liquid Dispenser Network', icon: 'mdi-access-point-network', url: 'LiquidDNetwork'},
     ],
     itemsCS: [
       {text: 'Color sensor Run', icon: 'mdi-power', url: 'IndexColorSensor'},

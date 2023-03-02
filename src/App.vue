@@ -31,7 +31,7 @@
       </v-btn>
       <v-btn text
              color="#FFFFFF"
-             @click ="redirectTo('IndexDd')">
+             @click ="redirectTo('IndexLiquidDispenser')">
         Liquid dispenser
       </v-btn>
 

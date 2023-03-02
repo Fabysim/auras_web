@@ -6,10 +6,10 @@ import PlayGround from "@/views/PlayGround";
 import IndexAuras from "@/views/Auras/IndexAurasView";
 import AurasConfigMethodView from "@/views/Auras/ConfigMethodView";
 import RunAurasView from "@/views/Auras/RunMethodView";
-import IndexDd from "@/views/LiquidDispenser/IndexDropDView";
+import IndexLiquidDispenser from "@/views/LiquidDispenser/IndexLiquidDView";
 import DdConfigMethod from "@/views/LiquidDispenser/ConfigMethodDd";
-import DdUpdateMethod from "@/views/LiquidDispenser/UpdateMethodDd";
-import ViewMethodDd from "@/views/LiquidDispenser/ViewMethodDd";
+import DdUpdateMethod from "@/views/LiquidDispenser/UpdateMethodLD";
+import ViewMethodDd from "@/views/LiquidDispenser/ViewMethodLD";
 
 
 Vue.use(VueRouter)
@@ -50,8 +50,8 @@ const routes = [
     },
     {
         path: '/config',
-        name: 'IndexDd',
-        component: IndexDd
+        name: 'IndexLiquidDispenser',
+        component: IndexLiquidDispenser
     },
     {
         path: '/method/:id_method_list',

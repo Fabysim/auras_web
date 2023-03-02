@@ -11,12 +11,16 @@
                  class="white--text"
                  @click="redirectTo('IndexAuras')"
           >
+            <v-icon>mdi-format-list-bulleted</v-icon>
             All Methods
           </v-btn>
           <v-btn color="#2e4c80"
                  class="ma-2 white--text"
                  @click="redirectTo('RunAuras')"
           >
+            <v-icon small>
+              mdi-play-outline
+            </v-icon>
             Run method
           </v-btn>
           <v-spacer/>
@@ -42,6 +46,7 @@
                  class="ma-2 white--text"
                  @click="loadModulesData()"
           >
+            <v-icon>mdi-refresh</v-icon>
             Refresh
           </v-btn>
         </v-card-title>
@@ -457,11 +462,12 @@
 
 <script>
 
+Vue.component("downloadExcel", JsonExcel);
 import PlatFormCard from '@/components/Auras/PlatformCard.vue'
-
 import VueScrollSnap from "vue-scroll-snap";
 import axios from "axios";
-
+import Vue from "vue";
+import JsonExcel from "vue-json-excel";
 
 export default {
   name: 'AurasConfigMethodView',
@@ -473,7 +479,6 @@ export default {
   data: () => ({
 
     lineNumber: 0,
-    downloadedData: [],
     currentMethod: '',
     allModulesList: [],
     aurasModules: [],
@@ -499,6 +504,32 @@ export default {
       timeoutValue: '',
       timeoutOldValue: 0,
       instrumentsList: ['Gina', 'Auras'],
+    },
+
+    downloadedData: [],
+
+    concatenatedData: {
+      step: '',
+      tlcMigration: '',
+      phMeter: '',
+      dropDispenser: '',
+      ldS1: '',
+      ldS2: '',
+      ldS3: '',
+      ldS4: '',
+      ldS5: '',
+      ldS6: '',
+      ldS7: '',
+      ldS8: '',
+      ldS9: '',
+      sp1P: '',
+      sp1S: '',
+      sp2P: '',
+      sp2S: '',
+      sp3P: '',
+      sp3S: '',
+      pump1p: '',
+      pumP1S: '',
     },
 
     stepModule: {
@@ -627,7 +658,9 @@ export default {
     this.fetchMethod();
     this.fetchModulesList();
     this.loadModulesData();
+
   },
+
 
   watch: {
 
@@ -665,6 +698,45 @@ export default {
   methods: {
 
     /*------------------------------------------------------------------------
+     * Create data to be downloaded
+     * ------------------------------------------------------------------------*/
+    setDownloadedData() {
+
+
+      for (let i = 0; i < this.stepModule.data.length; i++) {
+
+        this.concatenatedData.step = this.liquidDispenserModule.data[i].step;
+
+        this.concatenatedData.ldS1 = this.liquidDispenserModule.data[i].ldS1;
+        this.concatenatedData.ldS2 = this.liquidDispenserModule.data[i].ldS2;
+        this.concatenatedData.ldS3 = this.liquidDispenserModule.data[i].ldS3;
+        this.concatenatedData.ldS4 = this.liquidDispenserModule.data[i].ldS4;
+        this.concatenatedData.ldS5 = this.liquidDispenserModule.data[i].ldS5;
+        this.concatenatedData.ldS6 = this.liquidDispenserModule.data[i].ldS6;
+        this.concatenatedData.ldS7 = this.liquidDispenserModule.data[i].ldS7;
+        this.concatenatedData.ldS8 = this.liquidDispenserModule.data[i].ldS8;
+        this.concatenatedData.ldS9 = this.liquidDispenserModule.data[i].ldS9;
+        this.concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
+        this.concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
+        this.concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
+        this.concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
+        this.concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
+        this.concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
+        this.concatenatedData.pump1p = this.liquidDispenserModule.data[i].pump1p;
+        this.concatenatedData.pump1S = this.liquidDispenserModule.data[i].pump1S;
+
+        this.concatenatedData.dropDispenser = this.dropDispenserModule.data[i].value;
+        this.concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].position;
+        this.concatenatedData.phMeter = this.phMeterModule.data[i].position;
+
+        this.downloadedData.splice(i, 0, JSON.parse(JSON.stringify(this.concatenatedData)));
+      }
+
+      console.log(this.downloadedData);
+
+
+    },
+    /*------------------------------------------------------------------------
     * Function to load all method's data
     * ------------------------------------------------------------------------*/
     async loadModulesData() {
@@ -674,6 +746,8 @@ export default {
       this.actionsModule.data = [];
 
       this.aurasModules.forEach(m => this.fetchData(m));
+
+      setTimeout(() => this.setDownloadedData(), 1000);
     },
 
     /*------------------------------------------------------------------------
@@ -695,15 +769,17 @@ export default {
         line.sP2P === -2 ? line.displayedSP2Info = 'Fill LAL cartridge' : '';
         line.sP3P === -2 ? line.displayedSP3Info = 'Fill LAL cartridge' : '';
 
-        line.sP1P >= 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
-        line.sP2P >= 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
-        line.sP3P >= 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
+        line.sP1P > 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
+        line.sP2P > 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
+        line.sP3P > 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
 
         line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
         line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
         line.sP3P >= 0 ? line.ldSp3PositionSelected = true : line.ldSp3PositionSelected = false;
 
       });
+
+
     },
 
     /*------------------------------------------------------------------------
@@ -722,6 +798,8 @@ export default {
         this.dropDispenserModule.data[i].displayedInfo = this.dropDispenserModule.data[i].type + ': ' + displayedTarget;
         this.dropDispenserModule.data[i].spTarget = spTarget;
       }
+
+
     },
 
     /*------------------------------------------------------------------------
@@ -736,7 +814,6 @@ export default {
             this.waitingConditionModule.data[i].description.toLowerCase() === 'gina' ? 'Gina' : '';
 
       }
-
 
     },
 
@@ -1344,6 +1421,7 @@ export default {
 
               if (module.name.toLowerCase().includes('waiting'))
                 this.loadWCDisplayedInfo();
+
 
             } else {
               this.snackbar.message = response.data.message;

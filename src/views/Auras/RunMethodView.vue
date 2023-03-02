@@ -12,13 +12,17 @@
                  class="white--text"
                  @click="redirectTo('IndexAuras')"
           >
+            <v-icon>mdi-format-list-bulleted</v-icon>
             All Methods
           </v-btn>
           <v-btn color="primary"
                  class=" ma-2 white--text"
                  @click="redirectTo('ConfigAuras')"
           >
-            Edit method
+            <v-icon small color="blue-grey-darken-2">
+              mdi-cog-outline
+            </v-icon>
+            <span class="mr-2">Edit method</span>
           </v-btn>
 
           <v-spacer/>
@@ -256,7 +260,7 @@
 
     </vue-scroll-snap>
 
-    <PlatFormCard mode="run" @lineSaved="SaveLine" ref="plateForm"/>
+    <PlatFormCard mode="run" ref="plateForm"/>
 
     <!--Timeout dialog-->
 
@@ -614,7 +618,8 @@ export default {
       let stepToRun = {
         stage: this.runningStep.stage,
         stepNumber: this.runningStep.number,
-        moveTo: {}
+        moveTo: {},
+        move: {}
       }
 
       if (this.runningStep.number === 0)
@@ -633,7 +638,8 @@ export default {
       let stepToRun = {
         stage: this.runningStep.stage,
         stepNumber: this.runningStep.number,
-        moveTo: {}
+        moveTo: {},
+        move:{}
       }
       this.runningStep.data.tlcMigration !== this.tlcMigrationModule.data[this.runningStep.number].position
           ? stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position : '';
@@ -672,25 +678,25 @@ export default {
           ? stepToRun.moveTo.lds9 = this.runningStep.data.lds9 = this.liquidDispenserModule.data[this.runningStep.number].ldS9 : '';
 
       this.runningStep.data.sp1p !== this.liquidDispenserModule.data[this.runningStep.number].sP1P
-          ? stepToRun.moveTo.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P : '';
+          ? stepToRun.move.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P : '';
 
       this.runningStep.data.sp1s !== this.liquidDispenserModule.data[this.runningStep.number].sP1S
           ? stepToRun.moveTo.sp1s = this.runningStep.data.sp1s = this.liquidDispenserModule.data[this.runningStep.number].sP1S : '';
 
       this.runningStep.data.sp2p !== this.liquidDispenserModule.data[this.runningStep.number].sP2P
-          ? stepToRun.moveTo.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P : '';
+          ? stepToRun.move.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P : '';
 
       this.runningStep.data.sp2s !== this.liquidDispenserModule.data[this.runningStep.number].sP2S
           ? stepToRun.moveTo.sp2s = this.runningStep.data.sp2s = this.liquidDispenserModule.data[this.runningStep.number].sP2S : '';
 
       this.runningStep.data.sp3p !== this.liquidDispenserModule.data[this.runningStep.number].sP3P
-          ? stepToRun.moveTo.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P : '';
+          ? stepToRun.move.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P : '';
 
       this.runningStep.data.sp3s !== this.liquidDispenserModule.data[this.runningStep.number].sP3S
           ? stepToRun.moveTo.sp3s = this.runningStep.data.sp3s = this.liquidDispenserModule.data[this.runningStep.number].sP3S : '';
 
       this.runningStep.data.pump1p !== this.liquidDispenserModule.data[this.runningStep.number].pumP1P
-          ? stepToRun.moveTo.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P : '';
+          ? stepToRun.move.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P : '';
 
       this.runningStep.data.pump1s !== this.liquidDispenserModule.data[this.runningStep.number].pumP1S
           ? stepToRun.moveTo.pump1s = this.runningStep.data.pump1s = this.liquidDispenserModule.data[this.runningStep.number].pumP1S : '';
@@ -705,7 +711,8 @@ export default {
       let stepToRun = {
         stage: this.runningStep.stage,
         stepNumber: this.runningStep.number,
-        moveTo: {}
+        moveTo: {},
+        move:{}
       }
       stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position;
       stepToRun.moveTo.phMeter = this.runningStep.data.phMeter = this.phMeterModule.data[this.runningStep.number].position;
@@ -719,13 +726,13 @@ export default {
       stepToRun.moveTo.lds7 = this.runningStep.data.lds7 = this.liquidDispenserModule.data[this.runningStep.number].ldS7;
       stepToRun.moveTo.lds8 = this.runningStep.data.lds8 = this.liquidDispenserModule.data[this.runningStep.number].ldS8;
       stepToRun.moveTo.lds9 = this.runningStep.data.lds9 = this.liquidDispenserModule.data[this.runningStep.number].ldS9;
-      stepToRun.moveTo.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P;
+      stepToRun.move.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P;
       stepToRun.moveTo.sp1s = this.runningStep.data.sp1s = this.liquidDispenserModule.data[this.runningStep.number].sP1S;
-      stepToRun.moveTo.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P;
+      stepToRun.move.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P;
       stepToRun.moveTo.sp2s = this.runningStep.data.sp2s = this.liquidDispenserModule.data[this.runningStep.number].sP2S;
-      stepToRun.moveTo.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P;
+      stepToRun.move.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P;
       stepToRun.moveTo.sp3s = this.runningStep.data.sp3s = this.liquidDispenserModule.data[this.runningStep.number].sP3S;
-      stepToRun.moveTo.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P;
+      stepToRun.move.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P;
       stepToRun.moveTo.pump1s = this.runningStep.data.pump1s = this.liquidDispenserModule.data[this.runningStep.number].pumP1S;
 
       return stepToRun;
@@ -918,9 +925,9 @@ export default {
         line.sP2P === -2 ? line.displayedSP2Info = 'Fill LAL cartridge' : '';
         line.sP3P === -2 ? line.displayedSP3Info = 'Fill LAL cartridge' : '';
 
-        line.sP1P >= 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
-        line.sP2P >= 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
-        line.sP3P >= 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
+        line.sP1P > 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
+        line.sP2P > 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
+        line.sP3P > 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
 
         line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
         line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;

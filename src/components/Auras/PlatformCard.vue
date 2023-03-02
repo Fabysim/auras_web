@@ -10,10 +10,6 @@
       <v-card-title class="justify-center">
         Define a step
         <v-spacer/>
-        <v-btn style="background-color: dodgerblue; color: white;"
-               @click="$emit('lineSaved')">
-          Save step
-        </v-btn>
       </v-card-title>
 
       <!--Tables-->
@@ -147,6 +143,11 @@
         </vue-scroll-snap>
 
       </v-card-text>
+
+      <v-btn style="background-color: dodgerblue; color: white;"
+             @click="$emit('lineSaved')">
+        Save step
+      </v-btn>
     </v-card>
 
     <v-dialog v-model="overflowDialog.open" max-width="500px">
@@ -400,12 +401,14 @@
                 class="button">
           Down
         </button>
-        <input type="number"
+        <input type="text"
+               v-model="liquidDispenserModule.sp1Quantity"
                :disabled="!liquidDispenserModule.sp1VolumeSelected"
+               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
                class="input-text"
                id="volumeSp1Input"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
         />
+
 
         <input type="range" id="ps1SpeedRange" min="1" max="500"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
@@ -431,11 +434,11 @@
                 @mouseup="movePS('sp2Down','mouseup')">
           Down
         </button>
-        <input type="number"
+        <input type="text"
                :disabled="!liquidDispenserModule.sp2VolumeSelected"
                class="input-text"
                id="volumeSp2Input"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule,  event.target.value,'volumeSp2Input')"/>
+               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
 
         <input type="range" id="ps2SpeedRange" min="1" max="500"
@@ -510,18 +513,23 @@
           <option value="500"/>
         </datalist>
 
-        <div class="progressbar-wrapper">
-          <div id="ps1AbsolutePosition" title="ps1AbsolutePosition" v-bind:style="{ width: computedWidth }" class="progressbar ">
-            </div>
+        <div class="progressbar-wrapper" id="PS1PProgressbar">
+          <div id="ps1AbsolutePosition" title="ps1AbsolutePosition" v-bind:style="{ width: computedWidthSp1 }"
+               class="progressbar ">
+          </div>
         </div>
 
-        <!--        <progress id="PS1PProgressbar" max="1000" value=""></progress>-->
+        <div class="progressbar-wrapper" id="PS2PProgressbar">
+          <div id="ps2AbsolutePosition" title="ps2AbsolutePosition" v-bind:style="{ width: computedWidthSp2 }"
+               class="progressbar">
+          </div>
+        </div>
 
-
-        <!--
-        <progress id="PS1PProgressbar" max="1000" value=""></progress>
-        <progress id="PS2PProgressbar" max="1000" value=""></progress>
-        <progress id="PS3PProgressbar" max="1000" value=""></progress>-->
+        <div class="progressbar-wrapper" id="PS3PProgressbar">
+          <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" v-bind:style="{ width: computedWidthSp3 }"
+               class="progressbar">
+          </div>
+        </div>
 
       </vue-scroll-snap>
     </div>
@@ -543,161 +551,178 @@ export default {
 
   data: () => ({
 
-    width:'10%',
-    rotateRight: false,
-    rotateLeft: false,
-    noRotation: true,
-    overflowDialog: {
-      open: false,
-      message: ''
-    },
-    angle: 45,
-    connection: '',
-    //Modules
-    tlcMigrationModule: {
-      name: '',
-      items: ['Idle position', 'Ready position', 'Cycle', 'Redeposit tab'],
-      selectedOption: 'Idle position',
-      data: [
-        {
-          position: 0,
-        }]
-    },
-
-    dropDispenserModule: {
-      name: '',
-      items: ['None', 'Standards'],
-      selectedOption: 'None',
-      data: [
-        {
-          value: 0,
+        sp1Width: '10%',
+        sp2Width: '10%',
+        sp3Width: '10%',
+        rotateRight: false,
+        rotateLeft: false,
+        noRotation: true,
+        overflowDialog: {
+          open: false,
+          message: ''
         },
-      ]
-    },
-
-    phMeterModule: {
-      name: '',
-      items: ['Idle position', 'QC sample', 'Rinsing', 'Tempo 1', 'Tempo 2', 'Lift'],
-      selectedOption: 'Idle position',
-      columns: [
-        {text: 'Position', value: 'position', width: 150, align: 'center'},
-
-      ],
-      data: [
-        {
-          position: 0,
-        }]
-    },
-
-    liquidDispenserModule: {
-      name: '',
-      items: ['None', 'Volume', 'QC sample drop', 'Fill LAL cartridge'],
-      selectedSP1: 'None',
-      selectedSP2: 'None',
-      selectedSP3: 'None',
-      sp1VolumeSelected: false,
-      sp2VolumeSelected: false,
-      sp3VolumeSelected: false,
-      columns: [
-        {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
-        {text: "LDS2", value: "ldS2", width: 82, align: 'center'},
-        {text: "LDS3", value: "ldS3", width: 82, align: 'center'},
-        {text: "LDS4", value: "ldS4", width: 82, align: 'center'},
-        {text: "LDS5", value: "ldS5", width: 82, align: 'center'},
-        {text: "LDS6", value: "ldS6", width: 82, align: 'center'},
-        {text: "LDS7", value: "ldS7", width: 82, align: 'center'},
-        {text: "LDS8", value: "ldS8", width: 82, align: 'center'},
-        {text: "LDS9", value: "ldS9", width: 82, align: 'center'},
-        {text: "SP1 Target", value: "sP1P", width: 150, align: 'center'},
-        {text: "SP1 Speed", value: "sP1S", width: 150, align: 'center'},
-        {text: "SP2 Target", value: "sP2P", width: 150, align: 'center'},
-        {text: "SP2 Speed", value: "sP2S", width: 150, align: 'center'},
-        {text: "SP3 Target", value: "sP3P", width: 150, align: 'center'},
-        {text: "SP3 Speed", value: "sP3S", width: 150, align: 'center'},
-        {text: "Rotations pump", value: "pumP1P", width: 150, align: 'center'},
-        {text: "Speed pump (rpm)", value: "pumP1S", width: 150, align: 'center'},
-      ],
-      data: [
-        {
-          ldS1: 0,
-          ldS2: 0,
-          ldS3: 0,
-          ldS4: 0,
-          ldS5: 0,
-          ldS6: 0,
-          ldS7: 0,
-          ldS8: 0,
-          ldS9: 0,
-          sP1P: 0,
-          sP1S: 1,
-          sP2P: 0,
-          sP2S: 0,
-          sP3P: 0,
-          sP3S: 0,
-          pumP1P: 0,
-          pumP1S: 0,
+        angle: 45,
+        connection: '',
+        //Modules
+        tlcMigrationModule: {
+          name: '',
+          items: ['Idle position', 'Ready position', 'Cycle', 'Redeposit tab'],
+          selectedOption: 'Idle position',
+          data: [
+            {
+              position: 0,
+            }]
         },
-        {
+
+        dropDispenserModule: {
+          name: '',
+          items: ['None', 'Standards'],
+          selectedOption: 'None',
+          data: [
+            {
+              value: 0,
+            },
+          ]
+        },
+
+        phMeterModule: {
+          name: '',
+          items: ['Idle position', 'QC sample', 'Rinsing', 'Tempo 1', 'Tempo 2', 'Lift'],
+          selectedOption: 'Idle position',
+          columns: [
+            {text: 'Position', value: 'position', width: 150, align: 'center'},
+
+          ],
+          data: [
+            {
+              position: 0,
+            }]
+        },
+
+        liquidDispenserModule: {
+          name: '',
+          items: ['None', 'Volume', 'QC sample drop', 'Fill LAL cartridge'],
+          selectedSP1: 'None',
+          selectedSP2: 'None',
+          selectedSP3: 'None',
+          sp1VolumeSelected: false,
+          sp2VolumeSelected: false,
+          sp3VolumeSelected: false,
           sP1PAbsolutePosition: 0,
           sP2PAbsolutePosition: 0,
           sP3PAbsolutePosition: 0,
+          sp1Quantity: 0,
+          sp2Quantity: 0,
+          sp3Quantity: 0,
+          columns: [
+            {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
+            {text: "LDS2", value: "ldS2", width: 82, align: 'center'},
+            {text: "LDS3", value: "ldS3", width: 82, align: 'center'},
+            {text: "LDS4", value: "ldS4", width: 82, align: 'center'},
+            {text: "LDS5", value: "ldS5", width: 82, align: 'center'},
+            {text: "LDS6", value: "ldS6", width: 82, align: 'center'},
+            {text: "LDS7", value: "ldS7", width: 82, align: 'center'},
+            {text: "LDS8", value: "ldS8", width: 82, align: 'center'},
+            {text: "LDS9", value: "ldS9", width: 82, align: 'center'},
+            {text: "SP1 Target", value: "sP1P", width: 150, align: 'center'},
+            {text: "SP1 Speed", value: "sP1S", width: 150, align: 'center'},
+            {text: "SP2 Target", value: "sP2P", width: 150, align: 'center'},
+            {text: "SP2 Speed", value: "sP2S", width: 150, align: 'center'},
+            {text: "SP3 Target", value: "sP3P", width: 150, align: 'center'},
+            {text: "SP3 Speed", value: "sP3S", width: 150, align: 'center'},
+            {text: "Rotations pump", value: "pumP1P", width: 150, align: 'center'},
+            {text: "Speed pump (rpm)", value: "pumP1S", width: 150, align: 'center'},
+          ],
+          data: [
+            {
+              ldS1: 0,
+              ldS2: 0,
+              ldS3: 0,
+              ldS4: 0,
+              ldS5: 0,
+              ldS6: 0,
+              ldS7: 0,
+              ldS8: 0,
+              ldS9: 0,
+              sP1P: 0,
+              sP1S: 1,
+              sP2P: 0,
+              sP2S: 0,
+              sP3P: 0,
+              sP3S: 0,
+              pumP1P: 0,
+              pumP1S: 0,
+            },
+
+          ]
+        },
+
+        //Waiting Condition
+
+        waitingCondition: {
+          items: ['None', 'Gina', 'Timeout'],
+          selectedOption: 'None',
+          timeoutOptionSelected: false,
+          timeoutValue: 0,
+          data: [
+            {
+              type: '',
+              value: 0,
+              step: ''
+            }
+          ],
+        },
+
+        // Comments
+
+        comment: '',
+
+        // Other Modules
+
+        ginaModule: {
+          name: '',
+          columns: [],
+          data: []
+        },
+
+        aurasModule: {
+          name: '',
+          columns: [],
+          data: []
+        },
+        webSocket: {
+          connected: false,
+          ipAddress: '',
+          connection: '',
         }
-      ]
-    },
 
-    //Waiting Condition
-
-    waitingCondition: {
-      items: ['None', 'Gina', 'Timeout'],
-      selectedOption: 'None',
-      timeoutOptionSelected: false,
-      timeoutValue: 0,
-      data: [
-        {
-          type: '',
-          value: 0,
-          step: ''
-        }
-      ],
-    },
-
-    // Comments
-
-    comment: '',
-
-    // Other Modules
-
-    ginaModule: {
-      name: '',
-      columns: [],
-      data: []
-    },
-
-    aurasModule: {
-      name: '',
-      columns: [],
-      data: []
-    },
-    webSocket: {
-      connected: false,
-      ipAddress: '',
-      connection: '',
-    }
-
-  }),
+      }
+  ),
 
   computed: {
-    computedWidth: function () {
-      return this.width;
+    computedWidthSp1: function () {
+      return this.sp1Width;
     }
-  },
+    ,
+    computedWidthSp2: function () {
+      return this.sp2Width;
+    }
+    ,
+    computedWidthSp3: function () {
+      return this.sp3Width;
+    }
+    ,
+
+  }
+  ,
   /*------------------------------------------------------------------------
   * Loads data when this page (component) is mounted
   * ------------------------------------------------------------------------*/
   mounted() {
     this.fetchNetworkByName('Auras');
     this.initialization();
-  },
+  }
+  ,
 
   watch: { // Listeners
 
@@ -706,7 +731,8 @@ export default {
    * ------------------------------------------------------------------------*/
     waitingConditionsType() {
       this.waitingConditionsType === 'timeout' ? this.timeoutSelected = true : this.timeoutSelected = false;
-    },
+    }
+    ,
 
     /*------------------------------------------------------------------------
     * Listener: to waitingCondition.selectedOption
@@ -721,7 +747,8 @@ export default {
       else if (this.waitingCondition.selectedOption === 'Gina')
         this.waitingCondition.data[0].value = -1;
 
-    },
+    }
+    ,
     /*------------------------------------------------------------------------
     * Listener: to dropDispenserModule.selectedOption
     * ------------------------------------------------------------------------*/
@@ -729,13 +756,14 @@ export default {
       this.dropDispenserModule.selectedOption === 'None' ?
           this.dropDispenserModule.data[0].value = 0 : this.dropDispenserModule.data[0].value = 1;
 
-    },
+    }
+    ,
     /*------------------------------------------------------------------------
     * Listener: to liquidDispenserModule.selectedSP1
     * ------------------------------------------------------------------------*/
     'liquidDispenserModule.selectedSP1'() {
 
-      //this.liquidDispenserModule.data[0].sP1P = 0;
+      this.liquidDispenserModule.sp1Quantity = this.liquidDispenserModule.data[0].sP1P = 0;
       this.liquidDispenserModule.sp1VolumeSelected = false;
 
       if (this.liquidDispenserModule.selectedSP1 === 'Volume') {
@@ -748,7 +776,8 @@ export default {
       else if (this.liquidDispenserModule.selectedSP1 === 'Fill LAL cartridge')
         this.liquidDispenserModule.data[0].sP1P = -2;
 
-    },
+    }
+    ,
     /*------------------------------------------------------------------------
     * Listener: to liquidDispenserModule.selectedSP2
     * ------------------------------------------------------------------------*/
@@ -766,7 +795,8 @@ export default {
       else if (this.liquidDispenserModule.selectedSP2 === 'Fill LAL cartridge')
         this.liquidDispenserModule.data[0].sP2P = -2;
 
-    },
+    }
+    ,
     /*------------------------------------------------------------------------
     * Listener: to liquidDispenserModule.selectedSP3
     * ------------------------------------------------------------------------*/
@@ -784,7 +814,8 @@ export default {
       else if (this.liquidDispenserModule.selectedSP3 === 'Fill LAL cartridge')
         this.liquidDispenserModule.data[0].sP3P = -2;
 
-    },
+    }
+    ,
     /*------------------------------------------------------------------------
     * Listener: to tlcMigrationModule.selectedOption
     * ------------------------------------------------------------------------*/
@@ -807,7 +838,8 @@ export default {
           this.tlcMigrationModule.data[0].position = 0;
           break;
       }
-    },
+    }
+    ,
     /*------------------------------------------------------------------------
     * Listener: to phMeterModule.selectedOption
     * ------------------------------------------------------------------------*/
@@ -837,9 +869,11 @@ export default {
           break;
       }
 
-    },
+    }
+    ,
 
-  },
+  }
+  ,
 
   methods: {
 
@@ -854,6 +888,42 @@ export default {
       this.liquidDispenserModule.data[0].sP1P = 0;
       this.liquidDispenserModule.data[0].sP2P = 0;
       this.liquidDispenserModule.data[0].sP3P = 0;
+
+      if (this.liquidDispenserModule.sp1Quantity !== 0) {
+        let data = {
+          stage: 'config',
+          type: 'move',
+          move: {
+            sP1P: this.liquidDispenserModule.sp1Quantity
+          }
+        }
+        this.sendToWebsocket(data);
+        this.liquidDispenserModule.sp1Quantity = 0;
+      }
+      if (this.liquidDispenserModule.sp2Quantity !== 0) {
+        let data = {
+          stage: 'config',
+          type: 'move',
+          move: {
+            sP2P: this.liquidDispenserModule.sp2Quantity
+          }
+        }
+        this.sendToWebsocket(data);
+        this.liquidDispenserModule.sp2Quantity = 0;
+      }
+
+      if (this.liquidDispenserModule.sp3Quantity !== 0) {
+        let data = {
+          stage: 'config',
+          type: 'move',
+          move: {
+            sP3P: this.liquidDispenserModule.sp3Quantity
+          }
+        }
+        this.sendToWebsocket(data);
+        this.liquidDispenserModule.sp3Quantity = 0;
+      }
+
 
     }
     ,
@@ -1021,10 +1091,10 @@ export default {
             }*/
 
       if (obj.sP1P !== undefined) {
-        this.liquidDispenserModule.data[1].sP1PAbsolutePosition = obj.sP1P;
-        document.getElementById("volumeSp1Input").value = obj.sP1P;
+        this.liquidDispenserModule.sP1PAbsolutePosition = obj.sP1P;
+        // document.getElementById("volumeSp1Input").value = obj.sP1P;
         document.getElementById("ps1AbsolutePosition").innerText = obj.sP1P;
-       this.width = obj.sP1P/10 +'%';
+        this.sp1Width = obj.sP1P / 10 + '%';
       }
 
       if (obj.sP1S !== undefined) {
@@ -1034,9 +1104,10 @@ export default {
       }
 
       if (obj.sP2P !== undefined) {
-        this.liquidDispenserModule.data[0].sP2P = obj.sP2P;
-        document.getElementById("volumeSp2Input").value = obj.sP2P;
-        document.getElementById("PS2PProgressbar").value = obj.sP2P;
+        this.liquidDispenserModule.sP2PAbsolutePosition = obj.sP2P;
+        // document.getElementById("volumeSp2Input").value = obj.sP2P;
+        document.getElementById("ps2AbsolutePosition").innerText = obj.sP2P;
+        this.sp2Width = obj.sP2P / 10 + '%';
       }
 
 
@@ -1047,9 +1118,12 @@ export default {
       }
 
       if (obj.sP3P !== undefined) {
-        this.liquidDispenserModule.data[0].sP3P = obj.sP3P;
-        document.getElementById("volumeSp3Input").value = obj.sP3P;
-        document.getElementById("PS3PProgressbar").value = obj.sP3P;
+
+        this.liquidDispenserModule.sP3PAbsolutePosition = obj.sP3P;
+        // document.getElementById("volumeSp3Input").value = obj.sP3P;
+        document.getElementById("ps3AbsolutePosition").innerText = obj.sP3P;
+        this.sp3Width = obj.sP3P / 10 + '%';
+
       }
 
       if (obj.sP3S !== undefined) {
@@ -1126,28 +1200,48 @@ export default {
               data.moveTo.ldS9 = value;
               break;
             case 'volumeSp1Input':
-              if (this.liquidDispenserModule.data[1].sP1PAbsolutePosition - value < 0) {
+              this.liquidDispenserModule.sp1Quantity = parseInt(value);
+              console.log(this.liquidDispenserModule.sp1Quantity)
+
+              if ((this.liquidDispenserModule.sp1Quantity < 0
+                      && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity < 0)
+                  || this.liquidDispenserModule.sp1Quantity > 0
+                  && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
                 this.overflowDialog.message = "The limit has been exceeded";
                 this.overflowDialog.open = true;
+                this.liquidDispenserModule.sp1Quantity = 0;
+              } else {
+                this.liquidDispenserModule.data[0].sP1P = this.liquidDispenserModule.sp1Quantity;
               }
-              data.move.sP1P = value;
-              break;
-            case 'ps1SpeedRange':
+              return;
+            case
+            'ps1SpeedRange'
+            :
               data.moveTo.sP1S = value;
               break;
-            case 'volumeSp2Input':
+            case
+            'volumeSp2Input'
+            :
               data.move.sP2P = value;
               break;
-            case 'ps2SpeedRange':
+            case
+            'ps2SpeedRange'
+            :
               data.moveTo.sP2S = value;
               break;
-            case 'volumeSp3Input':
+            case
+            'volumeSp3Input'
+            :
               data.move.sP3P = value;
               break;
-            case 'ps3SpeedRange':
+            case
+            'ps3SpeedRange'
+            :
               data.moveTo.sP3S = value;
               break;
-            case 'pumSpeed':
+            case
+            'pumSpeed'
+            :
               data.moveTo.pumP1S = value;
               break;
           }
@@ -1165,7 +1259,7 @@ export default {
 
       let data = {
         stage: 'config',
-        type: 'move',
+        type: 'moveTo',
         moveTo: {}
       }
       this.noRotation = true;
@@ -1593,16 +1687,11 @@ select {
 }
 
 #PS1PProgressbar {
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  width: 150px;
-  height: 33px;
-  margin-top: 500px;
-  margin-left: -300px;
+  width: 155px;
+  height: 15px;
+  margin-top: 510px;
+  margin-left: -302px;;
 }
-
-
-
 
 
 .progressbar-wrapper {
@@ -1610,39 +1699,29 @@ select {
   transform: rotate(-90deg);
   background-color: lightgray;
   color: white;
-  border-radius: 15px;
-  width: 155px;
-  height: 15px;
-  margin-top: 500px;
-  margin-left: -300px;
-  font-size: 13px;
+  border-radius: 5px;
+  font-size: 12px;
 }
 
-.progressbar[title="ps1AbsolutePosition"] {
+.progressbar {
   background-color: red;
   height: 15px;
-  border-radius: 2px;
+  border-radius: 5px;
 }
-
-
-
-
 
 
 #PS2PProgressbar {
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  width: 150px;
-  height: 33px;
-  margin-top: 500px;
-  margin-left: 135px;
+  width: 155px;
+  height: 15px;
+  margin-top: 510px;
+  margin-left: 128px;
 }
 
 #PS3PProgressbar {
   -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
-  width: 150px;
-  height: 33px;
+  width: 155px;
+  height: 15px;
   margin-top: 600px;
 }
 

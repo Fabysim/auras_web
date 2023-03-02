@@ -321,7 +321,7 @@
 import axios from "axios";
 
 export default {
-  name: "IndexDd",
+  name: "IndexLiquidDispenser",
   components: {},
   data() {
     return {
