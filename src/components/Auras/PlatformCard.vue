@@ -151,7 +151,29 @@
     </v-card>
 
     <v-dialog v-model="overflowDialog.open" max-width="500px">
-      {{ overflowDialog.message }}
+      <v-card>
+        <v-card-title class="text-h5 red lighten-2">
+          {{ overflowDialog.message }}
+        </v-card-title>
+
+        <v-card-text>
+          The amount of liquid you can take out or put into the syringe has been reached
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              color="primary"
+              text
+              @click="dialog = false"
+          >
+            Ok
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+
     </v-dialog>
 
     <!--Image    -->
@@ -358,94 +380,11 @@
         <!--        Title-->
         <label id="ld_title" class="module-title-color">{{ liquidDispenserModule.name }}</label>
 
-        <!--        pinch valves-->
+        <!--        Main images-->
 
-        <img ID="liquid-dispenser-body" src="../../assets/Liquid Dispenser Images/Assemblage_210504.png" alt=""/>
+        <img ID="liquid-dispenser-body" src="../../assets/LiquidDispenserImages/LDF18vide.png" alt=""/>
 
-        <img @click="rotate('ldS1')" class="pinch" ID="ldS1" alt=""
-             src="../../assets/Liquid Dispenser Images/pinch25a.png"/>
-
-        <img @click="rotate('ldS2')" class="pinch" ID="ldS2" alt=""
-             src="../../assets/Liquid Dispenser Images/pinch25a.png"/>
-
-        <img @click="rotate('ldS3')" class="pinch" ID="ldS3" alt=""
-             src="../../assets/Liquid Dispenser Images/pinch25a.png"/>
-
-        <img @click="rotate('ldS4')" class="pinch" ID="ldS4" alt=""
-             src="../../assets/Liquid Dispenser Images/pinch25a.png"/>
-
-        <div id="wheelDiv">
-          <img v-if="rotateRight" id="wheelRight" alt="" src="../../assets/Liquid Dispenser Images/Pump1R.png"/>
-          <img v-if="rotateLeft" id="wheelLeft" alt="" src="../../assets/Liquid Dispenser Images/Pump1L.png"/>
-          <img v-if="noRotation" id="noWheel" alt="" src="../../assets/Liquid Dispenser Images/NoPump.png"/>
-
-        </div>
-
-        <!--        PS-->
-        <select id="select-sp1" v-model="liquidDispenserModule.selectedSP1">
-          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
-        </select>
-
-
-        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
-                id="volumeSp1Up"
-                @mousedown="movePS('sp1Up','mousedown')"
-                @mouseup="movePS('sp1Up','mouseup')"
-                class="button">
-          Up
-        </button>
-        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
-                id="volumeSp1Down"
-                @mousedown="movePS('sp1Down','mousedown')"
-                @mouseup="movePS('sp1Down','mouseup')"
-                class="button">
-          Down
-        </button>
-        <input type="text"
-               v-model="liquidDispenserModule.sp1Quantity"
-               :disabled="!liquidDispenserModule.sp1VolumeSelected"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
-               class="input-text"
-               id="volumeSp1Input"
-        />
-
-
-        <input type="range" id="ps1SpeedRange" min="1" max="500"
-               @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
-               list="tickMarks">
-        <textarea readonly id="ps1SpeedLabel"></textarea>
-
-        <select id="select-sp2" v-model="liquidDispenserModule.selectedSP2">
-          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
-        </select>
-
-
-        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
-                class="button"
-                id="volumeSp2Up"
-                @mousedown="movePS('sp2Up','mousedown')"
-                @mouseup="movePS('sp2Up','mouseup')">
-          Up
-        </button>
-        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
-                class="button"
-                id="volumeSp2Down"
-                @mousedown="movePS('sp2Down','mousedown')"
-                @mouseup="movePS('sp2Down','mouseup')">
-          Down
-        </button>
-        <input type="text"
-               :disabled="!liquidDispenserModule.sp2VolumeSelected"
-               class="input-text"
-               id="volumeSp2Input"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
-
-
-        <input type="range" id="ps2SpeedRange" min="1" max="500"
-               @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
-               list="tickMarks">
-        <textarea readonly id="ps2SpeedLabel"></textarea>
-
+        <!--        PS3 control-->
 
         <select id="select-sp3" v-model="liquidDispenserModule.selectedSP3">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
@@ -476,7 +415,72 @@
                list="tickMarks">
         <textarea readonly id="ps3SpeedLabel"></textarea>
 
-        <!--        Pump-->
+        <!--        PS1 control-->
+        <select id="select-sp1" v-model="liquidDispenserModule.selectedSP1">
+          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
+        </select>
+
+
+        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
+                id="volumeSp1Up"
+                @mousedown="movePS('sp1Up','mousedown')"
+                @mouseup="movePS('sp1Up','mouseup')"
+                class="button">
+          Up
+        </button>
+        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
+                id="volumeSp1Down"
+                @mousedown="movePS('sp1Down','mousedown')"
+                @mouseup="movePS('sp1Down','mouseup')"
+                class="button">
+          Down
+        </button>
+        <input type="text"
+               v-model="liquidDispenserModule.sp1Quantity"
+               :disabled="!liquidDispenserModule.sp1VolumeSelected"
+               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
+               class="input-text"
+               id="volumeSp1Input"
+        />
+
+        <input type="range" id="ps1SpeedRange" min="1" max="500"
+               @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
+               list="tickMarks">
+        <textarea readonly id="ps1SpeedLabel"></textarea>
+
+        <!--        PS2 control-->
+
+        <select id="select-sp2" v-model="liquidDispenserModule.selectedSP2">
+          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
+        </select>
+        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
+                class="button"
+                id="volumeSp2Up"
+                @mousedown="movePS('sp2Up','mousedown')"
+                @mouseup="movePS('sp2Up','mouseup')">
+          Up
+        </button>
+        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
+                class="button"
+                id="volumeSp2Down"
+                @mousedown="movePS('sp2Down','mousedown')"
+                @mouseup="movePS('sp2Down','mouseup')">
+          Down
+        </button>
+        <input type="text"
+               :disabled="!liquidDispenserModule.sp2VolumeSelected"
+               class="input-text"
+               id="volumeSp2Input"
+               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
+
+        <input type="range" id="ps2SpeedRange" min="1" max="500"
+               @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
+               list="tickMarks">
+        <textarea readonly id="ps2SpeedLabel"></textarea>
+
+
+        <!--        Pump control-->
+
         <button id="pumpLeft"
                 class="button"
                 @mousedown="movePS('pumpLeft','mousedown')"
@@ -493,7 +497,6 @@
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pumSpeed')"
                list="tickMarks">
         <textarea readonly id="pumpsLabel"></textarea>
-
         <datalist id="tickMarks">
           <option value="1"/>
           <option value="5"/>
@@ -513,6 +516,14 @@
           <option value="500"/>
         </datalist>
 
+
+        <!--    PS ranges&ndash -->
+
+        <div class="progressbar-wrapper" id="PS3PProgressbar">
+          <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" v-bind:style="{ width: computedWidthSp3 }"
+               class="progressbar">
+          </div>
+        </div>
         <div class="progressbar-wrapper" id="PS1PProgressbar">
           <div id="ps1AbsolutePosition" title="ps1AbsolutePosition" v-bind:style="{ width: computedWidthSp1 }"
                class="progressbar ">
@@ -525,11 +536,54 @@
           </div>
         </div>
 
-        <div class="progressbar-wrapper" id="PS3PProgressbar">
-          <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" v-bind:style="{ width: computedWidthSp3 }"
-               class="progressbar">
-          </div>
+
+        <!--        pinch valves images-->
+
+
+        <img @click="rotate('ldS1')" class="pinch" ID="ldS1" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+
+        <img @click="rotate('ldS2')" class="pinch" ID="ldS2" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+
+        <img @click="rotate('ldS3')" class="pinch" ID="ldS3" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+
+        <img @click="rotate('ldS4')" class="pinch" ID="ldS4" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+
+        <img @click="rotate('ldS5')" class="pinch" ID="ldS5" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+
+        <img @click="rotate('ldS6')" class="pinch" ID="ldS6" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+
+        <img @click="rotate('ldS7')" class="pinch" ID="ldS7" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25e.png"/>
+
+        <img @click="rotate('ldS8')" class="pinch" ID="ldS8" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25e.png"/>
+
+        <img @click="rotate('ldS9')" class="pinch" ID="ldS9" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25c.png"/>
+
+        <img @click="rotate('ldS10')" class="pinch" ID="ldS10" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25a.png"/>
+
+        <img @click="rotate('ldS11')" class="pinch" ID="ldS11" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25c.png"/>
+
+        <img @click="rotate('ldS12')" class="pinch" ID="ldS12" alt=""
+             src="../../assets/LiquidDispenserImages/pinch25c.png"/>
+
+        <!--  Pump  images -->
+        <div id="wheelDiv">
+          <img v-if="rotateRight" id="wheelRight" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
+          <img v-if="rotateLeft" id="wheelLeft" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
+          <img v-if="noRotation" id="noWheel" alt="" src="../../assets/LiquidDispenserImages/NoPump.png"/>
+
         </div>
+
 
       </vue-scroll-snap>
     </div>
@@ -1045,24 +1099,24 @@ export default {
 
       if (obj.ldS1 !== undefined) {
         this.setStepValues(obj.ldS1, 'ldS1');
-        document.getElementById('ldS1').style.transform = 'rotate(' + obj.ldS1 + 'deg)';
+        //document.getElementById('ldS1').style.transform = 'rotate(' + obj.ldS1 + 'deg)';
       }
 
 
       if (obj.ldS2 !== undefined) {
         this.setStepValues(obj.ldS2, 'ldS2');
-        document.getElementById('ldS2').style.transform = 'rotate(' + obj.ldS2 + 'deg)';
+        //document.getElementById('ldS2').style.transform = 'rotate(' + obj.ldS2 + 'deg)';
       }
 
 
       if (obj.ldS3 !== undefined) {
         this.setStepValues(obj.ldS3, 'ldS3');
-        document.getElementById('ldS3').style.transform = 'rotate(' + obj.ldS3 + 'deg)';
+        // document.getElementById('ldS3').style.transform = 'rotate(' + obj.ldS3 + 'deg)';
       }
 
       if (obj.ldS4 !== undefined) {
         this.setStepValues(obj.ldS4, 'ldS4');
-        document.getElementById('ldS4').style.transform = 'rotate(' + obj.ldS4 + 'deg)';
+        // document.getElementById('ldS4').style.transform = 'rotate(' + obj.ldS4 + 'deg)';
       }
 
       /*      if (obj.ldS5 !== undefined){
@@ -1154,7 +1208,8 @@ export default {
       let data = {
         stage: 'config',
         type: 'position',
-        moveTo: {}
+        moveTo: {},
+        move: {}
       }
       if (module.name.toLowerCase().includes('tlc'))
         data.moveTo.tlcMigration = module.items.indexOf(value);
@@ -1201,7 +1256,6 @@ export default {
               break;
             case 'volumeSp1Input':
               this.liquidDispenserModule.sp1Quantity = parseInt(value);
-              console.log(this.liquidDispenserModule.sp1Quantity)
 
               if ((this.liquidDispenserModule.sp1Quantity < 0
                       && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity < 0)
@@ -1219,21 +1273,39 @@ export default {
             :
               data.moveTo.sP1S = value;
               break;
-            case
-            'volumeSp2Input'
-            :
-              data.move.sP2P = value;
-              break;
+            case 'volumeSp2Input':
+              this.liquidDispenserModule.sp2Quantity = parseInt(value);
+
+              if ((this.liquidDispenserModule.sp2Quantity < 0
+                      && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity < 0)
+                  || this.liquidDispenserModule.sp2Quantity > 0
+                  && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity > 1000) {
+                this.overflowDialog.message = "The limit has been exceeded";
+                this.overflowDialog.open = true;
+                this.liquidDispenserModule.sp2Quantity = 0;
+              } else {
+                this.liquidDispenserModule.data[0].sP2P = this.liquidDispenserModule.sp2Quantity;
+              }
+              return;
             case
             'ps2SpeedRange'
             :
               data.moveTo.sP2S = value;
               break;
-            case
-            'volumeSp3Input'
-            :
-              data.move.sP3P = value;
-              break;
+            case 'volumeSp3Input' :
+              this.liquidDispenserModule.sp3Quantity = parseInt(value);
+
+              if ((this.liquidDispenserModule.sp3Quantity < 0
+                      && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
+                  || this.liquidDispenserModule.sp3Quantity > 0
+                  && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
+                this.overflowDialog.message = "The limit has been exceeded";
+                this.overflowDialog.open = true;
+                this.liquidDispenserModule.sp3Quantity = 0;
+              } else {
+                this.liquidDispenserModule.data[0].sP3P = this.liquidDispenserModule.sp3Quantity;
+              }
+              return;
             case
             'ps3SpeedRange'
             :
@@ -1329,6 +1401,7 @@ export default {
 
 <style scoped>
 
+/*general tags*/
 .table {
   z-index: 2;
 }
@@ -1370,7 +1443,6 @@ select {
   color: white !important;
   border-color: white !important;
 }
-
 
 .module-title-color {
   color: dodgerblue;
@@ -1414,7 +1486,7 @@ select {
 #dd_title {
   height: fit-content;
   margin-top: 20px;
-  margin-left: 200px;
+  margin-left: 50px;
 }
 
 #ld_title {
@@ -1509,21 +1581,24 @@ select {
 #liquid-dispenser-body {
   height: 700px;
   width: 1200px;
-  margin-left: -600px;
-  margin-top: 100px;
+  margin-left: -480px;
+  margin-top: 180px;
+
 
 }
 
 /* syringes */
 
 #select-sp1 {
-  margin-left: -620px;
+  margin-left: 200px;
   margin-top: 100px;
+  z-index: 1;
 }
 
 #volumeSp1Up {
   margin-left: 20px;
   margin-top: 100px;
+  z-index: 2;
 }
 
 #volumeSp1Down {
@@ -1531,7 +1606,6 @@ select {
   margin-top: 100px;
   background-color: #e07b39;
 }
-
 
 #volumeSp1Input {
   margin-left: -102px;
@@ -1554,8 +1628,9 @@ select {
 }
 
 #select-sp2 {
-  margin-left: 400px;
+  margin-left: 220px;
   margin-top: 100px;
+  z-index: 1;
 }
 
 #volumeSp2Up {
@@ -1590,35 +1665,36 @@ select {
 }
 
 #select-sp3 {
-  margin-left: -140px;
-  margin-top: 400px;
+  margin-left: -1050px;
+  margin-top: 100px;
+  z-index: 1;
 }
 
 #volumeSp3Up {
   margin-left: 20px;
-  margin-top: 400px;
+  margin-top: 100px;
 }
 
 #volumeSp3Down {
   margin-left: 5px;
-  margin-top: 400px;
+  margin-top: 100px;
   background-color: #e07b39;
 }
 
 #volumeSp3Input {
   margin-left: -102px;
-  margin-top: 450px;
+  margin-top: 130px;
 }
 
 #ps3SpeedRange {
   margin-left: -260px;
-  margin-top: 450px;
+  margin-top: 150px;
   height: fit-content;
 }
 
 #ps3SpeedLabel {
   margin-left: -120px;
-  margin-top: 480px;
+  margin-top: 180px;
   font-size: 12px;
   height: fit-content;
   width: 150px;
@@ -1628,25 +1704,25 @@ select {
 /*pump*/
 
 #pumpLeft {
-  margin-left: -460px;
-  margin-top: 340px;
+  margin-left: -350px;
+  margin-top: 400px;
 }
 
 #pumpRight {
   margin-left: 5px;
-  margin-top: 340px;
+  margin-top: 400px;
   background-color: #e07b39;
 }
 
 #pumSpeed {
   margin-left: -110px;
-  margin-top: 380px;
+  margin-top: 430px;
   height: fit-content;
 }
 
 #pumpsLabel {
   margin-left: -130px;
-  margin-top: 410px;
+  margin-top: 460px;
   font-size: 12px;
   height: fit-content;
   width: 150px;
@@ -1662,35 +1738,87 @@ select {
 }
 
 #ldS1 {
-  margin-left: -940px;
-  margin-top: 340px;
+  margin-left: -785px;
+  margin-top: 350px;
   display: inline-block;
 
 }
 
 #ldS2 {
   margin-left: -60px;
-  margin-top: 410px;
+  margin-top: 435px;
   display: inline-block;
 }
 
 #ldS3 {
   margin-left: -60px;
-  margin-top: 490px;
+  margin-top: 520px;
   display: inline-block;
 }
 
 #ldS4 {
   margin-left: -60px;
-  margin-top: 560px;
+  margin-top: 605px;
+  display: inline-block;
+}
+
+#ldS5 {
+  margin-left: -60px;
+  margin-top: 690px;
+  display: inline-block;
+}
+
+#ldS6 {
+  margin-left: -338px;
+  margin-top: 690px;
+  display: inline-block;
+}
+
+#ldS7 {
+  margin-left: 75px;
+  margin-top: 738px;
+  height: 120px;
+  width: 120px;
+  display: inline-block;
+}
+
+#ldS8 {
+  margin-left: 200px;
+  margin-top: 738px;
+  height: 120px;
+  width: 120px;
+  display: inline-block;
+}
+
+#ldS9 {
+  margin-left: 21px;
+  margin-top: 690px;
+  display: inline-block;
+}
+
+#ldS10 {
+  margin-left: 50px;
+  margin-top: 680px;
+  display: inline-block;
+}
+
+#ldS11 {
+  margin-left: 75px;
+  margin-top: 750px;
+  display: inline-block;
+}
+
+#ldS12 {
+  margin-left: 90px;
+  margin-top: 750px;
   display: inline-block;
 }
 
 #PS1PProgressbar {
   width: 155px;
   height: 15px;
-  margin-top: 510px;
-  margin-left: -302px;;
+  margin-top: 570px;
+  margin-left: 165px;
 }
 
 
@@ -1713,22 +1841,23 @@ select {
 #PS2PProgressbar {
   width: 155px;
   height: 15px;
-  margin-top: 510px;
-  margin-left: 128px;
+  margin-top: 570px;
+  margin-left: 317px;
 }
 
 #PS3PProgressbar {
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
   width: 155px;
   height: 15px;
-  margin-top: 600px;
+  margin-top: 570px;
+  margin-left: -660px;
+  z-index: 1;
+
 }
 
 #wheelDiv {
   height: fit-content;
-  margin-top: 470px;
-  margin-left: -0px;
+  margin-top: 530px;
+  margin-left: -650px;
 }
 
 #wheelRight {
