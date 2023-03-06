@@ -698,6 +698,9 @@ export default {
               ldS7: 0,
               ldS8: 0,
               ldS9: 0,
+              ldS10: 0,
+              ldS11: 0,
+              ldS12: 0,
               sP1P: 0,
               sP1S: 1,
               sP2P: 0,
@@ -767,16 +770,14 @@ export default {
     }
     ,
 
-  }
-  ,
+  },
   /*------------------------------------------------------------------------
   * Loads data when this page (component) is mounted
   * ------------------------------------------------------------------------*/
   mounted() {
     this.fetchNetworkByName('Auras');
     this.initialization();
-  }
-  ,
+  },
 
   watch: { // Listeners
 
@@ -801,8 +802,8 @@ export default {
       else if (this.waitingCondition.selectedOption === 'Gina')
         this.waitingCondition.data[0].value = -1;
 
-    }
-    ,
+    },
+
     /*------------------------------------------------------------------------
     * Listener: to dropDispenserModule.selectedOption
     * ------------------------------------------------------------------------*/
@@ -931,7 +932,6 @@ export default {
 
   methods: {
 
-
     /*------------------------------------------------------------------------
     * Method to reset tables after a step is set
     * ------------------------------------------------------------------------*/
@@ -978,7 +978,6 @@ export default {
         this.liquidDispenserModule.sp3Quantity = 0;
       }
 
-
     }
     ,
 
@@ -989,7 +988,7 @@ export default {
       angle = parseInt(angle);
       if (angle === 0)
         this.liquidDispenserModule.data[0][servoKey] = 0;
-      else if (angle === 45)
+      else if (angle === 15)
         this.liquidDispenserModule.data[0][servoKey] = 1;
       else
         this.liquidDispenserModule.data[0][servoKey] = 2;
@@ -1013,7 +1012,6 @@ export default {
       this.waitingCondition.instrumentSelected = this.ginaModule.name;
     }
     ,
-
 
     /*--------------------------------------------------------------------------
     * Retrieves all Ip addresses from database
@@ -1074,7 +1072,18 @@ export default {
       if (document.getElementById(id).style.transform !== '')
         this.angle = parseInt(document.getElementById(id).style.transform.match(/\d+/)[0]);
 
-      this.angle >= 90 ? this.angle = 0 : this.angle += 45;
+      if (id === 'ldS7' || id === 'ldS8'){
+
+        if (this.angle === 0) this.angle = 50;
+        else if (this.angle === 50) this.angle = -50;
+        if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
+
+      }else{
+        if (this.angle === 0) this.angle = 15;
+        else if (this.angle === 15) this.angle = -20;
+        if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
+
+      }
 
       this.setModulePhysicalPosition(this.liquidDispenserModule, this.angle, id);
 
@@ -1099,50 +1108,63 @@ export default {
 
       if (obj.ldS1 !== undefined) {
         this.setStepValues(obj.ldS1, 'ldS1');
-        //document.getElementById('ldS1').style.transform = 'rotate(' + obj.ldS1 + 'deg)';
+        document.getElementById('ldS1').style.transform = 'rotate(' + obj.ldS1 + 'deg)';
       }
-
 
       if (obj.ldS2 !== undefined) {
         this.setStepValues(obj.ldS2, 'ldS2');
-        //document.getElementById('ldS2').style.transform = 'rotate(' + obj.ldS2 + 'deg)';
+        document.getElementById('ldS2').style.transform = 'rotate(' + obj.ldS2 + 'deg)';
       }
-
 
       if (obj.ldS3 !== undefined) {
         this.setStepValues(obj.ldS3, 'ldS3');
-        // document.getElementById('ldS3').style.transform = 'rotate(' + obj.ldS3 + 'deg)';
+        document.getElementById('ldS3').style.transform = 'rotate(' + obj.ldS3 + 'deg)';
       }
 
       if (obj.ldS4 !== undefined) {
         this.setStepValues(obj.ldS4, 'ldS4');
-        // document.getElementById('ldS4').style.transform = 'rotate(' + obj.ldS4 + 'deg)';
+        document.getElementById('ldS4').style.transform = 'rotate(' + obj.ldS4 + 'deg)';
       }
 
-      /*      if (obj.ldS5 !== undefined){
-              this.setStepValues(obj.ldS5, 'ldS5');
-              document.getElementById('ldS5').style.transform = 'rotate(' + obj.ldS5 + 'deg;
-            }
+      if (obj.ldS5 !== undefined) {
+        this.setStepValues(obj.ldS5, 'ldS5');
+        document.getElementById('ldS5').style.transform = 'rotate(' + obj.ldS5 + 'deg)';
+      }
 
-            if (obj.ldS6 !== undefined){
-              this.setStepValues(obj.ldS6, 'ldS6');
-              document.getElementById('ldS6').style.transform = 'rotate(' + obj.ldS6 + 'deg)';
-            }
+      if (obj.ldS6 !== undefined) {
+        this.setStepValues(obj.ldS6, 'ldS6');
+        document.getElementById('ldS6').style.transform = 'rotate(' + obj.ldS6 + 'deg)';
+      }
 
-            if (obj.ldS7 !== undefined){
-              this.setStepValues(obj.ldS7, 'ldS7');
-              document.getElementById('ldS7').style.transform = 'rotate(' + obj.ldS7 + 'deg)';
-            }
+      if (obj.ldS7 !== undefined) {
+        this.setStepValues(obj.ldS7, 'ldS7');
+        document.getElementById('ldS7').style.transform = 'rotate(' + obj.ldS7 + 'deg)';
+      }
 
-            if (obj.ldS8 !== undefined){
-              this.setStepValues(obj.ldS8, 'ldS8');
-              document.getElementById('ldS8').style.transform = 'rotate(' + obj.ldS8 + 'deg)';
-            }
+      if (obj.ldS8 !== undefined) {
+        this.setStepValues(obj.ldS8, 'ldS8');
+        document.getElementById('ldS8').style.transform = 'rotate(' + obj.ldS8 + 'deg)';
+      }
 
-            if (obj.ldS9 !== undefined){
-              this.setStepValues(obj.ldS9, 'ldS9');
-              document.getElementById('ldS9').style.transform = 'rotate(' + obj.ldS9 + 'deg)';
-            }*/
+      if (obj.ldS9 !== undefined) {
+        this.setStepValues(obj.ldS9, 'ldS9');
+        document.getElementById('ldS9').style.transform = 'rotate(' + obj.ldS9 + 'deg)';
+      }
+
+      if (obj.ldS10 !== undefined) {
+        this.setStepValues(obj.ldS10, 'ldS10');
+        document.getElementById('ldS10').style.transform = 'rotate(' + obj.ldS10 + 'deg)';
+      }
+
+      if (obj.ldS11 !== undefined) {
+        this.setStepValues(obj.ldS11, 'ldS11');
+        document.getElementById('ldS11').style.transform = 'rotate(' + obj.ldS11 + 'deg)';
+      }
+
+      if (obj.ldS12 !== undefined) {
+        this.setStepValues(obj.ldS12, 'ldS12');
+        document.getElementById('ldS12').style.transform = 'rotate(' + obj.ldS12 + 'deg)';
+      }
 
       if (obj.sP1P !== undefined) {
         this.liquidDispenserModule.sP1PAbsolutePosition = obj.sP1P;
@@ -1253,6 +1275,15 @@ export default {
               break;
             case 'ldS9':
               data.moveTo.ldS9 = value;
+              break;
+            case 'ldS10':
+              data.moveTo.ldS10 = value;
+              break;
+            case 'ldS11':
+              data.moveTo.ldS11 = value;
+              break;
+            case 'ldS12':
+              data.moveTo.ldS12 = value;
               break;
             case 'volumeSp1Input':
               this.liquidDispenserModule.sp1Quantity = parseInt(value);
