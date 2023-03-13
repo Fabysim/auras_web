@@ -386,53 +386,53 @@
 
         <!--        PS3 control-->
 
-        <select id="select-sp3" v-model="liquidDispenserModule.selectedSP3">
+        <select id="select-sp3" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP3">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
 
         <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button"
+                class="button firstLineComponent"
                 id="volumeSp3Up"
-                @mousedown="movePS('sp3Up','mousedown')"
-                @mouseup="movePS('sp3Up','mouseup')">
+                @mousedown="moveStepperMotors('sp3Up','mousedown')"
+                @mouseup="moveStepperMotors('sp3Up','mouseup')">
           Up
         </button>
         <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button"
+                class="button firstLineComponent"
                 id="volumeSp3Down"
-                @mousedown="movePS('sp3Down','mousedown')"
-                @mouseup="movePS('sp3Down','mouseup')">
+                @mousedown="moveStepperMotors('sp3Down','mousedown')"
+                @mouseup="moveStepperMotors('sp3Down','mouseup')">
           Down
         </button>
         <input type="text"
                :disabled="!liquidDispenserModule.sp3VolumeSelected"
-               class="input-text"
                id="volumeSp3Input"
+               class="input-text"
                @change="event => setModulePhysicalPosition(liquidDispenserModule,  event.target.value,'volumeSp3Input')"/>
 
+        <textarea readonly id="ps3SpeedLabel"></textarea>
         <input type="range" id="ps3SpeedRange" min="1" max="500"
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps3SpeedRange')"
                list="tickMarks">
-        <textarea readonly id="ps3SpeedLabel"></textarea>
 
         <!--        PS1 control-->
-        <select id="select-sp1" v-model="liquidDispenserModule.selectedSP1">
+        <select id="select-sp1" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP1">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
 
 
         <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
                 id="volumeSp1Up"
-                @mousedown="movePS('sp1Up','mousedown')"
-                @mouseup="movePS('sp1Up','mouseup')"
-                class="button">
+                class="button firstLineComponent"
+                @mousedown="moveStepperMotors('sp1Up','mousedown')"
+                @mouseup="moveStepperMotors('sp1Up','mouseup')">
           Up
         </button>
         <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
                 id="volumeSp1Down"
-                @mousedown="movePS('sp1Down','mousedown')"
-                @mouseup="movePS('sp1Down','mouseup')"
-                class="button">
+                class="button firstLineComponent"
+                @mousedown="moveStepperMotors('sp1Down','mousedown')"
+                @mouseup="moveStepperMotors('sp1Down','mouseup')">
           Down
         </button>
         <input type="text"
@@ -443,28 +443,28 @@
                id="volumeSp1Input"
         />
 
+        <textarea readonly id="ps1SpeedLabel"></textarea>
         <input type="range" id="ps1SpeedRange" min="1" max="500"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
                list="tickMarks">
-        <textarea readonly id="ps1SpeedLabel"></textarea>
 
         <!--        PS2 control-->
 
-        <select id="select-sp2" v-model="liquidDispenserModule.selectedSP2">
+        <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP2">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
         <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
-                class="button"
                 id="volumeSp2Up"
-                @mousedown="movePS('sp2Up','mousedown')"
-                @mouseup="movePS('sp2Up','mouseup')">
+                class="button firstLineComponent"
+                @mousedown="moveStepperMotors('sp2Up','mousedown')"
+                @mouseup="moveStepperMotors('sp2Up','mouseup')">
           Up
         </button>
         <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
-                class="button"
                 id="volumeSp2Down"
-                @mousedown="movePS('sp2Down','mousedown')"
-                @mouseup="movePS('sp2Down','mouseup')">
+                class="button firstLineComponent"
+                @mousedown="moveStepperMotors('sp2Down','mousedown')"
+                @mouseup="moveStepperMotors('sp2Down','mouseup')">
           Down
         </button>
         <input type="text"
@@ -473,26 +473,31 @@
                id="volumeSp2Input"
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
+        <textarea readonly id="ps2SpeedLabel"></textarea>
         <input type="range" id="ps2SpeedRange" min="1" max="500"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
                list="tickMarks">
-        <textarea readonly id="ps2SpeedLabel"></textarea>
 
 
         <!--        Pump control-->
 
         <button id="pumpLeft"
                 class="button"
-                @mousedown="movePS('pumpLeft','mousedown')"
-                @mouseup="movePS('pumpLeft','mouseup')">
+                @mousedown="moveStepperMotors('pumpLeft','mousedown')"
+                @mouseup="moveStepperMotors('pumpLeft','mouseup')">
           Left
         </button>
         <button id="pumpRight"
                 class="button"
-                @mousedown="movePS('pumpRight','mousedown')"
-                @mouseup="movePS('pumpRight','mouseup')">
+                @mousedown="moveStepperMotors('pumpRight','mousedown')"
+                @mouseup="moveStepperMotors('pumpRight','mouseup')">
           Right
         </button>
+        <input type="text"
+               class="input-text"
+               id="pump1Input"
+               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
+
         <input type="range" id="pumSpeed" min="1" max="500"
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pumSpeed')"
                list="tickMarks">
@@ -668,6 +673,7 @@ export default {
           sp1Quantity: 0,
           sp2Quantity: 0,
           sp3Quantity: 0,
+          pump1Quantity: 0,
           columns: [
             {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
             {text: "LDS2", value: "ldS2", width: 82, align: 'center'},
@@ -678,14 +684,17 @@ export default {
             {text: "LDS7", value: "ldS7", width: 82, align: 'center'},
             {text: "LDS8", value: "ldS8", width: 82, align: 'center'},
             {text: "LDS9", value: "ldS9", width: 82, align: 'center'},
-            {text: "SP1 Target", value: "sP1P", width: 150, align: 'center'},
-            {text: "SP1 Speed", value: "sP1S", width: 150, align: 'center'},
-            {text: "SP2 Target", value: "sP2P", width: 150, align: 'center'},
-            {text: "SP2 Speed", value: "sP2S", width: 150, align: 'center'},
-            {text: "SP3 Target", value: "sP3P", width: 150, align: 'center'},
-            {text: "SP3 Speed", value: "sP3S", width: 150, align: 'center'},
-            {text: "Rotations pump", value: "pumP1P", width: 150, align: 'center'},
-            {text: "Speed pump (rpm)", value: "pumP1S", width: 150, align: 'center'},
+            {text: "LDS10", value: "ldS10", width: 82, sortable: false, align: 'center'},
+            {text: "LDS11", value: "ldS11", width: 82, sortable: false, align: 'center'},
+            {text: "LDS12", value: "ldS12", width: 82, sortable: false, align: 'center'},
+            {text: "SP1 Quantity", value: "sP1P", width: 150, align: 'center'},
+            {text: "SP1 Speed", value: "sP1S", width: 82, align: 'center'},
+            {text: "SP2 Quantity", value: "sP2P", width: 150, align: 'center'},
+            {text: "SP2 Speed", value: "sP2S", width: 82, align: 'center'},
+            {text: "SP3 Quantity", value: "sP3P", width: 150, align: 'center'},
+            {text: "SP3 Speed", value: "sP3S", width: 82, align: 'center'},
+            {text: "Rotations pump", value: "pumP1P", width: 82, align: 'center'},
+            {text: "Speed pump (rpm)", value: "pumP1S", width: 82, align: 'center'},
           ],
           data: [
             {
@@ -1069,16 +1078,17 @@ export default {
         * ------------------------------------------------------------------------*/
     rotate(id) {
 
+      this.angle = 0;
       if (document.getElementById(id).style.transform !== '')
         this.angle = parseInt(document.getElementById(id).style.transform.match(/\d+/)[0]);
 
-      if (id === 'ldS7' || id === 'ldS8'){
+      if (id === 'ldS7' || id === 'ldS8') {
 
         if (this.angle === 0) this.angle = 50;
         else if (this.angle === 50) this.angle = -50;
         if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
 
-      }else{
+      } else {
         if (this.angle === 0) this.angle = 15;
         else if (this.angle === 15) this.angle = -20;
         if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
@@ -1094,8 +1104,12 @@ export default {
     * -------------------------------------------------------------------------*/
     extractDataSentFromSocket(data) {
 
+      if (data === '') return;
+      if (data === undefined) return;
+
       const obj = JSON.parse(data);
       if (obj === null) return;
+
 
       if (obj.tlcMigration !== undefined)
         this.tlcMigrationModule.selectedOption = this.tlcMigrationModule.items[obj.tlcMigration];
@@ -1106,314 +1120,392 @@ export default {
       if (obj.dropDispenser !== undefined)
         this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.dropDispenser];
 
-      if (obj.ldS1 !== undefined) {
-        this.setStepValues(obj.ldS1, 'ldS1');
-        document.getElementById('ldS1').style.transform = 'rotate(' + obj.ldS1 + 'deg)';
+      if (obj.LDS1 !== undefined) {
+        this.setStepValues(obj.LDS1, 'ldS1');
+        document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1 + 'deg)';
       }
 
-      if (obj.ldS2 !== undefined) {
-        this.setStepValues(obj.ldS2, 'ldS2');
-        document.getElementById('ldS2').style.transform = 'rotate(' + obj.ldS2 + 'deg)';
+      if (obj.LDS2 !== undefined) {
+        this.setStepValues(obj.LDS2, 'ldS2');
+        document.getElementById('ldS2').style.transform = 'rotate(' + obj.LDS2 + 'deg)';
       }
 
-      if (obj.ldS3 !== undefined) {
-        this.setStepValues(obj.ldS3, 'ldS3');
-        document.getElementById('ldS3').style.transform = 'rotate(' + obj.ldS3 + 'deg)';
+      if (obj.LDS3 !== undefined) {
+        this.setStepValues(obj.LDS3, 'ldS3');
+        document.getElementById('ldS3').style.transform = 'rotate(' + obj.LDS3 + 'deg)';
       }
 
-      if (obj.ldS4 !== undefined) {
-        this.setStepValues(obj.ldS4, 'ldS4');
-        document.getElementById('ldS4').style.transform = 'rotate(' + obj.ldS4 + 'deg)';
+      if (obj.LDS4 !== undefined) {
+        this.setStepValues(obj.LDS1, 'ldS4');
+        document.getElementById('ldS4').style.transform = 'rotate(' + obj.LDS4 + 'deg)';
       }
 
-      if (obj.ldS5 !== undefined) {
-        this.setStepValues(obj.ldS5, 'ldS5');
-        document.getElementById('ldS5').style.transform = 'rotate(' + obj.ldS5 + 'deg)';
+      if (obj.LDS5 !== undefined) {
+        this.setStepValues(obj.LDS5, 'ldS5');
+        document.getElementById('ldS5').style.transform = 'rotate(' + obj.LDS5 + 'deg)';
       }
 
-      if (obj.ldS6 !== undefined) {
-        this.setStepValues(obj.ldS6, 'ldS6');
-        document.getElementById('ldS6').style.transform = 'rotate(' + obj.ldS6 + 'deg)';
+      if (obj.LDS6 !== undefined) {
+        this.setStepValues(obj.LDS6, 'ldS6');
+        document.getElementById('ldS6').style.transform = 'rotate(' + obj.LDS6 + 'deg)';
       }
 
-      if (obj.ldS7 !== undefined) {
-        this.setStepValues(obj.ldS7, 'ldS7');
-        document.getElementById('ldS7').style.transform = 'rotate(' + obj.ldS7 + 'deg)';
+      if (obj.LDS7 !== undefined) {
+        this.setStepValues(obj.LDS7, 'ldS7');
+        document.getElementById('ldS7').style.transform = 'rotate(' + obj.LDS7 + 'deg)';
       }
 
-      if (obj.ldS8 !== undefined) {
-        this.setStepValues(obj.ldS8, 'ldS8');
-        document.getElementById('ldS8').style.transform = 'rotate(' + obj.ldS8 + 'deg)';
+      if (obj.LDS8 !== undefined) {
+        this.setStepValues(obj.LDS8, 'ldS8');
+        document.getElementById('ldS8').style.transform = 'rotate(' + obj.LDS8 + 'deg)';
       }
 
-      if (obj.ldS9 !== undefined) {
-        this.setStepValues(obj.ldS9, 'ldS9');
-        document.getElementById('ldS9').style.transform = 'rotate(' + obj.ldS9 + 'deg)';
+      if (obj.LDS9 !== undefined) {
+        this.setStepValues(obj.LDS9, 'ldS9');
+        document.getElementById('ldS9').style.transform = 'rotate(' + obj.LDS9 + 'deg)';
       }
 
-      if (obj.ldS10 !== undefined) {
-        this.setStepValues(obj.ldS10, 'ldS10');
-        document.getElementById('ldS10').style.transform = 'rotate(' + obj.ldS10 + 'deg)';
+      if (obj.LDS10 !== undefined) {
+        this.setStepValues(obj.LDS10, 'ldS10');
+        document.getElementById('ldS10').style.transform = 'rotate(' + obj.LDS10 + 'deg)';
       }
 
-      if (obj.ldS11 !== undefined) {
-        this.setStepValues(obj.ldS11, 'ldS11');
-        document.getElementById('ldS11').style.transform = 'rotate(' + obj.ldS11 + 'deg)';
+      if (obj.LDS11 !== undefined) {
+        this.setStepValues(obj.LDS11, 'ldS11');
+        document.getElementById('ldS11').style.transform = 'rotate(' + obj.LDS11 + 'deg)';
       }
 
-      if (obj.ldS12 !== undefined) {
-        this.setStepValues(obj.ldS12, 'ldS12');
-        document.getElementById('ldS12').style.transform = 'rotate(' + obj.ldS12 + 'deg)';
+      if (obj.LDS12 !== undefined) {
+        this.setStepValues(obj.LDS1, 'ldS12');
+        document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12 + 'deg)';
       }
 
-      if (obj.sP1P !== undefined) {
-        this.liquidDispenserModule.sP1PAbsolutePosition = obj.sP1P;
-        // document.getElementById("volumeSp1Input").value = obj.sP1P;
-        document.getElementById("ps1AbsolutePosition").innerText = obj.sP1P;
-        this.sp1Width = obj.sP1P / 10 + '%';
+      if (obj.SP1CurrentPosition !== undefined) {
+
+        let value = parseInt(obj.SP1CurrentPosition) / 1000;
+        this.liquidDispenserModule.sP1PAbsolutePosition = value;
+        document.getElementById("volumeSp1Input").innerText = value;
+        document.getElementById("ps1AbsolutePosition").innerText = value;
+        this.sp1Width = value / 10 + '%';
       }
 
-      if (obj.sP1S !== undefined) {
-        this.liquidDispenserModule.data[0].sP1S = obj.sP1S;
-        document.getElementById("ps1SpeedRange").value = obj.sP1S;
-        document.getElementById("ps1SpeedLabel").innerText = "PS1 Speed: " + obj.sP1S + " µL/sec";
+      if (obj.SP1MaxSpeed !== undefined) {
+        let maxSpeed = parseInt(obj.SP1MaxSpeed) / 1000;
+        this.liquidDispenserModule.data[0].sP1S = maxSpeed;
+        document.getElementById("ps1SpeedLabel").innerHTML = "Max Speed: " + maxSpeed + " µL/sec";
+        if (obj.stage !== undefined && obj.stage === 'init')
+          document.getElementById("ps1SpeedRange").value = maxSpeed;
       }
 
-      if (obj.sP2P !== undefined) {
-        this.liquidDispenserModule.sP2PAbsolutePosition = obj.sP2P;
-        // document.getElementById("volumeSp2Input").value = obj.sP2P;
-        document.getElementById("ps2AbsolutePosition").innerText = obj.sP2P;
-        this.sp2Width = obj.sP2P / 10 + '%';
+      if (obj.SP1Speed !== undefined) {
+        let currentSpeed = parseInt(obj.SP1Speed) / 1000;
+        document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/sec";
+      }
+
+      if (obj.SP2CurrentPosition !== undefined) {
+
+        let value = parseInt(obj.SP2CurrentPosition) / 1000;
+        this.liquidDispenserModule.sP2PAbsolutePosition = value;
+        document.getElementById("volumeSp2Input").innerText = value;
+        document.getElementById("ps2AbsolutePosition").innerText = value;
+        this.sp2Width = value / 10 + '%';
       }
 
 
-      if (obj.sP2S !== undefined) {
-        this.liquidDispenserModule.data[0].sP2S = obj.sP2S;
-        document.getElementById("ps2SpeedRange").value = obj.sP2S;
-        document.getElementById("ps2SpeedLabel").innerText = "PS2 Speed: " + obj.sP2S + " µL/sec";
+      if (obj.SP2MaxSpeed !== undefined) {
+        let maxSpeed = parseInt(obj.SP2MaxSpeed) / 1000;
+        this.liquidDispenserModule.data[0].sP2S = maxSpeed;
+        document.getElementById("ps2SpeedLabel").innerText = "PS2 Speed: " + maxSpeed + " µL/sec";
+        if (obj.stage !== undefined && obj.stage === 'init')
+          document.getElementById("ps2SpeedRange").value = maxSpeed;
       }
 
-      if (obj.sP3P !== undefined) {
+      if (obj.SP2Speed !== undefined) {
+        let currentSpeed = parseInt(obj.SP2Speed) / 1000;
+        document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/sec";
+      }
 
-        this.liquidDispenserModule.sP3PAbsolutePosition = obj.sP3P;
-        // document.getElementById("volumeSp3Input").value = obj.sP3P;
-        document.getElementById("ps3AbsolutePosition").innerText = obj.sP3P;
-        this.sp3Width = obj.sP3P / 10 + '%';
+      if (obj.SP3CurrentPosition !== undefined) {
+
+        let value = parseInt(obj.SP3CurrentPosition) / 1000;
+        this.liquidDispenserModule.sP3PAbsolutePosition = value;
+        document.getElementById("volumeSp3Input").innerText = value;
+        document.getElementById("ps3AbsolutePosition").innerText = value;
+        this.sp3Width = value / 10 + '%';
 
       }
 
-      if (obj.sP3S !== undefined) {
-        this.liquidDispenserModule.data[0].sP3S = obj.sP3S;
-        document.getElementById("ps3SpeedRange").value = obj.sP3S;
-        document.getElementById("ps3SpeedLabel").innerText = "PS3 Speed: " + obj.sP3S + " µL/sec";
+      if (obj.SP3MaxSpeed !== undefined) {
+        let maxSpeed = parseInt(obj.SP3MaxSpeed) / 1000;
+        this.liquidDispenserModule.data[0].sP3S = maxSpeed;
+        document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
+        if (obj.stage !== undefined && obj.stage === 'init')
+          document.getElementById("ps3SpeedRange").value = maxSpeed;
       }
 
-      if (obj.pumP1P !== undefined) {
-        this.liquidDispenserModule.data[0].pumP1P = obj.pumP1P;
+      if (obj.SP3Speed !== undefined) {
+        let currentSpeed = parseInt(obj.SP3Speed) / 1000;
+        document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/sec";
       }
 
-      if (obj.pumP1S !== undefined) {
-        this.liquidDispenserModule.data[0].pumP1S = obj.pumP1S;
-        document.getElementById("pumSpeed").value = obj.pumP1S;
-        document.getElementById("pumpsLabel").innerText = "Pump Speed: " + obj.pumP1S + " RPM";
+      if (obj.PUMP1CurrentPosition !== undefined) {
+        this.liquidDispenserModule.data[0].pumP1P = obj.PUMP1CurrentPosition;
+         document.getElementById("pump1Input").value = obj.PUMP1CurrentPosition;
+      }
+
+      if (obj.PUMP1MaxSpeed !== undefined) {
+        this.liquidDispenserModule.data[0].pumP1S = obj.PUMP1MaxSpeed;
+        document.getElementById("pumpsLabel").innerText = "Pump Speed: " + obj.PUMP1MaxSpeed + " RPM";
+        if (obj.stage !== undefined && obj.stage === 'init')
+          document.getElementById("pumSpeed").value = obj.PUMP1MaxSpeed;
 
       }
       console.log('received: ', data);
-    }
-    ,
+    },
 
     /*--------------------------------------------------------------------------
     * Set the position of a given module
     * -------------------------------------------------------------------------*/
     setModulePhysicalPosition(module, value, componentId) {
 
-      let data = {
-        stage: 'config',
-        type: 'position',
-        moveTo: {},
-        move: {}
+      if (module.name.toLowerCase().includes('tlc')) {
+        let data = {TLCMigration: {MoveTo: parseInt(module.items.indexOf(value))}};
+        this.sendToWebsocket(data);
       }
-      if (module.name.toLowerCase().includes('tlc'))
-        data.moveTo.tlcMigration = module.items.indexOf(value);
-
-      if (module.name.toLowerCase().includes('ph'))
-        data.moveTo.phMeter = module.items.indexOf(value);
-
-      if (module.name.toLowerCase().includes('drop'))
-        data.moveTo.dropDispenser = module.items.indexOf(value);
-
+      if (module.name.toLowerCase().includes('ph')) {
+        let data = {PHMeter: {MoveTo: parseInt(module.items.indexOf(value))}};
+        this.sendToWebsocket(data);
+      }
+      if (module.name.toLowerCase().includes('drop')) {
+        let data = {DropDispenser: {MoveTo: parseInt(module.items.indexOf(value))}};
+        this.sendToWebsocket(data);
+      }
       if (module.name.toLowerCase().includes('liquid')) {
 
         if (componentId !== undefined && componentId !== '') {
 
-          data.type = 'value';
+          if (componentId === 'ldS1') {
+            let data = {LDS1: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS2') {
+            let data = {LDS2: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS3') {
+            let data = {LDS3: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS3') {
+            let data = {LDS3: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS4') {
+            let data = {LDS4: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS5') {
+            let data = {LDS5: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS6') {
+            let data = {LDS6: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS7') {
+            let data = {LDS7: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS8') {
+            let data = {LDS8: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS9') {
+            let data = {LDS9: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS10') {
+            let data = {LDS10: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS11') {
+            let data = {LDS11: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ldS12') {
+            let data = {LDS12: {MoveTo: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'volumeSp1Input') {
+            this.liquidDispenserModule.sp1Quantity = parseInt(value);
 
-          switch (componentId) {
-            case 'ldS1':
-              data.moveTo.ldS1 = value;
-              break;
-            case 'ldS2':
-              data.moveTo.ldS2 = value;
-              break;
-            case 'ldS3':
-              data.moveTo.ldS3 = value;
-              break;
-            case 'ldS4':
-              data.moveTo.ldS4 = value;
-              break;
-            case 'ldS5':
-              data.moveTo.ldS5 = value;
-              break;
-            case 'ldS6':
-              data.moveTo.ldS6 = value;
-              break;
-            case 'ldS7':
-              data.moveTo.ldS7 = value;
-              break;
-            case 'ldS8':
-              data.moveTo.ldS8 = value;
-              break;
-            case 'ldS9':
-              data.moveTo.ldS9 = value;
-              break;
-            case 'ldS10':
-              data.moveTo.ldS10 = value;
-              break;
-            case 'ldS11':
-              data.moveTo.ldS11 = value;
-              break;
-            case 'ldS12':
-              data.moveTo.ldS12 = value;
-              break;
-            case 'volumeSp1Input':
-              this.liquidDispenserModule.sp1Quantity = parseInt(value);
+            if ((this.liquidDispenserModule.sp1Quantity < 0 && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity < 0)
+                || this.liquidDispenserModule.sp1Quantity > 0 && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
 
-              if ((this.liquidDispenserModule.sp1Quantity < 0
-                      && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity < 0)
-                  || this.liquidDispenserModule.sp1Quantity > 0
-                  && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
-                this.overflowDialog.message = "The limit has been exceeded";
-                this.overflowDialog.open = true;
-                this.liquidDispenserModule.sp1Quantity = 0;
-              } else {
-                this.liquidDispenserModule.data[0].sP1P = this.liquidDispenserModule.sp1Quantity;
-              }
-              return;
-            case
-            'ps1SpeedRange'
-            :
-              data.moveTo.sP1S = value;
-              break;
-            case 'volumeSp2Input':
-              this.liquidDispenserModule.sp2Quantity = parseInt(value);
+              this.overflowDialog.message = "The limit has been exceeded";
+              this.overflowDialog.open = true;
+              this.liquidDispenserModule.sp1Quantity = 0;
 
-              if ((this.liquidDispenserModule.sp2Quantity < 0
-                      && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity < 0)
-                  || this.liquidDispenserModule.sp2Quantity > 0
-                  && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity > 1000) {
-                this.overflowDialog.message = "The limit has been exceeded";
-                this.overflowDialog.open = true;
-                this.liquidDispenserModule.sp2Quantity = 0;
-              } else {
-                this.liquidDispenserModule.data[0].sP2P = this.liquidDispenserModule.sp2Quantity;
-              }
-              return;
-            case
-            'ps2SpeedRange'
-            :
-              data.moveTo.sP2S = value;
-              break;
-            case 'volumeSp3Input' :
-              this.liquidDispenserModule.sp3Quantity = parseInt(value);
+            } else {
+              this.liquidDispenserModule.data[0].sP1P = this.liquidDispenserModule.sp1Quantity;
+            }
+          }
+          if (componentId === 'volumeSp2Input') {
+            if ((this.liquidDispenserModule.sp2Quantity < 0
+                    && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity < 0)
+                || this.liquidDispenserModule.sp2Quantity > 0
+                && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity > 1000) {
+              this.overflowDialog.message = "The limit has been exceeded";
+              this.overflowDialog.open = true;
+              this.liquidDispenserModule.sp2Quantity = 0;
+            } else {
+              this.liquidDispenserModule.data[0].sP2P = this.liquidDispenserModule.sp2Quantity;
+            }
+          }
+          if (componentId === 'volumeSp3Input') {
+            this.liquidDispenserModule.sp3Quantity = parseInt(value);
 
-              if ((this.liquidDispenserModule.sp3Quantity < 0
-                      && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
-                  || this.liquidDispenserModule.sp3Quantity > 0
-                  && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
-                this.overflowDialog.message = "The limit has been exceeded";
-                this.overflowDialog.open = true;
-                this.liquidDispenserModule.sp3Quantity = 0;
-              } else {
-                this.liquidDispenserModule.data[0].sP3P = this.liquidDispenserModule.sp3Quantity;
-              }
-              return;
-            case
-            'ps3SpeedRange'
-            :
-              data.moveTo.sP3S = value;
-              break;
-            case
-            'pumSpeed'
-            :
-              data.moveTo.pumP1S = value;
-              break;
+            if ((this.liquidDispenserModule.sp3Quantity < 0
+                    && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
+                || this.liquidDispenserModule.sp3Quantity > 0
+                && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
+              this.overflowDialog.message = "The limit has been exceeded";
+              this.overflowDialog.open = true;
+              this.liquidDispenserModule.sp3Quantity = 0;
+            } else {
+              this.liquidDispenserModule.data[0].sP3P = this.liquidDispenserModule.sp3Quantity;
+            }
+          }
+          if (componentId === 'pump1Input') {
+            this.liquidDispenserModule.sp3Quantity = parseInt(value);
+            let data = {PUMP1: {PUMP1TargetPosition: parseInt(value)}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ps1SpeedRange') {
+            let data = {SP1: {SetMaxSpeed: parseInt(value) * 1000}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ps2SpeedRange') {
+            let data = {SP2: {SetMaxSpeed: parseInt(value) * 1000}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'ps3SpeedRange') {
+            let data = {SP3: {SetMaxSpeed: parseInt(value) * 1000}};
+            this.sendToWebsocket(data);
+          }
+          if (componentId === 'pumSpeed') {
+            let data = {PUMP1: {SetMaxSpeed: parseInt(value)}};
+            this.sendToWebsocket(data);
           }
         }
       }
-      this.sendToWebsocket(data)
-      // module.selectedOption = value;
+
     }
     ,
 
     /*------------------------------------------------------------------------
     * Moves the PS up or down
     * ------------------------------------------------------------------------*/
-    movePS(id, click) {
+    moveStepperMotors(id, click) {
 
-      let data = {
-        stage: 'config',
-        type: 'moveTo',
-        moveTo: {}
-      }
       this.noRotation = true;
 
       switch (id) {
+
         case 'sp1Up':
-          data.moveTo.sP1PUp = click === 'mousedown';
+          if (click === 'mousedown') {
+
+            let data = {SP1: {MoveTo: 3000000}};
+            this.sendToWebsocket(data);
+
+          } else {
+            let data = {SP1: {Stop: true}};
+            this.sendToWebsocket(data);
+          }
           break;
+
         case 'sp1Down':
-          data.moveTo.sP1PDown = click === 'mousedown';
+          if (click === 'mousedown') {
+            let data = {SP1: {MoveTo: -3000000}};
+            this.sendToWebsocket(data);
+          } else {
+            let data = {SP1: {Stop: true}};
+            this.sendToWebsocket(data);
+          }
           break;
+
         case 'sp2Up':
-          data.moveTo.sP2PUp = click === 'mousedown';
+
+          if (click === 'mousedown') {
+            let data = {SP2: {MoveTo: 3000000}};
+            this.sendToWebsocket(data);
+          } else {
+            let data = {SP2: {Stop: true}};
+            this.sendToWebsocket(data);
+          }
           break;
+
         case 'sp2Down':
-          data.moveTo.sP2PDown = click === 'mousedown';
+          if (click === 'mousedown') {
+            let data = {SP2: {MoveTo: -3000000}};
+            this.sendToWebsocket(data);
+          } else {
+            let data = {SP2: {Stop: true}};
+            this.sendToWebsocket(data);
+          }
           break;
+
         case 'sp3Up':
-          data.moveTo.sP3PUp = click === 'mousedown';
+          if (click === 'mousedown') {
+            let data = {SP3: {MoveTo: 3000000}};
+            this.sendToWebsocket(data);
+          } else {
+            let data = {SP3: {Stop: true}};
+            this.sendToWebsocket(data);
+          }
           break;
+
         case 'sp3Down':
-          data.moveTo.sP3PDown = click === 'mousedown';
+          if (click === 'mousedown') {
+            let data = {SP3: {MoveTo: -3000000}};
+            this.sendToWebsocket(data);
+          } else {
+            let data = {SP3: {Stop: true}};
+            this.sendToWebsocket(data);
+          }
           break;
+
         case 'pumpLeft':
+
+          this.rotateLeft = click === 'mousedown';
+          this.noRotation = click !== 'mousedown';
+
           if (click === 'mousedown') {
-            this.rotateLeft = true;
-            this.rotateRight = false;
-            this.noRotation = false;
+            let data = {PUMP1: {MoveTo: -3000000}};
+            this.sendToWebsocket(data);
           } else {
-            this.rotateLeft = false;
-            this.rotateRight = false;
-            this.noRotation = true;
+            let data = {PUMP1: {Stop: true}};
+            this.sendToWebsocket(data);
           }
-          data.moveTo.pumpLeft = click === 'mousedown';
           break;
+
         case 'pumpRight':
+          this.rotateRight = click === 'mousedown';
+          this.noRotation = click !== 'mousedown';
+
           if (click === 'mousedown') {
-            this.rotateLeft = false;
-            this.rotateRight = true;
-            this.noRotation = false;
+            let data = {PUMP1: {MoveTo: 3000000}};
+            this.sendToWebsocket(data);
           } else {
-            this.rotateLeft = false;
-            this.rotateRight = false;
-            this.noRotation = true;
+            let data = {PUMP1: {Stop: true}};
+            this.sendToWebsocket(data);
           }
-          data.moveTo.pumpRight = click === 'mousedown';
           break;
+
         default:
           break;
       }
-      this.sendToWebsocket(data);
+
     }
     ,
     /*--------------------------------------------------------------------------
@@ -1620,21 +1712,53 @@ select {
 
 /* syringes */
 
+#select-sp3 {
+  margin-left: -1000px;
+  z-index: 1;
+}
+
+#volumeSp3Up {
+  margin-left: 20px;
+}
+
+#volumeSp3Down {
+  margin-left: 5px;
+  background-color: #e07b39;
+}
+
+#volumeSp3Input {
+  margin-left: -102px;
+  margin-top: 130px;
+}
+
+#ps3SpeedLabel {
+  margin-left: -260px;
+  font-size: 12px;
+  margin-top: 120px;
+  height: fit-content;
+  width: 170px;
+  resize: none;
+}
+
+#ps3SpeedRange {
+  margin-left: -170px;
+  margin-top: 160px;
+  height: fit-content;
+}
+
+
 #select-sp1 {
   margin-left: 200px;
-  margin-top: 100px;
   z-index: 1;
 }
 
 #volumeSp1Up {
   margin-left: 20px;
-  margin-top: 100px;
   z-index: 2;
 }
 
 #volumeSp1Down {
   margin-left: 5px;
-  margin-top: 100px;
   background-color: #e07b39;
 }
 
@@ -1644,34 +1768,31 @@ select {
 }
 
 #ps1SpeedRange {
-  margin-left: -260px;
-  margin-top: 150px;
+  margin-left: -170px;
+  margin-top: 160px;
   height: fit-content;
 }
 
 #ps1SpeedLabel {
-  margin-left: -130px;
-  margin-top: 180px;
+  margin-left: -260px;
   font-size: 12px;
+  margin-top: 120px;
   height: fit-content;
-  width: 150px;
+  width: 170px;
   resize: none;
 }
 
 #select-sp2 {
   margin-left: 220px;
-  margin-top: 100px;
   z-index: 1;
 }
 
 #volumeSp2Up {
   margin-left: 20px;
-  margin-top: 100px;
 }
 
 #volumeSp2Down {
   margin-left: 5px;
-  margin-top: 100px;
   background-color: #e07b39;
 }
 
@@ -1681,79 +1802,48 @@ select {
 }
 
 #ps2SpeedRange {
-  margin-left: -260px;
-  margin-top: 150px;
+  margin-left: -170px;
+  margin-top: 160px;
   height: fit-content;
 }
 
 #ps2SpeedLabel {
-  margin-left: -130px;
-  margin-top: 180px;
-  font-size: 12px;
-  height: fit-content;
-  width: 150px;
-  resize: none;
-}
-
-#select-sp3 {
-  margin-left: -1050px;
-  margin-top: 100px;
-  z-index: 1;
-}
-
-#volumeSp3Up {
-  margin-left: 20px;
-  margin-top: 100px;
-}
-
-#volumeSp3Down {
-  margin-left: 5px;
-  margin-top: 100px;
-  background-color: #e07b39;
-}
-
-#volumeSp3Input {
-  margin-left: -102px;
-  margin-top: 130px;
-}
-
-#ps3SpeedRange {
   margin-left: -260px;
-  margin-top: 150px;
-  height: fit-content;
-}
-
-#ps3SpeedLabel {
-  margin-left: -120px;
-  margin-top: 180px;
   font-size: 12px;
+  margin-top: 120px;
   height: fit-content;
-  width: 150px;
+  width: 170px;
   resize: none;
 }
+
 
 /*pump*/
 
 #pumpLeft {
-  margin-left: -350px;
-  margin-top: 400px;
+  margin-left: -360px;
+  margin-top: 350px;
 }
 
 #pumpRight {
   margin-left: 5px;
-  margin-top: 400px;
+  margin-top: 350px;
   background-color: #e07b39;
 }
 
+#pump1Input {
+  margin-left: 25px;
+  margin-top: 350px;
+}
+
 #pumSpeed {
-  margin-left: -110px;
+  margin-left: -230px;
   margin-top: 430px;
   height: fit-content;
 }
 
 #pumpsLabel {
   margin-left: -130px;
-  margin-top: 460px;
+  margin-top: 380px;
   font-size: 12px;
   height: fit-content;
   width: 150px;
@@ -1880,7 +1970,7 @@ select {
   width: 155px;
   height: 15px;
   margin-top: 570px;
-  margin-left: -660px;
+  margin-left: -635px;
   z-index: 1;
 
 }
@@ -1931,6 +2021,9 @@ select {
   }
 }
 
+.firstLineComponent {
+  margin-top: 80px;
+}
 
 /* for Safari browser  */
 @-webkit-keyframes spin1 {

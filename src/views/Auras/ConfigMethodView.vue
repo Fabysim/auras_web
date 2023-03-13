@@ -522,6 +522,9 @@ export default {
       ldS7: '',
       ldS8: '',
       ldS9: '',
+      ldS10: '',
+      ldS11: '',
+      ldS12: '',
       sp1P: '',
       sp1S: '',
       sp2P: '',
@@ -604,11 +607,14 @@ export default {
         {text: "LDS7", value: "ldS7", width: 82, sortable: false, align: 'center'},
         {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
         {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
-        {text: "SP1 Target", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
+        {text: "LDS10", value: "ldS10", width: 82, sortable: false, align: 'center'},
+        {text: "LDS11", value: "ldS11", width: 82, sortable: false, align: 'center'},
+        {text: "LDS12", value: "ldS12", width: 82, sortable: false, align: 'center'},
+        {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed", value: "sP1S", width: 150, sortable: false, align: 'center'},
-        {text: "SP2 Target", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
+        {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Speed", value: "sP2S", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Target", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Speed", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
@@ -716,6 +722,9 @@ export default {
         this.concatenatedData.ldS7 = this.liquidDispenserModule.data[i].ldS7;
         this.concatenatedData.ldS8 = this.liquidDispenserModule.data[i].ldS8;
         this.concatenatedData.ldS9 = this.liquidDispenserModule.data[i].ldS9;
+        this.concatenatedData.ldS10 = this.liquidDispenserModule.data[i].ldS10;
+        this.concatenatedData.ldS11 = this.liquidDispenserModule.data[i].ldS11;
+        this.concatenatedData.ldS12 = this.liquidDispenserModule.data[i].ldS12;
         this.concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
         this.concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
         this.concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
@@ -833,15 +842,12 @@ export default {
     * ------------------------------------------------------------------------*/
     extractLiquidDispenserDataFromDialog(col, line) {
 
-
       if (col === 9)
         this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
       if (col === 11)
         this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
       if (col === 13)
         this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
-
-
     },
 
 
