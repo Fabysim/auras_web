@@ -386,18 +386,20 @@
 
         <!--        PS3 control-->
 
-        <select id="select-sp3" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP3">
+        <select id="select-sp3"
+                :disabled="mode!=='config'"
+                class="firstLineComponent" v-model="liquidDispenserModule.selectedSP3">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
 
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+        <button :disabled="!liquidDispenserModule.sp3VolumeSelected & mode!=='config'"
                 class="button firstLineComponent"
                 id="volumeSp3Up"
                 @mousedown="moveStepperMotors('sp3Up','mousedown')"
                 @mouseup="moveStepperMotors('sp3Up','mouseup')">
           Up
         </button>
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+        <button :disabled="!liquidDispenserModule.sp3VolumeSelected & mode!=='config'"
                 class="button firstLineComponent"
                 id="volumeSp3Down"
                 @mousedown="moveStepperMotors('sp3Down','mousedown')"
@@ -405,30 +407,35 @@
           Down
         </button>
         <input type="text"
-               :disabled="!liquidDispenserModule.sp3VolumeSelected"
+               :disabled="!liquidDispenserModule.sp3VolumeSelected & mode!=='config'"
                id="volumeSp3Input"
                class="input-text"
                @change="event => setModulePhysicalPosition(liquidDispenserModule,  event.target.value,'volumeSp3Input')"/>
 
         <textarea readonly id="ps3SpeedLabel"></textarea>
-        <input type="range" id="ps3SpeedRange" min="1" max="500"
+        <input type="range"
+               :disabled="mode!=='config'"
+               id="ps3SpeedRange" min="1" max="500"
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps3SpeedRange')"
                list="tickMarks">
 
         <!--        PS1 control-->
-        <select id="select-sp1" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP1">
+        <select id="select-sp1"
+                :disabled="mode!=='config'"
+                class="firstLineComponent"
+                v-model="liquidDispenserModule.selectedSP1">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
 
 
-        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
+        <button :disabled="!liquidDispenserModule.sp1VolumeSelected & mode!=='config'"
                 id="volumeSp1Up"
                 class="button firstLineComponent"
                 @mousedown="moveStepperMotors('sp1Up','mousedown')"
                 @mouseup="moveStepperMotors('sp1Up','mouseup')">
           Up
         </button>
-        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
+        <button :disabled="!liquidDispenserModule.sp1VolumeSelected & mode!=='config'"
                 id="volumeSp1Down"
                 class="button firstLineComponent"
                 @mousedown="moveStepperMotors('sp1Down','mousedown')"
@@ -436,30 +443,35 @@
           Down
         </button>
         <input type="text"
-               :disabled="!liquidDispenserModule.sp1VolumeSelected"
+               :disabled="!liquidDispenserModule.sp1VolumeSelected & mode!=='config'"
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
                class="input-text"
                id="volumeSp1Input"
         />
 
         <textarea readonly id="ps1SpeedLabel"></textarea>
-        <input type="range" id="ps1SpeedRange" min="1" max="500"
+        <input type="range"
+               id="ps1SpeedRange" min="1" max="500"
+               :disabled="mode!=='config'"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
                list="tickMarks">
 
         <!--        PS2 control-->
 
-        <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP2">
+        <select id="select-sp2"
+                :disabled="mode!=='config'"
+                class="firstLineComponent"
+                v-model="liquidDispenserModule.selectedSP2">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
-        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
+        <button :disabled="!liquidDispenserModule.sp2VolumeSelected & mode!=='config'"
                 id="volumeSp2Up"
                 class="button firstLineComponent"
                 @mousedown="moveStepperMotors('sp2Up','mousedown')"
                 @mouseup="moveStepperMotors('sp2Up','mouseup')">
           Up
         </button>
-        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
+        <button :disabled="!liquidDispenserModule.sp2VolumeSelected & mode!=='config'"
                 id="volumeSp2Down"
                 class="button firstLineComponent"
                 @mousedown="moveStepperMotors('sp2Down','mousedown')"
@@ -467,13 +479,13 @@
           Down
         </button>
         <input type="text"
-               :disabled="!liquidDispenserModule.sp2VolumeSelected"
+               :disabled="!liquidDispenserModule.sp2VolumeSelected & mode!=='config'"
                class="input-text"
                id="volumeSp2Input"
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
         <textarea readonly id="ps2SpeedLabel"></textarea>
-        <input type="range" id="ps2SpeedRange" min="1" max="500"
+        <input type="range" id="ps2SpeedRange" min="1" max="500" :disabled="mode!=='config'"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
                list="tickMarks">
 
@@ -481,23 +493,27 @@
         <!--        Pump control-->
 
         <button id="pumpLeft"
+                :disabled="mode!=='config'"
                 class="button"
                 @mousedown="moveStepperMotors('pumpLeft','mousedown')"
                 @mouseup="moveStepperMotors('pumpLeft','mouseup')">
           Left
         </button>
         <button id="pumpRight"
+                :disabled="mode!=='config'"
                 class="button"
                 @mousedown="moveStepperMotors('pumpRight','mousedown')"
                 @mouseup="moveStepperMotors('pumpRight','mouseup')">
           Right
         </button>
         <input type="text"
+               :disabled="mode!=='config'"
                class="input-text"
                id="pump1Input"
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
         <input type="range" id="pumSpeed" min="1" max="500"
+               :disabled="mode!=='config'"
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pumSpeed')"
                list="tickMarks">
         <textarea readonly id="pumpsLabel"></textarea>
@@ -1052,6 +1068,8 @@ export default {
         * ------------------------------------------------------------------------*/
     rotate(id) {
 
+      if (this.mode !== 'config') return;
+
       this.angle = 0;
       if (document.getElementById(id).style.transform !== '')
         this.angle = parseInt(document.getElementById(id).style.transform.match(/\d+/)[0]);
@@ -1276,6 +1294,8 @@ export default {
     * Set the position of a given module
     * -------------------------------------------------------------------------*/
     setModulePhysicalPosition(module, value, componentId) {
+
+      if (this.mode !== 'config') return;
 
       if (module.name.toLowerCase().includes('tlc')) {
         let data = {TLCMigration: {MoveTo: parseInt(module.items.indexOf(value))}};
