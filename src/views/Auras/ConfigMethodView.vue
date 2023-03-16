@@ -672,7 +672,7 @@ export default {
 
 
     /*------------------------------------------------------------------------
-    * Function used to watch the changes in the waiting condition module
+    * Listener used to watch the changes in the waiting condition module
     * ------------------------------------------------------------------------*/
     'updateWaitingCondition.selectedOption'() {
 
@@ -699,6 +699,16 @@ export default {
       }
     },
 
+    /*------------------------------------------------------------------------
+    * Listener used to watch the changes in the SP update pop up
+    * ------------------------------------------------------------------------*/
+    'liquidDispenserModule.update.selectedOption'() {
+
+      this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume') ?
+          this.liquidDispenserModule.update.volumeSelected = true :
+          this.liquidDispenserModule.update.volumeSelected = false;
+    }
+
   },
 
   methods: {
@@ -708,11 +718,9 @@ export default {
      * ------------------------------------------------------------------------*/
     setDownloadedData() {
 
-
       for (let i = 0; i < this.stepModule.data.length; i++) {
 
         this.concatenatedData.step = this.liquidDispenserModule.data[i].step;
-
         this.concatenatedData.ldS1 = this.liquidDispenserModule.data[i].ldS1;
         this.concatenatedData.ldS2 = this.liquidDispenserModule.data[i].ldS2;
         this.concatenatedData.ldS3 = this.liquidDispenserModule.data[i].ldS3;
@@ -765,31 +773,19 @@ export default {
     loadLiquidDispenserUpdateInfo() {
 
       this.liquidDispenserModule.data.forEach(function (line) {
+        !isNaN(parseInt(line.sP1P)) ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : line.displayedSP1Info = line.sP1P;
+        !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
+        !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        line.sP1P === 0 ? line.displayedSP1Info = 'None' : '';
-        line.sP2P === 0 ? line.displayedSP2Info = 'None' : '';
-        line.sP3P === 0 ? line.displayedSP3Info = 'None' : '';
-
-        line.sP1P === -1 ? line.displayedSP1Info = 'QC sample drop' : '';
-        line.sP2P === -1 ? line.displayedSP2Info = 'QC sample drop' : '';
-        line.sP3P === -1 ? line.displayedSP3Info = 'QC sample drop' : '';
-
-        line.sP1P === -2 ? line.displayedSP1Info = 'Fill LAL cartridge' : '';
-        line.sP2P === -2 ? line.displayedSP2Info = 'Fill LAL cartridge' : '';
-        line.sP3P === -2 ? line.displayedSP3Info = 'Fill LAL cartridge' : '';
-
-        line.sP1P > 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
-        line.sP2P > 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
-        line.sP3P > 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
-
-        line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
-        line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
-        line.sP3P >= 0 ? line.ldSp3PositionSelected = true : line.ldSp3PositionSelected = false;
+        if (parseInt(line.sP1P) === 0) line.displayedSP1Info = 'None';
+        if (parseInt(line.sP2P) === 0) line.displayedSP2Info = 'None';
+        if (parseInt(line.sP3P) === 0) line.displayedSP3Info = 'None';
 
       });
 
 
     },
+
 
     /*------------------------------------------------------------------------
     * Function load number of actual steps
@@ -842,12 +838,23 @@ export default {
     * ------------------------------------------------------------------------*/
     extractLiquidDispenserDataFromDialog(col, line) {
 
-      if (col === 9)
-        this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
-      if (col === 11)
-        this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
-      if (col === 13)
-        this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
+      if (col === 12)
+        if (this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume'))
+          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
+        else
+          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedOption;
+
+      if (col === 14)
+        if (this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume'))
+          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
+        else
+          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedOption;
+
+      if (col === 16)
+        if (this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume'))
+          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
+        else
+          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedOption;
     },
 
 
@@ -972,14 +979,14 @@ export default {
       this.liquidDispenserModule.update.volumeSelected = false;
       let volume;
 
-      if (col === 9)
+      if (col === 12)
         volume = this.liquidDispenserModule.data[line].sP1P;
-      if (col === 11)
+      if (col === 14)
         volume = this.liquidDispenserModule.data[line].sP2P;
-      if (col === 13)
+      if (col === 16)
         volume = this.liquidDispenserModule.data[line].sP3P;
 
-      if (col === 9 || col === 11 || col === 13) {
+      if (col === 12 || col === 14 || col === 16) {
 
         if (value.toLowerCase().includes("volume")) {
 
@@ -1255,6 +1262,10 @@ export default {
 
       liquidDispenserStep.step = this.currentStep;
       liquidDispenserStep.methodId = this.currentMethod.id;
+
+      liquidDispenserStep.sP1P = liquidDispenserStep.sP1P.toString();
+      liquidDispenserStep.sP2P = liquidDispenserStep.sP2P.toString();
+      liquidDispenserStep.sP3P = liquidDispenserStep.sP3P.toString();
 
       this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
       this.postStep(liquidDispenserStep, this.liquidDispenserModule.name);

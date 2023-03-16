@@ -298,6 +298,7 @@
 
     </v-dialog>
   </div>
+
 </template>
 
 <script>
@@ -344,6 +345,9 @@ export default {
         lds7: '',
         lds8: '',
         lds9: '',
+        lds10: '',
+        lds11: '',
+        lds12: '',
         sp1p: '',
         sp2p: '',
         sp3p: '',
@@ -415,6 +419,9 @@ export default {
         {text: "LDS7", value: "ldS7", width: 82, sortable: false, align: 'center'},
         {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
         {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
+        {text: "LDS10", value: "ldS10", width: 82, sortable: false, align: 'center'},
+        {text: "LDS11", value: "ldS11", width: 82, sortable: false, align: 'center'},
+        {text: "LDS12", value: "ldS12", width: 82, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
@@ -424,6 +431,11 @@ export default {
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
       ],
+      data: []
+    },
+
+    masterModule: {
+      name: 'Master',
       data: []
     },
 
@@ -501,6 +513,9 @@ export default {
       this.sendToWebsocket(init);
     },
 
+    /*--------------------------------------------------------------------------
+    *  Stops running method
+    * -------------------------------------------------------------------------*/
     stopMethodRun() {
 
       this.runningStep.runAllMethod = false;
@@ -511,7 +526,8 @@ export default {
     runStep(step) {
       this.runningStep.runAllMethod = false;
       this.runningStep.number = step;
-      let stepToRun = this.loadOnlyNecessaryElementsOfStep();
+      this.runningStep.stage = 'runStep';
+      let stepToRun = this.setStepDataObject();
       stepToRun.stage = 'runStep';
       this.sendToWebsocket(stepToRun);
     },
@@ -533,7 +549,7 @@ export default {
     * -------------------------------------------------------------------------*/
     runMethod() {
       this.runningStep.stage = 'runMethod';
-      let stepToRun = this.createRunningStepData();
+      let stepToRun = this.setStepDataObject();
       this.sendToWebsocket(stepToRun);
     },
 
@@ -556,7 +572,7 @@ export default {
 
         switch (obj.stage) {
 
-          case 'init':
+          case 'initMethod':
             setTimeout(() => this.runMethod(), 2000);
             break;
           case 'runMethod':
@@ -577,9 +593,9 @@ export default {
     * -------------------------------------------------------------------------*/
     manageWaitingCondition() {
 
-      if (this.runningStep.number > this.stepModule.totalOfSteps){
+      if (this.runningStep.number > this.stepModule.totalOfSteps) {
         this.runningStep.runStarted = false;
-        this.runningStep.number =-1;
+        this.runningStep.number = -1;
       }
 
 
@@ -610,97 +626,106 @@ export default {
       this.timeoutDialog = false;
       this.runningStep.number++;
     },
-    /*--------------------------------------------------------------------------
-     * Create custom data to be sent
-     * -------------------------------------------------------------------------*/
-    createRunningStepData() {
 
-      let stepToRun = {
-        stage: this.runningStep.stage,
-        stepNumber: this.runningStep.number,
-        moveTo: {},
-        move: {}
-      }
-
-      if (this.runningStep.number === 0)
-        stepToRun = this.loadFirstStepOfMethod();
-      else
-        stepToRun = this.loadOnlyNecessaryElementsOfStep();
-
-      return stepToRun;
-    },
 
     /*--------------------------------------------------------------------------
      * Loads only steps that have changed in a method
      * -------------------------------------------------------------------------*/
-    loadOnlyNecessaryElementsOfStep() {
-
-      let stepToRun = {
-        stage: this.runningStep.stage,
-        stepNumber: this.runningStep.number,
-        moveTo: {},
-        move:{}
+    setStepDataObject() {
+      return {
+        stage:this.runningStep.stage ,
+        MethodName: this.currentMethod.name,
+        NumberOfSteps: this.stepModule.totalOfSteps + 1,
+        Step: this.runningStep.number,
+        TlcMigration: {
+          MoveTo: this.tlcMigrationModule.data[this.runningStep.number].position
+        },
+        PhMeter: {
+          MoveTo: this.phMeterModule.data[this.runningStep.number].position
+        },
+        DropDispenser: {
+          MoveTo: this.dropDispenserModule.data[this.runningStep.number].value
+        },
+        LDS1: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS1
+        },
+        LDS2: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS2
+        },
+        LDS3: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS3
+        },
+        LDS4: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS4
+        },
+        LDS5: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS5
+        },
+        LDS6: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS6
+        },
+        LDS7: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS7
+        },
+        LDS8: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS8
+        },
+        LDS9: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS9
+        },
+        LDS10: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS10
+        },
+        LDS11: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS11
+        },
+        LDS12: {
+          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS12
+        },
+        SP1: {
+          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP1P) ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP1S
+        },
+        SP2: {
+          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P : '',
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP2S
+        },
+        SP3: {
+          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP3P) ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP3S
+        },
+        PUMP1: {
+          Move: this.liquidDispenserModule.data[this.runningStep.number].pumP1P,
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].pumP1S
+        },
+        Master: [
+          {
+            QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
+            Device: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ? 'SP1' : ''
+          },
+          {
+            QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP2P : '',
+            Device: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop' ? 'SP2' : ''
+          },
+          {
+            QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
+            Device: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop' ? 'SP3' : ''
+          },
+          {
+            FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
+            Device: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge' ? 'SP1' : ''
+          },
+          {
+            FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP2P : '',
+            Device: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge' ? 'SP2' : ''
+          },
+          {
+            FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
+            Device: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ? 'SP3' : ''
+          }
+        ]
       }
-      this.runningStep.data.tlcMigration !== this.tlcMigrationModule.data[this.runningStep.number].position
-          ? stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position : '';
 
-      this.runningStep.data.phMeter !== this.phMeterModule.data[this.runningStep.number].position
-          ? stepToRun.moveTo.phMeter = this.runningStep.data.phMeter = this.phMeterModule.data[this.runningStep.number].position : '';
-
-      this.runningStep.data.dropDispenser !== this.dropDispenserModule.data[this.runningStep.number].position
-          ? stepToRun.moveTo.dropDispenser = this.runningStep.data.dropDispenser = this.dropDispenserModule.data[this.runningStep.number].value : '';
-
-      this.runningStep.data.lds1 !== this.liquidDispenserModule.data[this.runningStep.number].ldS1
-          ? stepToRun.moveTo.lds1 = this.runningStep.data.lds1 = this.liquidDispenserModule.data[this.runningStep.number].ldS1 : '';
-
-      this.runningStep.data.lds2 !== this.liquidDispenserModule.data[this.runningStep.number].ldS2
-          ? stepToRun.moveTo.lds2 = this.runningStep.data.lds2 = this.liquidDispenserModule.data[this.runningStep.number].ldS2 : '';
-
-      this.runningStep.data.lds3 !== this.liquidDispenserModule.data[this.runningStep.number].ldS3
-          ? stepToRun.moveTo.lds3 = this.runningStep.data.lds3 = this.liquidDispenserModule.data[this.runningStep.number].ldS3 : '';
-
-      this.runningStep.data.lds4 !== this.liquidDispenserModule.data[this.runningStep.number].ldS4
-          ? stepToRun.moveTo.lds4 = this.runningStep.data.lds4 = this.liquidDispenserModule.data[this.runningStep.number].ldS4 : '';
-
-      this.runningStep.data.lds5 !== this.liquidDispenserModule.data[this.runningStep.number].ldS5
-          ? stepToRun.moveTo.lds5 = this.runningStep.data.lds5 = this.liquidDispenserModule.data[this.runningStep.number].ldS5 : '';
-
-      this.runningStep.data.lds6 !== this.liquidDispenserModule.data[this.runningStep.number].ldS6
-          ? stepToRun.moveTo.lds6 = this.runningStep.data.lds6 = this.liquidDispenserModule.data[this.runningStep.number].ldS6 : '';
-
-      this.runningStep.data.lds7 !== this.liquidDispenserModule.data[this.runningStep.number].ldS7
-          ? stepToRun.moveTo.lds7 = this.runningStep.data.lds7 = this.liquidDispenserModule.data[this.runningStep.number].ldS7 : '';
-
-      this.runningStep.data.lds8 !== this.liquidDispenserModule.data[this.runningStep.number].ldS8
-          ? stepToRun.moveTo.lds8 = this.runningStep.data.lds8 = this.liquidDispenserModule.data[this.runningStep.number].ldS8 : '';
-
-      this.runningStep.data.lds9 !== this.liquidDispenserModule.data[this.runningStep.number].ldS9
-          ? stepToRun.moveTo.lds9 = this.runningStep.data.lds9 = this.liquidDispenserModule.data[this.runningStep.number].ldS9 : '';
-
-      this.runningStep.data.sp1p !== this.liquidDispenserModule.data[this.runningStep.number].sP1P
-          ? stepToRun.move.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P : '';
-
-      this.runningStep.data.sp1s !== this.liquidDispenserModule.data[this.runningStep.number].sP1S
-          ? stepToRun.moveTo.sp1s = this.runningStep.data.sp1s = this.liquidDispenserModule.data[this.runningStep.number].sP1S : '';
-
-      this.runningStep.data.sp2p !== this.liquidDispenserModule.data[this.runningStep.number].sP2P
-          ? stepToRun.move.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P : '';
-
-      this.runningStep.data.sp2s !== this.liquidDispenserModule.data[this.runningStep.number].sP2S
-          ? stepToRun.moveTo.sp2s = this.runningStep.data.sp2s = this.liquidDispenserModule.data[this.runningStep.number].sP2S : '';
-
-      this.runningStep.data.sp3p !== this.liquidDispenserModule.data[this.runningStep.number].sP3P
-          ? stepToRun.move.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P : '';
-
-      this.runningStep.data.sp3s !== this.liquidDispenserModule.data[this.runningStep.number].sP3S
-          ? stepToRun.moveTo.sp3s = this.runningStep.data.sp3s = this.liquidDispenserModule.data[this.runningStep.number].sP3S : '';
-
-      this.runningStep.data.pump1p !== this.liquidDispenserModule.data[this.runningStep.number].pumP1P
-          ? stepToRun.move.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P : '';
-
-      this.runningStep.data.pump1s !== this.liquidDispenserModule.data[this.runningStep.number].pumP1S
-          ? stepToRun.moveTo.pump1s = this.runningStep.data.pump1s = this.liquidDispenserModule.data[this.runningStep.number].pumP1S : '';
-      return stepToRun;
     },
 
     /*--------------------------------------------------------------------------
@@ -712,8 +737,10 @@ export default {
         stage: this.runningStep.stage,
         stepNumber: this.runningStep.number,
         moveTo: {},
-        move:{}
+        move: {}
       }
+
+
       stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position;
       stepToRun.moveTo.phMeter = this.runningStep.data.phMeter = this.phMeterModule.data[this.runningStep.number].position;
       stepToRun.moveTo.dropDispenser = this.runningStep.data.dropDispenser = this.dropDispenserModule.data[this.runningStep.number].value;
@@ -737,6 +764,7 @@ export default {
 
       return stepToRun;
     },
+
 
     /*--------------------------------------------------------------------------
     * Connection to websocket
@@ -912,28 +940,16 @@ export default {
     loadLiquidDispenserUpdateInfo() {
 
       this.liquidDispenserModule.data.forEach(function (line) {
+        !isNaN(parseInt(line.sP1P)) ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : line.displayedSP1Info = line.sP1P;
+        !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
+        !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        line.sP1P === 0 ? line.displayedSP1Info = 'None' : '';
-        line.sP2P === 0 ? line.displayedSP2Info = 'None' : '';
-        line.sP3P === 0 ? line.displayedSP3Info = 'None' : '';
-
-        line.sP1P === -1 ? line.displayedSP1Info = 'QC sample drop' : '';
-        line.sP2P === -1 ? line.displayedSP2Info = 'QC sample drop' : '';
-        line.sP3P === -1 ? line.displayedSP3Info = 'QC sample drop' : '';
-
-        line.sP1P === -2 ? line.displayedSP1Info = 'Fill LAL cartridge' : '';
-        line.sP2P === -2 ? line.displayedSP2Info = 'Fill LAL cartridge' : '';
-        line.sP3P === -2 ? line.displayedSP3Info = 'Fill LAL cartridge' : '';
-
-        line.sP1P > 0 ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : '';
-        line.sP2P > 0 ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : '';
-        line.sP3P > 0 ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : '';
-
-        line.sP1P >= 0 ? line.ldSp1PositionSelected = true : line.ldSp1PositionSelected = false;
-        line.sP2P >= 0 ? line.ldSp2PositionSelected = true : line.ldSp2PositionSelected = false;
-        line.sP3P >= 0 ? line.ldSp3PositionSelected = true : line.ldSp3PositionSelected = false;
+        if (parseInt(line.sP1P) === 0) line.displayedSP1Info = 'None';
+        if (parseInt(line.sP2P) === 0) line.displayedSP2Info = 'None';
+        if (parseInt(line.sP3P) === 0) line.displayedSP3Info = 'None';
 
       });
+
     },
 
     /*------------------------------------------------------------------------

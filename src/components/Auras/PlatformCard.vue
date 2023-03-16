@@ -167,7 +167,7 @@
           <v-btn
               color="primary"
               text
-              @click="dialog = false"
+              @click="overflowDialog.open = false"
           >
             Ok
           </v-btn>
@@ -436,7 +436,6 @@
           Down
         </button>
         <input type="text"
-               v-model="liquidDispenserModule.sp1Quantity"
                :disabled="!liquidDispenserModule.sp1VolumeSelected"
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
                class="input-text"
@@ -522,7 +521,7 @@
         </datalist>
 
 
-        <!--    PS ranges&ndash -->
+        <!--    PS ranges -->
 
         <div class="progressbar-wrapper" id="PS3PProgressbar">
           <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" v-bind:style="{ width: computedWidthSp3 }"
@@ -667,6 +666,9 @@ export default {
           sp1VolumeSelected: false,
           sp2VolumeSelected: false,
           sp3VolumeSelected: false,
+          sp1VolumeUsed: false,
+          sp2VolumeUsed: false,
+          sp3VolumeUsed: false,
           sP1PAbsolutePosition: 0,
           sP2PAbsolutePosition: 0,
           sP3PAbsolutePosition: 0,
@@ -710,11 +712,11 @@ export default {
               ldS10: 0,
               ldS11: 0,
               ldS12: 0,
-              sP1P: 0,
+              sP1P: '0',
               sP1S: 1,
-              sP2P: 0,
+              sP2P: '0',
               sP2S: 0,
-              sP3P: 0,
+              sP3P: '0',
               sP3S: 0,
               pumP1P: 0,
               pumP1S: 0,
@@ -768,16 +770,14 @@ export default {
   computed: {
     computedWidthSp1: function () {
       return this.sp1Width;
-    }
-    ,
+    },
     computedWidthSp2: function () {
       return this.sp2Width;
-    }
-    ,
+    },
     computedWidthSp3: function () {
       return this.sp3Width;
-    }
-    ,
+    },
+
 
   },
   /*------------------------------------------------------------------------
@@ -827,19 +827,16 @@ export default {
     * ------------------------------------------------------------------------*/
     'liquidDispenserModule.selectedSP1'() {
 
-      this.liquidDispenserModule.sp1Quantity = this.liquidDispenserModule.data[0].sP1P = 0;
+      this.liquidDispenserModule.sp1Quantity = 0;
       this.liquidDispenserModule.sp1VolumeSelected = false;
 
-      if (this.liquidDispenserModule.selectedSP1 === 'Volume') {
-
+      if (this.liquidDispenserModule.selectedSP1 === 'Volume')
         this.liquidDispenserModule.sp1VolumeSelected = true;
-        document.getElementById("volumeSp1Input").value = this.liquidDispenserModule.data[0].sP1P;
-      } else if (this.liquidDispenserModule.selectedSP1 === 'QC sample drop')
-        this.liquidDispenserModule.data[0].sP1P = -1;
+      else
+        this.liquidDispenserModule.data[0].sP1P = this.liquidDispenserModule.selectedSP1;
 
-      else if (this.liquidDispenserModule.selectedSP1 === 'Fill LAL cartridge')
-        this.liquidDispenserModule.data[0].sP1P = -2;
 
+      document.getElementById('volumeSp1Input').value = 0;
     }
     ,
     /*------------------------------------------------------------------------
@@ -852,13 +849,10 @@ export default {
 
       if (this.liquidDispenserModule.selectedSP2 === 'Volume')
         this.liquidDispenserModule.sp2VolumeSelected = true;
+      else
+        this.liquidDispenserModule.data[0].sP2P = this.liquidDispenserModule.selectedSP2;
 
-      else if (this.liquidDispenserModule.selectedSP2 === 'QC sample drop')
-        this.liquidDispenserModule.data[0].sP2P = -1;
-
-      else if (this.liquidDispenserModule.selectedSP2 === 'Fill LAL cartridge')
-        this.liquidDispenserModule.data[0].sP2P = -2;
-
+      document.getElementById('volumeSp2Input').value = 0;
     }
     ,
     /*------------------------------------------------------------------------
@@ -871,13 +865,10 @@ export default {
 
       if (this.liquidDispenserModule.selectedSP3 === 'Volume')
         this.liquidDispenserModule.sp3VolumeSelected = true;
+      else
+        this.liquidDispenserModule.data[0].sP3P = this.liquidDispenserModule.selectedSP3;
 
-      else if (this.liquidDispenserModule.selectedSP3 === 'QC sample drop')
-        this.liquidDispenserModule.data[0].sP3P = -1;
-
-      else if (this.liquidDispenserModule.selectedSP3 === 'Fill LAL cartridge')
-        this.liquidDispenserModule.data[0].sP3P = -2;
-
+      document.getElementById('volumeSp3Input').value = 0;
     }
     ,
     /*------------------------------------------------------------------------
@@ -948,42 +939,21 @@ export default {
 
       this.waitingCondition.selectedOption = 'None';
       this.comment = '';
-      this.liquidDispenserModule.data[0].sP1P = 0;
-      this.liquidDispenserModule.data[0].sP2P = 0;
-      this.liquidDispenserModule.data[0].sP3P = 0;
 
+      document.getElementById('volumeSp1Input').value = 0;
+      document.getElementById('volumeSp2Input').value = 0;
+      document.getElementById('volumeSp3Input').value = 0;
       if (this.liquidDispenserModule.sp1Quantity !== 0) {
-        let data = {
-          stage: 'config',
-          type: 'move',
-          move: {
-            sP1P: this.liquidDispenserModule.sp1Quantity
-          }
-        }
-        this.sendToWebsocket(data);
+
         this.liquidDispenserModule.sp1Quantity = 0;
       }
       if (this.liquidDispenserModule.sp2Quantity !== 0) {
-        let data = {
-          stage: 'config',
-          type: 'move',
-          move: {
-            sP2P: this.liquidDispenserModule.sp2Quantity
-          }
-        }
-        this.sendToWebsocket(data);
+
         this.liquidDispenserModule.sp2Quantity = 0;
       }
 
       if (this.liquidDispenserModule.sp3Quantity !== 0) {
-        let data = {
-          stage: 'config',
-          type: 'move',
-          move: {
-            sP3P: this.liquidDispenserModule.sp3Quantity
-          }
-        }
-        this.sendToWebsocket(data);
+
         this.liquidDispenserModule.sp3Quantity = 0;
       }
 
@@ -1019,6 +989,10 @@ export default {
 
       //Initialize default waitingCondition instrument
       this.waitingCondition.instrumentSelected = this.ginaModule.name;
+
+      // Initialize the PS positions
+      this.liquidDispenserModule.sP1PAbsolutePosition = document.getElementById('ps1AbsolutePosition').value;
+
     }
     ,
 
@@ -1110,6 +1084,7 @@ export default {
       const obj = JSON.parse(data);
       if (obj === null) return;
 
+      //LDS
 
       if (obj.tlcMigration !== undefined)
         this.tlcMigrationModule.selectedOption = this.tlcMigrationModule.items[obj.tlcMigration];
@@ -1180,19 +1155,34 @@ export default {
         document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12 + 'deg)';
       }
 
+      //PS
       if (obj.SP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP1CurrentPosition) / 1000;
-        this.liquidDispenserModule.sP1PAbsolutePosition = value;
-        document.getElementById("volumeSp1Input").innerText = value;
         document.getElementById("ps1AbsolutePosition").innerText = value;
         this.sp1Width = value / 10 + '%';
+
+        if (obj.stage !== undefined && obj.stage === 'init') {
+
+          this.liquidDispenserModule.sP1PAbsolutePosition = value;
+          console.log('sP1PAbsolutePosition :', (this.liquidDispenserModule.sP1PAbsolutePosition));
+
+        } else {
+          if (!this.liquidDispenserModule.sp1VolumeUsed) {
+            let quantity = value - this.liquidDispenserModule.sP1PAbsolutePosition;
+            this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = quantity;
+          }
+
+        }
+
       }
 
       if (obj.SP1MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP1MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP1S = maxSpeed;
         document.getElementById("ps1SpeedLabel").innerHTML = "Max Speed: " + maxSpeed + " µL/sec";
+
+        //Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
           document.getElementById("ps1SpeedRange").value = maxSpeed;
       }
@@ -1205,17 +1195,27 @@ export default {
       if (obj.SP2CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP2CurrentPosition) / 1000;
-        this.liquidDispenserModule.sP2PAbsolutePosition = value;
-        document.getElementById("volumeSp2Input").innerText = value;
         document.getElementById("ps2AbsolutePosition").innerText = value;
         this.sp2Width = value / 10 + '%';
-      }
 
+        if (!this.liquidDispenserModule.sp2VolumeUsed) {
+          let quantity = value - this.liquidDispenserModule.sP2PAbsolutePosition;
+          this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = quantity;
+
+        }
+
+        // Init PS Absolute position
+        if (obj.stage !== undefined && obj.stage === 'init') {
+          this.liquidDispenserModule.sP2PAbsolutePosition = value;
+        }
+      }
 
       if (obj.SP2MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP2MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP2S = maxSpeed;
         document.getElementById("ps2SpeedLabel").innerText = "PS2 Speed: " + maxSpeed + " µL/sec";
+
+        // Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
           document.getElementById("ps2SpeedRange").value = maxSpeed;
       }
@@ -1228,17 +1228,25 @@ export default {
       if (obj.SP3CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP3CurrentPosition) / 1000;
-        this.liquidDispenserModule.sP3PAbsolutePosition = value;
-        document.getElementById("volumeSp3Input").innerText = value;
         document.getElementById("ps3AbsolutePosition").innerText = value;
         this.sp3Width = value / 10 + '%';
 
+        if (!this.liquidDispenserModule.sp3VolumeUsed)
+          this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value - this.liquidDispenserModule.sP3PAbsolutePosition;
+
+        // Init PS Absolute position
+        if (obj.stage !== undefined && obj.stage === 'init') {
+          this.liquidDispenserModule.sP3PAbsolutePosition = value;
+          console.log('sP3PAbsolutePosition :', (this.liquidDispenserModule.sP3PAbsolutePosition));
+        }
       }
 
       if (obj.SP3MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP3MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP3S = maxSpeed;
         document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
+
+        // Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
           document.getElementById("ps3SpeedRange").value = maxSpeed;
       }
@@ -1250,7 +1258,7 @@ export default {
 
       if (obj.PUMP1CurrentPosition !== undefined) {
         this.liquidDispenserModule.data[0].pumP1P = obj.PUMP1CurrentPosition;
-         document.getElementById("pump1Input").value = obj.PUMP1CurrentPosition;
+        document.getElementById("pump1Input").value = obj.PUMP1CurrentPosition;
       }
 
       if (obj.PUMP1MaxSpeed !== undefined) {
@@ -1260,6 +1268,7 @@ export default {
           document.getElementById("pumSpeed").value = obj.PUMP1MaxSpeed;
 
       }
+
       console.log('received: ', data);
     },
 
@@ -1336,6 +1345,7 @@ export default {
             let data = {LDS12: {MoveTo: parseInt(value)}};
             this.sendToWebsocket(data);
           }
+
           if (componentId === 'volumeSp1Input') {
             this.liquidDispenserModule.sp1Quantity = parseInt(value);
 
@@ -1345,35 +1355,51 @@ export default {
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
               this.liquidDispenserModule.sp1Quantity = 0;
+              document.getElementById('volumeSp1Input').value = 0;
 
             } else {
-              this.liquidDispenserModule.data[0].sP1P = this.liquidDispenserModule.sp1Quantity;
+              let data = {SP1: {MoveTo: parseInt(value)}};
+              this.liquidDispenserModule.data[0].sP1P = parseInt(value);
+              this.liquidDispenserModule.sp1VolumeUsed = true;
+              this.sendToWebsocket(data);
             }
           }
+
           if (componentId === 'volumeSp2Input') {
-            if ((this.liquidDispenserModule.sp2Quantity < 0
-                    && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity < 0)
-                || this.liquidDispenserModule.sp2Quantity > 0
-                && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity > 1000) {
+
+            this.liquidDispenserModule.sp2Quantity = parseInt(value);
+
+            if ((this.liquidDispenserModule.sp2Quantity < 0 && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity < 0)
+                || this.liquidDispenserModule.sp2Quantity > 0 && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity > 1000) {
+
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
               this.liquidDispenserModule.sp2Quantity = 0;
+              document.getElementById('volumeSp2Input').value = 0;
             } else {
-              this.liquidDispenserModule.data[0].sP2P = this.liquidDispenserModule.sp2Quantity;
+              let data = {SP2: {MoveTo: parseInt(value)}};
+              this.liquidDispenserModule.data[0].sP2P = parseInt(value);
+              this.liquidDispenserModule.sp2VolumeUsed = true;
+              this.sendToWebsocket(data);
             }
           }
+
           if (componentId === 'volumeSp3Input') {
             this.liquidDispenserModule.sp3Quantity = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp3Quantity < 0
-                    && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
-                || this.liquidDispenserModule.sp3Quantity > 0
-                && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
+            if ((this.liquidDispenserModule.sp3Quantity < 0 && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
+                || this.liquidDispenserModule.sp3Quantity > 0 && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
+
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
               this.liquidDispenserModule.sp3Quantity = 0;
+              document.getElementById('volumeSp3Input').value = 0;
+
             } else {
-              this.liquidDispenserModule.data[0].sP3P = this.liquidDispenserModule.sp3Quantity;
+              let data = {SP3: {MoveTo: parseInt(value)}};
+              this.liquidDispenserModule.data[0].sP3P = parseInt(value);
+              this.liquidDispenserModule.sp3VolumeUsed = true;
+              this.sendToWebsocket(data);
             }
           }
           if (componentId === 'pump1Input') {
@@ -1399,9 +1425,7 @@ export default {
           }
         }
       }
-
-    }
-    ,
+    },
 
     /*------------------------------------------------------------------------
     * Moves the PS up or down
@@ -1409,6 +1433,9 @@ export default {
     moveStepperMotors(id, click) {
 
       this.noRotation = true;
+      this.liquidDispenserModule.sp3VolumeUsed = false;
+      this.liquidDispenserModule.sp2VolumeUsed = false;
+      this.liquidDispenserModule.sp1VolumeUsed = false;
 
       switch (id) {
 
