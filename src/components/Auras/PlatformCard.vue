@@ -1167,8 +1167,11 @@ export default {
       if (obj.SP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP1CurrentPosition) / 1000;
-        document.getElementById("ps1AbsolutePosition").innerText = value;
-        this.sp1Width = value / 10 + '%';
+        if (value >= 0 && value <= 1000) {
+          document.getElementById("ps1AbsolutePosition").innerText = value;
+          this.sp1Width = value / 10 + '%';
+          this.liquidDispenserModule.sP1PAbsolutePosition = value;
+        }
 
         if (obj.stage !== undefined && obj.stage === 'init') {
 
@@ -1190,7 +1193,7 @@ export default {
         this.liquidDispenserModule.data[0].sP1S = maxSpeed;
         this.liquidDispenserModule.sp1MaxSpeed = maxSpeed;
         document.getElementById("ps1SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
-        document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " +  this.liquidDispenserModule.sp1CurrentSpeed + " µL/sec";
+        document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.sp1CurrentSpeed + " µL/sec";
 
         //Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1207,8 +1210,11 @@ export default {
       if (obj.SP2CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP2CurrentPosition) / 1000;
-        document.getElementById("ps2AbsolutePosition").innerText = value;
-        this.sp2Width = value / 10 + '%';
+        if (value >= 0 && value <= 1000) {
+          document.getElementById("ps2AbsolutePosition").innerText = value;
+          this.liquidDispenserModule.sP2PAbsolutePosition = value;
+          this.sp2Width = value / 10 + '%';
+        }
 
         if (!this.liquidDispenserModule.sp2VolumeUsed) {
           let quantity = value - this.liquidDispenserModule.sP2PAbsolutePosition;
@@ -1227,7 +1233,7 @@ export default {
         this.liquidDispenserModule.data[0].sP2S = maxSpeed;
         this.liquidDispenserModule.sp2MaxSpeed = maxSpeed;
         document.getElementById("ps2SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
-        document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " +  this.liquidDispenserModule.sp2CurrentSpeed + " µL/sec";
+        document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.sp2CurrentSpeed + " µL/sec";
 
         // Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1244,8 +1250,11 @@ export default {
       if (obj.SP3CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP3CurrentPosition) / 1000;
-        document.getElementById("ps3AbsolutePosition").innerText = value;
-        this.sp3Width = value / 10 + '%';
+        if (value >= 0 && value <= 1000) {
+          document.getElementById("ps3AbsolutePosition").innerText = value;
+          this.liquidDispenserModule.sP3PAbsolutePosition = value;
+          this.sp3Width = value / 10 + '%';
+        }
 
         if (!this.liquidDispenserModule.sp3VolumeUsed)
           this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value - this.liquidDispenserModule.sP3PAbsolutePosition;
@@ -1262,7 +1271,7 @@ export default {
         this.liquidDispenserModule.data[0].sP3S = maxSpeed;
         this.liquidDispenserModule.sp3MaxSpeed = maxSpeed;
         document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
-        document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " +  this.liquidDispenserModule.sp3CurrentSpeed + " µL/sec";
+        document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.sp3CurrentSpeed + " µL/sec";
 
         // Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1410,7 +1419,7 @@ export default {
             this.liquidDispenserModule.sp3Quantity = parseInt(value);
 
             if ((this.liquidDispenserModule.sp3Quantity < 0 && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
-                || this.liquidDispenserModule.sp3Quantity > 0 && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
+                || this.liquidDispenserModule.sp3Quantity > 0 && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
@@ -1781,16 +1790,16 @@ select {
 }
 
 #ps3SpeedLabel {
-  margin-left: -260px;
+  margin-left: -270px;
   font-size: 12px;
   margin-top: 120px;
   height: fit-content;
-  width: 170px;
+  width: 160px;
   resize: none;
 }
 
 #ps3SpeedRange {
-  margin-left: -170px;
+  margin-left: -150px;
   margin-top: 160px;
   height: fit-content;
 }
@@ -1817,7 +1826,7 @@ select {
 }
 
 #ps1SpeedRange {
-  margin-left: -170px;
+  margin-left: -150px;
   margin-top: 160px;
   height: fit-content;
 }
@@ -1827,7 +1836,7 @@ select {
   font-size: 12px;
   margin-top: 120px;
   height: fit-content;
-  width: 170px;
+  width: 150px;
   resize: none;
 }
 
@@ -1851,17 +1860,17 @@ select {
 }
 
 #ps2SpeedRange {
-  margin-left: -170px;
+  margin-left: -150px;
   margin-top: 160px;
   height: fit-content;
 }
 
 #ps2SpeedLabel {
-  margin-left: -260px;
+  margin-left: -270px;
   font-size: 12px;
   margin-top: 120px;
   height: fit-content;
-  width: 170px;
+  width: 160px;
   resize: none;
 }
 
