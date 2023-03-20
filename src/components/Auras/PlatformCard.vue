@@ -675,6 +675,12 @@ export default {
           sp1Quantity: 0,
           sp2Quantity: 0,
           sp3Quantity: 0,
+          sp1MaxSpeed: 0,
+          sp2MaxSpeed: 0,
+          sp3MaxSpeed: 0,
+          sp1CurrentSpeed: 0,
+          sp2CurrentSpeed: 0,
+          sp3CurrentSpeed: 0,
           pump1Quantity: 0,
           columns: [
             {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
@@ -1052,7 +1058,7 @@ export default {
         * ------------------------------------------------------------------------*/
     rotate(id) {
 
-      if(this.mode !=='config') return;
+      if (this.mode !== 'config') return;
 
       this.angle = 0;
       if (document.getElementById(id).style.transform !== '')
@@ -1182,7 +1188,9 @@ export default {
       if (obj.SP1MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP1MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP1S = maxSpeed;
-        document.getElementById("ps1SpeedLabel").innerHTML = "Max Speed: " + maxSpeed + " µL/sec";
+        this.liquidDispenserModule.sp1MaxSpeed = maxSpeed;
+        document.getElementById("ps1SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
+        document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " +  this.liquidDispenserModule.sp1CurrentSpeed + " µL/sec";
 
         //Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1191,6 +1199,8 @@ export default {
 
       if (obj.SP1Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP1Speed) / 1000;
+        this.liquidDispenserModule.sp1CurrentSpeed = currentSpeed;
+        document.getElementById("ps1SpeedLabel").innerText = "Max Speed: " + this.liquidDispenserModule.sp1MaxSpeed + " µL/sec";
         document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/sec";
       }
 
@@ -1215,7 +1225,9 @@ export default {
       if (obj.SP2MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP2MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP2S = maxSpeed;
-        document.getElementById("ps2SpeedLabel").innerText = "PS2 Speed: " + maxSpeed + " µL/sec";
+        this.liquidDispenserModule.sp2MaxSpeed = maxSpeed;
+        document.getElementById("ps2SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
+        document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " +  this.liquidDispenserModule.sp2CurrentSpeed + " µL/sec";
 
         // Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1224,6 +1236,8 @@ export default {
 
       if (obj.SP2Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP2Speed) / 1000;
+        this.liquidDispenserModule.sp2CurrentSpeed = currentSpeed;
+        document.getElementById("ps2SpeedLabel").innerText = "Max Speed: " + this.liquidDispenserModule.sp2MaxSpeed + " µL/sec";
         document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/sec";
       }
 
@@ -1246,7 +1260,9 @@ export default {
       if (obj.SP3MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP3MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP3S = maxSpeed;
+        this.liquidDispenserModule.sp3MaxSpeed = maxSpeed;
         document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + maxSpeed + " µL/sec";
+        document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " +  this.liquidDispenserModule.sp3CurrentSpeed + " µL/sec";
 
         // Init max speed range
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1255,6 +1271,8 @@ export default {
 
       if (obj.SP3Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP3Speed) / 1000;
+        this.liquidDispenserModule.sp3CurrentSpeed = currentSpeed;
+        document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + this.liquidDispenserModule.sp3MaxSpeed + " µL/sec";
         document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/sec";
       }
 
@@ -1279,7 +1297,7 @@ export default {
     * -------------------------------------------------------------------------*/
     setModulePhysicalPosition(module, value, componentId) {
 
-      if(this.mode !== 'config') return;
+      if (this.mode !== 'config') return;
 
       if (module.name.toLowerCase().includes('tlc')) {
         let data = {TLCMigration: {MoveTo: parseInt(module.items.indexOf(value))}};
