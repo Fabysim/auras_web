@@ -528,6 +528,8 @@ export default {
       this.runningStep.number = step;
       this.runningStep.stage = 'runStep';
       let stepToRun = this.setStepDataObject();
+
+
       stepToRun.stage = 'runStep';
       this.sendToWebsocket(stepToRun);
     },
