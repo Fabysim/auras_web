@@ -635,7 +635,7 @@ export default {
      * -------------------------------------------------------------------------*/
     setStepDataObject() {
       return {
-        stage:this.runningStep.stage ,
+        stage: this.runningStep.stage,
         MethodName: this.currentMethod.name,
         NumberOfSteps: this.stepModule.totalOfSteps + 1,
         Step: this.runningStep.number,
@@ -685,20 +685,20 @@ export default {
           MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS12
         },
         SP1: {
-          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP1P) ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP1S
+          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP1P) ? this.liquidDispenserModule.data[this.runningStep.number].sP1P * 1000 : '',
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP1S * 1000
         },
         SP2: {
-          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P : '',
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP2S
+          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P * 1000 : '',
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP2S * 1000
         },
         SP3: {
-          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP3P) ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP3S
+          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP3P) ? this.liquidDispenserModule.data[this.runningStep.number].sP3P * 1000 : '',
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP3S * 1000
         },
         PUMP1: {
-          Move: this.liquidDispenserModule.data[this.runningStep.number].pumP1P,
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].pumP1S
+          Move: this.liquidDispenserModule.data[this.runningStep.number].pumP1P * 360,
+          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].pumP1S * 6
         },
         Master: [
           {
