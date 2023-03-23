@@ -497,8 +497,8 @@
                id="pump1Input"
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
-        <input type="range" id="pumSpeed" min="1" max="500"
-               @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pumSpeed')"
+        <input type="range" id="pump1Speed" min="1" max="500"
+               @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Speed')"
                list="tickMarks">
         <textarea readonly id="pumpsLabel"></textarea>
         <datalist id="tickMarks">
@@ -678,9 +678,12 @@ export default {
           sp1MaxSpeed: 0,
           sp2MaxSpeed: 0,
           sp3MaxSpeed: 0,
+          pump1MaxSpeed: 0,
           sp1CurrentSpeed: 0,
           sp2CurrentSpeed: 0,
           sp3CurrentSpeed: 0,
+          pump1CurrentSpeed: 0,
+
           pump1Quantity: 0,
           columns: [
             {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
@@ -949,19 +952,18 @@ export default {
       document.getElementById('volumeSp1Input').value = 0;
       document.getElementById('volumeSp2Input').value = 0;
       document.getElementById('volumeSp3Input').value = 0;
-      if (this.liquidDispenserModule.sp1Quantity !== 0) {
 
-        this.liquidDispenserModule.sp1Quantity = 0;
+      this.liquidDispenserModule.data[0].sP1P = 0;
+      this.liquidDispenserModule.data[0].sP2P = 0;
+      this.liquidDispenserModule.data[0].sP3P = 0;
+
+      let data = {
+        SP1: {RelativePosition: 0},
+        SP2: {RelativePosition: 0},
+        SP3: {RelativePosition: 0},
       }
-      if (this.liquidDispenserModule.sp2Quantity !== 0) {
+      this.sendToWebsocket(data);
 
-        this.liquidDispenserModule.sp2Quantity = 0;
-      }
-
-      if (this.liquidDispenserModule.sp3Quantity !== 0) {
-
-        this.liquidDispenserModule.sp3Quantity = 0;
-      }
 
     }
     ,
@@ -1163,29 +1165,28 @@ export default {
         document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12 + 'deg)';
       }
 
-      //PS
+      // SP1 Absolute position
       if (obj.SP1CurrentPosition !== undefined) {
 
         let value = parseInt(parseInt(obj.SP1CurrentPosition) / 1000);
         document.getElementById("ps1AbsolutePosition").innerText = value;
         this.sp1Width = value / 10 + '%';
-        this.liquidDispenserModule.sP1PAbsolutePosition = value;
 
         if (obj.stage !== undefined && obj.stage === 'init') {
 
           this.liquidDispenserModule.sP1PAbsolutePosition = value;
           console.log('sP1PAbsolutePosition :', (this.liquidDispenserModule.sP1PAbsolutePosition));
 
-        } else {
-          if (!this.liquidDispenserModule.sp1VolumeUsed) {
-            let quantity = value - this.liquidDispenserModule.sP1PAbsolutePosition;
-            this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = quantity;
-          }
-
         }
+      }
+      // SP1 Relative position
 
+      if (obj.SP1RelativePosition !== undefined) {
+        let value = parseInt(obj.SP1RelativePosition) / 1000;
+        this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
       }
 
+      // SP1 Max speed
       if (obj.SP1MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP1MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP1S = maxSpeed;
@@ -1198,6 +1199,7 @@ export default {
           document.getElementById("ps1SpeedRange").value = maxSpeed;
       }
 
+      // SP1 Current Speed
       if (obj.SP1Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP1Speed) / 1000;
         this.liquidDispenserModule.sp1CurrentSpeed = currentSpeed;
@@ -1206,24 +1208,27 @@ export default {
         document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/s";
       }
 
+      // SP2 Absolute position
       if (obj.SP2CurrentPosition !== undefined) {
 
         let value = parseInt(parseInt(obj.SP2CurrentPosition) / 1000);
         document.getElementById("ps2AbsolutePosition").innerText = value;
-        this.liquidDispenserModule.sP2PAbsolutePosition = value;
         this.sp2Width = value / 10 + '%';
 
-        if (!this.liquidDispenserModule.sp2VolumeUsed) {
-          let quantity = value - this.liquidDispenserModule.sP2PAbsolutePosition;
-          this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = quantity;
-
-        }
 
         // Init PS Absolute position
         if (obj.stage !== undefined && obj.stage === 'init') {
           this.liquidDispenserModule.sP2PAbsolutePosition = value;
         }
       }
+      // SP2 Relative position
+
+      if (obj.SP2RelativePosition !== undefined) {
+        let value = parseInt(obj.SP2RelativePosition) / 1000;
+        this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
+      }
+
+      // SP2 Max speed
 
       if (obj.SP2MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP2MaxSpeed) / 1000;
@@ -1237,6 +1242,8 @@ export default {
           document.getElementById("ps2SpeedRange").value = maxSpeed;
       }
 
+      // SP2 Current speed
+
       if (obj.SP2Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP2Speed) / 1000;
         currentSpeed = currentSpeed.toFixed(0);
@@ -1245,15 +1252,12 @@ export default {
         document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/s";
       }
 
+      // SP3 Absolute position
       if (obj.SP3CurrentPosition !== undefined) {
 
         let value = parseInt(parseInt(obj.SP3CurrentPosition) / 1000);
         document.getElementById("ps3AbsolutePosition").innerText = value;
-        this.liquidDispenserModule.sP3PAbsolutePosition = value;
         this.sp3Width = value / 10 + '%';
-
-        if (!this.liquidDispenserModule.sp3VolumeUsed)
-          this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value - this.liquidDispenserModule.sP3PAbsolutePosition;
 
         // Init PS Absolute position
         if (obj.stage !== undefined && obj.stage === 'init') {
@@ -1262,6 +1266,13 @@ export default {
         }
       }
 
+      // SP3 Relative position
+      if (obj.SP3RelativePosition !== undefined) {
+        let value = parseInt(obj.SP3RelativePosition) / 1000;
+        this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
+      }
+
+      // SP3 Max speed
       if (obj.SP3MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP3MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP3S = maxSpeed;
@@ -1274,26 +1285,46 @@ export default {
           document.getElementById("ps3SpeedRange").value = maxSpeed;
       }
 
+      // SP3 Current speed
+
       if (obj.SP3Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP3Speed) / 1000;
-        currentSpeed = currentSpeed.toFixed(0);
+        currentSpeed = currentSpeed.toFixed(1);
         this.liquidDispenserModule.sp3CurrentSpeed = currentSpeed;
         document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + this.liquidDispenserModule.sp3MaxSpeed + " µL/s";
         document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/s";
       }
 
+      // PUMP1 Absolute position
       if (obj.PUMP1CurrentPosition !== undefined) {
-        let value = parseInt(obj.PUMP1CurrentPosition / 360).toFixed(1);
+        let value = parseInt(obj.PUMP1CurrentPosition) / 360;
+        value = value.toFixed(1);
         this.liquidDispenserModule.data[0].pumP1P = value;
         document.getElementById("pump1Input").value = value;
       }
-
+      // PUMP1 Max speed
       if (obj.PUMP1MaxSpeed !== undefined) {
-        let value = parseInt(obj.PUMP1MaxSpeed / 6).toFixed(0);
-        document.getElementById("pumpsLabel").innerText = "Pump Speed: " + value + " RPM";
-        this.liquidDispenserModule.data[0].pumP1S = value;
+        let value = parseInt(obj.PUMP1MaxSpeed )/ 6;
+        this.liquidDispenserModule.pump1MaxSpeed = value.toFixed(1);
+        document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed  + " RPM";
+        document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed  + " RPM";
+        this.liquidDispenserModule.data[0].pumP1S = parseInt(value);
+
         if (obj.stage !== undefined && obj.stage === 'init')
-          document.getElementById("pumSpeed").value = value;
+          document.getElementById("pump1Speed").value = value;
+
+      }
+
+      // PUMP1 Current speed
+      if (obj.PUMP1Speed !== undefined) {
+        let value = parseInt(obj.PUMP1Speed )/ 6;
+        this.liquidDispenserModule.pump1CurrentSpeed = value.toFixed(1);
+        document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed + " RPM";
+        document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed  + " RPM";
+
+
+        if (obj.stage !== undefined && obj.stage === 'init')
+          document.getElementById("pump1Speed").value = value;
 
       }
 
@@ -1388,7 +1419,7 @@ export default {
               document.getElementById('volumeSp1Input').value = 0;
 
             } else {
-              let data = {SP1: {MoveTo: parseInt(value)}};
+              let data = {SP1: {RelativePosition: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP1P = parseInt(value);
               this.liquidDispenserModule.sp1VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1407,7 +1438,7 @@ export default {
               this.liquidDispenserModule.sp2Quantity = 0;
               document.getElementById('volumeSp2Input').value = 0;
             } else {
-              let data = {SP2: {MoveTo: parseInt(value)}};
+              let data = {SP2: {RelativePosition: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP2P = parseInt(value);
               this.liquidDispenserModule.sp2VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1426,7 +1457,7 @@ export default {
               document.getElementById('volumeSp3Input').value = 0;
 
             } else {
-              let data = {SP3: {MoveTo: parseInt(value)}};
+              let data = {SP3: {RelativePosition: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP3P = parseInt(value);
               this.liquidDispenserModule.sp3VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1449,7 +1480,7 @@ export default {
             let data = {SP3: {SetMaxSpeed: parseInt(value) * 1000}};
             this.sendToWebsocket(data);
           }
-          if (componentId === 'pumSpeed') {
+          if (componentId === 'pump1Speed') {
             let data = {PUMP1: {SetMaxSpeed: parseInt(value) * 6}};
             this.sendToWebsocket(data);
           }
@@ -1892,7 +1923,7 @@ select {
   margin-top: 350px;
 }
 
-#pumSpeed {
+#pump1Speed {
   margin-left: -230px;
   margin-top: 430px;
   height: fit-content;
