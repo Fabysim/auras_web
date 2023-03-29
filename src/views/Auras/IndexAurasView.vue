@@ -146,7 +146,7 @@
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="deleteMethod(item)">
+                   @click="test(item)">
               <v-icon color="white" small>
                 mdi-content-duplicate
               </v-icon>
@@ -260,7 +260,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'New Method' : 'Edit Method'
+      return this.editedIndex === -1 ? 'New Method' : 'Rename Method'
     },
   },
 

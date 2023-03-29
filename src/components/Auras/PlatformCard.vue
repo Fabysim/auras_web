@@ -1170,6 +1170,7 @@ export default {
 
         let value = parseInt(parseInt(obj.SP1CurrentPosition) / 1000);
         document.getElementById("ps1AbsolutePosition").innerText = value;
+        this.liquidDispenserModule.sP1PAbsolutePosition = value;
         this.sp1Width = value / 10 + '%';
 
         if (obj.stage !== undefined && obj.stage === 'init') {
@@ -1213,6 +1214,7 @@ export default {
 
         let value = parseInt(parseInt(obj.SP2CurrentPosition) / 1000);
         document.getElementById("ps2AbsolutePosition").innerText = value;
+        this.liquidDispenserModule.sP2PAbsolutePosition = value;
         this.sp2Width = value / 10 + '%';
 
 
@@ -1257,6 +1259,7 @@ export default {
 
         let value = parseInt(parseInt(obj.SP3CurrentPosition) / 1000);
         document.getElementById("ps3AbsolutePosition").innerText = value;
+        this.liquidDispenserModule.sP3PAbsolutePosition = value;
         this.sp3Width = value / 10 + '%';
 
         // Init PS Absolute position
