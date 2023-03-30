@@ -1173,7 +1173,7 @@ export default {
       // SP1 Absolute position
       if (obj.SP1CurrentPosition !== undefined) {
 
-        let value = parseInt(parseInt(obj.SP1CurrentPosition) / 1000);
+        let value = parseInt(obj.SP1CurrentPosition) / 1000;
         document.getElementById("ps1AbsolutePosition").innerText = value;
         this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP1PAbsolutePosition = value;
@@ -1218,7 +1218,7 @@ export default {
       // SP2 Absolute position
       if (obj.SP2CurrentPosition !== undefined) {
 
-        let value = parseInt(parseInt(obj.SP2CurrentPosition) / 1000);
+        let value = parseInt(obj.SP2CurrentPosition) / 1000;
         document.getElementById("ps2AbsolutePosition").innerText = value;
         this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
@@ -1265,7 +1265,7 @@ export default {
       // SP3 Absolute position
       if (obj.SP3CurrentPosition !== undefined) {
 
-        let value = parseInt(parseInt(obj.SP3CurrentPosition) / 1000);
+        let value = parseInt(obj.SP3CurrentPosition) / 1000;
         document.getElementById("ps3AbsolutePosition").innerText = value;
         this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
