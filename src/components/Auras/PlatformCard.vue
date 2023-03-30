@@ -1030,7 +1030,7 @@ export default {
     connectToWebSocket() {
 
       try {
-        if(this.$store.state.connectionWS === null){
+        if (this.$store.state.connectionWS === null) {
 
           console.log("Starting connection to WebSocket Server");
 
@@ -1316,10 +1316,10 @@ export default {
       }
       // PUMP1 Max speed
       if (obj.PUMP1MaxSpeed !== undefined) {
-        let value = parseInt(obj.PUMP1MaxSpeed )/ 6;
+        let value = parseInt(obj.PUMP1MaxSpeed) / 6;
         this.liquidDispenserModule.pump1MaxSpeed = value.toFixed(1);
-        document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed  + " RPM";
-        document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed  + " RPM";
+        document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed + " RPM";
+        document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed + " RPM";
         this.liquidDispenserModule.data[0].pumP1S = parseInt(value);
 
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1329,10 +1329,10 @@ export default {
 
       // PUMP1 Current speed
       if (obj.PUMP1Speed !== undefined) {
-        let value = parseInt(obj.PUMP1Speed )/ 6;
+        let value = parseInt(obj.PUMP1Speed) / 6;
         this.liquidDispenserModule.pump1CurrentSpeed = value.toFixed(1);
         document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed + " RPM";
-        document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed  + " RPM";
+        document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed + " RPM";
 
 
         if (obj.stage !== undefined && obj.stage === 'init')
@@ -1422,8 +1422,8 @@ export default {
           if (componentId === 'volumeSp1Input') {
             this.liquidDispenserModule.sp1Quantity = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp1Quantity < 0 )
-                || this.liquidDispenserModule.sp1Quantity  > 1000) {
+            if ((this.liquidDispenserModule.sp1Quantity < 0)
+                || this.liquidDispenserModule.sp1Quantity > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
@@ -1431,7 +1431,7 @@ export default {
               document.getElementById('volumeSp1Input').value = 0;
 
             } else {
-              let data = {SP1: {MoveTo: parseInt(value)}};
+              let data = {SP1: {MoveTo: parseInt(value) * 1000}};
               this.liquidDispenserModule.data[0].sP1P = parseInt(value);
               this.liquidDispenserModule.sp1VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1442,7 +1442,7 @@ export default {
 
             this.liquidDispenserModule.sp2Quantity = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp2Quantity < 0 )
+            if ((this.liquidDispenserModule.sp2Quantity < 0)
                 || this.liquidDispenserModule.sp2Quantity > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
@@ -1450,7 +1450,7 @@ export default {
               this.liquidDispenserModule.sp2Quantity = 0;
               document.getElementById('volumeSp2Input').value = 0;
             } else {
-              let data = {SP2: {MoveTo: parseInt(value)}};
+              let data = {SP2: {MoveTo: parseInt(value) * 1000}};
               this.liquidDispenserModule.data[0].sP2P = parseInt(value);
               this.liquidDispenserModule.sp2VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1469,7 +1469,7 @@ export default {
               document.getElementById('volumeSp3Input').value = 0;
 
             } else {
-              let data = {SP3: {MoveTo: parseInt(value)}};
+              let data = {SP3: {MoveTo: parseInt(value) * 1000}};
               this.liquidDispenserModule.data[0].sP3P = parseInt(value);
               this.liquidDispenserModule.sp3VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1617,7 +1617,7 @@ export default {
      * Sends Json to websocket
      * -------------------------------------------------------------------------*/
     sendToWebsocket(data) {
-     this.$store.state.connectionWS.send(JSON.stringify(data));
+      this.$store.state.connectionWS.send(JSON.stringify(data));
       console.log('sent:', data)
     }
     ,
