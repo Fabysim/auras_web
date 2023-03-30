@@ -1105,64 +1105,64 @@ export default {
       if (obj.dropDispenser !== undefined)
         this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.dropDispenser];
 
-      if (obj.LDS1 !== undefined) {
-        this.setStepValues(obj.LDS1, 'ldS1');
-        document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1 + 'deg)';
+      if (obj.LDS1CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS1CURRENTPOSITION, 'ldS1');
+        document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS2 !== undefined) {
-        this.setStepValues(obj.LDS2, 'ldS2');
-        document.getElementById('ldS2').style.transform = 'rotate(' + obj.LDS2 + 'deg)';
+      if (obj.LDS2CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS2CURRENTPOSITION, 'ldS2');
+        document.getElementById('ldS2').style.transform = 'rotate(' + obj.LDS2CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS3 !== undefined) {
-        this.setStepValues(obj.LDS3, 'ldS3');
-        document.getElementById('ldS3').style.transform = 'rotate(' + obj.LDS3 + 'deg)';
+      if (obj.LDS3CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS3CURRENTPOSITION, 'ldS3');
+        document.getElementById('ldS3').style.transform = 'rotate(' + obj.LDS3CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS4 !== undefined) {
-        this.setStepValues(obj.LDS1, 'ldS4');
-        document.getElementById('ldS4').style.transform = 'rotate(' + obj.LDS4 + 'deg)';
+      if (obj.LDS4CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS4CURRENTPOSITION, 'ldS4');
+        document.getElementById('ldS4').style.transform = 'rotate(' + obj.LDS4CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS5 !== undefined) {
-        this.setStepValues(obj.LDS5, 'ldS5');
-        document.getElementById('ldS5').style.transform = 'rotate(' + obj.LDS5 + 'deg)';
+      if (obj.LDS5CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS5CURRENTPOSITION, 'ldS5');
+        document.getElementById('ldS5').style.transform = 'rotate(' + obj.LDS5CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS6 !== undefined) {
-        this.setStepValues(obj.LDS6, 'ldS6');
-        document.getElementById('ldS6').style.transform = 'rotate(' + obj.LDS6 + 'deg)';
+      if (obj.LDS6CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS6CURRENTPOSITION, 'ldS6');
+        document.getElementById('ldS6').style.transform = 'rotate(' + obj.LDS6CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS7 !== undefined) {
-        this.setStepValues(obj.LDS7, 'ldS7');
-        document.getElementById('ldS7').style.transform = 'rotate(' + obj.LDS7 + 'deg)';
+      if (obj.LDS7CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS7CURRENTPOSITION, 'ldS7');
+        document.getElementById('ldS7').style.transform = 'rotate(' + obj.LDS7CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS8 !== undefined) {
-        this.setStepValues(obj.LDS8, 'ldS8');
-        document.getElementById('ldS8').style.transform = 'rotate(' + obj.LDS8 + 'deg)';
+      if (obj.LDS8CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS8CURRENTPOSITION, 'ldS8');
+        document.getElementById('ldS8').style.transform = 'rotate(' + obj.LDS8CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS9 !== undefined) {
-        this.setStepValues(obj.LDS9, 'ldS9');
-        document.getElementById('ldS9').style.transform = 'rotate(' + obj.LDS9 + 'deg)';
+      if (obj.LDS9CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS9CURRENTPOSITION, 'ldS9');
+        document.getElementById('ldS9').style.transform = 'rotate(' + obj.LDS9CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS10 !== undefined) {
-        this.setStepValues(obj.LDS10, 'ldS10');
-        document.getElementById('ldS10').style.transform = 'rotate(' + obj.LDS10 + 'deg)';
+      if (obj.LDS10CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS10CURRENTPOSITION, 'ldS10');
+        document.getElementById('ldS10').style.transform = 'rotate(' + obj.LDS10CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS11 !== undefined) {
-        this.setStepValues(obj.LDS11, 'ldS11');
-        document.getElementById('ldS11').style.transform = 'rotate(' + obj.LDS11 + 'deg)';
+      if (obj.LDS11CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS11CURRENTPOSITION, 'ldS11');
+        document.getElementById('ldS11').style.transform = 'rotate(' + obj.LDS11CURRENTPOSITION + 'deg)';
       }
 
-      if (obj.LDS12 !== undefined) {
-        this.setStepValues(obj.LDS1, 'ldS12');
-        document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12 + 'deg)';
+      if (obj.LDS12CURRENTPOSITION !== undefined) {
+        this.setStepValues(obj.LDS12CURRENTPOSITION, 'ldS12');
+        document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12CURRENTPOSITION + 'deg)';
       }
 
       // SP1 Absolute position
