@@ -502,15 +502,8 @@ export default {
       this.runningStep.runAllMethod = true;
       this.runningStep.runStarted = true;
       this.runningStep.number = 0;
-      this.runningStep.stage = 'initMethod';
+      setTimeout(() => this.runMethod(), 2000);
 
-      let init = {
-        stage: this.runningStep.stage,
-        methodName: this.currentMethod.name,
-        NumberOfSteps: this.stepModule.totalOfSteps + 1
-      };
-
-      this.sendToWebsocket(init);
     },
 
     /*--------------------------------------------------------------------------
@@ -728,43 +721,6 @@ export default {
         ]
       }
 
-    },
-
-    /*--------------------------------------------------------------------------
-     * Loads the first line of the method
-     * -------------------------------------------------------------------------*/
-    loadFirstStepOfMethod() {
-
-      let stepToRun = {
-        stage: this.runningStep.stage,
-        stepNumber: this.runningStep.number,
-        moveTo: {},
-        move: {}
-      }
-
-
-      stepToRun.moveTo.tlcMigration = this.runningStep.data.tlcMigration = this.tlcMigrationModule.data[this.runningStep.number].position;
-      stepToRun.moveTo.phMeter = this.runningStep.data.phMeter = this.phMeterModule.data[this.runningStep.number].position;
-      stepToRun.moveTo.dropDispenser = this.runningStep.data.dropDispenser = this.dropDispenserModule.data[this.runningStep.number].value;
-      stepToRun.moveTo.lds1 = this.runningStep.data.lds1 = this.liquidDispenserModule.data[this.runningStep.number].ldS1;
-      stepToRun.moveTo.lds2 = this.runningStep.data.lds2 = this.liquidDispenserModule.data[this.runningStep.number].ldS2;
-      stepToRun.moveTo.lds3 = this.runningStep.data.lds3 = this.liquidDispenserModule.data[this.runningStep.number].ldS3;
-      stepToRun.moveTo.lds4 = this.runningStep.data.lds4 = this.liquidDispenserModule.data[this.runningStep.number].ldS4;
-      stepToRun.moveTo.lds5 = this.runningStep.data.lds5 = this.liquidDispenserModule.data[this.runningStep.number].ldS5;
-      stepToRun.moveTo.lds6 = this.runningStep.data.lds6 = this.liquidDispenserModule.data[this.runningStep.number].ldS6;
-      stepToRun.moveTo.lds7 = this.runningStep.data.lds7 = this.liquidDispenserModule.data[this.runningStep.number].ldS7;
-      stepToRun.moveTo.lds8 = this.runningStep.data.lds8 = this.liquidDispenserModule.data[this.runningStep.number].ldS8;
-      stepToRun.moveTo.lds9 = this.runningStep.data.lds9 = this.liquidDispenserModule.data[this.runningStep.number].ldS9;
-      stepToRun.move.sp1p = this.runningStep.data.sp1p = this.liquidDispenserModule.data[this.runningStep.number].sP1P;
-      stepToRun.moveTo.sp1s = this.runningStep.data.sp1s = this.liquidDispenserModule.data[this.runningStep.number].sP1S;
-      stepToRun.move.sp2p = this.runningStep.data.sp2p = this.liquidDispenserModule.data[this.runningStep.number].sP2P;
-      stepToRun.moveTo.sp2s = this.runningStep.data.sp2s = this.liquidDispenserModule.data[this.runningStep.number].sP2S;
-      stepToRun.move.sp3p = this.runningStep.data.sp3p = this.liquidDispenserModule.data[this.runningStep.number].sP3P;
-      stepToRun.moveTo.sp3s = this.runningStep.data.sp3s = this.liquidDispenserModule.data[this.runningStep.number].sP3S;
-      stepToRun.move.pump1p = this.runningStep.data.pump1p = this.liquidDispenserModule.data[this.runningStep.number].pumP1P;
-      stepToRun.moveTo.pump1s = this.runningStep.data.pump1s = this.liquidDispenserModule.data[this.runningStep.number].pumP1S;
-
-      return stepToRun;
     },
 
 

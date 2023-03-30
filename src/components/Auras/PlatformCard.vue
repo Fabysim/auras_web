@@ -411,7 +411,7 @@
                @change="event => setModulePhysicalPosition(liquidDispenserModule,  event.target.value,'volumeSp3Input')"/>
 
         <textarea readonly id="ps3SpeedLabel"></textarea>
-        <input type="range" id="ps3SpeedRange" min="1" max="500"
+        <input type="range" id="ps3SpeedRange" min="1" max="200"
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps3SpeedRange')"
                list="tickMarks">
 
@@ -443,7 +443,7 @@
         />
 
         <textarea readonly id="ps1SpeedLabel"></textarea>
-        <input type="range" id="ps1SpeedRange" min="1" max="500"
+        <input type="range" id="ps1SpeedRange" min="1" max="200"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
                list="tickMarks">
 
@@ -473,7 +473,7 @@
                @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
         <textarea readonly id="ps2SpeedLabel"></textarea>
-        <input type="range" id="ps2SpeedRange" min="1" max="500"
+        <input type="range" id="ps2SpeedRange" min="1" max="200"
                @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
                list="tickMarks">
 
@@ -958,9 +958,9 @@ export default {
       this.liquidDispenserModule.data[0].sP3P = 0;
 
       let data = {
-        SP1: {RelativePosition: 0},
-        SP2: {RelativePosition: 0},
-        SP3: {RelativePosition: 0},
+        SP1: {CurrentRelativePosition: 0},
+        SP2: {CurrentRelativePosition: 0},
+        SP3: {CurrentRelativePosition: 0},
       }
       this.sendToWebsocket(data);
 
@@ -1029,29 +1029,33 @@ export default {
     * -------------------------------------------------------------------------*/
     connectToWebSocket() {
 
-      console.log("Starting connection to WebSocket Server");
-
       try {
-        this.connection = new WebSocket('ws://' + this.webSocket.ipAddress);
+        if(this.$store.state.connectionWS === null){
+
+          console.log("Starting connection to WebSocket Server");
+
+          this.$store.state.connectionWS = new WebSocket('ws://' + this.webSocket.ipAddress);
+          this.$store.state.connectionWS.onmessage = (event) => {
+            this.extractDataSentFromSocket(event.data);
+          }
+          this.$store.state.connectionWS.onopen = function (event) {
+            console.log(event);
+            console.log("Successfully connected to the ESP32 websocket server!");
+          }
+          this.$store.state.connectionWS.onclose = function (event) {
+            console.log(event);
+            console.log("Disconnected from websocket");
+          }
+          this.$store.state.connectionWS.onerror = function (event) {
+            console.log(event);
+            console.log("Error connecting to websocket");
+          }
+        }
       } catch (Exception) {
         console.log(Exception.message)
       }
 
-      this.connection.onmessage = (event) => {
-        this.extractDataSentFromSocket(event.data);
-      }
-      this.connection.onopen = function (event) {
-        console.log(event);
-        console.log("Successfully connected to the ESP32 websocket server!");
-      }
-      this.connection.onclose = function (event) {
-        console.log(event);
-        console.log("Disconnected from websocket");
-      }
-      this.connection.onerror = function (event) {
-        console.log(event);
-        console.log("Error connecting to websocket");
-      }
+
     }
     ,
 
@@ -1105,64 +1109,64 @@ export default {
       if (obj.dropDispenser !== undefined)
         this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.dropDispenser];
 
-      if (obj.LDS1CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS1CURRENTPOSITION, 'ldS1');
-        document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1CURRENTPOSITION + 'deg)';
+      if (obj.LDS1CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS1CurrentPosition, 'ldS1');
+        document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS2CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS2CURRENTPOSITION, 'ldS2');
-        document.getElementById('ldS2').style.transform = 'rotate(' + obj.LDS2CURRENTPOSITION + 'deg)';
+      if (obj.LDS2CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS2CurrentPosition, 'ldS2');
+        document.getElementById('ldS2').style.transform = 'rotate(' + obj.LDS2CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS3CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS3CURRENTPOSITION, 'ldS3');
-        document.getElementById('ldS3').style.transform = 'rotate(' + obj.LDS3CURRENTPOSITION + 'deg)';
+      if (obj.LDS3CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS3CurrentPosition, 'ldS3');
+        document.getElementById('ldS3').style.transform = 'rotate(' + obj.LDS3CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS4CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS4CURRENTPOSITION, 'ldS4');
-        document.getElementById('ldS4').style.transform = 'rotate(' + obj.LDS4CURRENTPOSITION + 'deg)';
+      if (obj.LDS4CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS4CurrentPosition, 'ldS4');
+        document.getElementById('ldS4').style.transform = 'rotate(' + obj.LDS4CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS5CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS5CURRENTPOSITION, 'ldS5');
-        document.getElementById('ldS5').style.transform = 'rotate(' + obj.LDS5CURRENTPOSITION + 'deg)';
+      if (obj.LDS5CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS5CurrentPosition, 'ldS5');
+        document.getElementById('ldS5').style.transform = 'rotate(' + obj.LDS5CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS6CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS6CURRENTPOSITION, 'ldS6');
-        document.getElementById('ldS6').style.transform = 'rotate(' + obj.LDS6CURRENTPOSITION + 'deg)';
+      if (obj.LDS6CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS6CurrentPosition, 'ldS6');
+        document.getElementById('ldS6').style.transform = 'rotate(' + obj.LDS6CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS7CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS7CURRENTPOSITION, 'ldS7');
-        document.getElementById('ldS7').style.transform = 'rotate(' + obj.LDS7CURRENTPOSITION + 'deg)';
+      if (obj.LDS7CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS7CurrentPosition, 'ldS7');
+        document.getElementById('ldS7').style.transform = 'rotate(' + obj.LDS7CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS8CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS8CURRENTPOSITION, 'ldS8');
-        document.getElementById('ldS8').style.transform = 'rotate(' + obj.LDS8CURRENTPOSITION + 'deg)';
+      if (obj.LDS8CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS8CurrentPosition, 'ldS8');
+        document.getElementById('ldS8').style.transform = 'rotate(' + obj.LDS8CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS9CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS9CURRENTPOSITION, 'ldS9');
-        document.getElementById('ldS9').style.transform = 'rotate(' + obj.LDS9CURRENTPOSITION + 'deg)';
+      if (obj.LDS9CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS9CurrentPosition, 'ldS9');
+        document.getElementById('ldS9').style.transform = 'rotate(' + obj.LDS9CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS10CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS10CURRENTPOSITION, 'ldS10');
-        document.getElementById('ldS10').style.transform = 'rotate(' + obj.LDS10CURRENTPOSITION + 'deg)';
+      if (obj.LDS10CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS10CurrentPosition, 'ldS10');
+        document.getElementById('ldS10').style.transform = 'rotate(' + obj.LDS10CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS11CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS11CURRENTPOSITION, 'ldS11');
-        document.getElementById('ldS11').style.transform = 'rotate(' + obj.LDS11CURRENTPOSITION + 'deg)';
+      if (obj.LDS11CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS11CurrentPosition, 'ldS11');
+        document.getElementById('ldS11').style.transform = 'rotate(' + obj.LDS11CurrentPosition + 'deg)';
       }
 
-      if (obj.LDS12CURRENTPOSITION !== undefined) {
-        this.setStepValues(obj.LDS12CURRENTPOSITION, 'ldS12');
-        document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12CURRENTPOSITION + 'deg)';
+      if (obj.LDS12CurrentPosition !== undefined) {
+        this.setStepValues(obj.LDS12CurrentPosition, 'ldS12');
+        document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12CurrentPosition + 'deg)';
       }
 
       // SP1 Absolute position
@@ -1170,6 +1174,7 @@ export default {
 
         let value = parseInt(parseInt(obj.SP1CurrentPosition) / 1000);
         document.getElementById("ps1AbsolutePosition").innerText = value;
+        this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP1PAbsolutePosition = value;
         this.sp1Width = value / 10 + '%';
 
@@ -1182,8 +1187,8 @@ export default {
       }
       // SP1 Relative position
 
-      if (obj.SP1RelativePosition !== undefined) {
-        let value = parseInt(obj.SP1RelativePosition) / 1000;
+      if (obj.SP1CurrentRelativePosition !== undefined) {
+        let value = parseInt(obj.SP1CurrentRelativePosition) / 1000;
         this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
       }
 
@@ -1214,6 +1219,7 @@ export default {
 
         let value = parseInt(parseInt(obj.SP2CurrentPosition) / 1000);
         document.getElementById("ps2AbsolutePosition").innerText = value;
+        this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
         this.sp2Width = value / 10 + '%';
 
@@ -1225,9 +1231,10 @@ export default {
       }
       // SP2 Relative position
 
-      if (obj.SP2RelativePosition !== undefined) {
-        let value = parseInt(obj.SP2RelativePosition) / 1000;
+      if (obj.SP2CurrentRelativePosition !== undefined) {
+        let value = parseInt(obj.SP2CurrentRelativePosition) / 1000;
         this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
+
       }
 
       // SP2 Max speed
@@ -1259,6 +1266,7 @@ export default {
 
         let value = parseInt(parseInt(obj.SP3CurrentPosition) / 1000);
         document.getElementById("ps3AbsolutePosition").innerText = value;
+        this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
         this.sp3Width = value / 10 + '%';
 
@@ -1270,8 +1278,8 @@ export default {
       }
 
       // SP3 Relative position
-      if (obj.SP3RelativePosition !== undefined) {
-        let value = parseInt(obj.SP3RelativePosition) / 1000;
+      if (obj.SP3CurrentRelativePosition !== undefined) {
+        let value = parseInt(obj.SP3CurrentRelativePosition) / 1000;
         this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
       }
 
@@ -1413,8 +1421,8 @@ export default {
           if (componentId === 'volumeSp1Input') {
             this.liquidDispenserModule.sp1Quantity = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp1Quantity < 0 && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity < 0)
-                || this.liquidDispenserModule.sp1Quantity > 0 && this.liquidDispenserModule.sP1PAbsolutePosition + this.liquidDispenserModule.sp1Quantity > 1000) {
+            if ((this.liquidDispenserModule.sp1Quantity < 0 )
+                || this.liquidDispenserModule.sp1Quantity  > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
@@ -1422,7 +1430,7 @@ export default {
               document.getElementById('volumeSp1Input').value = 0;
 
             } else {
-              let data = {SP1: {RelativePosition: parseInt(value)}};
+              let data = {SP1: {CurrentRelativePosition: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP1P = parseInt(value);
               this.liquidDispenserModule.sp1VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1433,15 +1441,15 @@ export default {
 
             this.liquidDispenserModule.sp2Quantity = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp2Quantity < 0 && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity < 0)
-                || this.liquidDispenserModule.sp2Quantity > 0 && this.liquidDispenserModule.sP2PAbsolutePosition + this.liquidDispenserModule.sp2Quantity > 1000) {
+            if ((this.liquidDispenserModule.sp2Quantity < 0 )
+                || this.liquidDispenserModule.sp2Quantity > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
               this.liquidDispenserModule.sp2Quantity = 0;
               document.getElementById('volumeSp2Input').value = 0;
             } else {
-              let data = {SP2: {RelativePosition: parseInt(value)}};
+              let data = {SP2: {CurrentRelativePosition: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP2P = parseInt(value);
               this.liquidDispenserModule.sp2VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1451,8 +1459,8 @@ export default {
           if (componentId === 'volumeSp3Input') {
             this.liquidDispenserModule.sp3Quantity = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp3Quantity < 0 && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity < 0)
-                || this.liquidDispenserModule.sp3Quantity > 0 && this.liquidDispenserModule.sP3PAbsolutePosition + this.liquidDispenserModule.sp3Quantity > 1000) {
+            if ((this.liquidDispenserModule.sp3Quantity < 0)
+                || this.liquidDispenserModule.sp3Quantity > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
@@ -1460,29 +1468,34 @@ export default {
               document.getElementById('volumeSp3Input').value = 0;
 
             } else {
-              let data = {SP3: {RelativePosition: parseInt(value)}};
+              let data = {SP3: {CurrentRelativePosition: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP3P = parseInt(value);
               this.liquidDispenserModule.sp3VolumeUsed = true;
               this.sendToWebsocket(data);
             }
           }
+
           if (componentId === 'pump1Input') {
             this.liquidDispenserModule.sp3Quantity = parseInt(value);
             let data = {PUMP1: {PUMP1TargetPosition: parseInt(value) * 360}};
             this.sendToWebsocket(data);
           }
+
           if (componentId === 'ps1SpeedRange') {
             let data = {SP1: {SetMaxSpeed: parseInt(value) * 1000}};
             this.sendToWebsocket(data);
           }
+
           if (componentId === 'ps2SpeedRange') {
             let data = {SP2: {SetMaxSpeed: parseInt(value) * 1000}};
             this.sendToWebsocket(data);
           }
+
           if (componentId === 'ps3SpeedRange') {
             let data = {SP3: {SetMaxSpeed: parseInt(value) * 1000}};
             this.sendToWebsocket(data);
           }
+
           if (componentId === 'pump1Speed') {
             let data = {PUMP1: {SetMaxSpeed: parseInt(value) * 6}};
             this.sendToWebsocket(data);
@@ -1603,7 +1616,7 @@ export default {
      * Sends Json to websocket
      * -------------------------------------------------------------------------*/
     sendToWebsocket(data) {
-      this.connection.send(JSON.stringify(data));
+     this.$store.state.connectionWS.send(JSON.stringify(data));
       console.log('sent:', data)
     }
     ,

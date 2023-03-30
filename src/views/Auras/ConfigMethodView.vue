@@ -1266,6 +1266,10 @@ export default {
       liquidDispenserStep.sP1P = liquidDispenserStep.sP1P.toString();
       liquidDispenserStep.sP2P = liquidDispenserStep.sP2P.toString();
       liquidDispenserStep.sP3P = liquidDispenserStep.sP3P.toString();
+      liquidDispenserStep.sP1S = parseInt(liquidDispenserStep.sP1S);
+      liquidDispenserStep.sP2S = parseInt(liquidDispenserStep.sP2S);
+      liquidDispenserStep.sP3S = parseInt(liquidDispenserStep.sP3S);
+      liquidDispenserStep.pumP1P = parseInt(liquidDispenserStep.pumP1P);
 
       this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
       this.postStep(liquidDispenserStep, this.liquidDispenserModule.name);
