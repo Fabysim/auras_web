@@ -1112,6 +1112,7 @@ export default {
       if (obj.LDS1CurrentPosition !== undefined) {
         this.setStepValues(obj.LDS1CurrentPosition, 'ldS1');
         document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1CurrentPosition + 'deg)';
+
       }
 
       if (obj.LDS2CurrentPosition !== undefined) {
