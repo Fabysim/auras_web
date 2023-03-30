@@ -1431,7 +1431,7 @@ export default {
               document.getElementById('volumeSp1Input').value = 0;
 
             } else {
-              let data = {SP1: {CurrentRelativePosition: parseInt(value)}};
+              let data = {SP1: {MoveTo: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP1P = parseInt(value);
               this.liquidDispenserModule.sp1VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1450,7 +1450,7 @@ export default {
               this.liquidDispenserModule.sp2Quantity = 0;
               document.getElementById('volumeSp2Input').value = 0;
             } else {
-              let data = {SP2: {CurrentRelativePosition: parseInt(value)}};
+              let data = {SP2: {MoveTo: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP2P = parseInt(value);
               this.liquidDispenserModule.sp2VolumeUsed = true;
               this.sendToWebsocket(data);
@@ -1469,7 +1469,7 @@ export default {
               document.getElementById('volumeSp3Input').value = 0;
 
             } else {
-              let data = {SP3: {CurrentRelativePosition: parseInt(value)}};
+              let data = {SP3: {MoveTo: parseInt(value)}};
               this.liquidDispenserModule.data[0].sP3P = parseInt(value);
               this.liquidDispenserModule.sp3VolumeUsed = true;
               this.sendToWebsocket(data);
