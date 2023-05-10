@@ -678,7 +678,7 @@ export default {
         stage: this.runningStep.stage,
         MethodName: this.currentMethod.name,
         NumberOfSteps: this.stepModule.totalOfSteps + 1,
-        Step: this.runningStep.number,
+        CurrentStep: this.runningStep.number,
         TlcMigration: {
           MoveTo: this.tlcMigrationModule.data[this.runningStep.number].position
         },

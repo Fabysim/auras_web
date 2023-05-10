@@ -1045,6 +1045,10 @@ export default {
           this.$store.state.connectionWS.onclose = function (event) {
             console.log(event);
             console.log("Disconnected from websocket");
+
+            // connection closed, discard old websocket and create a new one in 1s
+            this.$store.state.connectionWS = null;
+            setTimeout(this.connectToWebSocket, 1000);
           }
           this.$store.state.connectionWS.onerror = function (event) {
             console.log(event);
