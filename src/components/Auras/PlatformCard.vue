@@ -1100,14 +1100,14 @@ export default {
 
       //LDS
 
-      if (obj.tlcMigration !== undefined)
-        this.tlcMigrationModule.selectedOption = this.tlcMigrationModule.items[obj.tlcMigration];
+      if (obj.TLCMigration !== undefined)
+        this.tlcMigrationModule.selectedOption = this.tlcMigrationModule.items[obj.TLCMigration];
 
-      if (obj.phMeter !== undefined)
-        this.phMeterModule.selectedOption = this.phMeterModule.items[obj.phMeter];
+      if (obj.PHMeter !== undefined)
+        this.phMeterModule.selectedOption = this.phMeterModule.items[obj.PHMeter];
 
-      if (obj.dropDispenser !== undefined)
-        this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.dropDispenser];
+      if (obj.DropDispenser !== undefined)
+        this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.DropDispenser];
 
       if (obj.LDS1CurrentPosition !== undefined) {
         this.setStepValues(obj.LDS1CurrentPosition, 'ldS1');

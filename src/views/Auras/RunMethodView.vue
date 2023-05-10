@@ -627,6 +627,53 @@ export default {
      * Loads only steps that have changed in a method
      * -------------------------------------------------------------------------*/
     setStepDataObject() {
+
+      let Master= [];
+
+      if(this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ){
+
+       Master.push({
+         QCSampleDrop:'QC sample drop',
+         Device:'SP1'
+       });
+      }
+
+      if(this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop' ){
+
+       Master.push({
+         QCSampleDrop:'QC sample drop',
+         Device:'SP2'
+       });
+      }
+      if(this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop' ){
+
+       Master.push({
+         QCSampleDrop:'QC sample drop',
+         Device:'SP3'
+       });
+      }
+      if(this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge' ){
+
+       Master.push({
+         QCSampleDrop:'Fill LAL cartridge',
+         Device:'SP1'
+       });
+      }
+      if(this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge' ){
+
+       Master.push({
+         QCSampleDrop:'Fill LAL cartridge',
+         Device:'SP2'
+       });
+      }
+      if(this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ){
+
+       Master.push({
+         QCSampleDrop:'Fill LAL cartridge',
+         Device:'SP3'
+       });
+      }
+
       return {
         stage: this.runningStep.stage,
         MethodName: this.currentMethod.name,
@@ -693,7 +740,9 @@ export default {
           Move: this.liquidDispenserModule.data[this.runningStep.number].pumP1P * 360,
           SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].pumP1S * 6
         },
-        Master: [
+
+        Master: Master
+        /*Master: [
           {
             QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
             Device: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ? 'SP1' : ''
@@ -718,7 +767,7 @@ export default {
             FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
             Device: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ? 'SP3' : ''
           }
-        ]
+        ]*/
       }
 
     },
