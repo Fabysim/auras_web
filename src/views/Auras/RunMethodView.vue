@@ -39,7 +39,7 @@
             </v-row>
             <v-row v-else>
               <v-icon small>
-                mdi-play-outline
+                mdi-play-circle-outline
               </v-icon>
               Continue run
             </v-row>
@@ -51,10 +51,10 @@
                  @click="initMethodRun"
                  v-if="!runningStep.paused"
           >
-            <v-icon small>
-              mdi-play-outline
-            </v-icon>
             Start Run
+            <v-icon>
+              mdi-play-circle-outline
+            </v-icon>
           </v-btn>
 
           <v-btn color="success"
@@ -94,10 +94,9 @@
 
       <!--Module tables-->
 
-      <v-card elevation="0" style="width:88%">
+      <v-card elevation="0" style="width:82%">
         <vue-scroll-snap :horizontal="true">
           <table>
-
             <tr>
 
               <!--TLC Module-->
@@ -235,7 +234,7 @@
                         :items="actionsModule.data"
                         :hide-default-footer="true"
                         disable-pagination>
-            <template v-slot:[`item.actions`]="{ item }">
+            <template v-slot:[`item.runStep`]="{ item }">
 
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
@@ -246,10 +245,28 @@
                       min-width="150"
                       @click="runStep(item.line)"
                   >
-                    mdi-motion-play-outline
+                    mdi-play-outline
                   </v-icon>
                 </template>
                 <span>Run step {{ item.line }}</span>
+              </v-tooltip>
+
+            </template>
+            <template v-slot:[`item.runMethod`]="{ item }">
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                      v-on="on"
+                      v-bind="attrs"
+                      color="red"
+                      min-width="150"
+                      @click="runMethodFromStep(item.line)"
+                  >
+                    mdi-motion-play-outline
+                  </v-icon>
+                </template>
+                <span>Run Method from step {{ item.line }}</span>
               </v-tooltip>
 
             </template>
@@ -389,7 +406,7 @@ export default {
     dropDispenserModule: {
       name: '',
       columns: [
-        {text: 'Value', value: 'description', width: 150, sortable: false, align: 'center'},
+        {text: 'Value', value: 'description', width: 120, sortable: false, align: 'center'},
       ],
       data: []
     },
@@ -405,7 +422,7 @@ export default {
     phMeterModule: {
       name: '',
       columns: [
-        {text: 'Position', value: 'description', width: 100, align: 'center'},
+        {text: 'Position', value: 'description', width: 120, align: 'center'},
       ],
       data: []
     },
@@ -459,7 +476,8 @@ export default {
     actionsModule: {
       name: '',
       columns: [
-        {text: 'Actions', value: 'actions', align: 'center', width: 82, sortable: false},
+        {text: 'Run single step', value: 'runStep', align: 'center', width: 100, sortable: false},
+        {text: 'Run method from', value: 'runMethod', align: 'center', width: 120, sortable: false},
         {text: 'Step', value: 'step', align: ' d-none', width: 82, sortable: false},
       ],
       data: []
@@ -489,14 +507,12 @@ export default {
         // Not paused And Steps >0 And running step <= total of steps
         if (!this.runningStep.paused &&
             this.stepModule.totalOfSteps > 0 &&
-            this.runningStep.number <= this.stepModule.totalOfSteps &&
+            this.runningStep.number < this.stepModule.totalOfSteps &&
             this.runningStep.runAllMethod
         ) {
           setTimeout(() => this.runMethod(), 2000);
-        }
-
-        // If Method finished (running step = number of steps)
-        if (this.stepModule.data.length !== 0 && this.runningStep.number === this.stepModule.data.length)
+        }  // If Method finished (running step = number of steps)
+        else if (this.stepModule.data.length !== 0 && this.runningStep.number === this.stepModule.data.length)
           this.stopMethodRun();
       }
     }
@@ -511,7 +527,7 @@ export default {
       this.runningStep.runAllMethod = true;
       this.runningStep.runStarted = true;
       this.runningStep.number = 0;
-      setTimeout(() => this.runMethod(), 2000);
+      setTimeout(() => this.runMethod(), 1000);
 
     },
 
@@ -539,6 +555,15 @@ export default {
       stepToRun.stage = 'runStep';
       this.sendToWebsocket(stepToRun);
     },
+    /*--------------------------------------------------------------------------
+     *  Run a given step
+     * -------------------------------------------------------------------------*/
+    runMethodFromStep(step) {
+      this.runningStep.runAllMethod = true;
+      this.runningStep.runStarted = true;
+      this.runningStep.number = step;
+      setTimeout(() => this.runMethod(), 1000);
+    },
 
     /*--------------------------------------------------------------------------
     *  Pause the run of a method
@@ -556,6 +581,7 @@ export default {
     *  Run the whole method
     * -------------------------------------------------------------------------*/
     runMethod() {
+
       this.runningStep.stage = 'runMethod';
       let stepToRun = this.setStepDataObject();
       this.sendToWebsocket(stepToRun);

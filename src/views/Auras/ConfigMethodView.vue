@@ -711,7 +711,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener used to watch the changes in the SP update pop up
     * ------------------------------------------------------------------------*/
-    'liquidDispenserModule.update.selectedOption'() {
+    'liquidDispenserModule.update.selectedSPOption'() {
 
       this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume') ?
           this.liquidDispenserModule.update.volumeSelected = true :
@@ -1672,15 +1672,12 @@ export default {
               name.toLowerCase().includes('delete')
                   ? this.snackbar.message = "Step deleted successfully"
                   : this.snackbar.message = "Step updated successfully";
-
-
-              this.snackbar.show = true;
-
             } else {
               this.snackbar.message = response.data.message;
               this.snackbar.color = 'error';
-              this.snackbar.show = true;
             }
+
+            this.snackbar.show = true;
           });
 
     },
