@@ -268,7 +268,7 @@
 
                                   </tr>
                                 </table>
-                                <table v-if="header.value.includes('displayedLds')">
+                                <table v-else-if="header.value.includes('displayedLds')">
                                   <tr>
                                     <td>
                                       <v-select :items="liquidDispenserModule.items2"
