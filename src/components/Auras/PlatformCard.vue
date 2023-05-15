@@ -495,7 +495,7 @@
         <input type="text"
                class="input-text"
                id="pump1Input"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
+               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Input')"/>
 
         <input type="range" id="pump1Speed" min="1" max="500"
                @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Speed')"
@@ -609,6 +609,7 @@ export default {
 
   data: () => ({
 
+        readOnly: false,
         sp1Width: '10%',
         sp2Width: '10%',
         sp3Width: '10%',
@@ -659,13 +660,13 @@ export default {
 
         liquidDispenserModule: {
           name: '',
-          items: ['None', 'Volume', 'QC sample drop', 'Fill LAL cartridge'],
-          selectedSP1: 'None',
-          selectedSP2: 'None',
-          selectedSP3: 'None',
-          sp1VolumeSelected: false,
-          sp2VolumeSelected: false,
-          sp3VolumeSelected: false,
+          items: ['Volume', 'QC sample drop', 'Fill LAL cartridge'],
+          selectedSP1: 'Volume',
+          selectedSP2: 'Volume',
+          selectedSP3: 'Volume',
+          sp1VolumeSelected: true,
+          sp2VolumeSelected: true,
+          sp3VolumeSelected: true,
           sp1VolumeUsed: false,
           sp2VolumeUsed: false,
           sp3VolumeUsed: false,
@@ -795,6 +796,8 @@ export default {
   mounted() {
     this.fetchNetworkByName('Auras');
     this.initialization();
+
+
   },
 
   watch: { // Listeners
@@ -933,13 +936,17 @@ export default {
           break;
       }
 
-    }
-    ,
-
-  }
-  ,
+    },
+  },
 
   methods: {
+
+    loadInitData() {
+      let data = {
+        sendData: true
+      }
+      this.sendToWebsocket(data);
+    },
 
     /*------------------------------------------------------------------------
     * Method to reset tables after a step is set
@@ -948,25 +955,7 @@ export default {
 
       this.waitingCondition.selectedOption = 'None';
       this.comment = '';
-
-      document.getElementById('volumeSp1Input').value = 0;
-      document.getElementById('volumeSp2Input').value = 0;
-      document.getElementById('volumeSp3Input').value = 0;
-
-      this.liquidDispenserModule.data[0].sP1P = 0;
-      this.liquidDispenserModule.data[0].sP2P = 0;
-      this.liquidDispenserModule.data[0].sP3P = 0;
-
-      let data = {
-        SP1: {CurrentRelativePosition: 0},
-        SP2: {CurrentRelativePosition: 0},
-        SP3: {CurrentRelativePosition: 0},
-      }
-      this.sendToWebsocket(data);
-
-
-    }
-    ,
+    },
 
     /*------------------------------------------------------------------------
     * LiquidDispenser: Method used to set each pinch valve value
@@ -979,13 +968,35 @@ export default {
         this.liquidDispenserModule.data[0][servoKey] = 1;
       else
         this.liquidDispenserModule.data[0][servoKey] = 2;
-    }
-    ,
+    },
 
     /*------------------------------------------------------------------------
     * Method used to load modules names
     * ------------------------------------------------------------------------*/
     initialization() {
+
+      if (this.mode === 'run') {
+
+        document.getElementById('volumeSp1Input').disabled = true;
+        document.getElementById('volumeSp2Input').disabled = true;
+        document.getElementById('volumeSp3Input').disabled = true;
+        document.getElementById('volumeSp1Up').disabled = true;
+        document.getElementById('volumeSp2Up').disabled = true;
+        document.getElementById('volumeSp3Up').disabled = true;
+        document.getElementById('volumeSp1Down').disabled = true;
+        document.getElementById('volumeSp2Down').disabled = true;
+        document.getElementById('volumeSp3Down').disabled = true;
+        document.getElementById('select-sp1').disabled = true;
+        document.getElementById('select-sp2').disabled = true;
+        document.getElementById('select-sp3').disabled = true;
+        document.getElementById('ps1SpeedRange').disabled = true;
+        document.getElementById('ps2SpeedRange').disabled = true;
+        document.getElementById('ps3SpeedRange').disabled = true;
+        document.getElementById('pumpLeft').disabled = true;
+        document.getElementById('pumpRight').disabled = true;
+        document.getElementById('pump1Speed').disabled = true;
+        document.getElementById('pump1Input').disabled = true;
+      }
 
       // Initialize names
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
@@ -1001,8 +1012,7 @@ export default {
       // Initialize the PS positions
       this.liquidDispenserModule.sP1PAbsolutePosition = document.getElementById('ps1AbsolutePosition').value;
 
-    }
-    ,
+    },
 
     /*--------------------------------------------------------------------------
     * Retrieves all Ip addresses from database
@@ -1022,8 +1032,7 @@ export default {
               (error) => {
                 console.log(error.data)
               });
-    }
-    ,
+    },
     /*--------------------------------------------------------------------------
     * Connection to websocket
     * -------------------------------------------------------------------------*/
@@ -1041,6 +1050,8 @@ export default {
           this.$store.state.connectionWS.onopen = function (event) {
             console.log(event);
             console.log("Successfully connected to the ESP32 websocket server!");
+            setTimeout(this.loadInitData, 1000);
+
           }
           this.$store.state.connectionWS.onclose = function (event) {
             console.log(event);
@@ -1054,14 +1065,14 @@ export default {
             console.log(event);
             console.log("Error connecting to websocket");
           }
+        } else {
+
+          this.loadInitData();
         }
       } catch (Exception) {
         console.log(Exception.message)
       }
-
-
-    }
-    ,
+    },
 
     /*------------------------------------------------------------------------
         * Method used to rotate pinch valves physically
@@ -1089,8 +1100,7 @@ export default {
 
       this.setModulePhysicalPosition(this.liquidDispenserModule, this.angle, id);
 
-    }
-    ,
+    },
     /*--------------------------------------------------------------------------
     * Extracts info from received Json
     * -------------------------------------------------------------------------*/
@@ -1178,7 +1188,7 @@ export default {
       if (obj.SP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP1CurrentPosition) / 1000;
-        document.getElementById("ps1AbsolutePosition").innerText = value;
+        document.getElementById("ps1AbsolutePosition").innerText = value.toFixed(0);
         this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP1PAbsolutePosition = value;
         this.sp1Width = value / 10 + '%';
@@ -1223,7 +1233,7 @@ export default {
       if (obj.SP2CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP2CurrentPosition) / 1000;
-        document.getElementById("ps2AbsolutePosition").innerText = value;
+        document.getElementById("ps2AbsolutePosition").innerText = value.toFixed(0);
         this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
         this.sp2Width = value / 10 + '%';
@@ -1270,7 +1280,7 @@ export default {
       if (obj.SP3CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP3CurrentPosition) / 1000;
-        document.getElementById("ps3AbsolutePosition").innerText = value;
+        document.getElementById("ps3AbsolutePosition").innerText = value.toFixed(0);
         this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
         this.sp3Width = value / 10 + '%';
@@ -1352,8 +1362,6 @@ export default {
     * -------------------------------------------------------------------------*/
     setModulePhysicalPosition(module, value, componentId) {
 
-      if (this.mode !== 'config') return;
-
       if (module.name.toLowerCase().includes('tlc')) {
         let data = {TLCMigration: {MoveTo: parseInt(module.items.indexOf(value))}};
         this.sendToWebsocket(data);
@@ -1424,15 +1432,13 @@ export default {
           }
 
           if (componentId === 'volumeSp1Input') {
-            this.liquidDispenserModule.sp1Quantity = parseInt(value);
+            console.log('hello', this.liquidDispenserModule.data[0].sP1P);
+            let newValue = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp1Quantity < 0)
-                || this.liquidDispenserModule.sp1Quantity > 1000) {
-
+            if (newValue < 0 || newValue > 1000) {
               this.overflowDialog.message = "The limit has been exceeded";
-              this.overflowDialog.open = true;
-              this.liquidDispenserModule.sp1Quantity = 0;
-              document.getElementById('volumeSp1Input').value = 0;
+              this.overflowDialog.open = true
+              document.getElementById('volumeSp1Input').value = this.liquidDispenserModule.data[0].sP1P;
 
             } else {
               let data = {SP1: {MoveTo: parseInt(value) * 1000}};
@@ -1444,15 +1450,13 @@ export default {
 
           if (componentId === 'volumeSp2Input') {
 
-            this.liquidDispenserModule.sp2Quantity = parseInt(value);
+            let newValue = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp2Quantity < 0)
-                || this.liquidDispenserModule.sp2Quantity > 1000) {
+            if (newValue < 0 || newValue > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
-              this.liquidDispenserModule.sp2Quantity = 0;
-              document.getElementById('volumeSp2Input').value = 0;
+              document.getElementById('volumeSp2Input').value = this.liquidDispenserModule.data[0].sP2P;
             } else {
               let data = {SP2: {MoveTo: parseInt(value) * 1000}};
               this.liquidDispenserModule.data[0].sP2P = parseInt(value);
@@ -1462,15 +1466,13 @@ export default {
           }
 
           if (componentId === 'volumeSp3Input') {
-            this.liquidDispenserModule.sp3Quantity = parseInt(value);
+            let newValue = parseInt(value);
 
-            if ((this.liquidDispenserModule.sp3Quantity < 0)
-                || this.liquidDispenserModule.sp3Quantity > 1000) {
+            if (newValue < 0 || newValue > 1000) {
 
               this.overflowDialog.message = "The limit has been exceeded";
               this.overflowDialog.open = true;
-              this.liquidDispenserModule.sp3Quantity = 0;
-              document.getElementById('volumeSp3Input').value = 0;
+              document.getElementById('volumeSp3Input').value = this.liquidDispenserModule.data[0].sP3P;
 
             } else {
               let data = {SP3: {MoveTo: parseInt(value) * 1000}};
@@ -1481,7 +1483,7 @@ export default {
           }
 
           if (componentId === 'pump1Input') {
-            this.liquidDispenserModule.sp3Quantity = parseInt(value);
+            // this.liquidDispenserModule.sp3Quantity = parseInt(value);
             let data = {PUMP1: {PUMP1TargetPosition: parseInt(value) * 360}};
             this.sendToWebsocket(data);
           }
@@ -1523,8 +1525,7 @@ export default {
 
         case 'sp1Up':
           if (click === 'mousedown') {
-
-            let data = {SP1: {MoveTo: 1000000}};
+            let data = {SP1: {MoveTo: 2000000}};
             this.sendToWebsocket(data);
 
           } else {
@@ -1546,7 +1547,7 @@ export default {
         case 'sp2Up':
 
           if (click === 'mousedown') {
-            let data = {SP2: {MoveTo: 1000000}};
+            let data = {SP2: {MoveTo: 2000000}};
             this.sendToWebsocket(data);
           } else {
             let data = {SP2: {Stop: true}};
@@ -1566,7 +1567,7 @@ export default {
 
         case 'sp3Up':
           if (click === 'mousedown') {
-            let data = {SP3: {MoveTo: 1000000}};
+            let data = {SP3: {MoveTo: 2000000}};
             this.sendToWebsocket(data);
           } else {
             let data = {SP3: {Stop: true}};

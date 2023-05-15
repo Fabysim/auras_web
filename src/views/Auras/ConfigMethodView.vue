@@ -252,12 +252,11 @@
 
                             > {{ item[header.value] }}
                               <template v-slot:input>
-                                <table
-                                    v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
+                                <table v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
                                   <tr>
                                     <td>
                                       <v-select :items="liquidDispenserModule.items"
-                                                v-model="liquidDispenserModule.update.selectedOption"/>
+                                                v-model="liquidDispenserModule.update.selectedSPOption"/>
                                     </td>
                                   </tr>
                                   <tr>
@@ -267,6 +266,14 @@
 
                                     </td>
 
+                                  </tr>
+                                </table>
+                                <table v-if="header.value.includes('displayedLds')">
+                                  <tr>
+                                    <td>
+                                      <v-select :items="liquidDispenserModule.items2"
+                                                v-model="liquidDispenserModule.update.selectedLDSOption"/>
+                                    </td>
                                   </tr>
                                 </table>
                                 <v-text-field v-else
@@ -596,20 +603,21 @@ export default {
 
     liquidDispenserModule: {
       name: '',
-      items: ['None', 'Volume', 'QC sample drop', 'Fill LAL cartridge'],
+      items: ['Volume', 'QC sample drop', 'Fill LAL cartridge'],
+      items2: ['Left', 'Right', '0'],
       columns: [
-        {text: "LDS1", value: "ldS1", width: 82, sortable: false, align: 'center'},
-        {text: "LDS2", value: "ldS2", width: 82, sortable: false, align: 'center'},
-        {text: "LDS3", value: "ldS3", width: 82, sortable: false, align: 'center'},
-        {text: "LDS4", value: "ldS4", width: 82, sortable: false, align: 'center'},
-        {text: "LDS5", value: "ldS5", width: 82, sortable: false, align: 'center'},
-        {text: "LDS6", value: "ldS6", width: 82, sortable: false, align: 'center'},
-        {text: "LDS7", value: "ldS7", width: 82, sortable: false, align: 'center'},
-        {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
-        {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
-        {text: "LDS10", value: "ldS10", width: 82, sortable: false, align: 'center'},
-        {text: "LDS11", value: "ldS11", width: 82, sortable: false, align: 'center'},
-        {text: "LDS12", value: "ldS12", width: 82, sortable: false, align: 'center'},
+        {text: "LDS1", value: "displayedLds1", width: 82, sortable: false, align: 'center'},
+        {text: "LDS2", value: "displayedLds2", width: 82, sortable: false, align: 'center'},
+        {text: "LDS3", value: "displayedLds3", width: 82, sortable: false, align: 'center'},
+        {text: "LDS4", value: "displayedLds4", width: 82, sortable: false, align: 'center'},
+        {text: "LDS5", value: "displayedLds5", width: 82, sortable: false, align: 'center'},
+        {text: "LDS6", value: "displayedLds6", width: 82, sortable: false, align: 'center'},
+        {text: "LDS7", value: "displayedLds7", width: 82, sortable: false, align: 'center'},
+        {text: "LDS8", value: "displayedLds8", width: 82, sortable: false, align: 'center'},
+        {text: "LDS9", value: "displayedLds9", width: 82, sortable: false, align: 'center'},
+        {text: "LDS10", value: "displayedLds10", width: 82, sortable: false, align: 'center'},
+        {text: "LDS11", value: "displayedLds11", width: 82, sortable: false, align: 'center'},
+        {text: "LDS12", value: "displayedLds12", width: 82, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
@@ -621,7 +629,8 @@ export default {
       ],
       data: [],
       update: {
-        selectedOption: '',
+        selectedSPOption: '',
+        selectedLDSOption: '',
         selectedValue: '',
         volumeSelected: false
       }
@@ -704,7 +713,7 @@ export default {
     * ------------------------------------------------------------------------*/
     'liquidDispenserModule.update.selectedOption'() {
 
-      this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume') ?
+      this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume') ?
           this.liquidDispenserModule.update.volumeSelected = true :
           this.liquidDispenserModule.update.volumeSelected = false;
     }
@@ -777,13 +786,55 @@ export default {
         !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        if (parseInt(line.sP1P) === 0) line.displayedSP1Info = 'None';
-        if (parseInt(line.sP2P) === 0) line.displayedSP2Info = 'None';
-        if (parseInt(line.sP3P) === 0) line.displayedSP3Info = 'None';
+        if (line.ldS1 === 0) line.displayedLds1 = '0';
+        else if (line.ldS1 === 1) line.displayedLds1 = 'Right';
+        else line.displayedLds1 = 'Left';
+
+        if (line.ldS2 === 0) line.displayedLds2 = '0';
+        else if (line.ldS2 === 1) line.displayedLds2 = 'Right';
+        else line.displayedLds2 = 'Left';
+
+        if (line.ldS3 === 0) line.displayedLds3 = '0';
+        else if (line.ldS3 === 1) line.displayedLds3 = 'Right';
+        else line.displayedLds3 = 'Left';
+
+        if (line.ldS4 === 0) line.displayedLds4 = '0';
+        else if (line.ldS4 === 1) line.displayedLds4 = 'Right';
+        else line.displayedLds4 = 'Left';
+
+        if (line.ldS5 === 0) line.displayedLds5 = '0';
+        else if (line.ldS5 === 1) line.displayedLds5 = 'Right';
+        else line.displayedLds5 = 'Left';
+
+        if (line.ldS6 === 0) line.displayedLds6 = '0';
+        else if (line.ldS6 === 1) line.displayedLds6 = 'Right';
+        else line.displayedLds6 = 'Left';
+
+        if (line.ldS7 === 0) line.displayedLds7 = '0';
+        else if (line.ldS7 === 1) line.displayedLds7 = 'Right';
+        else line.displayedLds7 = 'Left';
+
+        if (line.ldS8 === 0) line.displayedLds8 = '0';
+        else if (line.ldS8 === 1) line.displayedLds8 = 'Right';
+        else line.displayedLds8 = 'Left';
+
+        if (line.ldS9 === 0) line.displayedLds9 = '0';
+        else if (line.ldS9 === 1) line.displayedLds9 = 'Right';
+        else line.displayedLds9 = 'Left';
+
+        if (line.ldS10 === 0) line.displayedLds10 = '0';
+        else if (line.ldS10 === 1) line.displayedLds10 = 'Right';
+        else line.displayedLds10 = 'Left';
+
+        if (line.ldS11 === 0) line.displayedLds11 = '0';
+        else if (line.ldS11 === 1) line.displayedLds11 = 'Right';
+        else line.displayedLds11 = 'Left';
+
+        if (line.ldS12 === 0) line.displayedLds12 = '0';
+        else if (line.ldS12 === 1) line.displayedLds12 = 'Right';
+        else line.displayedLds12 = 'Left';
 
       });
-
-
     },
 
 
@@ -838,23 +889,124 @@ export default {
     * ------------------------------------------------------------------------*/
     extractLiquidDispenserDataFromDialog(col, line) {
 
+      if (col === 0)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS1 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS1 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS1 = 0;
+
+      if (col === 1)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS2 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS2 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS2 = 0;
+
+      if (col === 2)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS3 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS3 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS3 = 0;
+
+      if (col === 3)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS4 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS4 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS4 = 0;
+
+      if (col === 4)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS5 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS5 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS5 = 0;
+
+      if (col === 5)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS6 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS6 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS6 = 0;
+
+      if (col === 6)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS7 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS7 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS7 = 0;
+
+
+      if (col === 7)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS8 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS8 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS8 = 0;
+
+
+      if (col === 8)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS9 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS9 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS9 = 0;
+
+
+      if (col === 9)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS10 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS10 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS10 = 0;
+
+
+      if (col === 10)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS11 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS11 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS11 = 0;
+
+      if (col === 11)
+        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+          this.liquidDispenserModule.data[line].ldS12 = 1;
+        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+          this.liquidDispenserModule.data[line].ldS12 = 2;
+        else
+          this.liquidDispenserModule.data[line].ldS12 = 0;
+
+
       if (col === 12)
-        if (this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume'))
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume'))
           this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
         else
-          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedOption;
+          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
 
       if (col === 14)
-        if (this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume'))
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume'))
           this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
         else
-          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedOption;
+          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
 
       if (col === 16)
-        if (this.liquidDispenserModule.update.selectedOption.toLowerCase().includes('volume'))
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume'))
           this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
         else
-          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedOption;
+          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
     },
 
 
@@ -990,16 +1142,39 @@ export default {
 
         if (value.toLowerCase().includes("volume")) {
 
-          this.liquidDispenserModule.update.selectedOption = "Volume";
+          this.liquidDispenserModule.update.selectedSPOption = "Volume";
           this.liquidDispenserModule.update.volumeSelected = true;
           this.liquidDispenserModule.update.selectedValue = volume;
 
         } else {
-          this.liquidDispenserModule.update.selectedOption = value;
+          this.liquidDispenserModule.update.selectedSPOption = value;
         }
       }
 
-
+      if (col === 0)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds1;
+      if (col === 1)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds2;
+      if (col === 2)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds3;
+      if (col === 3)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds4;
+      if (col === 4)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds5;
+      if (col === 5)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds6;
+      if (col === 6)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds7;
+      if (col === 7)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds8;
+      if (col === 8)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds9;
+      if (col === 9)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds10;
+      if (col === 10)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds11;
+      if (col === 11)
+        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds12;
     },
 
 

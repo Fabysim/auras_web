@@ -281,16 +281,16 @@
     <!--Gina dialog-->
 
     <v-dialog
-        v-model="blockingDialog"
+        v-model="blockingDialog.state"
         persistent
         max-width="630px"
     >
       <v-card>
-        <v-card-title class="justify-center module-title-color">Click on ok button to continue</v-card-title>
+        <v-card-title class="justify-center module-title-color">{{ blockingDialog.text }}</v-card-title>
         <v-card-text class="justify-center">
           <v-btn color="red"
                  class="ma-2 white--text"
-                 @click="unBlockDialog">
+                 @click="unBlockWaitingConditionDialog">
             ok
           </v-btn>
         </v-card-text>
@@ -319,7 +319,10 @@ export default {
     stepDialog: false,
     currentMethod: '',
     timeoutDialog: false,
-    blockingDialog: false,
+    blockingDialog: {
+      state: false,
+      text: ''
+    },
     timeoutValue: '',
 
     allModulesList: [],
@@ -410,18 +413,18 @@ export default {
     liquidDispenserModule: {
       name: '',
       columns: [
-        {text: "LDS1", value: "ldS1", width: 82, sortable: false, align: 'center'},
-        {text: "LDS2", value: "ldS2", width: 82, sortable: false, align: 'center'},
-        {text: "LDS3", value: "ldS3", width: 82, sortable: false, align: 'center'},
-        {text: "LDS4", value: "ldS4", width: 82, sortable: false, align: 'center'},
-        {text: "LDS5", value: "ldS5", width: 82, sortable: false, align: 'center'},
-        {text: "LDS6", value: "ldS6", width: 82, sortable: false, align: 'center'},
-        {text: "LDS7", value: "ldS7", width: 82, sortable: false, align: 'center'},
-        {text: "LDS8", value: "ldS8", width: 82, sortable: false, align: 'center'},
-        {text: "LDS9", value: "ldS9", width: 82, sortable: false, align: 'center'},
-        {text: "LDS10", value: "ldS10", width: 82, sortable: false, align: 'center'},
-        {text: "LDS11", value: "ldS11", width: 82, sortable: false, align: 'center'},
-        {text: "LDS12", value: "ldS12", width: 82, sortable: false, align: 'center'},
+        {text: "LDS1", value: "displayedLds1", width: 82, sortable: false, align: 'center'},
+        {text: "LDS2", value: "displayedLds2", width: 82, sortable: false, align: 'center'},
+        {text: "LDS3", value: "displayedLds3", width: 82, sortable: false, align: 'center'},
+        {text: "LDS4", value: "displayedLds4", width: 82, sortable: false, align: 'center'},
+        {text: "LDS5", value: "displayedLds5", width: 82, sortable: false, align: 'center'},
+        {text: "LDS6", value: "displayedLds6", width: 82, sortable: false, align: 'center'},
+        {text: "LDS7", value: "displayedLds7", width: 82, sortable: false, align: 'center'},
+        {text: "LDS8", value: "displayedLds8", width: 82, sortable: false, align: 'center'},
+        {text: "LDS9", value: "displayedLds9", width: 82, sortable: false, align: 'center'},
+        {text: "LDS10", value: "displayedLds10", width: 82, sortable: false, align: 'center'},
+        {text: "LDS11", value: "displayedLds11", width: 82, sortable: false, align: 'center'},
+        {text: "LDS12", value: "displayedLds12", width: 82, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
@@ -482,16 +485,22 @@ export default {
 
     'runningStep.number'() {
 
-      if (!this.runningStep.paused &&
-          this.stepModule.totalOfSteps > 0 &&
-          this.runningStep.number <= this.stepModule.totalOfSteps &&
-          this.runningStep.runAllMethod
-      ) {
-        if (this.runningStep.number === this.stepModule.data.length)
+      if (this.runningStep.number !== -1) {
+        // Not paused And Steps >0 And running step <= total of steps
+        if (!this.runningStep.paused &&
+            this.stepModule.totalOfSteps > 0 &&
+            this.runningStep.number <= this.stepModule.totalOfSteps &&
+            this.runningStep.runAllMethod
+        ) {
+          setTimeout(() => this.runMethod(), 2000);
+        }
+
+        // If Method finished (running step = number of steps)
+        if (this.stepModule.data.length !== 0 && this.runningStep.number === this.stepModule.data.length)
           this.stopMethodRun();
-        setTimeout(() => this.runMethod(), 2000);
       }
     }
+
   },
   methods: {
     /*--------------------------------------------------------------------------
@@ -510,8 +519,12 @@ export default {
     *  Stops running method
     * -------------------------------------------------------------------------*/
     stopMethodRun() {
-
+      this.runningStep.runStarted = false;
       this.runningStep.runAllMethod = false;
+      this.runningStep.number = -1;
+      this.blockingDialog.state = true;
+      this.blockingDialog.text = 'Run of method finished!';
+
     },
     /*--------------------------------------------------------------------------
      *  Run a given step
@@ -571,6 +584,7 @@ export default {
             setTimeout(() => this.runMethod(), 2000);
             break;
           case 'runMethod':
+
             this.manageWaitingCondition();
 
             break;
@@ -583,17 +597,20 @@ export default {
       console.log('received: ', data);
     },
 
+
     /*--------------------------------------------------------------------------
     * Manage Waiting Condition after each step
     * -------------------------------------------------------------------------*/
     manageWaitingCondition() {
 
+      // Prevent from outbound steps
       if (this.runningStep.number > this.stepModule.totalOfSteps) {
         this.runningStep.runStarted = false;
         this.runningStep.number = -1;
       }
 
 
+      //Waiting conditions
       if (this.waitingConditionModule.data[this.runningStep.number].value > 0) {
 
         this.timeoutDialog = true;
@@ -602,7 +619,8 @@ export default {
         setTimeout(() => this.setTimeoutDialog(), this.waitingConditionModule.data[this.runningStep.number].value);
 
       } else if (this.waitingConditionModule.data[this.runningStep.number].value < 0) {
-        this.blockingDialog = true;
+        this.blockingDialog.state = true;
+        this.blockingDialog.text = 'Click on ok button to continue';
       } else {
         this.runningStep.number++;
       }
@@ -610,8 +628,8 @@ export default {
     /*--------------------------------------------------------------------------
     * Hide Gina blocking dialog
     * -------------------------------------------------------------------------*/
-    unBlockDialog() {
-      this.blockingDialog = false;
+    unBlockWaitingConditionDialog() {
+      this.blockingDialog.state = false;
       this.runningStep.number++;
     },
     /*--------------------------------------------------------------------------
@@ -628,50 +646,36 @@ export default {
      * -------------------------------------------------------------------------*/
     setStepDataObject() {
 
-      let Master= [];
+      let Master = {};
+      let SP1 = {};
+      let SP2 = {};
+      let SP3 = {};
 
-      if(this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ){
-
-       Master.push({
-         QCSampleDrop:'QC sample drop',
-         Device:'SP1'
-       });
+      if (this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop') {
+        Master.SP1 = 'QC sample drop';
+      } else if (this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge') {
+        Master.SP1 = 'Fill LAL cartridge';
+      } else {
+        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P * 1000 : '';
+        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP2S * 1000;
       }
 
-      if(this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop' ){
-
-       Master.push({
-         QCSampleDrop:'QC sample drop',
-         Device:'SP2'
-       });
+      if (this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop') {
+        Master.SP2 = 'QC sample drop';
+      } else if (this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge') {
+        Master.SP2 = 'Fill LAL cartridge';
+      } else {
+        SP2.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P * 1000 : '';
+        SP2.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP2S * 1000;
       }
-      if(this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop' ){
 
-       Master.push({
-         QCSampleDrop:'QC sample drop',
-         Device:'SP3'
-       });
-      }
-      if(this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge' ){
-
-       Master.push({
-         QCSampleDrop:'Fill LAL cartridge',
-         Device:'SP1'
-       });
-      }
-      if(this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge' ){
-
-       Master.push({
-         QCSampleDrop:'Fill LAL cartridge',
-         Device:'SP2'
-       });
-      }
-      if(this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ){
-
-       Master.push({
-         QCSampleDrop:'Fill LAL cartridge',
-         Device:'SP3'
-       });
+      if (this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop') {
+        Master.SP3 = 'QC sample drop';
+      } else if (this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge') {
+        Master.SP3 = 'Fill LAL cartridge';
+      } else {
+        SP3.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP3P) ? this.liquidDispenserModule.data[this.runningStep.number].sP3P * 1000 : '';
+        SP3.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP3S * 1000;
       }
 
       return {
@@ -679,6 +683,7 @@ export default {
         MethodName: this.currentMethod.name,
         NumberOfSteps: this.stepModule.totalOfSteps + 1,
         CurrentStep: this.runningStep.number,
+
         TlcMigration: {
           MoveTo: this.tlcMigrationModule.data[this.runningStep.number].position
         },
@@ -724,52 +729,16 @@ export default {
         LDS12: {
           MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS12
         },
-        SP1: {
-          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP1P) ? this.liquidDispenserModule.data[this.runningStep.number].sP1P * 1000 : '',
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP1S * 1000
-        },
-        SP2: {
-          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P * 1000 : '',
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP2S * 1000
-        },
-        SP3: {
-          Move: !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP3P) ? this.liquidDispenserModule.data[this.runningStep.number].sP3P * 1000 : '',
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].sP3S * 1000
-        },
+        SP1: SP1,
+        SP2: SP2,
+        SP3: SP3,
         PUMP1: {
           Move: this.liquidDispenserModule.data[this.runningStep.number].pumP1P * 360,
           SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].pumP1S * 6
         },
-
         Master: Master
-        /*Master: [
-          {
-            QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
-            Device: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop' ? 'SP1' : ''
-          },
-          {
-            QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP2P : '',
-            Device: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop' ? 'SP2' : ''
-          },
-          {
-            QCSampleDrop: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop' ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
-            Device: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop' ? 'SP3' : ''
-          },
-          {
-            FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP1P : '',
-            Device: this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge' ? 'SP1' : ''
-          },
-          {
-            FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP2P : '',
-            Device: this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge' ? 'SP2' : ''
-          },
-          {
-            FillLALCartridge: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ? this.liquidDispenserModule.data[this.runningStep.number].sP3P : '',
-            Device: this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge' ? 'SP3' : ''
-          }
-        ]*/
-      }
 
+      };
     },
 
 
@@ -951,9 +920,53 @@ export default {
         !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        if (parseInt(line.sP1P) === 0) line.displayedSP1Info = 'None';
-        if (parseInt(line.sP2P) === 0) line.displayedSP2Info = 'None';
-        if (parseInt(line.sP3P) === 0) line.displayedSP3Info = 'None';
+        if (line.ldS1 === 0) line.displayedLds1 = '0';
+        else if (line.ldS1 === 1) line.displayedLds1 = 'Right';
+        else line.displayedLds1 = 'Left';
+
+        if (line.ldS2 === 0) line.displayedLds2 = '0';
+        else if (line.ldS2 === 1) line.displayedLds2 = 'Right';
+        else line.displayedLds2 = 'Left';
+
+        if (line.ldS3 === 0) line.displayedLds3 = '0';
+        else if (line.ldS3 === 1) line.displayedLds3 = 'Right';
+        else line.displayedLds3 = 'Left';
+
+        if (line.ldS4 === 0) line.displayedLds4 = '0';
+        else if (line.ldS4 === 1) line.displayedLds4 = 'Right';
+        else line.displayedLds4 = 'Left';
+
+        if (line.ldS5 === 0) line.displayedLds5 = '0';
+        else if (line.ldS5 === 1) line.displayedLds5 = 'Right';
+        else line.displayedLds5 = 'Left';
+
+        if (line.ldS6 === 0) line.displayedLds6 = '0';
+        else if (line.ldS6 === 1) line.displayedLds6 = 'Right';
+        else line.displayedLds6 = 'Left';
+
+        if (line.ldS7 === 0) line.displayedLds7 = '0';
+        else if (line.ldS7 === 1) line.displayedLds7 = 'Right';
+        else line.displayedLds7 = 'Left';
+
+        if (line.ldS8 === 0) line.displayedLds8 = '0';
+        else if (line.ldS8 === 1) line.displayedLds8 = 'Right';
+        else line.displayedLds8 = 'Left';
+
+        if (line.ldS9 === 0) line.displayedLds9 = '0';
+        else if (line.ldS9 === 1) line.displayedLds9 = 'Right';
+        else line.displayedLds9 = 'Left';
+
+        if (line.ldS10 === 0) line.displayedLds10 = '0';
+        else if (line.ldS10 === 1) line.displayedLds10 = 'Right';
+        else line.displayedLds10 = 'Left';
+
+        if (line.ldS11 === 0) line.displayedLds11 = '0';
+        else if (line.ldS11 === 1) line.displayedLds11 = 'Right';
+        else line.displayedLds11 = 'Left';
+
+        if (line.ldS12 === 0) line.displayedLds12 = '0';
+        else if (line.ldS12 === 1) line.displayedLds12 = 'Right';
+        else line.displayedLds12 = 'Left';
 
       });
 
