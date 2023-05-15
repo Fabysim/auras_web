@@ -493,7 +493,7 @@ export default {
     dialogDelete: false,
     snackbar: {show: false, message: null, color: null},
     deletedIndex: '',
-    timeout: 2000,
+    timeout: 1000,
     displayedMessage: '',
     stepCount: 0,
     isVisibleLD: false,
@@ -1265,7 +1265,7 @@ export default {
             if (this.stepModule.data[line].step !== this.stepModule.updateStep[0].oldValue) {
               this.extractStepDataFromDialog(line);
               this.updateModule(this.stepModule.data[line], 'methods/editStep');
-              setTimeout(() => this.loadModulesData(), 1500);
+              setTimeout(() => this.loadModulesData(), 1000);
             }
           }
           break;
@@ -1322,11 +1322,14 @@ export default {
     close(value, col, name, line) {
 
       if (name === this.stepModule.name && this.stepModule.updateStep[0].stepToUpdate === false) {
+
         this.stepModule.data[line].step = this.stepModule.updateStep[0].oldValue;
+
         this.snackbar.color = 'error';
         this.snackbar.message = 'Step out of bounds';
         this.snackbar.show = true;
-        setTimeout(() => this.snackbar.color = '', 2000);
+
+        setTimeout(() => this.snackbar.color = '', 1000);
       }
       this.stepModule.updateStep[0].stepToUpdate = false;
 
@@ -1664,17 +1667,22 @@ export default {
           .put('http://' + this.$aurasApi + url + data.id, data)
           .then((response) => {
 
-            if (response.status === 204) {
+            if (response.status === 200) {
+              this.snackbar.color = 'black';
               name.toLowerCase().includes('delete')
                   ? this.snackbar.message = "Step deleted successfully"
                   : this.snackbar.message = "Step updated successfully";
 
+
+              this.snackbar.show = true;
+
             } else {
               this.snackbar.message = response.data.message;
               this.snackbar.color = 'error';
+              this.snackbar.show = true;
             }
           });
-      this.snackbar.show = true;
+
     },
   }
 }
