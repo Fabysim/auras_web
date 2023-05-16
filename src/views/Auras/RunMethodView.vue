@@ -33,13 +33,15 @@
           >
             <v-row v-if="!runningStep.paused">
               Pause run
-              <v-icon>
+              <v-icon small>
                 mdi-pause
               </v-icon>
             </v-row>
-            <v-row v-else>
-              Continue run
-              <v-icon>
+            <v-row
+                v-else
+            >
+              Continue
+              <v-icon small>
                 mdi-play-circle-outline
               </v-icon>
             </v-row>
@@ -524,6 +526,7 @@ export default {
 
       this.runningStep.runAllMethod = true;
       this.runningStep.runStarted = true;
+      this.runningStep.paused = false;
       this.runningStep.number = 0;
       // setTimeout(() => this.runMethod(), 1000);
       this.runMethod();
@@ -610,14 +613,10 @@ export default {
             break;
 
           case 'runMethod':
-
             if (obj.stepNumber === this.stepModule.totalOfSteps - 1)
               this.stopMethodRun();
-              // setTimeout(() =>  this.stopMethodRun(), 2000);
             else
               this.manageWaitingCondition();
-              // setTimeout(() =>  this.manageWaitingCondition(), 2000);
-
             break;
 
           case 'end':
