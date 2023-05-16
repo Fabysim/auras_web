@@ -54,7 +54,7 @@
     </div>
     <!-- Method data -->
 
-    <vue-scroll-snap style="width:100%; overflow: hidden" :horizontal="true">
+    <vue-scroll-snap style="width:100%; overflow: hidden" :horizontal="true" >
 
       <!--Steps -->
 
@@ -646,7 +646,7 @@ export default {
 
     waitingConditionModule: {
       name: 'Waiting condition',
-      columns: [{text: 'Waiting condition', value: 'description', width: 160, sortable: false}],
+      columns: [{text: 'Waiting condition', value: 'description', width: 160, sortable: false, align: 'center'}],
       data: []
     },
 

@@ -32,16 +32,16 @@
                  v-if="runningStep.runStarted"
           >
             <v-row v-if="!runningStep.paused">
-              <v-icon small>
+              Pause run
+              <v-icon>
                 mdi-pause
               </v-icon>
-              Pause run
             </v-row>
             <v-row v-else>
-              <v-icon small>
+              Continue run
+              <v-icon>
                 mdi-play-circle-outline
               </v-icon>
-              Continue run
             </v-row>
 
           </v-btn>
@@ -62,10 +62,10 @@
                  @click="initMethodRun"
                  v-else
           >
-            <v-icon small>
+            Restart Run
+            <v-icon>
               mdi-play-outline
             </v-icon>
-            Restart Run
           </v-btn>
         </v-card-title>
 
@@ -503,18 +503,16 @@ export default {
 
     'runningStep.number'() {
 
-      if (this.runningStep.number !== -1) {
-        // Not paused And Steps >0 And running step <= total of steps
-        if (!this.runningStep.paused &&
-            this.stepModule.totalOfSteps > 0 &&
-            this.runningStep.number < this.stepModule.totalOfSteps &&
-            this.runningStep.runAllMethod
-        ) {
-          setTimeout(() => this.runMethod(), 2000);
-        }  // If Method finished (running step = number of steps)
-        else if (this.stepModule.data.length !== 0 && this.runningStep.number === this.stepModule.data.length)
-          this.stopMethodRun();
+      if (
+          this.runningStep.number !== -1            // Not initializing
+          && this.stepModule.totalOfSteps > 0       // The step is not empty
+          && this.runningStep.number < this.stepModule.totalOfSteps  // The Method has not finished
+          && this.runningStep.runAllMethod        // The run concerns the whole method (not a single step)
+      ) {
+        this.runMethod();
       }
+
+
     }
 
   },
@@ -527,7 +525,8 @@ export default {
       this.runningStep.runAllMethod = true;
       this.runningStep.runStarted = true;
       this.runningStep.number = 0;
-      setTimeout(() => this.runMethod(), 1000);
+      // setTimeout(() => this.runMethod(), 1000);
+      this.runMethod();
 
     },
 
@@ -571,10 +570,10 @@ export default {
     pauseMethodRun() {
       this.runningStep.paused = !this.runningStep.paused;
 
-      if (this.runningStep.paused)
-        this.runningStep.pausePosition = this.runningStep.number;
-      else
-        this.runningStep.number = this.runningStep.pausePosition;
+      if (!this.runningStep.paused) {
+        this.runningStep.number++;
+        this.runMethod();
+      }
 
     },
     /*--------------------------------------------------------------------------
@@ -606,14 +605,21 @@ export default {
 
         switch (obj.stage) {
 
-          case 'initMethod':
+          case 'init':
             setTimeout(() => this.runMethod(), 2000);
             break;
+
           case 'runMethod':
 
-            this.manageWaitingCondition();
+            if (obj.stepNumber === this.stepModule.totalOfSteps - 1)
+              this.stopMethodRun();
+              // setTimeout(() =>  this.stopMethodRun(), 2000);
+            else
+              this.manageWaitingCondition();
+              // setTimeout(() =>  this.manageWaitingCondition(), 2000);
 
             break;
+
           case 'end':
             // End run
             // Initialize data
@@ -629,10 +635,13 @@ export default {
     * -------------------------------------------------------------------------*/
     manageWaitingCondition() {
 
+      if (this.runningStep.paused) return;
+
       // Prevent from outbound steps
       if (this.runningStep.number > this.stepModule.totalOfSteps) {
         this.runningStep.runStarted = false;
         this.runningStep.number = -1;
+        return;
       }
 
 
@@ -707,7 +716,7 @@ export default {
       return {
         stage: this.runningStep.stage,
         MethodName: this.currentMethod.name,
-        NumberOfSteps: this.stepModule.totalOfSteps + 1,
+        NumberOfSteps: this.stepModule.totalOfSteps,
         CurrentStep: this.runningStep.number,
 
         TlcMigration: {
@@ -932,7 +941,7 @@ export default {
         this.$data.actionsModule.data.push(line);
         this.runningStep.start++;
 
-        this.stepModule.totalOfSteps = i;
+        this.stepModule.totalOfSteps = i + 1;
       }
     },
 
