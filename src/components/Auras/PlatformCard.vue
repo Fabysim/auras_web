@@ -2146,15 +2146,15 @@ select {
 #wheelRight {
   height: 15%;
   max-width: 15%;
-  -webkit-animation: v-bind(wheelSpeed);
-  animation: v-bind(wheelSpeed);
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
 }
 
 #wheelLeft {
   height: 15%;
   max-width: 15%;
-  -webkit-animation: v-bind(wheelSpeed);
-  animation: v-bind(wheelSpeed);
+  -webkit-animation: spin1 3s linear infinite;
+  animation: spin1 3s linear infinite;
 }
 
 #noWheel {
