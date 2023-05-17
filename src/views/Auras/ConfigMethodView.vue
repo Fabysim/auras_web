@@ -54,7 +54,7 @@
     </div>
     <!-- Method data -->
 
-    <vue-scroll-snap style="width:100%; overflow: hidden" :horizontal="true" >
+    <vue-scroll-snap style="width:100%; overflow: hidden" :horizontal="true">
 
       <!--Steps -->
 
@@ -252,7 +252,8 @@
 
                             > {{ item[header.value] }}
                               <template v-slot:input>
-                                <table v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
+                                <table
+                                    v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
                                   <tr>
                                     <td>
                                       <v-select :items="liquidDispenserModule.items"
@@ -679,7 +680,6 @@ export default {
 
   watch: {
 
-
     /*------------------------------------------------------------------------
     * Listener used to watch the changes in the waiting condition module
     * ------------------------------------------------------------------------*/
@@ -748,17 +748,15 @@ export default {
         this.concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
         this.concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
         this.concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
-        this.concatenatedData.pump1p = this.liquidDispenserModule.data[i].pump1p;
-        this.concatenatedData.pump1S = this.liquidDispenserModule.data[i].pump1S;
+        this.concatenatedData.pump1p = this.liquidDispenserModule.data[i].pumP1P;
+        this.concatenatedData.pump1S = this.liquidDispenserModule.data[i].pumP1S;
 
-        this.concatenatedData.dropDispenser = this.dropDispenserModule.data[i].value;
-        this.concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].position;
-        this.concatenatedData.phMeter = this.phMeterModule.data[i].position;
+        this.concatenatedData.dropDispenser = this.dropDispenserModule.data[i].description;
+        this.concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].description;
+        this.concatenatedData.phMeter = this.phMeterModule.data[i].description;
 
         this.downloadedData.splice(i, 0, JSON.parse(JSON.stringify(this.concatenatedData)));
       }
-
-      console.log(this.downloadedData);
 
 
     },
@@ -787,51 +785,51 @@ export default {
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
         if (line.ldS1 === 0) line.displayedLds1 = '0';
-        else if (line.ldS1 === 1) line.displayedLds1 = 'Right';
+        else if (line.ldS1 > 0) line.displayedLds1 = 'Right';
         else line.displayedLds1 = 'Left';
 
         if (line.ldS2 === 0) line.displayedLds2 = '0';
-        else if (line.ldS2 === 1) line.displayedLds2 = 'Right';
+        else if (line.ldS2 > 0) line.displayedLds2 = 'Right';
         else line.displayedLds2 = 'Left';
 
         if (line.ldS3 === 0) line.displayedLds3 = '0';
-        else if (line.ldS3 === 1) line.displayedLds3 = 'Right';
+        else if (line.ldS3 > 0) line.displayedLds3 = 'Right';
         else line.displayedLds3 = 'Left';
 
         if (line.ldS4 === 0) line.displayedLds4 = '0';
-        else if (line.ldS4 === 1) line.displayedLds4 = 'Right';
+        else if (line.ldS4 > 0) line.displayedLds4 = 'Right';
         else line.displayedLds4 = 'Left';
 
         if (line.ldS5 === 0) line.displayedLds5 = '0';
-        else if (line.ldS5 === 1) line.displayedLds5 = 'Right';
+        else if (line.ldS5 > 0) line.displayedLds5 = 'Right';
         else line.displayedLds5 = 'Left';
 
         if (line.ldS6 === 0) line.displayedLds6 = '0';
-        else if (line.ldS6 === 1) line.displayedLds6 = 'Right';
+        else if (line.ldS6 > 0) line.displayedLds6 = 'Right';
         else line.displayedLds6 = 'Left';
 
         if (line.ldS7 === 0) line.displayedLds7 = '0';
-        else if (line.ldS7 === 1) line.displayedLds7 = 'Right';
+        else if (line.ldS7 > 0) line.displayedLds7 = 'Right';
         else line.displayedLds7 = 'Left';
 
         if (line.ldS8 === 0) line.displayedLds8 = '0';
-        else if (line.ldS8 === 1) line.displayedLds8 = 'Right';
+        else if (line.ldS8 > 0) line.displayedLds8 = 'Right';
         else line.displayedLds8 = 'Left';
 
         if (line.ldS9 === 0) line.displayedLds9 = '0';
-        else if (line.ldS9 === 1) line.displayedLds9 = 'Right';
+        else if (line.ldS9 > 0) line.displayedLds9 = 'Right';
         else line.displayedLds9 = 'Left';
 
         if (line.ldS10 === 0) line.displayedLds10 = '0';
-        else if (line.ldS10 === 1) line.displayedLds10 = 'Right';
+        else if (line.ldS10 > 0) line.displayedLds10 = 'Right';
         else line.displayedLds10 = 'Left';
 
         if (line.ldS11 === 0) line.displayedLds11 = '0';
-        else if (line.ldS11 === 1) line.displayedLds11 = 'Right';
+        else if (line.ldS11 > 0) line.displayedLds11 = 'Right';
         else line.displayedLds11 = 'Left';
 
         if (line.ldS12 === 0) line.displayedLds12 = '0';
-        else if (line.ldS12 === 1) line.displayedLds12 = 'Right';
+        else if (line.ldS12 > 0) line.displayedLds12 = 'Right';
         else line.displayedLds12 = 'Left';
 
       });
@@ -890,101 +888,101 @@ export default {
     extractLiquidDispenserDataFromDialog(col, line) {
 
       if (col === 0)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS1 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS1 = 2;
         else
           this.liquidDispenserModule.data[line].ldS1 = 0;
 
       if (col === 1)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS2 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS2 = 2;
         else
           this.liquidDispenserModule.data[line].ldS2 = 0;
 
       if (col === 2)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS3 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS3 = 2;
         else
           this.liquidDispenserModule.data[line].ldS3 = 0;
 
       if (col === 3)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS4 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS4 = 2;
         else
           this.liquidDispenserModule.data[line].ldS4 = 0;
 
       if (col === 4)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS5 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS5 = 2;
         else
           this.liquidDispenserModule.data[line].ldS5 = 0;
 
       if (col === 5)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS6 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS6 = 2;
         else
           this.liquidDispenserModule.data[line].ldS6 = 0;
 
       if (col === 6)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS7 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS7 = 2;
         else
           this.liquidDispenserModule.data[line].ldS7 = 0;
 
 
       if (col === 7)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS8 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS8 = 2;
         else
           this.liquidDispenserModule.data[line].ldS8 = 0;
 
 
       if (col === 8)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS9 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS9 = 2;
         else
           this.liquidDispenserModule.data[line].ldS9 = 0;
 
 
       if (col === 9)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS10 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS10 = 2;
         else
           this.liquidDispenserModule.data[line].ldS10 = 0;
 
 
       if (col === 10)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS11 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS11 = 2;
         else
           this.liquidDispenserModule.data[line].ldS11 = 0;
 
       if (col === 11)
-        if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
+        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
           this.liquidDispenserModule.data[line].ldS12 = 1;
-        else if(this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
+        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
           this.liquidDispenserModule.data[line].ldS12 = 2;
         else
           this.liquidDispenserModule.data[line].ldS12 = 0;
@@ -1392,7 +1390,7 @@ export default {
       tlcMMStep.methodId = this.currentMethod.id;
       tlcMMStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModule.selectedOption));
 
-      this.$data.tlcMigrationModule.data.push(tlcMMStep);
+      //this.$data.tlcMigrationModule.data.push(tlcMMStep);
       this.postStep(tlcMMStep, this.tlcMigrationModule.name);
     },
     /*------------------------------------------------------------------------
@@ -1405,7 +1403,8 @@ export default {
       phMeterStep.step = this.currentStep;
       phMeterStep.methodId = this.currentMethod.id;
       phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.selectedOption));
-      this.$data.phMeterModule.data.push(phMeterStep);
+
+      //this.$data.phMeterModule.data.push(phMeterStep);
 
       this.postStep(phMeterStep, this.phMeterModule.name);
     },
@@ -1419,7 +1418,7 @@ export default {
       dropDispenserStep.methodId = this.currentMethod.id;
       dropDispenserStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.selectedOption));
 
-      this.$data.dropDispenserModule.data.push(dropDispenserStep);
+      //this.$data.dropDispenserModule.data.push(dropDispenserStep);
       this.postStep(dropDispenserStep, this.dropDispenserModule.name);
     },
 
@@ -1449,7 +1448,7 @@ export default {
       liquidDispenserStep.sP3S = parseInt(liquidDispenserStep.sP3S);
       liquidDispenserStep.pumP1P = parseInt(liquidDispenserStep.pumP1P);
 
-      this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
+      //this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
       this.postStep(liquidDispenserStep, this.liquidDispenserModule.name);
     },
 
@@ -1486,7 +1485,7 @@ export default {
       if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout')
         waitingConditionStep.description += ': ' + waitingConditionStep.value + ' ms';
 
-      this.waitingConditionModule.data.push(waitingConditionStep);
+      // this.waitingConditionModule.data.push(waitingConditionStep);
 
     },
 
@@ -1500,7 +1499,7 @@ export default {
         Step: this.currentStep,
         methodId: this.currentMethod.id
       };
-      this.$data.commentModule.data.push(commentStep);
+      // this.$data.commentModule.data.push(commentStep);
       this.postStep(commentStep, this.commentModule.name);
     },
 
@@ -1516,6 +1515,7 @@ export default {
       this.saveLiquidDispenserLine();
       this.saveWaitingConditionLine();
       this.saveCommentModuleLine();
+      setTimeout(() => this.loadModulesData(), 1000);
 
       this.$refs.plateForm.resetPlatformTables();
 
@@ -1545,7 +1545,7 @@ export default {
 
       this.updateModule(data, 'methods/deleteStep');
 
-      setTimeout(() => this.loadModulesData(), 1500);
+      setTimeout(() => this.loadModulesData(), 1000);
     },
 
     /*------------------------------------------------------------------------

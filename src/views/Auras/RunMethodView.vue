@@ -279,7 +279,7 @@
 
     </vue-scroll-snap>
 
-    <PlatFormCard mode="run" ref="plateForm"/>
+    <PlatFormCard mode="run" ref="plateForm" />
 
     <!--Timeout dialog-->
 
@@ -593,8 +593,7 @@ export default {
      * Sends Json to websocket
      * -------------------------------------------------------------------------*/
     sendToWebsocket(stepToRun) {
-      this.connection.send(JSON.stringify(stepToRun));
-      console.log('sent:', stepToRun)
+      this.$refs.plateForm.sendToWebsocket(stepToRun);
     },
 
     /*--------------------------------------------------------------------------
@@ -817,7 +816,7 @@ export default {
                 if (response.status === 200) {
                   let network = response.data;
                   this.webSocket.ipAddress = network['ipAddress'];
-                  this.connectToWebSocket();
+                  //this.connectToWebSocket();
                 }
               })
           .catch(
@@ -940,7 +939,8 @@ export default {
         this.$data.actionsModule.data.push(line);
         this.runningStep.start++;
 
-        this.stepModule.totalOfSteps = i + 1;
+        this.$refs.plateForm.totalOfSteps = this.stepModule.totalOfSteps = i + 1;
+
       }
     },
 

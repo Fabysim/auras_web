@@ -608,7 +608,7 @@ export default {
   props: ['mode'],
 
   data: () => ({
-
+        totalOfSteps:0,
         readOnly: false,
         sp1Width: '10%',
         sp2Width: '10%',
@@ -687,18 +687,18 @@ export default {
 
           pump1Quantity: 0,
           columns: [
-            {text: "LDS1", value: "ldS1", width: 82, align: 'center'},
-            {text: "LDS2", value: "ldS2", width: 82, align: 'center'},
-            {text: "LDS3", value: "ldS3", width: 82, align: 'center'},
-            {text: "LDS4", value: "ldS4", width: 82, align: 'center'},
-            {text: "LDS5", value: "ldS5", width: 82, align: 'center'},
-            {text: "LDS6", value: "ldS6", width: 82, align: 'center'},
-            {text: "LDS7", value: "ldS7", width: 82, align: 'center'},
-            {text: "LDS8", value: "ldS8", width: 82, align: 'center'},
-            {text: "LDS9", value: "ldS9", width: 82, align: 'center'},
-            {text: "LDS10", value: "ldS10", width: 82, sortable: false, align: 'center'},
-            {text: "LDS11", value: "ldS11", width: 82, sortable: false, align: 'center'},
-            {text: "LDS12", value: "ldS12", width: 82, sortable: false, align: 'center'},
+            {text: "LDS1", value: "ldS1Info", width: 82, align: 'center'},
+            {text: "LDS2", value: "ldS2Info", width: 82, align: 'center'},
+            {text: "LDS3", value: "ldS3Info", width: 82, align: 'center'},
+            {text: "LDS4", value: "ldS4Info", width: 82, align: 'center'},
+            {text: "LDS5", value: "ldS5Info", width: 82, align: 'center'},
+            {text: "LDS6", value: "ldS6Info", width: 82, align: 'center'},
+            {text: "LDS7", value: "ldS7Info", width: 82, align: 'center'},
+            {text: "LDS8", value: "ldS8Info", width: 82, align: 'center'},
+            {text: "LDS9", value: "ldS9Info", width: 82, align: 'center'},
+            {text: "LDS10", value: "ldS10Info", width: 82, sortable: false, align: 'center'},
+            {text: "LDS11", value: "ldS11Info", width: 82, sortable: false, align: 'center'},
+            {text: "LDS12", value: "ldS12Info", width: 82, sortable: false, align: 'center'},
             {text: "SP1 Quantity", value: "sP1P", width: 150, align: 'center'},
             {text: "SP1 Speed", value: "sP1S", width: 82, align: 'center'},
             {text: "SP2 Quantity", value: "sP2P", width: 150, align: 'center'},
@@ -710,17 +710,29 @@ export default {
           ],
           data: [
             {
+              ldS1Info: '',
               ldS1: 0,
+              ldS2Info: '',
               ldS2: 0,
+              ldS3Info: '',
               ldS3: 0,
+              ldS4Info: '',
               ldS4: 0,
+              ldS5Info: '',
               ldS5: 0,
+              ldS6Info: '',
               ldS6: 0,
+              ldS7Info: '',
               ldS7: 0,
+              ldS8Info: '',
               ldS8: 0,
+              ldS9Info: '',
               ldS9: 0,
+              ldS10Info: '',
               ldS10: 0,
+              ldS11Info: '',
               ldS11: 0,
+              ldS12Info: '',
               ldS12: 0,
               sP1P: '0',
               sP1S: 1,
@@ -960,14 +972,16 @@ export default {
     /*------------------------------------------------------------------------
     * LiquidDispenser: Method used to set each pinch valve value
     * ------------------------------------------------------------------------*/
-    setStepValues(angle, servoKey) {
-      angle = parseInt(angle);
+    setStepValues(angle, servoKey, displayedInfo) {
+
+      this.liquidDispenserModule.data[0][servoKey] = parseInt(angle);
+
       if (angle === 0)
-        this.liquidDispenserModule.data[0][servoKey] = 0;
-      else if (angle === 15)
-        this.liquidDispenserModule.data[0][servoKey] = 1;
+        this.liquidDispenserModule.data[0][displayedInfo] = 0;
+      else if (angle > 0)
+        this.liquidDispenserModule.data[0][displayedInfo] = 'Right';
       else
-        this.liquidDispenserModule.data[0][servoKey] = 2;
+        this.liquidDispenserModule.data[0][displayedInfo] = 'Left';
     },
 
     /*------------------------------------------------------------------------
@@ -1101,16 +1115,51 @@ export default {
       this.setModulePhysicalPosition(this.liquidDispenserModule, this.angle, id);
 
     },
+
+    extractDataFromRun(data) {
+      const obj = JSON.parse(data);
+      if (obj.status === 'success') {
+
+        switch (obj.stage) {
+
+          case 'init':
+            setTimeout(() => this.runMethod(), 2000);
+            break;
+
+          case 'runMethod':
+            if (obj.stepNumber === this.totalOfSteps - 1)
+              this.$parent.stopMethodRun();
+            else
+              this.$parent.manageWaitingCondition();
+            break;
+          case 'runStep':
+            console.log(obj);
+            break;
+
+          case 'end':
+            // End run
+            // Initialize data
+            break;
+        }
+      }
+    },
+
     /*--------------------------------------------------------------------------
     * Extracts info from received Json
     * -------------------------------------------------------------------------*/
     extractDataSentFromSocket(data) {
+
 
       if (data === '') return;
       if (data === undefined) return;
 
       const obj = JSON.parse(data);
       if (obj === null) return;
+
+      if (obj.stage !== undefined) {
+        this.extractDataFromRun(data);
+        return;
+      }
 
       //LDS
 
@@ -1124,63 +1173,62 @@ export default {
         this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.DropDispenser];
 
       if (obj.LDS1CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS1CurrentPosition, 'ldS1');
+        this.setStepValues(obj.LDS1CurrentPosition, 'ldS1', 'ldS1Info');
         document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1CurrentPosition + 'deg)';
-
       }
 
       if (obj.LDS2CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS2CurrentPosition, 'ldS2');
+        this.setStepValues(obj.LDS2CurrentPosition, 'ldS2', 'ldS2Info');
         document.getElementById('ldS2').style.transform = 'rotate(' + obj.LDS2CurrentPosition + 'deg)';
       }
 
       if (obj.LDS3CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS3CurrentPosition, 'ldS3');
+        this.setStepValues(obj.LDS3CurrentPosition, 'ldS3', 'ldS3Info');
         document.getElementById('ldS3').style.transform = 'rotate(' + obj.LDS3CurrentPosition + 'deg)';
       }
 
       if (obj.LDS4CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS4CurrentPosition, 'ldS4');
+        this.setStepValues(obj.LDS4CurrentPosition, 'ldS4', 'ldS4Info');
         document.getElementById('ldS4').style.transform = 'rotate(' + obj.LDS4CurrentPosition + 'deg)';
       }
 
       if (obj.LDS5CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS5CurrentPosition, 'ldS5');
+        this.setStepValues(obj.LDS5CurrentPosition, 'ldS5', 'ldS5Info');
         document.getElementById('ldS5').style.transform = 'rotate(' + obj.LDS5CurrentPosition + 'deg)';
       }
 
       if (obj.LDS6CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS6CurrentPosition, 'ldS6');
+        this.setStepValues(obj.LDS6CurrentPosition, 'ldS6', 'ldS6Info');
         document.getElementById('ldS6').style.transform = 'rotate(' + obj.LDS6CurrentPosition + 'deg)';
       }
 
       if (obj.LDS7CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS7CurrentPosition, 'ldS7');
+        this.setStepValues(obj.LDS7CurrentPosition, 'ldS7', 'ldS7Info');
         document.getElementById('ldS7').style.transform = 'rotate(' + obj.LDS7CurrentPosition + 'deg)';
       }
 
       if (obj.LDS8CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS8CurrentPosition, 'ldS8');
+        this.setStepValues(obj.LDS8CurrentPosition, 'ldS8', 'ldS8Info');
         document.getElementById('ldS8').style.transform = 'rotate(' + obj.LDS8CurrentPosition + 'deg)';
       }
 
       if (obj.LDS9CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS9CurrentPosition, 'ldS9');
+        this.setStepValues(obj.LDS9CurrentPosition, 'ldS9', 'ldS9Info');
         document.getElementById('ldS9').style.transform = 'rotate(' + obj.LDS9CurrentPosition + 'deg)';
       }
 
       if (obj.LDS10CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS10CurrentPosition, 'ldS10');
+        this.setStepValues(obj.LDS10CurrentPosition, 'ldS10', 'ldS10Info');
         document.getElementById('ldS10').style.transform = 'rotate(' + obj.LDS10CurrentPosition + 'deg)';
       }
 
       if (obj.LDS11CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS11CurrentPosition, 'ldS11');
+        this.setStepValues(obj.LDS11CurrentPosition, 'ldS11', 'ldS11Info');
         document.getElementById('ldS11').style.transform = 'rotate(' + obj.LDS11CurrentPosition + 'deg)';
       }
 
       if (obj.LDS12CurrentPosition !== undefined) {
-        this.setStepValues(obj.LDS12CurrentPosition, 'ldS12');
+        this.setStepValues(obj.LDS12CurrentPosition, 'ldS12', 'ldS12Info');
         document.getElementById('ldS12').style.transform = 'rotate(' + obj.LDS12CurrentPosition + 'deg)';
       }
 
@@ -1193,12 +1241,7 @@ export default {
         this.liquidDispenserModule.sP1PAbsolutePosition = value;
         this.sp1Width = value / 10 + '%';
 
-        if (obj.stage !== undefined && obj.stage === 'init') {
 
-          this.liquidDispenserModule.sP1PAbsolutePosition = value;
-          console.log('sP1PAbsolutePosition :', (this.liquidDispenserModule.sP1PAbsolutePosition));
-
-        }
       }
       // SP1 Relative position
 
@@ -1216,8 +1259,7 @@ export default {
         document.getElementById("ps1SpeedLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.sp1CurrentSpeed + " µL/s";
 
         //Init max speed range
-        if (obj.stage !== undefined && obj.stage === 'init')
-          document.getElementById("ps1SpeedRange").value = maxSpeed;
+        document.getElementById("ps1SpeedRange").value = maxSpeed;
       }
 
       // SP1 Current Speed
@@ -1240,9 +1282,8 @@ export default {
 
 
         // Init PS Absolute position
-        if (obj.stage !== undefined && obj.stage === 'init') {
-          this.liquidDispenserModule.sP2PAbsolutePosition = value;
-        }
+        this.liquidDispenserModule.sP2PAbsolutePosition = value;
+
       }
       // SP2 Relative position
 
@@ -1262,8 +1303,7 @@ export default {
         document.getElementById("ps2SpeedLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.sp2CurrentSpeed + " µL/s";
 
         // Init max speed range
-        if (obj.stage !== undefined && obj.stage === 'init')
-          document.getElementById("ps2SpeedRange").value = maxSpeed;
+        document.getElementById("ps2SpeedRange").value = maxSpeed;
       }
 
       // SP2 Current speed
@@ -1286,10 +1326,8 @@ export default {
         this.sp3Width = value / 10 + '%';
 
         // Init PS Absolute position
-        if (obj.stage !== undefined && obj.stage === 'init') {
-          this.liquidDispenserModule.sP3PAbsolutePosition = value;
-          console.log('sP3PAbsolutePosition :', (this.liquidDispenserModule.sP3PAbsolutePosition));
-        }
+        this.liquidDispenserModule.sP3PAbsolutePosition = value;
+
       }
 
       // SP3 Relative position
@@ -1307,8 +1345,7 @@ export default {
         document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.sp3CurrentSpeed + " µL/s";
 
         // Init max speed range
-        if (obj.stage !== undefined && obj.stage === 'init')
-          document.getElementById("ps3SpeedRange").value = maxSpeed;
+        document.getElementById("ps3SpeedRange").value = maxSpeed;
       }
 
       // SP3 Current speed
@@ -1336,8 +1373,7 @@ export default {
         document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed + " RPM";
         this.liquidDispenserModule.data[0].pumP1S = parseInt(value);
 
-        if (obj.stage !== undefined && obj.stage === 'init')
-          document.getElementById("pump1Speed").value = value;
+        document.getElementById("pump1Speed").value = value;
 
       }
 
@@ -1348,9 +1384,7 @@ export default {
         document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed + " RPM";
         document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed + " RPM";
 
-
-        if (obj.stage !== undefined && obj.stage === 'init')
-          document.getElementById("pump1Speed").value = value;
+        document.getElementById("pump1Speed").value = value;
 
       }
 
