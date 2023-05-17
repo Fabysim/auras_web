@@ -608,11 +608,13 @@ export default {
   props: ['mode'],
 
   data: () => ({
-        totalOfSteps:0,
+
+        totalOfSteps: 0,
         readOnly: false,
         sp1Width: '10%',
         sp2Width: '10%',
         sp3Width: '10%',
+        wheelSpeed:'spin1 3s linear infinite',
         rotateRight: false,
         rotateLeft: false,
         noRotation: true,
@@ -1118,7 +1120,11 @@ export default {
 
     extractDataFromRun(data) {
       const obj = JSON.parse(data);
+
       if (obj.status === 'success') {
+
+        this.noRotation = true;
+         this.rotateRight = this.rotateLeft = false;
 
         switch (obj.stage) {
 
@@ -1359,11 +1365,23 @@ export default {
       }
 
       // PUMP1 Absolute position
+
       if (obj.PUMP1CurrentPosition !== undefined) {
+
         let value = parseInt(obj.PUMP1CurrentPosition) / 360;
         value = value.toFixed(1);
+
         this.liquidDispenserModule.data[0].pumP1P = value;
         document.getElementById("pump1Input").value = value;
+
+        if (value !== 0) {
+          this.rotateRight = value > 0;
+          this.rotateLeft = value < 0;
+          this.noRotation = false;
+        } else {
+          this.noRotation = true;
+        }
+
       }
       // PUMP1 Max speed
       if (obj.PUMP1MaxSpeed !== undefined) {
@@ -2128,15 +2146,15 @@ select {
 #wheelRight {
   height: 15%;
   max-width: 15%;
-  -webkit-animation: spin 5s linear infinite;
-  animation: spin 5s linear infinite;
+  -webkit-animation: v-bind(wheelSpeed);
+  animation: v-bind(wheelSpeed);
 }
 
 #wheelLeft {
   height: 15%;
   max-width: 15%;
-  -webkit-animation: spin1 5s linear infinite;
-  animation: spin1 5s linear infinite;
+  -webkit-animation: v-bind(wheelSpeed);
+  animation: v-bind(wheelSpeed);
 }
 
 #noWheel {
