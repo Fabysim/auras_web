@@ -582,13 +582,9 @@
 
         <!--  Pump  images -->
         <div id="wheelDiv">
-          <img v-if="rotateRight" id="wheelRight" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
-          <img v-if="rotateLeft" id="wheelLeft" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
-          <img v-if="noRotation" id="noWheel" alt="" src="../../assets/LiquidDispenserImages/NoPump.png"/>
 
           <img id="wheelRight1" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
           <img id="wheelLeft1" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
-          <img id="noWheel1" alt="" src="../../assets/LiquidDispenserImages/NoPump.png"/>
 
         </div>
 
@@ -619,9 +615,6 @@ export default {
         sp2Width: '10%',
         sp3Width: '10%',
         wheelSpeed: '5',
-        rotateRight: false,
-        rotateLeft: false,
-        noRotation: true,
         overflowDialog: {
           open: false,
           message: ''
@@ -811,7 +804,11 @@ export default {
   /*------------------------------------------------------------------------
   * Loads data when this page (component) is mounted
   * ------------------------------------------------------------------------*/
+
+
   mounted() {
+    document.getElementById('wheelRight1').hidden = true;
+    document.getElementById('wheelLeft1').hidden = true;
     this.fetchNetworkByName('Auras');
     this.initialization();
 
@@ -1017,10 +1014,8 @@ export default {
         document.getElementById('pump1Speed').disabled = true;
         document.getElementById('pump1Input').disabled = true;
 
-        document.getElementById('wheelRight1').hidden = true;
-        document.getElementById('wheelLeft1').hidden = true;
-        document.getElementById('noWheel1').hidden = true;
       }
+
 
       // Initialize names
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
@@ -1140,7 +1135,7 @@ export default {
         switch (obj.stage) {
 
           case 'init':
-            setTimeout(() => this.runMethod(), 2000);
+            this.setDefaultSettings();
             break;
 
           case 'runMethod':
@@ -1174,10 +1169,15 @@ export default {
       if (obj === null) return;
 
       if (obj.stage !== undefined) {
-        this.manageRunStages(data);
-        return;
-      }
 
+        if (obj.stage === 'init') {
+          this.setDefaultSettings();
+        } else {
+
+          this.manageRunStages(data);
+          return;
+        }
+      }
 
       //TLCMigration
       if (obj.TLCMigration !== undefined)
@@ -1384,14 +1384,19 @@ export default {
         this.liquidDispenserModule.data[0].pumP1P = value;
         document.getElementById("pump1Input").value = value;
 
-        if (parseInt(value) !== 0) {
+        // Display turning wheel if method is running
 
-          document.getElementById('wheelRight1').hidden = parseInt(value) < 0;
-          document.getElementById('wheelLeft1').hidden = parseInt(value) > 0;
-        } else {
-          document.getElementById('wheelRight1').hidden = true;
-          document.getElementById('wheelLeft1').hidden = true;
+        if (this.mode === 'run' && obj.stage !== 'init') {
+          if (parseInt(value) !== 0) {
+
+            document.getElementById('wheelRight1').hidden = parseInt(value) < 0;
+            document.getElementById('wheelLeft1').hidden = parseInt(value) > 0;
+          } else {
+            document.getElementById('wheelRight1').hidden = true;
+            document.getElementById('wheelLeft1').hidden = true;
+          }
         }
+
 
       }
       // PUMP1 Max speed
@@ -1416,6 +1421,7 @@ export default {
         document.getElementById("pump1Speed").value = value;
 
       }
+
 
       console.log('received: ', data);
     },
@@ -1650,8 +1656,14 @@ export default {
 
         case 'pumpLeft':
 
-          this.rotateLeft = click === 'mousedown';
-          this.noRotation = click !== 'mousedown';
+          if (click === 'mousedown') {
+            document.getElementById('wheelLeft1').hidden = false;
+            document.getElementById('wheelRight1').hidden = true;
+          } else {
+            document.getElementById('wheelLeft1').hidden = true;
+            document.getElementById('wheelRight1').hidden = true;
+          }
+
 
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: -3000000}};
@@ -1663,8 +1675,14 @@ export default {
           break;
 
         case 'pumpRight':
-          this.rotateRight = click === 'mousedown';
-          this.noRotation = click !== 'mousedown';
+
+          if (click === 'mousedown') {
+            document.getElementById('wheelLeft1').hidden = true;
+            document.getElementById('wheelRight1').hidden = false;
+          } else {
+            document.getElementById('wheelLeft1').hidden = true;
+            document.getElementById('wheelRight1').hidden = true;
+          }
 
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: 3000000}};
@@ -1690,7 +1708,11 @@ export default {
     }
     ,
 
+    setDefaultSettings() {
 
+      document.getElementById('wheelLeft1').hidden = true;
+      document.getElementById('wheelRight1').hidden = true;
+    }
   }
 }
 </script>
@@ -2162,9 +2184,9 @@ select {
 }
 
 #wheelRight1 {
-  height: 5%;
-  max-width: 10%;
-  margin-left: -340px;
+  height: 15%;
+  max-width: 15%;
+  margin-top: 30px;
   -webkit-animation: spin 3s linear infinite;
   animation: spin 3s linear infinite;
 }
@@ -2177,11 +2199,12 @@ select {
 }
 
 #wheelLeft1 {
-  height: 5%;
-  max-width: 10%;
-  margin-left: -340px;
+  height: 15%;
+  max-width: 15%;
+  margin-top: 30px;
   -webkit-animation: spin1 3s linear infinite;
   animation: spin1 3s linear infinite;
+
 }
 
 #noWheel {
