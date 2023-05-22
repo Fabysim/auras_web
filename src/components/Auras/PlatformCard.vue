@@ -586,6 +586,10 @@
           <img v-if="rotateLeft" id="wheelLeft" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
           <img v-if="noRotation" id="noWheel" alt="" src="../../assets/LiquidDispenserImages/NoPump.png"/>
 
+          <img id="wheelRight1" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
+          <img id="wheelLeft1" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
+          <img id="noWheel1" alt="" src="../../assets/LiquidDispenserImages/NoPump.png"/>
+
         </div>
 
 
@@ -614,7 +618,7 @@ export default {
         sp1Width: '10%',
         sp2Width: '10%',
         sp3Width: '10%',
-        wheelSpeed:'spin1 3s linear infinite',
+        wheelSpeed: '5',
         rotateRight: false,
         rotateLeft: false,
         noRotation: true,
@@ -1012,6 +1016,10 @@ export default {
         document.getElementById('pumpRight').disabled = true;
         document.getElementById('pump1Speed').disabled = true;
         document.getElementById('pump1Input').disabled = true;
+
+        document.getElementById('wheelRight1').hidden = true;
+        document.getElementById('wheelLeft1').hidden = true;
+        document.getElementById('noWheel1').hidden = true;
       }
 
       // Initialize names
@@ -1091,8 +1099,8 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-        * Method used to rotate pinch valves physically
-        * ------------------------------------------------------------------------*/
+    * Method used to rotate pinch valves physically
+    * ------------------------------------------------------------------------*/
     rotate(id) {
 
       if (this.mode !== 'config') return;
@@ -1118,13 +1126,16 @@ export default {
 
     },
 
-    extractDataFromRun(data) {
+    /*------------------------------------------------------------------------
+    * Method used to rotate pinch valves physically
+    * ------------------------------------------------------------------------*/
+    manageRunStages(data) {
       const obj = JSON.parse(data);
 
       if (obj.status === 'success') {
 
-        this.noRotation = true;
-         this.rotateRight = this.rotateLeft = false;
+        document.getElementById('wheelRight1').hidden = true;
+        document.getElementById('wheelLeft1').hidden = true;
 
         switch (obj.stage) {
 
@@ -1163,21 +1174,24 @@ export default {
       if (obj === null) return;
 
       if (obj.stage !== undefined) {
-        this.extractDataFromRun(data);
+        this.manageRunStages(data);
         return;
       }
 
-      //LDS
 
+      //TLCMigration
       if (obj.TLCMigration !== undefined)
         this.tlcMigrationModule.selectedOption = this.tlcMigrationModule.items[obj.TLCMigration];
 
+      //PHMeter
       if (obj.PHMeter !== undefined)
         this.phMeterModule.selectedOption = this.phMeterModule.items[obj.PHMeter];
 
+      //DropDispenser
       if (obj.DropDispenser !== undefined)
         this.dropDispenserModule.selectedOption = this.dropDispenserModule.items[obj.DropDispenser];
 
+      //LDS
       if (obj.LDS1CurrentPosition !== undefined) {
         this.setStepValues(obj.LDS1CurrentPosition, 'ldS1', 'ldS1Info');
         document.getElementById('ldS1').style.transform = 'rotate(' + obj.LDS1CurrentPosition + 'deg)';
@@ -1249,8 +1263,8 @@ export default {
 
 
       }
-      // SP1 Relative position
 
+      // SP1 Relative position
       if (obj.SP1CurrentRelativePosition !== undefined) {
         let value = parseInt(obj.SP1CurrentRelativePosition) / 1000;
         this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
@@ -1291,8 +1305,8 @@ export default {
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
 
       }
-      // SP2 Relative position
 
+      // SP2 Relative position
       if (obj.SP2CurrentRelativePosition !== undefined) {
         let value = parseInt(obj.SP2CurrentRelativePosition) / 1000;
         this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
@@ -1300,7 +1314,6 @@ export default {
       }
 
       // SP2 Max speed
-
       if (obj.SP2MaxSpeed !== undefined) {
         let maxSpeed = parseInt(obj.SP2MaxSpeed) / 1000;
         this.liquidDispenserModule.data[0].sP2S = maxSpeed;
@@ -1313,7 +1326,6 @@ export default {
       }
 
       // SP2 Current speed
-
       if (obj.SP2Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP2Speed) / 1000;
         currentSpeed = currentSpeed.toFixed(0);
@@ -1355,7 +1367,6 @@ export default {
       }
 
       // SP3 Current speed
-
       if (obj.SP3Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP3Speed) / 1000;
         currentSpeed = currentSpeed.toFixed(1);
@@ -1365,7 +1376,6 @@ export default {
       }
 
       // PUMP1 Absolute position
-
       if (obj.PUMP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.PUMP1CurrentPosition) / 360;
@@ -1374,12 +1384,13 @@ export default {
         this.liquidDispenserModule.data[0].pumP1P = value;
         document.getElementById("pump1Input").value = value;
 
-        if (value !== 0) {
-          this.rotateRight = value > 0;
-          this.rotateLeft = value < 0;
-          this.noRotation = false;
+        if (parseInt(value) !== 0) {
+
+          document.getElementById('wheelRight1').hidden = parseInt(value) < 0;
+          document.getElementById('wheelLeft1').hidden = parseInt(value) > 0;
         } else {
-          this.noRotation = true;
+          document.getElementById('wheelRight1').hidden = true;
+          document.getElementById('wheelLeft1').hidden = true;
         }
 
       }
@@ -2139,7 +2150,7 @@ select {
 
 #wheelDiv {
   height: fit-content;
-  margin-top: 530px;
+  margin-top: 500px;
   margin-left: -650px;
 }
 
@@ -2150,9 +2161,25 @@ select {
   animation: spin 3s linear infinite;
 }
 
+#wheelRight1 {
+  height: 5%;
+  max-width: 10%;
+  margin-left: -340px;
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
+}
+
 #wheelLeft {
-  height: 15%;
+
   max-width: 15%;
+  -webkit-animation: spin1 3s linear infinite;
+  animation: spin1 3s linear infinite;
+}
+
+#wheelLeft1 {
+  height: 5%;
+  max-width: 10%;
+  margin-left: -340px;
   -webkit-animation: spin1 3s linear infinite;
   animation: spin1 3s linear infinite;
 }
@@ -2160,6 +2187,14 @@ select {
 #noWheel {
   height: 15%;
   max-width: 15%;
+  visibility: hidden;
+
+}
+
+#noWheel1 {
+  height: 15%;
+  max-width: 15%;
+  visibility: hidden;
 
 }
 
