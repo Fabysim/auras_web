@@ -1127,10 +1127,12 @@ export default {
     manageRunStages(data) {
       const obj = JSON.parse(data);
 
+
       if (obj.status === 'success') {
 
         document.getElementById('wheelRight1').hidden = true;
         document.getElementById('wheelLeft1').hidden = true;
+
 
         switch (obj.stage) {
 
@@ -1145,7 +1147,7 @@ export default {
               this.$parent.manageWaitingCondition();
             break;
           case 'runStep':
-            console.log(obj);
+
             break;
 
           case 'end':
@@ -1153,6 +1155,7 @@ export default {
             // Initialize data
             break;
         }
+        console.log('received:', obj);
       }
     },
 
@@ -1553,7 +1556,7 @@ export default {
 
           if (componentId === 'pump1Input') {
             // this.liquidDispenserModule.sp3Quantity = parseInt(value);
-            let data = {PUMP1: {PUMP1TargetPosition: parseInt(value) * 360}};
+            let data = {PUMP1: {PUMP1TargetPosition: parseFloat(value) * 360}};
             this.sendToWebsocket(data);
           }
 
