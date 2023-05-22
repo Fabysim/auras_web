@@ -583,8 +583,8 @@
         <!--  Pump  images -->
         <div id="wheelDiv">
 
-          <img id="wheelRight1" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
-          <img id="wheelLeft1" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
+          <img id="wheelRight" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
+          <img id="wheelLeft" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
 
         </div>
 
@@ -807,8 +807,8 @@ export default {
 
 
   mounted() {
-    document.getElementById('wheelRight1').hidden = true;
-    document.getElementById('wheelLeft1').hidden = true;
+    document.getElementById('wheelRight').hidden = true;
+    document.getElementById('wheelLeft').hidden = true;
     this.fetchNetworkByName('Auras');
     this.initialization();
 
@@ -1130,8 +1130,8 @@ export default {
 
       if (obj.status === 'success') {
 
-        document.getElementById('wheelRight1').hidden = true;
-        document.getElementById('wheelLeft1').hidden = true;
+        document.getElementById('wheelRight').hidden = true;
+        document.getElementById('wheelLeft').hidden = true;
 
 
         switch (obj.stage) {
@@ -1392,15 +1392,13 @@ export default {
         if (this.mode === 'run' && obj.stage !== 'init') {
           if (parseInt(value) !== 0) {
 
-            document.getElementById('wheelRight1').hidden = parseInt(value) < 0;
-            document.getElementById('wheelLeft1').hidden = parseInt(value) > 0;
+            document.getElementById('wheelRight').hidden = parseInt(value) < 0;
+            document.getElementById('wheelLeft').hidden = parseInt(value) > 0;
           } else {
-            document.getElementById('wheelRight1').hidden = true;
-            document.getElementById('wheelLeft1').hidden = true;
+            document.getElementById('wheelRight').hidden = true;
+            document.getElementById('wheelLeft').hidden = true;
           }
         }
-
-
       }
       // PUMP1 Max speed
       if (obj.PUMP1MaxSpeed !== undefined) {
@@ -1557,6 +1555,7 @@ export default {
           if (componentId === 'pump1Input') {
             // this.liquidDispenserModule.sp3Quantity = parseInt(value);
             let data = {PUMP1: {PUMP1TargetPosition: parseFloat(value) * 360}};
+            this.liquidDispenserModule.data[0].pumP1P = parseFloat(value);
             this.sendToWebsocket(data);
           }
 
@@ -1660,11 +1659,11 @@ export default {
         case 'pumpLeft':
 
           if (click === 'mousedown') {
-            document.getElementById('wheelLeft1').hidden = false;
-            document.getElementById('wheelRight1').hidden = true;
+            document.getElementById('wheelLeft').hidden = false;
+            document.getElementById('wheelRight').hidden = true;
           } else {
-            document.getElementById('wheelLeft1').hidden = true;
-            document.getElementById('wheelRight1').hidden = true;
+            document.getElementById('wheelLeft').hidden = true;
+            document.getElementById('wheelRight').hidden = true;
           }
 
 
@@ -1680,11 +1679,11 @@ export default {
         case 'pumpRight':
 
           if (click === 'mousedown') {
-            document.getElementById('wheelLeft1').hidden = true;
-            document.getElementById('wheelRight1').hidden = false;
+            document.getElementById('wheelLeft').hidden = true;
+            document.getElementById('wheelRight').hidden = false;
           } else {
-            document.getElementById('wheelLeft1').hidden = true;
-            document.getElementById('wheelRight1').hidden = true;
+            document.getElementById('wheelLeft').hidden = true;
+            document.getElementById('wheelRight').hidden = true;
           }
 
           if (click === 'mousedown') {
@@ -1713,8 +1712,8 @@ export default {
 
     setDefaultSettings() {
 
-      document.getElementById('wheelLeft1').hidden = true;
-      document.getElementById('wheelRight1').hidden = true;
+      document.getElementById('wheelLeft').hidden = true;
+      document.getElementById('wheelRight').hidden = true;
     }
   }
 }
@@ -2179,14 +2178,8 @@ select {
   margin-left: -650px;
 }
 
-#wheelRight {
-  height: 15%;
-  max-width: 15%;
-  -webkit-animation: spin 3s linear infinite;
-  animation: spin 3s linear infinite;
-}
 
-#wheelRight1 {
+#wheelRight {
   height: 15%;
   max-width: 15%;
   margin-top: 30px;
@@ -2194,14 +2187,9 @@ select {
   animation: spin 3s linear infinite;
 }
 
+
+
 #wheelLeft {
-
-  max-width: 15%;
-  -webkit-animation: spin1 3s linear infinite;
-  animation: spin1 3s linear infinite;
-}
-
-#wheelLeft1 {
   height: 15%;
   max-width: 15%;
   margin-top: 30px;

@@ -689,8 +689,8 @@ export default {
       } else if (this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge') {
         Master.SP1 = 'Fill LAL cartridge';
       } else {
-        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P * 1000 : '';
-        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP2S * 1000;
+        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP1P) ? this.liquidDispenserModule.data[this.runningStep.number].sP1P * 1000 : '';
+        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP1S * 1000;
       }
 
       if (this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop') {
