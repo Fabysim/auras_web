@@ -1135,9 +1135,9 @@ export default {
 
       if (obj.status === 'success') {
 
-
+/*
         document.getElementById('wheelRight').hidden = true;
-        document.getElementById('wheelLeft').hidden = true;
+        document.getElementById('wheelLeft').hidden = true;*/
 
 
         switch (obj.stage) {
