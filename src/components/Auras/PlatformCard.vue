@@ -1019,8 +1019,6 @@ export default {
 
       }
 
-        document.getElementById('wheelLeft1').style.hidden = true;
-        document.getElementById('wheelRight1').hidden = true;
 
 
 
@@ -2204,13 +2202,6 @@ select {
   visibility: hidden;
 }
 
-.hidden-elt {
-  visibility: hidden;
-}
-
-.visible-elt {
-  visibility: visible;
-}
 
 #wheelLeft {
   height: 15%;
@@ -2220,38 +2211,7 @@ select {
   visibility: hidden;
 }
 
-#wheelRight1 {
-  margin-top: 70px;
-  margin-left: 200px;
-  height: 12%;
-  max-width: 12%;
-  -webkit-animation: spin 3s linear infinite;
-  animation: spin 3s linear infinite;
-}
 
-#wheelLeft1 {
-  margin-top: 70px;
-  margin-left: 200px;
-  height: 12%;
-  max-width: 12%;
-  -webkit-animation: spin1 3s linear infinite;
-  animation: spin1 3s linear infinite;
-}
-
-
-#noWheel {
-  height: 15%;
-  max-width: 15%;
-  visibility: hidden;
-
-}
-
-#noWheel1 {
-  height: 15%;
-  max-width: 15%;
-  visibility: hidden;
-
-}
 
 
 /* for Safari browser  */
