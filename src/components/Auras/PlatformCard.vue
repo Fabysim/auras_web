@@ -811,7 +811,8 @@ export default {
 
   mounted() {
 
-
+    document.querySelector('#wheelRight').style.visibility = "hidden";
+    document.querySelector('#wheelLeft').style.visibility = "hidden";
     this.fetchNetworkByName('Auras');
     this.initialization();
 
@@ -1020,8 +1021,6 @@ export default {
       }
 
 
-
-
       // Initialize names
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
@@ -1134,11 +1133,6 @@ export default {
 
 
       if (obj.status === 'success') {
-
-/*
-        document.getElementById('wheelRight').hidden = true;
-        document.getElementById('wheelLeft').hidden = true;*/
-
 
         switch (obj.stage) {
 
@@ -1672,13 +1666,13 @@ export default {
         case 'pumpLeft':
 
           if (click === 'mousedown') {
-            document.getElementById('wheelRight').hidden = true;
-            document.getElementById('wheelLeft').hidden = false;
+            document.querySelector('#wheelRight').style.visibility = "hidden";
+            document.querySelector('#wheelLeft').style.visibility = "visible";
 
           } else if (click === 'mouseup') {
 
-            document.getElementById('wheelRight').hidden = true;
-            document.getElementById('wheelLeft').hidden = true;
+            document.querySelector('#wheelRight').style.visibility = "hidden";
+            document.querySelector('#wheelLeft').style.visibility = "hidden";
           }
 
           if (click === 'mousedown') {
@@ -2199,7 +2193,6 @@ select {
   max-width: 15%;
   -webkit-animation: spin 3s linear infinite;
   animation: spin 3s linear infinite;
-  visibility: hidden;
 }
 
 
@@ -2208,10 +2201,7 @@ select {
   max-width: 15%;
   -webkit-animation: spin1 3s linear infinite;
   animation: spin1 3s linear infinite;
-  visibility: hidden;
 }
-
-
 
 
 /* for Safari browser  */

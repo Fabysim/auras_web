@@ -1085,13 +1085,13 @@ export default {
       switch (this.dropDispenserModule.update.selectedOption) {
 
         case "None":
-          this.dropDispenserModule.data[line].position = 0;
+          this.dropDispenserModule.data[line].value = 0;
           break;
         case "Standards":
-          this.dropDispenserModule.data[line].position = 1;
+          this.dropDispenserModule.data[line].value = 1;
           break;
         default:
-          this.dropDispenserModule.data[line].position = 0;
+          this.dropDispenserModule.data[line].value = 0;
           break;
       }
     },

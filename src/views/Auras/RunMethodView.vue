@@ -2,7 +2,7 @@
   <div>
 
     <!--Method action-->
-    <div style="min-height: 100px" >
+    <div style="min-height: 100px">
       <v-card class="visibleTop">
         <v-card-title class="justify-center">
           Method: {{ currentMethod.name }}
@@ -26,15 +26,41 @@
           </v-btn>
 
           <v-spacer/>
-          <v-btn color="#e28743"
+          <v-btn color="error"
+                 class="ma-2 white--text"
+                 justify="end"
+                 @click="stopMethodRun('stopped')"
+                 v-if="currentStep.running"
+          >
+            Stop Run
+            <v-icon>
+              mdi-stop-circle-outline
+            </v-icon>
+          </v-btn>
+
+          <v-btn color="success"
+                 class="ma-2 white--text"
+                 justify="end"
+                 width="150"
+                 @click="initMethodRun"
+                 v-if="!currentStep.running"
+          >
+            Start Run
+            <v-icon>
+              mdi-play-circle-outline
+            </v-icon>
+          </v-btn>
+
+          <v-btn color="success"
+                 width="150"
                  class="white--text"
                  @click="pauseMethodRun"
-                 v-if="runningStep.runStarted"
+                 v-else
           >
-            <v-row v-if="!runningStep.paused">
+            <v-row v-if="!currentStep.paused">
               Pause run
-              <v-icon small>
-                mdi-pause
+              <v-icon>
+                mdi-pause-circle-outline
               </v-icon>
             </v-row>
             <v-row
@@ -45,31 +71,9 @@
                 mdi-play-circle-outline
               </v-icon>
             </v-row>
-
           </v-btn>
 
-          <v-btn color="success"
-                 class="ma-2 white--text"
-                 justify="end"
-                 @click="initMethodRun"
-                 v-if="!runningStep.paused"
-          >
-            Start Run
-            <v-icon>
-              mdi-play-circle-outline
-            </v-icon>
-          </v-btn>
 
-          <v-btn color="success"
-                 class="ma-2 white--text"
-                 @click="initMethodRun"
-                 v-else
-          >
-            Restart Run
-            <v-icon>
-              mdi-play-outline
-            </v-icon>
-          </v-btn>
         </v-card-title>
 
 
@@ -280,7 +284,7 @@
 
     </vue-scroll-snap>
 
-    <PlatFormCard mode="run" ref="plateForm" />
+    <PlatFormCard mode="run" ref="plateForm"/>
 
     <!--Timeout dialog-->
 
@@ -347,9 +351,9 @@ export default {
 
     allModulesList: [],
 
-    runningStep: {
+    currentStep: {
       number: -1,
-      runStarted: false,
+      running: false,
       stage: '',
       start: 0,
       pausePosition: '',
@@ -504,20 +508,16 @@ export default {
 
   watch: {
 
-    'runningStep.number'() {
-
+    'currentStep.number'() {
       if (
-          this.runningStep.number !== -1            // Not initializing
+          this.currentStep.number !== -1            // Not initializing
           && this.stepModule.totalOfSteps > 0       // The step is not empty
-          && this.runningStep.number < this.stepModule.totalOfSteps  // The Method has not finished
-          && this.runningStep.runAllMethod        // The run concerns the whole method (not a single step)
+          && this.currentStep.number < this.stepModule.totalOfSteps  // The Method has not finished
+          && this.currentStep.runAllMethod        // The run concerns the whole method (not a single step)
       ) {
         this.runMethod();
       }
-
-
     }
-
   },
   methods: {
     /*--------------------------------------------------------------------------
@@ -525,10 +525,10 @@ export default {
      * -------------------------------------------------------------------------*/
     initMethodRun() {
 
-      this.runningStep.runAllMethod = true;
-      this.runningStep.runStarted = true;
-      this.runningStep.paused = false;
-      this.runningStep.number = 0;
+      this.currentStep.runAllMethod = true;
+      this.currentStep.running = true;
+      this.currentStep.paused = false;
+      this.currentStep.number = 0;
       // setTimeout(() => this.runMethod(), 1000);
       this.runMethod();
 
@@ -537,21 +537,24 @@ export default {
     /*--------------------------------------------------------------------------
     *  Stops running method
     * -------------------------------------------------------------------------*/
-    stopMethodRun() {
-      this.runningStep.runStarted = false;
-      this.runningStep.runAllMethod = false;
-      this.runningStep.number = -1;
-      this.blockingDialog.state = true;
-      this.blockingDialog.text = 'Run of method finished!';
+    stopMethodRun(stopped) {
+      this.currentStep.running = false;
+      this.currentStep.runAllMethod = false;
+      this.currentStep.number = -1;
+
+      if (stopped === undefined) {
+        this.blockingDialog.state = true;
+        this.blockingDialog.text = 'Run of method finished!';
+      }
 
     },
     /*--------------------------------------------------------------------------
      *  Run a given step
      * -------------------------------------------------------------------------*/
     runStep(step) {
-      this.runningStep.runAllMethod = false;
-      this.runningStep.number = step;
-      this.runningStep.stage = 'runStep';
+      this.currentStep.runAllMethod = false;
+      this.currentStep.number = step;
+      this.currentStep.stage = 'runStep';
       let stepToRun = this.setStepDataObject();
 
 
@@ -562,9 +565,9 @@ export default {
      *  Run a given step
      * -------------------------------------------------------------------------*/
     runMethodFromStep(step) {
-      this.runningStep.runAllMethod = true;
-      this.runningStep.runStarted = true;
-      this.runningStep.number = step;
+      this.currentStep.runAllMethod = true;
+      this.currentStep.running = true;
+      this.currentStep.number = step;
       setTimeout(() => this.runMethod(), 1000);
     },
 
@@ -572,10 +575,10 @@ export default {
     *  Pause the run of a method
     * -------------------------------------------------------------------------*/
     pauseMethodRun() {
-      this.runningStep.paused = !this.runningStep.paused;
+      this.currentStep.paused = !this.currentStep.paused;
 
-      if (!this.runningStep.paused) {
-        this.runningStep.number++;
+      if (!this.currentStep.paused) {
+        this.currentStep.number++;
         this.runMethod();
       }
 
@@ -585,7 +588,7 @@ export default {
     * -------------------------------------------------------------------------*/
     runMethod() {
 
-      this.runningStep.stage = 'runMethod';
+      this.currentStep.stage = 'runMethod';
       let stepToRun = this.setStepDataObject();
       this.sendToWebsocket(stepToRun);
     },
@@ -634,29 +637,30 @@ export default {
     * -------------------------------------------------------------------------*/
     manageWaitingCondition() {
 
-      if (this.runningStep.paused) return;
+      if (this.currentStep.paused) return;
+      if (!this.currentStep.running) return;
 
       // Prevent from outbound steps
-      if (this.runningStep.number > this.stepModule.totalOfSteps) {
-        this.runningStep.runStarted = false;
-        this.runningStep.number = -1;
+      if (this.currentStep.number > this.stepModule.totalOfSteps) {
+        this.currentStep.running = false;
+        this.currentStep.number = -1;
         return;
       }
 
 
       //Waiting conditions
-      if (this.waitingConditionModule.data[this.runningStep.number].value > 0) {
+      if (this.waitingConditionModule.data[this.currentStep.number].value > 0) {
 
         this.timeoutDialog = true;
         this.timeoutValue = new Date();
-        this.timeoutValue = this.timeoutValue.setMilliseconds(this.timeoutValue.getMilliseconds() + this.waitingConditionModule.data[this.runningStep.number].value);
-        setTimeout(() => this.setTimeoutDialog(), this.waitingConditionModule.data[this.runningStep.number].value);
+        this.timeoutValue = this.timeoutValue.setMilliseconds(this.timeoutValue.getMilliseconds() + this.waitingConditionModule.data[this.currentStep.number].value);
+        setTimeout(() => this.setTimeoutDialog(), this.waitingConditionModule.data[this.currentStep.number].value);
 
-      } else if (this.waitingConditionModule.data[this.runningStep.number].value < 0) {
+      } else if (this.waitingConditionModule.data[this.currentStep.number].value < 0) {
         this.blockingDialog.state = true;
         this.blockingDialog.text = 'Click on ok button to continue';
       } else {
-        this.runningStep.number++;
+        this.currentStep.number++;
       }
     },
     /*--------------------------------------------------------------------------
@@ -664,14 +668,14 @@ export default {
     * -------------------------------------------------------------------------*/
     unBlockWaitingConditionDialog() {
       this.blockingDialog.state = false;
-      this.runningStep.number++;
+      this.currentStep.number++;
     },
     /*--------------------------------------------------------------------------
     * Create custom data to be sent
     * -------------------------------------------------------------------------*/
     setTimeoutDialog() {
       this.timeoutDialog = false;
-      this.runningStep.number++;
+      this.currentStep.number++;
     },
 
 
@@ -685,90 +689,90 @@ export default {
       let SP2 = {};
       let SP3 = {};
 
-      if (this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'QC sample drop') {
+      if (this.liquidDispenserModule.data[this.currentStep.number].sP1P === 'QC sample drop') {
         Master.SP1 = 'QC sample drop';
-      } else if (this.liquidDispenserModule.data[this.runningStep.number].sP1P === 'Fill LAL cartridge') {
+      } else if (this.liquidDispenserModule.data[this.currentStep.number].sP1P === 'Fill LAL cartridge') {
         Master.SP1 = 'Fill LAL cartridge';
       } else {
-        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP1P) ? this.liquidDispenserModule.data[this.runningStep.number].sP1P * 1000 : '';
-        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP1S * 1000;
+        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep.number].sP1P) ? this.liquidDispenserModule.data[this.currentStep.number].sP1P * 1000 : '';
+        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep.number].sP1S * 1000;
       }
 
-      if (this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'QC sample drop') {
+      if (this.liquidDispenserModule.data[this.currentStep.number].sP2P === 'QC sample drop') {
         Master.SP2 = 'QC sample drop';
-      } else if (this.liquidDispenserModule.data[this.runningStep.number].sP2P === 'Fill LAL cartridge') {
+      } else if (this.liquidDispenserModule.data[this.currentStep.number].sP2P === 'Fill LAL cartridge') {
         Master.SP2 = 'Fill LAL cartridge';
       } else {
-        SP2.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP2P) ? this.liquidDispenserModule.data[this.runningStep.number].sP2P * 1000 : '';
-        SP2.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP2S * 1000;
+        SP2.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep.number].sP2P) ? this.liquidDispenserModule.data[this.currentStep.number].sP2P * 1000 : '';
+        SP2.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep.number].sP2S * 1000;
       }
 
-      if (this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'QC sample drop') {
+      if (this.liquidDispenserModule.data[this.currentStep.number].sP3P === 'QC sample drop') {
         Master.SP3 = 'QC sample drop';
-      } else if (this.liquidDispenserModule.data[this.runningStep.number].sP3P === 'Fill LAL cartridge') {
+      } else if (this.liquidDispenserModule.data[this.currentStep.number].sP3P === 'Fill LAL cartridge') {
         Master.SP3 = 'Fill LAL cartridge';
       } else {
-        SP3.MoveTo = !isNaN(this.liquidDispenserModule.data[this.runningStep.number].sP3P) ? this.liquidDispenserModule.data[this.runningStep.number].sP3P * 1000 : '';
-        SP3.SetMaxSpeed = this.liquidDispenserModule.data[this.runningStep.number].sP3S * 1000;
+        SP3.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep.number].sP3P) ? this.liquidDispenserModule.data[this.currentStep.number].sP3P * 1000 : '';
+        SP3.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep.number].sP3S * 1000;
       }
 
       return {
-        stage: this.runningStep.stage,
+        stage: this.currentStep.stage,
         MethodName: this.currentMethod.name,
         NumberOfSteps: this.stepModule.totalOfSteps,
-        CurrentStep: this.runningStep.number,
+        CurrentStep: this.currentStep.number,
 
         TlcMigration: {
-          MoveTo: this.tlcMigrationModule.data[this.runningStep.number].position
+          MoveTo: this.tlcMigrationModule.data[this.currentStep.number].position
         },
         PhMeter: {
-          MoveTo: this.phMeterModule.data[this.runningStep.number].position
+          MoveTo: this.phMeterModule.data[this.currentStep.number].position
         },
         DropDispenser: {
-          MoveTo: this.dropDispenserModule.data[this.runningStep.number].value
+          MoveTo: this.dropDispenserModule.data[this.currentStep.number].value
         },
         LDS1: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS1
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS1
         },
         LDS2: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS2
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS2
         },
         LDS3: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS3
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS3
         },
         LDS4: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS4
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS4
         },
         LDS5: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS5
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS5
         },
         LDS6: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS6
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS6
         },
         LDS7: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS7
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS7
         },
         LDS8: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS8
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS8
         },
         LDS9: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS9
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS9
         },
         LDS10: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS10
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS10
         },
         LDS11: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS11
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS11
         },
         LDS12: {
-          MoveTo: this.liquidDispenserModule.data[this.runningStep.number].ldS12
+          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS12
         },
         SP1: SP1,
         SP2: SP2,
         SP3: SP3,
         PUMP1: {
-          Move: this.liquidDispenserModule.data[this.runningStep.number].pumP1P * 360,
-          SetMaxSpeed: this.liquidDispenserModule.data[this.runningStep.number].pumP1S * 6
+          Move: this.liquidDispenserModule.data[this.currentStep.number].pumP1P * 360,
+          SetMaxSpeed: this.liquidDispenserModule.data[this.currentStep.number].pumP1S * 6
         },
         Master: Master
 
@@ -922,7 +926,7 @@ export default {
     * ------------------------------------------------------------------------*/
     async loadModulesData() {
       this.stepCount = 0;
-      this.runningStep.number = 0;
+      this.currentStep.number = 0;
       this.stepModule.data = [];
       this.actionsModule.data = [];
       this.allModulesList.forEach(m => this.fetchData(m));
@@ -934,11 +938,11 @@ export default {
     loadStepsAndActions(length) {
 
       for (let i = 0; i < length; i++) {
-        let step = {step: JSON.parse(JSON.stringify(this.runningStep.start))};
+        let step = {step: JSON.parse(JSON.stringify(this.currentStep.start))};
         this.$data.stepModule.data.push(step);
-        let line = {line: JSON.parse(JSON.stringify(this.runningStep.start))};
+        let line = {line: JSON.parse(JSON.stringify(this.currentStep.start))};
         this.$data.actionsModule.data.push(line);
-        this.runningStep.start++;
+        this.currentStep.start++;
 
         this.$refs.plateForm.totalOfSteps = this.stepModule.totalOfSteps = i + 1;
 
@@ -1056,19 +1060,20 @@ export default {
      * Function to to set highlighted step style
      * ------------------------------------------------------------------------*/
     itemRowBackground: function (item) {
-      return item.step === this.runningStep.number ? 'style-1' : 'style-2';
+      return item.step === this.currentStep.number ? 'style-1' : 'style-2';
     }
 
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 .module-title-color {
   color: dodgerblue
 }
-.visibleTop{
+
+.visibleTop {
   position: fixed;
   width: 100%;
   z-index: 3;
