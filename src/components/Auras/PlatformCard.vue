@@ -810,12 +810,8 @@ export default {
 
 
   mounted() {
-
-    document.querySelector('#wheelRight').style.visibility = "hidden";
-    document.querySelector('#wheelLeft').style.visibility = "hidden";
     this.fetchNetworkByName('Auras');
     this.initialization();
-
 
   },
 
@@ -1013,13 +1009,12 @@ export default {
         document.getElementById('ps1SpeedRange').disabled = true;
         document.getElementById('ps2SpeedRange').disabled = true;
         document.getElementById('ps3SpeedRange').disabled = true;
-        document.getElementById('pumpLeft').disabled = true;
-        document.getElementById('pumpRight').disabled = true;
         document.getElementById('pump1Speed').disabled = true;
         document.getElementById('pump1Input').disabled = true;
 
       }
 
+      this.hidePump();
 
       // Initialize names
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
@@ -1035,6 +1030,13 @@ export default {
       // Initialize the PS positions
       this.liquidDispenserModule.sP1PAbsolutePosition = document.getElementById('ps1AbsolutePosition').value;
 
+    },
+
+    hidePump() {
+      let element = document.getElementById('wheelLeft');
+      element.style.display = 'none';
+      let element1 = document.getElementById('wheelRight');
+      element1.style.display = 'none';
     },
 
     /*--------------------------------------------------------------------------
@@ -1131,6 +1133,7 @@ export default {
     manageRunStages(data) {
       const obj = JSON.parse(data);
 
+      this.hidePump();
 
       if (obj.status === 'success') {
 
@@ -1287,6 +1290,8 @@ export default {
 
       // SP1 Current Speed
       if (obj.SP1Speed !== undefined) {
+
+
         let currentSpeed = parseInt(obj.SP1Speed) / 1000;
         this.liquidDispenserModule.sp1CurrentSpeed = currentSpeed;
         currentSpeed = currentSpeed.toFixed(0);
@@ -1391,19 +1396,7 @@ export default {
 
         if (this.mode === 'run' && obj.stage !== 'init') {
 
-          if (parseInt(value) > 0) {
-
-            document.getElementById('wheelRight').hidden = false;
-            document.getElementById('wheelLeft').hidden = true;
-
-          } else if (parseInt(value) < 0) {
-            document.getElementById('wheelRight').hidden = true;
-            document.getElementById('wheelLeft').hidden = false;
-          } else {
-            document.getElementById('wheelRight').hidden = true;
-            document.getElementById('wheelLeft').hidden = true;
-          }
-
+          // TODO: Stop the pump revolutions
 
         }
       }
@@ -1421,16 +1414,39 @@ export default {
 
       // PUMP1 Current speed
       if (obj.PUMP1Speed !== undefined) {
-        let value = parseInt(obj.PUMP1Speed) / 6;
+        let value = parseFloat(obj.PUMP1Speed) / 6;
         this.liquidDispenserModule.pump1CurrentSpeed = value.toFixed(1);
         document.getElementById("pumpsLabel").innerHTML = "Max Speed: " + this.liquidDispenserModule.pump1MaxSpeed + " RPM";
         document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModule.pump1CurrentSpeed + " RPM";
 
-        document.getElementById("pump1Speed").value = value;
+
+        // Display pump revolutions
+
+        if (value > 0) {
+
+          let element = document.getElementById('wheelRight');
+          element.style.display = 'inline';
+          element.style.visibility = 'visible';
+          let element1 = document.getElementById('wheelLeft');
+          element1.style.display = 'none';
+
+        } else if (value < 0) {
+
+          let element = document.getElementById('wheelLeft');
+          element.style.display = 'inline';
+          element.style.visibility = 'visible';
+          let element1 = document.getElementById('wheelRight');
+          element1.style.display = 'none';
+
+        } else {
+
+          let element = document.getElementById('wheelRight');
+          element.style.display = 'none';
+          let element1 = document.getElementById('wheelLeft');
+          element1.style.display = 'none';
+        }
 
       }
-
-
       console.log('received: ', data);
     },
 
@@ -1665,15 +1681,15 @@ export default {
 
         case 'pumpLeft':
 
-          if (click === 'mousedown') {
-            document.querySelector('#wheelRight').style.visibility = "hidden";
-            document.querySelector('#wheelLeft').style.visibility = "visible";
+          /*   if (click === 'mousedown') {
+               document.getElementById('wheelRight').hidden = true;
+               document.getElementById('wheelLeft').hidden = false;
 
-          } else if (click === 'mouseup') {
+             } else  {
 
-            document.querySelector('#wheelRight').style.visibility = "hidden";
-            document.querySelector('#wheelLeft').style.visibility = "hidden";
-          }
+               document.getElementById('wheelRight').hidden = true;
+               document.getElementById('wheelLeft').hidden = true;
+             }*/
 
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: -3000000}};
@@ -1686,15 +1702,15 @@ export default {
 
         case 'pumpRight':
 
-          if (click === 'mousedown') {
-            document.getElementById('wheelRight').hidden = false;
-            document.getElementById('wheelLeft').hidden = true;
+          /* if (click === 'mousedown') {
+             document.getElementById('wheelRight').hidden = false;
+             document.getElementById('wheelLeft').hidden = true;
 
-          } else if (click === 'mouseup') {
+           } else if (click === 'mouseup') {
 
-            document.getElementById('wheelRight').hidden = true;
-            document.getElementById('wheelLeft').hidden = true;
-          }
+             document.getElementById('wheelRight').hidden = true;
+             document.getElementById('wheelLeft').hidden = true;
+           }*/
 
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: 3000000}};
@@ -1721,9 +1737,9 @@ export default {
     ,
 
     setDefaultSettings() {
-
-      document.getElementById('wheelLeft').hidden = true;
-      document.getElementById('wheelRight').hidden = true;
+      /*
+            document.getElementById('wheelLeft').hidden = true;
+            document.getElementById('wheelRight').hidden = true;*/
     }
   }
 }
