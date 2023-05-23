@@ -1018,11 +1018,10 @@ export default {
         document.getElementById('pump1Input').disabled = true;
 
       }
-      if (this.mode === 'config') {
 
-        // document.getElementById('wheelLeft1').style.hidden = true;
-        // document.getElementById('wheelRight1').hidden = true;
-      }
+        document.getElementById('wheelLeft1').style.hidden = true;
+        document.getElementById('wheelRight1').hidden = true;
+
 
 
       // Initialize names
@@ -1137,12 +1136,11 @@ export default {
 
 
       if (obj.status === 'success') {
-        /*
 
-                document.getElementById('wheelRight').hidden = true;
-                document.getElementById('wheelLeft').hidden = true;
 
-        */
+        document.getElementById('wheelRight').hidden = true;
+        document.getElementById('wheelLeft').hidden = true;
+
 
         switch (obj.stage) {
 
