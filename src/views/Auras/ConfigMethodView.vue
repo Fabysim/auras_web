@@ -263,6 +263,7 @@
                                   <tr>
                                     <td v-if="liquidDispenserModule.update.volumeSelected">
                                       <v-text-field v-model="liquidDispenserModule.update.selectedValue"
+                                                    :rules="[rules.acceptedValues]"
                                                     label="Volume in µL"/>
 
                                     </td>
@@ -637,6 +638,10 @@ export default {
       }
     },
 
+    rules: {
+      acceptedValues: value => value > 0 && value <= 1000 || 'Values must be between 0µL and 1000 µL'
+    },
+
     commentModule: {
       name: '',
       columns: [
@@ -989,21 +994,24 @@ export default {
 
 
       if (col === 12)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume'))
-          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
-        else
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
+          if (this.liquidDispenserModule.update.selectedValue >= 0 && this.liquidDispenserModule.update.selectedValue <= 1000)
+            this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
+        } else
           this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
 
       if (col === 14)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume'))
-          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
-        else
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
+          if (this.liquidDispenserModule.update.selectedValue >= 0 && this.liquidDispenserModule.update.selectedValue <= 1000)
+            this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
+        } else
           this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
 
       if (col === 16)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume'))
-          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
-        else
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
+          if (this.liquidDispenserModule.update.selectedValue >= 0 && this.liquidDispenserModule.update.selectedValue <= 1000)
+            this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
+        } else
           this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
     },
 

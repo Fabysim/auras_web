@@ -609,6 +609,9 @@ export default {
 
   data: () => ({
 
+        rotateRight: false,
+        rotateLeft: false,
+        noRotation: true,
         totalOfSteps: 0,
         readOnly: false,
         sp1Width: '10%',
@@ -807,8 +810,8 @@ export default {
 
 
   mounted() {
-    document.getElementById('wheelRight').hidden = true;
-    document.getElementById('wheelLeft').hidden = true;
+
+
     this.fetchNetworkByName('Auras');
     this.initialization();
 
@@ -1015,6 +1018,11 @@ export default {
         document.getElementById('pump1Input').disabled = true;
 
       }
+      if (this.mode === 'config') {
+
+        // document.getElementById('wheelLeft1').style.hidden = true;
+        // document.getElementById('wheelRight1').hidden = true;
+      }
 
 
       // Initialize names
@@ -1129,10 +1137,12 @@ export default {
 
 
       if (obj.status === 'success') {
+        /*
 
-        document.getElementById('wheelRight').hidden = true;
-        document.getElementById('wheelLeft').hidden = true;
+                document.getElementById('wheelRight').hidden = true;
+                document.getElementById('wheelLeft').hidden = true;
 
+        */
 
         switch (obj.stage) {
 
@@ -1390,14 +1400,21 @@ export default {
         // Display turning wheel if method is running
 
         if (this.mode === 'run' && obj.stage !== 'init') {
-          if (parseInt(value) !== 0) {
 
-            document.getElementById('wheelRight').hidden = parseInt(value) < 0;
-            document.getElementById('wheelLeft').hidden = parseInt(value) > 0;
+          if (parseInt(value) > 0) {
+
+            document.getElementById('wheelRight').hidden = false;
+            document.getElementById('wheelLeft').hidden = true;
+
+          } else if (parseInt(value) < 0) {
+            document.getElementById('wheelRight').hidden = true;
+            document.getElementById('wheelLeft').hidden = false;
           } else {
             document.getElementById('wheelRight').hidden = true;
             document.getElementById('wheelLeft').hidden = true;
           }
+
+
         }
       }
       // PUMP1 Max speed
@@ -1502,7 +1519,7 @@ export default {
           }
 
           if (componentId === 'volumeSp1Input') {
-            console.log('hello', this.liquidDispenserModule.data[0].sP1P);
+
             let newValue = parseInt(value);
 
             if (newValue < 0 || newValue > 1000) {
@@ -1659,13 +1676,14 @@ export default {
         case 'pumpLeft':
 
           if (click === 'mousedown') {
+            document.getElementById('wheelRight').hidden = true;
             document.getElementById('wheelLeft').hidden = false;
-            document.getElementById('wheelRight').hidden = true;
-          } else {
-            document.getElementById('wheelLeft').hidden = true;
-            document.getElementById('wheelRight').hidden = true;
-          }
 
+          } else if (click === 'mouseup') {
+
+            document.getElementById('wheelRight').hidden = true;
+            document.getElementById('wheelLeft').hidden = true;
+          }
 
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: -3000000}};
@@ -1679,11 +1697,13 @@ export default {
         case 'pumpRight':
 
           if (click === 'mousedown') {
-            document.getElementById('wheelLeft').hidden = true;
             document.getElementById('wheelRight').hidden = false;
-          } else {
             document.getElementById('wheelLeft').hidden = true;
+
+          } else if (click === 'mouseup') {
+
             document.getElementById('wheelRight').hidden = true;
+            document.getElementById('wheelLeft').hidden = true;
           }
 
           if (click === 'mousedown') {
@@ -2174,29 +2194,50 @@ select {
 
 #wheelDiv {
   height: fit-content;
-  margin-top: 500px;
-  margin-left: -650px;
+  margin-top: 520px;
+  margin-left: -655px;
 }
-
 
 #wheelRight {
   height: 15%;
   max-width: 15%;
-  margin-top: 30px;
   -webkit-animation: spin 3s linear infinite;
   animation: spin 3s linear infinite;
 }
 
+.hidden-elt {
+  visibility: hidden;
+}
 
+.visible-elt {
+  visibility: visible;
+}
 
 #wheelLeft {
   height: 15%;
   max-width: 15%;
-  margin-top: 30px;
   -webkit-animation: spin1 3s linear infinite;
   animation: spin1 3s linear infinite;
-
 }
+
+#wheelRight1 {
+  margin-top: 70px;
+  margin-left: 200px;
+  height: 12%;
+  max-width: 12%;
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
+}
+
+#wheelLeft1 {
+  margin-top: 70px;
+  margin-left: 200px;
+  height: 12%;
+  max-width: 12%;
+  -webkit-animation: spin1 3s linear infinite;
+  animation: spin1 3s linear infinite;
+}
+
 
 #noWheel {
   height: 15%;

@@ -2,8 +2,8 @@
   <div>
 
     <!--Method action-->
-    <div style="min-height: 100px">
-      <v-card>
+    <div style="min-height: 100px" >
+      <v-card class="visibleTop">
         <v-card-title class="justify-center">
           Method: {{ currentMethod.name }}
 
@@ -50,6 +50,7 @@
 
           <v-btn color="success"
                  class="ma-2 white--text"
+                 justify="end"
                  @click="initMethodRun"
                  v-if="!runningStep.paused"
           >
@@ -1066,6 +1067,12 @@ export default {
 
 .module-title-color {
   color: dodgerblue
+}
+.visibleTop{
+  position: fixed;
+  width: 100%;
+  z-index: 3;
+
 }
 
 .style-1 {
