@@ -1063,7 +1063,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .module-title-color {
   color: dodgerblue

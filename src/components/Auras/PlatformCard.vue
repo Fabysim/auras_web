@@ -2201,6 +2201,7 @@ select {
   max-width: 15%;
   -webkit-animation: spin 3s linear infinite;
   animation: spin 3s linear infinite;
+  visibility: hidden;
 }
 
 .hidden-elt {
@@ -2216,6 +2217,7 @@ select {
   max-width: 15%;
   -webkit-animation: spin1 3s linear infinite;
   animation: spin1 3s linear infinite;
+  visibility: hidden;
 }
 
 #wheelRight1 {

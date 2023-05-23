@@ -64,7 +64,10 @@
           <v-data-table :headers="stepModule.columns"
                         :items="stepModule.data"
                         :hide-default-footer="true"
-                        disable-pagination>
+                        disable-pagination
+                        fixed-header
+                        height="400"
+          >
 
             <template v-slot:body="{ items, headers }">
               <tbody v-if="items.length > 0">
@@ -113,6 +116,8 @@
                         :items="tlcMigrationModule.data"
                         :hide-default-footer="true"
                         disable-pagination
+                        fixed-header
+                        height="400"
                     >
                       <template v-slot:body="{ items, headers }">
                         <tbody v-if="items.length > 0">
@@ -153,6 +158,8 @@
                         style="min-width: 150px"
                         :hide-default-footer="true"
                         disable-pagination
+                        fixed-header
+                        height="400"
                     >
                       <template v-slot:body="{ items, headers }">
                         <tbody v-if="items.length > 0">
@@ -197,6 +204,8 @@
                         :items="dropDispenserModule.data"
                         :hide-default-footer="true"
                         disable-pagination
+                        fixed-header
+                        height="400"
                     >
                       <template v-slot:body="{ items, headers }">
                         <tbody v-if="items.length > 0">
@@ -238,6 +247,8 @@
                         :items="liquidDispenserModule.data"
                         :hide-default-footer="true"
                         disable-pagination
+                        fixed-header
+                        height="400"
                     >
                       <template v-slot:body="{ items, headers }">
                         <tbody v-if="items.length > 0">
@@ -307,6 +318,8 @@
                         :items="waitingConditionModule.data"
                         :hide-default-footer="true"
                         disable-pagination
+                        fixed-header
+                        height="400"
                     >
                       <template v-slot:body="{ items, headers }">
                         <tbody v-if="items.length > 0">
@@ -364,6 +377,8 @@
                         :items="commentModule.data"
                         :hide-default-footer="true"
                         disable-pagination
+                        fixed-header
+                        height="400"
                     >
                       <template v-slot:body="{ items, headers }">
                         <tbody v-if="items.length > 0">
