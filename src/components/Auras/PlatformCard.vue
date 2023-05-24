@@ -1,8 +1,6 @@
 <template>
 
   <div id="platform">
-
-
     <!--Actions-->
 
     <v-card class="table"

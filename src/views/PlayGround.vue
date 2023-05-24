@@ -1,102 +1,57 @@
 <template>
-  <div>
-
-    <h1 class="text-center">Téléchargement</h1>
-    <div class="container">
-      <p>video.mp4</p>
-      <div class="progressbar-wrapper">
-        <div title="downloaded" class="progressbar mp4">100%</div>
-      </div>
-
-      <p>musique.mp3</p>
-      <div class="progressbar-wrapper">
-        <div title="downloading" class="progressbar mp3">60%</div>
-      </div>
+  <vue-horizontal>
+    <div class="item">
+      <h3>HTML Tag</h3>
+      <p>As you can see these are just html elements.</p>
     </div>
-
-  </div>
+    <section>
+      <h4>Don't have to be the same tag</h4>
+      <p>I used a h4 instead of a h3</p>
+    </section>
+    <section>
+      <h3>Navigation Button</h3>
+      <p>The navigation button will appear if there is an overflow.</p>
+    </section>
+    <section>
+      <h3>Scroll</h3>
+      <p>You can just trackpad to scroll still!</p>
+    </section>
+    <section>
+      <h3>Touch screen</h3>
+      <p>Touch screen works too!</p>
+    </section>
+    <section v-for="item in items" :key="item.i">
+      <h3>{{ item.title }}</h3>
+      <p>{{ item.content }}</p>
+    </section>
+    <section>
+      <h3>Last item?</h3>
+      <p>Maybe you want to display something different at the end?</p>
+    </section>
+  </vue-horizontal>
 </template>
 
 <script>
-
+import VueHorizontal from 'vue-horizontal';
 export default {
-  name: "PlayGround",
-  created() {
-
-  },
+  components: {VueHorizontal},
   data() {
     return {
-      deadline: '',
-
-    };
-  },
-  components: {},
-
-  methods: {}
+      // E.g: creates 5 array items...
+      items: [...Array(5).keys()].map((i) => {
+        return {i, title: `v-for: ${i}`, content: `🚀 Paragraph ${i}`};
+      }),
+    }
+  }
 }
-
-
 </script>
 
+
 <style scoped>
-
-:root {
-  --success: #00b894;
-  --progress: #e17055;
-}
-
-html {
-  box-sizing: border-box;
-}
-
-*, *:before, *:after {
-  box-sizing: inherit;
-}
-
-h1 {
-  text-transform: uppercase;
-  letter-spacing: 1.1px;
-}
-
-.container {
-  max-width: 720px;
-  margin: 0px auto;
-  width: 100%;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.progressbar-wrapper {
-  background-color: #dfe6e9;
-  color: white;
-  border-radius: 15px;
-  width: 100%;
-}
-
-.progressbar {
-  background-color: var(--progress);
-  color: white;
-  padding: 1rem;
-  text-align: right;
-  font-size: 20px;
-  border-radius: 15px;
-}
-
-.progressbar[title="downloading"] {
-  background-color: red;
-}
-
-.progressbar[title="downloaded"] {
-  background-color: var(--success);
-}
-
-.mp4 {
-  width: 100%;
-}
-
-.mp3 {
-  width: 10%;
+section,
+.item {
+  background: #f3f3f3;
+  padding: 16px 24px;
+  margin-right: 24px;
 }
 </style>

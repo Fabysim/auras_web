@@ -16,6 +16,8 @@
     "vue": "^2.7.14",
     "vue-axios": "^3.5.2",
     "vue-chartjs": "^4.1.2",
+    "vue-custom-scrollbar": "^1.4.4",
+    "vue-horizontal": "^0.8.12",
     "vue-json-excel": "^0.3.0",
     "vue-radial-progress": "^0.3.2",
     "vue-router": "^3.5.1",
