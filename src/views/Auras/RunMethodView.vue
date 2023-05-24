@@ -2,21 +2,24 @@
   <div>
 
     <!--Method action-->
-    <div style="min-height: 100px">
-      <v-card class="visibleTop">
+    <div style="min-height: 100px" class="visibleTop">
+      <v-card id="firstDiv" >
         <v-card-title class="justify-center">
           Method: {{ currentMethod.name }}
 
           <v-spacer/>
           <v-btn color="#a83248"
                  class="white--text"
+                 width="150"
                  @click="redirectTo('IndexAuras')"
           >
             <v-icon>mdi-format-list-bulleted</v-icon>
             All Methods
           </v-btn>
+          <v-spacer/>
           <v-btn color="primary"
-                 class=" ma-2 white--text"
+                 width="150"
+                 class="ma-2 white--text"
                  @click="redirectTo('ConfigAuras')"
           >
             <v-icon small color="blue-grey-darken-2">
@@ -76,7 +79,6 @@
 
         </v-card-title>
 
-
       </v-card>
     </div>
 
@@ -93,7 +95,9 @@
                         :items="stepModule.data"
                         :hide-default-footer="true"
                         :item-class="itemRowBackground"
-                        disable-pagination>
+                        disable-pagination
+                        v-simple-table-sticky
+          >
 
           </v-data-table>
         </v-card-text>
@@ -119,7 +123,9 @@
                         :items="tlcMigrationModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-                        :item-class="itemRowBackground">
+                        :item-class="itemRowBackground"
+                        v-simple-table-sticky
+                    >
 
                     </v-data-table>
 
@@ -139,6 +145,7 @@
                         :hide-default-footer="true"
                         disable-pagination
                         :item-class="itemRowBackground"
+                        v-simple-table-sticky
                     >
 
                     </v-data-table>
@@ -163,6 +170,7 @@
                         :hide-default-footer="true"
                         disable-pagination
                         :item-class="itemRowBackground"
+                        v-simple-table-sticky
                     >
                     </v-data-table>
                   </v-card-text>
@@ -185,6 +193,7 @@
                         :hide-default-footer="true"
                         disable-pagination
                         :item-class="itemRowBackground"
+                        v-simple-table-sticky
                     >
                     </v-data-table>
                   </v-card-text>
@@ -205,6 +214,7 @@
                         :hide-default-footer="true"
                         disable-pagination
                         :item-class="itemRowBackground"
+                        v-simple-table-sticky
                     >
                     </v-data-table>
                   </v-card-text>
@@ -223,6 +233,7 @@
                         :hide-default-footer="true"
                         disable-pagination
                         :item-class="itemRowBackground"
+                        v-simple-table-sticky
                     >
                     </v-data-table>
 
@@ -244,7 +255,9 @@
           <v-data-table :headers="actionsModule.columns"
                         :items="actionsModule.data"
                         :hide-default-footer="true"
-                        disable-pagination>
+                        disable-pagination
+                        v-simple-table-sticky
+          >
             <template v-slot:[`item.runStep`]="{ item }">
 
               <v-tooltip bottom>
@@ -335,6 +348,7 @@ import VueScrollSnap from "vue-scroll-snap";
 import CountDown from "@/components/CountDown";
 import PlatFormCard from "@/components/Auras/PlatformCard";
 import VueHorizontal from "vue-horizontal";
+import Vue from "vue";
 
 export default {
   name: "RunAurasView",
@@ -1071,6 +1085,68 @@ export default {
 
   }
 }
+
+
+function stickyScrollHandler(el) {
+  return () => {
+    const getOffsetTop = function (element) {
+      let offsetTop = 0;
+      while (element) {
+        offsetTop += element.offsetTop;
+        element = element.offsetParent;
+      }
+      return offsetTop;
+    }
+
+    const table = el.querySelector("table");
+    const tableHeader = el.querySelector(".adx-table_sticky_header");
+    let tableHeaderFloat = el.querySelector(".adx-table_sticky--float");
+
+    let navOffset = document.getElementById('firstDiv').offsetHeight;
+
+
+    const pos = getOffsetTop(table)-navOffset - window.scrollY;
+
+
+    if (pos < 0) {
+      if (!tableHeaderFloat) {
+        const clone = tableHeader.cloneNode(true);
+        clone.classList.remove('.table_sticky_header');
+
+        tableHeaderFloat = document.createElement('table');
+        tableHeaderFloat.appendChild(clone);
+        tableHeaderFloat.classList.add("adx-table_sticky--float");
+        table.parentNode.appendChild(tableHeaderFloat);
+
+        tableHeader.style.opacity = 1;
+      }
+
+      if (Math.abs(pos) < table.offsetHeight - tableHeaderFloat.offsetHeight) {
+        tableHeaderFloat.style.position = "absolute";
+        tableHeaderFloat.style.top = Math.abs(pos) + "px";
+      }
+    } else {
+      if (tableHeaderFloat) {
+        tableHeaderFloat.remove();
+      }
+
+      tableHeader.style.opacity = 1;
+      tableHeader.style.background = 'white';
+    }
+  }
+}
+
+Vue.directive("simple-table-sticky", {
+  bind: function (el) {
+    el.querySelector("table thead").classList.add("adx-table_sticky_header");
+    el.style.position = "relative"
+
+    window.addEventListener('scroll', stickyScrollHandler(el));
+  },
+  unbind: function (el) {
+    window.removeEventListener('scroll', stickyScrollHandler(el));
+  }
+});
 </script>
 
 <style>
@@ -1080,9 +1156,15 @@ export default {
 }
 
 .visibleTop {
-  position: fixed;
+  position: sticky;
+  top: 0;
   width: 100%;
   z-index: 3;
+  opacity: 1;
+}
+
+.no-opacity{
+  opacity: 1;
 }
 
 .style-1 {
