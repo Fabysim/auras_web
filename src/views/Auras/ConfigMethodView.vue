@@ -54,7 +54,7 @@
     </div>
     <!-- Method data -->
 
-    <vue-scroll-snap style="width:100%; overflow: hidden; ; z-index: 1;position: relative" :horizontal="true">
+    <vue-scroll-snap style="width:100%; overflow: hidden; " :horizontal="true">
 
       <!--Steps -->
 
@@ -65,6 +65,7 @@
                         :items="stepModule.data"
                         :hide-default-footer="true"
                         disable-pagination
+                        v-simple-table-sticky
           >
 
             <template v-slot:body="{ items, headers }">
@@ -103,305 +104,314 @@
 
         <vue-horizontal scroll snap="none">
 
-            <table>
+          <table>
 
-              <tr>
-                <!--TLC Module-->
+            <tr>
+              <!--TLC Module-->
 
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color">{{ tlcMigrationModule.name }}</v-card-title>
-                    <v-card-text>
-                      <v-data-table
-                          :headers="tlcMigrationModule.columns"
-                          :items="tlcMigrationModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, tlcMigrationModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open(item[header.value], key, tlcMigrationModule.name, idx)"
-                                             @close="close"
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">{{ tlcMigrationModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="tlcMigrationModule.columns"
+                        :items="tlcMigrationModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
 
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <v-select :items="tlcMigrationModule.items"
-                                            v-model="tlcMigrationModule.update.selectedOption"/>
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table>
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, tlcMigrationModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open(item[header.value], key, tlcMigrationModule.name, idx)"
+                                           @close="close"
 
-                    </v-card-text>
-                  </v-card>
-                </td>
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-select :items="tlcMigrationModule.items"
+                                          v-model="tlcMigrationModule.update.selectedOption"/>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
 
-                <!--PH Meter Module-->
+                  </v-card-text>
+                </v-card>
+              </td>
 
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
-                    <v-card-text>
-                      <v-data-table
-                          :headers="phMeterModule.columns"
-                          :items="phMeterModule.data"
-                          style="min-width: 150px"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open(item[header.value], key, phMeterModule.name, idx)"
-                                             @close="close"
+              <!--PH Meter Module-->
 
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <v-select :items="phMeterModule.items"
-                                            v-model="phMeterModule.update.selectedOption"/>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="phMeterModule.columns"
+                        :items="phMeterModule.data"
+                        style="min-width: 150px"
+                        :hide-default-footer="true"
+                        disable-pagination
 
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table>
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open(item[header.value], key, phMeterModule.name, idx)"
+                                           @close="close"
 
-                    </v-card-text>
-                  </v-card>
-                </td>
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-select :items="phMeterModule.items"
+                                          v-model="phMeterModule.update.selectedOption"/>
 
-                <!--Drop dispenser module-->
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
 
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color">
-                      <!--{{ dropDispenserModule.name }}-->
-                      DD
-                    </v-card-title>
+                  </v-card-text>
+                </v-card>
+              </td>
 
-                    <v-card-text>
-                      <v-data-table
-                          :headers="dropDispenserModule.columns"
-                          :items="dropDispenserModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, dropDispenserModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open(item[header.value], key, dropDispenserModule.name, idx)"
-                                             @close="close">
-                                {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <v-select :items="dropDispenserModule.items"
-                                            v-model="dropDispenserModule.update.selectedOption"/>
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table>
-                    </v-card-text>
+              <!--Drop dispenser module-->
 
-                  </v-card>
-                </td>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">
+                    <!--{{ dropDispenserModule.name }}-->
+                    DD
+                  </v-card-title>
 
-                <!--Liquid dispenser module-->
+                  <v-card-text>
+                    <v-data-table
+                        :headers="dropDispenserModule.columns"
+                        :items="dropDispenserModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, dropDispenserModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open(item[header.value], key, dropDispenserModule.name, idx)"
+                                           @close="close">
+                              {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-select :items="dropDispenserModule.items"
+                                          v-model="dropDispenserModule.update.selectedOption"/>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
+                  </v-card-text>
 
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
-                      {{ liquidDispenserModule.name }}
-                    </v-card-title>
+                </v-card>
+              </td>
 
-                    <v-card-text>
-                      <v-data-table
-                          :headers="liquidDispenserModule.columns"
-                          :items="liquidDispenserModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open(item[header.value], key, liquidDispenserModule.name, idx)"
-                                             @close="close"
+              <!--Liquid dispenser module-->
 
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <table
-                                      v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
-                                    <tr>
-                                      <td>
-                                        <v-select :items="liquidDispenserModule.items"
-                                                  v-model="liquidDispenserModule.update.selectedSPOption"/>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td v-if="liquidDispenserModule.update.volumeSelected">
-                                        <v-text-field v-model="liquidDispenserModule.update.selectedValue"
-                                                      :rules="[rules.acceptedValues]"
-                                                      label="Volume in µL"/>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color" style="color: dodgerblue">
+                    {{ liquidDispenserModule.name }}
+                  </v-card-title>
 
-                                      </td>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="liquidDispenserModule.columns"
+                        :items="liquidDispenserModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open(item[header.value], key, liquidDispenserModule.name, idx)"
+                                           @close="close"
 
-                                    </tr>
-                                  </table>
-                                  <table v-else-if="header.value.includes('displayedLds')">
-                                    <tr>
-                                      <td>
-                                        <v-select :items="liquidDispenserModule.items2"
-                                                  v-model="liquidDispenserModule.update.selectedLDSOption"/>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                  <v-text-field v-else
-                                                v-model="item[header.value]"
-                                                label="Edit"
-                                                single-line
-                                  />
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
-                      </v-data-table>
-                    </v-card-text>
-                  </v-card>
-                </td>
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <table
+                                    v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
+                                  <tr>
+                                    <td>
+                                      <v-select :items="liquidDispenserModule.items"
+                                                v-model="liquidDispenserModule.update.selectedSPOption"/>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td v-if="liquidDispenserModule.update.volumeSelected">
+                                      <v-text-field v-model="liquidDispenserModule.update.selectedValue"
+                                                    :rules="[rules.acceptedValues]"
+                                                    label="Volume in µL"/>
 
-                <!--waiting condition-->
+                                    </td>
 
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color">
-                      {{ waitingConditionModule.name }}
-                    </v-card-title>
-                    <v-card-text>
-                      <v-data-table
-                          :headers="waitingConditionModule.columns"
-                          :items="waitingConditionModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, waitingConditionModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open(item[header.value], key, waitingConditionModule.name, idx)"
-                                             @close="close"
+                                  </tr>
+                                </table>
+                                <table v-else-if="header.value.includes('displayedLds')">
+                                  <tr>
+                                    <td>
+                                      <v-select :items="liquidDispenserModule.items2"
+                                                v-model="liquidDispenserModule.update.selectedLDSOption"/>
+                                    </td>
+                                  </tr>
+                                </table>
+                                <v-text-field v-else
+                                              v-model="item[header.value]"
+                                              label="Edit"
+                                              single-line
+                                />
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
+                  </v-card-text>
+                </v-card>
+              </td>
 
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <table>
-                                    <tr>
-                                      <td>
-                                        <v-select
-                                            v-model="updateWaitingCondition.selectedOption"
-                                            :items="updateWaitingCondition.items"
-                                        >
+              <!--waiting condition-->
 
-                                        </v-select>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td v-if="updateWaitingCondition.timeoutOptionSelected">
-                                        <v-text-field
-                                            label="timeout in ms"
-                                            v-model="updateWaitingCondition.timeoutValue"
-                                        />
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">
+                    {{ waitingConditionModule.name }}
+                  </v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="waitingConditionModule.columns"
+                        :items="waitingConditionModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, waitingConditionModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open(item[header.value], key, waitingConditionModule.name, idx)"
+                                           @close="close"
 
-                      </v-data-table>
-                    </v-card-text>
-                  </v-card>
-                </td>
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <table>
+                                  <tr>
+                                    <td>
+                                      <v-select
+                                          v-model="updateWaitingCondition.selectedOption"
+                                          :items="updateWaitingCondition.items"
+                                      >
 
-                <!--Comments-->
+                                      </v-select>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td v-if="updateWaitingCondition.timeoutOptionSelected">
+                                      <v-text-field
+                                          label="timeout in ms"
+                                          v-model="updateWaitingCondition.timeoutValue"
+                                      />
+                                    </td>
+                                  </tr>
+                                </table>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
 
-                <td>
-                  <v-card>
-                    <v-card-title class="justify-center module-title-color">Comment</v-card-title>
-                    <v-card-text>
-                      <v-data-table
-                          :headers="commentModule.columns"
-                          :items="commentModule.data"
-                          :hide-default-footer="true"
-                          disable-pagination
-                      >
-                        <template v-slot:body="{ items, headers }">
-                          <tbody v-if="items.length > 0">
-                          <tr v-for="(item,idx) in items" :key="idx">
-                            <td v-for="(header,key) in headers" :key="key">
-                              <v-edit-dialog large
-                                             :return-value.sync="item[header.value]"
-                                             @save="updateLine(item[header.value], key, commentModule.name, idx)"
-                                             @cancel="cancelLineUpdate"
-                                             @open="open"
-                                             @close="close"
+                    </v-data-table>
+                  </v-card-text>
+                </v-card>
+              </td>
 
-                              > {{ item[header.value] }}
-                                <template v-slot:input>
-                                  <v-text-field
-                                      v-model="item[header.value]"
-                                      label="Edit"
-                                      single-line
-                                  ></v-text-field>
-                                </template>
-                              </v-edit-dialog>
-                            </td>
-                          </tr>
-                          </tbody>
-                        </template>
+              <!--Comments-->
 
-                      </v-data-table>
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">Comment</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="commentModule.columns"
+                        :items="commentModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
 
-                    </v-card-text>
-                  </v-card>
-                </td>
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, commentModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open"
+                                           @close="close"
 
-              </tr>
-            </table>
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-text-field
+                                    v-model="item[header.value]"
+                                    label="Edit"
+                                    single-line
+                                ></v-text-field>
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+
+                    </v-data-table>
+
+                  </v-card-text>
+                </v-card>
+              </td>
+
+            </tr>
+          </table>
 
         </vue-horizontal>
       </v-card>
@@ -414,7 +424,9 @@
           <v-data-table :headers="actionsModule.columns"
                         :items="actionsModule.data"
                         :hide-default-footer="true"
-                        disable-pagination>
+                        disable-pagination
+                        v-simple-table-sticky
+          >
             <template v-slot:[`item.actions`]="{ item }">
 
               <v-tooltip bottom>
@@ -1698,12 +1710,79 @@ export default {
           });
 
     },
+
   }
 }
+
+function stickyScrollHandler(el) {
+  return () => {
+    const getOffsetTop = function (element) {
+      let offsetTop = 0;
+      while (element) {
+        offsetTop += element.offsetTop;
+        element = element.offsetParent;
+      }
+      return offsetTop;
+    }
+
+    const table = el.querySelector("table");
+    const tableHeader = el.querySelector(".adx-table_sticky_header");
+    let tableHeaderFloat = el.querySelector(".adx-table_sticky--float");
+
+    const pos = getOffsetTop(table) - window.scrollY;
+
+    if (pos < 0) {
+      if (!tableHeaderFloat) {
+        const clone = tableHeader.cloneNode(true);
+        clone.classList.remove('.table_sticky_header');
+
+        tableHeaderFloat = document.createElement('table');
+        tableHeaderFloat.appendChild(clone);
+        tableHeaderFloat.classList.add("adx-table_sticky--float");
+        table.parentNode.appendChild(tableHeaderFloat);
+
+        tableHeader.style.opacity = 0;
+      }
+
+      if (Math.abs(pos) < table.offsetHeight - tableHeaderFloat.offsetHeight) {
+        tableHeaderFloat.style.position = "absolute";
+        tableHeaderFloat.style.top = Math.abs(pos) + "px";
+      }
+    } else {
+      if (tableHeaderFloat) {
+        tableHeaderFloat.remove();
+      }
+
+      tableHeader.style.opacity = 1;
+      tableHeader.style.background = 'white';
+    }
+  }
+}
+
+Vue.directive("simple-table-sticky", {
+  bind: function (el) {
+    el.querySelector("table thead").classList.add("adx-table_sticky_header");
+    el.style.position = "relative"
+
+    window.addEventListener('scroll', stickyScrollHandler(el));
+  },
+  unbind: function (el) {
+    window.removeEventListener('scroll', stickyScrollHandler(el));
+  }
+});
 </script>
 
 
 <style scoped>
+
+v-data-table /deep/ .sticky-header {
+  position: sticky;
+  top: 10px;
+}
+
+v-data-table /deep/ .v-data-table__wrapper {
+  overflow: unset;
+}
 
 table {
   table-layout: auto;
