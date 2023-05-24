@@ -101,7 +101,6 @@
 
       <v-card elevation="0" style="width:88%;">
 
-
         <vue-horizontal scroll snap="none" responsive :displacement="0.5">
 
           <table>
@@ -414,6 +413,7 @@
           </table>
 
         </vue-horizontal>
+
       </v-card>
 
       <!--Step actions-->
@@ -1800,7 +1800,8 @@ table .absorbing-column {
 
 .horizontal >>> .v-hl-btn svg {
   margin-left: 60px;
-  background: lightgray;
+  background: lightsteelblue;
+  opacity: 0.50;
 
 }
 

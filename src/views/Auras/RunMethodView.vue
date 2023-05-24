@@ -102,7 +102,9 @@
       <!--Module tables-->
 
       <v-card elevation="0" style="width:82%">
-        <vue-scroll-snap :horizontal="true">
+
+        <vue-horizontal scroll snap="none" responsive :displacement="0.5">
+
           <table>
             <tr>
 
@@ -229,7 +231,9 @@
               </td>
             </tr>
           </table>
-        </vue-scroll-snap>
+
+        </vue-horizontal>
+
       </v-card>
 
       <!--Step actions-->
@@ -330,13 +334,15 @@ import axios from "axios";
 import VueScrollSnap from "vue-scroll-snap";
 import CountDown from "@/components/CountDown";
 import PlatFormCard from "@/components/Auras/PlatformCard";
+import VueHorizontal from "vue-horizontal";
 
 export default {
   name: "RunAurasView",
   components: {
     VueScrollSnap,
     PlatFormCard,
-    CountDown
+    CountDown,
+    VueHorizontal
   },
   data: () => ({
     connection: null,
@@ -1077,7 +1083,6 @@ export default {
   position: fixed;
   width: 100%;
   z-index: 3;
-
 }
 
 .style-1 {
@@ -1085,5 +1090,13 @@ export default {
   background-color: #e07b39;
 }
 
+</style>
 
+<style scoped>
+.horizontal >>> .v-hl-btn svg {
+  margin-left: 60px;
+  background: lightsteelblue;
+  opacity: 0.50;
+
+}
 </style>
