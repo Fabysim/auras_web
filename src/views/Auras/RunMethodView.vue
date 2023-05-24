@@ -3,7 +3,7 @@
 
     <!--Method action-->
     <div style="min-height: 100px" class="visibleTop">
-      <v-card id="firstDiv" >
+      <v-card id="navCard" >
         <v-card-title class="justify-center">
           Method: {{ currentMethod.name }}
 
@@ -1102,7 +1102,7 @@ function stickyScrollHandler(el) {
     const tableHeader = el.querySelector(".adx-table_sticky_header");
     let tableHeaderFloat = el.querySelector(".adx-table_sticky--float");
 
-    let navOffset = document.getElementById('firstDiv').offsetHeight;
+    let navOffset = document.getElementById('navCard').offsetHeight;
 
 
     const pos = getOffsetTop(table)-navOffset - window.scrollY;
