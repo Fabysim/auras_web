@@ -102,7 +102,7 @@
       <v-card elevation="0" style="width:88%;">
 
 
-        <vue-horizontal scroll snap="none">
+        <vue-horizontal scroll snap="none" responsive :displacement="0.5">
 
           <table>
 
