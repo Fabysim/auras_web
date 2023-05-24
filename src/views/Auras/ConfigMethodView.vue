@@ -1800,6 +1800,7 @@ table .absorbing-column {
 
 .horizontal >>> .v-hl-btn svg {
   margin-left: 60px;
+  background: lightgray;
 
 }
 
