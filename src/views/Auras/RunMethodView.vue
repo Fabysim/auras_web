@@ -564,7 +564,9 @@ export default {
       if (stopped === undefined) {
         this.blockingDialog.state = true;
         this.blockingDialog.text = 'Run of method finished!';
+
       } else {
+
         let data = {
           stopMethod: true
         }

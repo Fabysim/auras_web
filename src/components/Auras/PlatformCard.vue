@@ -615,7 +615,7 @@ export default {
         sp1Width: '10%',
         sp2Width: '10%',
         sp3Width: '10%',
-        wheelSpeed: '5',
+        speed: 2,
         overflowDialog: {
           open: false,
           message: ''
@@ -800,12 +800,10 @@ export default {
       return this.sp3Width;
     },
 
-
   },
   /*------------------------------------------------------------------------
   * Loads data when this page (component) is mounted
   * ------------------------------------------------------------------------*/
-
 
   mounted() {
     this.fetchNetworkByName('Auras');
@@ -1422,17 +1420,26 @@ export default {
 
         if (value > 0) {
 
+          let speed = 60 / value;
+
           let element = document.getElementById('wheelRight');
           element.style.display = 'inline';
           element.style.visibility = 'visible';
+          element.style.animationDuration = speed + "s";
+
+
           let element1 = document.getElementById('wheelLeft');
           element1.style.display = 'none';
 
         } else if (value < 0) {
 
+          let speed = -1 * (60 / value);
           let element = document.getElementById('wheelLeft');
           element.style.display = 'inline';
           element.style.visibility = 'visible';
+          element.style.animationDuration = speed + "s";
+
+
           let element1 = document.getElementById('wheelRight');
           element1.style.display = 'none';
 
@@ -1679,16 +1686,6 @@ export default {
 
         case 'pumpLeft':
 
-          /*   if (click === 'mousedown') {
-               document.getElementById('wheelRight').hidden = true;
-               document.getElementById('wheelLeft').hidden = false;
-
-             } else  {
-
-               document.getElementById('wheelRight').hidden = true;
-               document.getElementById('wheelLeft').hidden = true;
-             }*/
-
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: -3000000}};
             this.sendToWebsocket(data);
@@ -1700,15 +1697,6 @@ export default {
 
         case 'pumpRight':
 
-          /* if (click === 'mousedown') {
-             document.getElementById('wheelRight').hidden = false;
-             document.getElementById('wheelLeft').hidden = true;
-
-           } else if (click === 'mouseup') {
-
-             document.getElementById('wheelRight').hidden = true;
-             document.getElementById('wheelLeft').hidden = true;
-           }*/
 
           if (click === 'mousedown') {
             let data = {PUMP1: {MoveTo: 3000000}};
@@ -1735,12 +1723,13 @@ export default {
     ,
 
     setDefaultSettings() {
-      /*
-            document.getElementById('wheelLeft').hidden = true;
-            document.getElementById('wheelRight').hidden = true;*/
+
+      document.getElementById('wheelLeft').style.display = 'none';
+      document.getElementById('wheelRight').style.display = 'none';
     }
   }
 }
+
 </script>
 
 <style scoped>
@@ -2209,7 +2198,6 @@ select {
   animation: spin 3s linear infinite;
 }
 
-
 #wheelLeft {
   height: 15%;
   max-width: 15%;
@@ -2259,4 +2247,9 @@ select {
     transform: rotate(0deg);
   }
 }
+</style>
+
+<style lang="scss">
+
+
 </style>
