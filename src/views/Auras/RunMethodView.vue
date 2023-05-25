@@ -3,7 +3,7 @@
 
     <!--Method action-->
     <div style="min-height: 100px" class="visibleTop">
-      <v-card id="navCard" >
+      <v-card id="navCard">
         <v-card-title class="justify-center">
           Method: {{ currentMethod.name }}
 
@@ -564,6 +564,11 @@ export default {
       if (stopped === undefined) {
         this.blockingDialog.state = true;
         this.blockingDialog.text = 'Run of method finished!';
+      } else {
+        let data = {
+          stopMethod: true
+        }
+        this.sendToWebsocket(data);
       }
 
     },
@@ -1104,7 +1109,7 @@ function stickyScrollHandler(el) {
     let navOffset = document.getElementById('navCard').offsetHeight;
 
 
-    const pos = getOffsetTop(table)-navOffset - window.scrollY;
+    const pos = getOffsetTop(table) - navOffset - window.scrollY;
 
 
     if (pos < 0) {
@@ -1155,7 +1160,7 @@ Vue.directive("simple-table-sticky", {
 }
 
 
-.no-opacity{
+.no-opacity {
   opacity: 1;
 }
 
