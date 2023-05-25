@@ -16,7 +16,6 @@
             <v-icon>mdi-format-list-bulleted</v-icon>
             All Methods
           </v-btn>
-          <v-spacer/>
           <v-btn color="primary"
                  width="150"
                  class="ma-2 white--text"
@@ -1155,13 +1154,6 @@ Vue.directive("simple-table-sticky", {
   color: dodgerblue
 }
 
-.visibleTop {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 3;
-  opacity: 1;
-}
 
 .no-opacity{
   opacity: 1;
@@ -1180,5 +1172,13 @@ Vue.directive("simple-table-sticky", {
   background: lightsteelblue;
   opacity: 0.50;
 
+}
+
+.visibleTop {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  opacity: 1;
 }
 </style>

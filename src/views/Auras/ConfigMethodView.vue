@@ -1,8 +1,8 @@
 <template>
   <div>
     <!--Method actions-->
-    <div style="min-height: 100px">
-      <v-card elevation="1">
+    <div style="min-height: 100px" class="visibleTop">
+      <v-card elevation="1" id="navCard">
         <v-card-title class="justify-center">
           Method: {{ currentMethod.name }}
 
@@ -1729,7 +1729,9 @@ function stickyScrollHandler(el) {
     const tableHeader = el.querySelector(".adx-table_sticky_header");
     let tableHeaderFloat = el.querySelector(".adx-table_sticky--float");
 
-    const pos = getOffsetTop(table) - window.scrollY;
+    let navOffset = document.getElementById('navCard').offsetHeight;
+
+    const pos = getOffsetTop(table)-navOffset - window.scrollY;
 
     if (pos < 0) {
       if (!tableHeaderFloat) {
@@ -1803,6 +1805,14 @@ table .absorbing-column {
   background: lightsteelblue;
   opacity: 0.50;
 
+}
+
+.visibleTop {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  opacity: 1;
 }
 
 </style>
