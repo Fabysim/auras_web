@@ -300,7 +300,7 @@
 
     </vue-scroll-snap>
 
-    <PlatFormCard mode="run" ref="plateForm"/>
+    <PlatFormCard mode="run" total-of-steps="stepModule.totalOfSteps" ref="plateForm"/>
 
     <!--Timeout dialog-->
 
@@ -522,10 +522,16 @@ export default {
     this.initialization();
     this.fetchModulesList();
     this.loadModulesData();
+    this.$refs.plateForm.totalOfSteps = this.stepModule.totalOfSteps;
   },
   computed: {},
 
   watch: {
+
+    'currentStep.running'(){
+
+      console.log(this.currentStep.running);
+    },
 
     'currentStep.number'() {
       if (
@@ -543,6 +549,7 @@ export default {
      *  Sends initialization message
      * -------------------------------------------------------------------------*/
     initMethodRun() {
+
 
       this.currentStep.runAllMethod = true;
       this.currentStep.running = true;
@@ -626,37 +633,6 @@ export default {
       this.$refs.plateForm.sendToWebsocket(stepToRun);
     },
 
-    /*--------------------------------------------------------------------------
-     * Extracts info from received Json
-     * -------------------------------------------------------------------------*/
-    extractDataSentFromSocket(data) {
-
-      const obj = JSON.parse(data);
-
-      if (obj.status === 'success') {
-
-        switch (obj.stage) {
-
-          case 'init':
-            setTimeout(() => this.runMethod(), 2000);
-            break;
-
-          case 'runMethod':
-            if (obj.stepNumber === this.stepModule.totalOfSteps - 1)
-              this.stopMethodRun();
-            else
-              this.manageWaitingCondition();
-            break;
-
-          case 'end':
-            // End run
-            // Initialize data
-            break;
-        }
-      }
-      console.log('received: ', data);
-    },
-
 
     /*--------------------------------------------------------------------------
     * Manage Waiting Condition after each step
@@ -668,8 +644,7 @@ export default {
 
       // Prevent from outbound steps
       if (this.currentStep.number > this.stepModule.totalOfSteps) {
-        this.currentStep.running = false;
-        this.currentStep.number = -1;
+        this.stopMethodRun();
         return;
       }
 

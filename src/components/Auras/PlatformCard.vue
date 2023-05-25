@@ -390,6 +390,12 @@
 
         <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
                 class="button firstLineComponent"
+                id="razPs3"
+                @click="resetSp('sp3')">
+          RAZ
+        </button>
+        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                class="button firstLineComponent"
                 id="volumeSp3Up"
                 @mousedown="moveStepperMotors('sp3Up','mousedown')"
                 @mouseup="moveStepperMotors('sp3Up','mouseup')">
@@ -418,6 +424,12 @@
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
 
+        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                class="button firstLineComponent"
+                id="razPs1"
+                @click="resetSp('sp1')">
+          RAZ
+        </button>
 
         <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
                 id="volumeSp1Up"
@@ -450,6 +462,13 @@
         <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP2">
           <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
         </select>
+
+        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                class="button firstLineComponent"
+                id="razPs2"
+                @click="resetSp('sp2')">
+          RAZ
+        </button>
         <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
                 id="volumeSp2Up"
                 class="button firstLineComponent"
@@ -603,14 +622,16 @@ export default {
   components: {
     VueScrollSnap
   },
-  props: ['mode'],
+  props: {
+    mode: String,
+    totalOfSteps: Number
+  },
 
   data: () => ({
 
         rotateRight: false,
         rotateLeft: false,
         noRotation: true,
-        totalOfSteps: 0,
         readOnly: false,
         sp1Width: '10%',
         sp2Width: '10%',
@@ -1002,9 +1023,12 @@ export default {
         document.getElementById('select-sp1').disabled = true;
         document.getElementById('select-sp2').disabled = true;
         document.getElementById('select-sp3').disabled = true;
-        document.getElementById('ps1SpeedRange').disabled = true;
-        document.getElementById('ps2SpeedRange').disabled = true;
-        document.getElementById('ps3SpeedRange').disabled = true;
+        document.getElementById('ps1SpeedRange').style.visibility = 'hidden';
+        document.getElementById('ps2SpeedRange').style.visibility = 'hidden';
+        document.getElementById('ps3SpeedRange').style.visibility = 'hidden';
+        document.getElementById('pump1Speed').style.visibility = 'hidden';
+        document.getElementById('pumpLeft').style.visibility = 'hidden';
+        document.getElementById('pumpRight').style.visibility = 'hidden';
         document.getElementById('pump1Speed').disabled = true;
         document.getElementById('pump1Input').disabled = true;
 
@@ -1373,7 +1397,7 @@ export default {
       // SP3 Current speed
       if (obj.SP3Speed !== undefined) {
         let currentSpeed = parseInt(obj.SP3Speed) / 1000;
-        currentSpeed = currentSpeed.toFixed(1);
+        currentSpeed = currentSpeed.toFixed(0);
         this.liquidDispenserModule.sp3CurrentSpeed = currentSpeed;
         document.getElementById("ps3SpeedLabel").innerText = "Max Speed: " + this.liquidDispenserModule.sp3MaxSpeed + " µL/s";
         document.getElementById("ps3SpeedLabel").innerHTML += "\nCurrent Speed: " + currentSpeed + " µL/s";
@@ -1608,6 +1632,27 @@ export default {
           }
         }
       }
+    },
+
+    resetSp(id) {
+
+      let data = null;
+      switch (id) {
+
+        case 'sp1':
+           data = {SP1: {MoveTo: -2000000}};
+          this.sendToWebsocket(data);
+          break;
+        case'sp2':
+           data = {SP2: {MoveTo: -2000000}};
+          this.sendToWebsocket(data);
+          break;
+        case 'sp3':
+           data = {SP3: {MoveTo: -2000000}};
+          this.sendToWebsocket(data);
+          break;
+      }
+
     },
 
     /*------------------------------------------------------------------------
@@ -1923,12 +1968,17 @@ select {
 /* syringes */
 
 #select-sp3 {
-  margin-left: -1000px;
+  margin-left: -1020px;
   z-index: 1;
 }
 
 #volumeSp3Up {
   margin-left: 20px;
+}
+
+#razPs3 {
+  margin-left: 20px;
+  background-color: darkblue;
 }
 
 #volumeSp3Down {
@@ -1942,24 +1992,29 @@ select {
 }
 
 #ps3SpeedLabel {
-  margin-left: -270px;
-  font-size: 12px;
+  margin-left: -340px;
+  font-size: 14px;
   margin-top: 120px;
   height: fit-content;
-  width: 160px;
+  width: 170px;
   resize: none;
 }
 
 #ps3SpeedRange {
-  margin-left: -150px;
+  margin-left: -170px;
   margin-top: 160px;
   height: fit-content;
 }
 
 
 #select-sp1 {
-  margin-left: 200px;
+  margin-left: 280px;
   z-index: 1;
+}
+
+#razPs1 {
+  margin-left: 20px;
+  background-color: darkblue;
 }
 
 #volumeSp1Up {
@@ -1978,27 +2033,32 @@ select {
 }
 
 #ps1SpeedRange {
-  margin-left: -150px;
+  margin-left: -170px;
   margin-top: 160px;
   height: fit-content;
 }
 
 #ps1SpeedLabel {
-  margin-left: -260px;
-  font-size: 12px;
+  margin-left: -340px;
+  font-size: 14px;
   margin-top: 120px;
   height: fit-content;
-  width: 150px;
+  width: 170px;
   resize: none;
 }
 
 #select-sp2 {
-  margin-left: 220px;
+  margin-left: 260px;
   z-index: 1;
 }
 
 #volumeSp2Up {
   margin-left: 20px;
+}
+
+#razPs2 {
+  margin-left: 20px;
+  background-color: darkblue;
 }
 
 #volumeSp2Down {
@@ -2012,14 +2072,14 @@ select {
 }
 
 #ps2SpeedRange {
-  margin-left: -150px;
+  margin-left: -160px;
   margin-top: 160px;
   height: fit-content;
 }
 
 #ps2SpeedLabel {
-  margin-left: -270px;
-  font-size: 12px;
+  margin-left: -340px;
+  font-size: 14px;
   margin-top: 120px;
   height: fit-content;
   width: 160px;
@@ -2030,7 +2090,7 @@ select {
 /*pump*/
 
 #pumpLeft {
-  margin-left: -360px;
+  margin-left: -440px;
   margin-top: 350px;
 }
 
@@ -2052,11 +2112,11 @@ select {
 }
 
 #pumpsLabel {
-  margin-left: -130px;
-  margin-top: 380px;
-  font-size: 12px;
+  margin-left: -131px;
+  margin-top: 385px;
+  font-size: 14px;
   height: fit-content;
-  width: 150px;
+  width: 180px;
   resize: none;
 }
 
@@ -2180,7 +2240,7 @@ select {
   width: 155px;
   height: 15px;
   margin-top: 570px;
-  margin-left: -635px;
+  margin-left: -655px;
   z-index: 1;
 
 }
