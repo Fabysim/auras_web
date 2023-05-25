@@ -273,8 +273,7 @@
                                   <tr>
                                     <td v-if="liquidDispenserModule.update.volumeSelected">
                                       <v-text-field v-model="liquidDispenserModule.update.selectedValue"
-                                                    :rules="[rules.acceptedValues]"
-                                                    label="Volume in µL"/>
+                                                   label="Volume in µL"/>
 
                                     </td>
 
@@ -455,7 +454,7 @@
 
     <!-- PlatForms -->
 
-    <PlatFormCard mode="config" @lineSaved="SaveLine" ref="plateForm"/>
+    <PlatFormCard mode="config" @lineSaved="SaveLine" ref="plateForm" key="configComponent"/>
 
     <!--Confirm deletion dialog-->
 
@@ -1016,21 +1015,18 @@ export default {
 
       if (col === 12)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-          if (this.liquidDispenserModule.update.selectedValue >= 0 && this.liquidDispenserModule.update.selectedValue <= 1000)
             this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
         } else
           this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
 
       if (col === 14)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-          if (this.liquidDispenserModule.update.selectedValue >= 0 && this.liquidDispenserModule.update.selectedValue <= 1000)
             this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
         } else
           this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
 
       if (col === 16)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-          if (this.liquidDispenserModule.update.selectedValue >= 0 && this.liquidDispenserModule.update.selectedValue <= 1000)
             this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
         } else
           this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
