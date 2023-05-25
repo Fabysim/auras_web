@@ -358,7 +358,7 @@ export default {
               });
     },
 
-    /*--------------------------------------------------------------------------
+
     /*--------------------------------------------------------------------------
     * Delete method
     * -------------------------------------------------------------------------*/
@@ -380,6 +380,21 @@ export default {
       this.snackbar = true;
       this.dialogDelete = false;
       this.removeFocusToAll();
+    },
+
+    /*--------------------------------------------------------------------------
+    * Delete method
+    * -------------------------------------------------------------------------*/
+    getTotalSteps(id) {
+
+      axios.get('http://' + this.$aurasApi + 'api/Methods/NumberOfSteps/' +id)
+          .then(
+              (response) => {
+                if (response.status === 200) {
+                  this.$store.state.totalOfSteps = response.data;
+                }
+              })
+
     },
 
     /*--------------------------------------------------------------------------
@@ -445,6 +460,7 @@ export default {
      * Redirection to another page
      * -------------------------------------------------------------------------*/
     redirectTo(route, idMethod) {
+      this.getTotalSteps(idMethod);
       this.$router.push({name: route, params: {idMethod: idMethod}});
     }
 

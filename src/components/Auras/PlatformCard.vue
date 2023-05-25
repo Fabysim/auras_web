@@ -623,12 +623,12 @@ export default {
     VueScrollSnap
   },
   props: {
-    mode: String,
-    totalOfSteps: Number
+    mode: String
   },
 
   data: () => ({
 
+        totalOfSteps: 0,
         rotateRight: false,
         rotateLeft: false,
         noRotation: true,
@@ -830,6 +830,8 @@ export default {
     this.fetchNetworkByName('Auras');
     this.initialization();
 
+    this.totalOfSteps = this.$store.state.totalOfSteps;
+
   },
 
   watch: { // Listeners
@@ -1029,6 +1031,9 @@ export default {
         document.getElementById('pump1Speed').style.visibility = 'hidden';
         document.getElementById('pumpLeft').style.visibility = 'hidden';
         document.getElementById('pumpRight').style.visibility = 'hidden';
+        document.getElementById('razPs1').style.visibility = 'hidden';
+        document.getElementById('razPs2').style.visibility = 'hidden';
+        document.getElementById('razPs3').style.visibility = 'hidden';
         document.getElementById('pump1Speed').disabled = true;
         document.getElementById('pump1Input').disabled = true;
 
@@ -1151,6 +1156,7 @@ export default {
     * Method used to rotate pinch valves physically
     * ------------------------------------------------------------------------*/
     manageRunStages(data) {
+
       const obj = JSON.parse(data);
 
       this.hidePump();
@@ -1164,7 +1170,7 @@ export default {
             break;
 
           case 'runMethod':
-            if (obj.stepNumber === this.totalOfSteps - 1)
+            if (obj.stepNumber === this.$parent.stepModule.totalOfSteps - 1)
               this.$parent.stopMethodRun();
             else
               this.$parent.manageWaitingCondition();
@@ -1187,7 +1193,6 @@ export default {
     * -------------------------------------------------------------------------*/
     extractDataSentFromSocket(data) {
 
-
       if (data === '') return;
       if (data === undefined) return;
 
@@ -1199,7 +1204,7 @@ export default {
         if (obj.stage === 'init') {
           this.setDefaultSettings();
         } else {
-
+          console.log('pass')
           this.manageRunStages(data);
           return;
         }
@@ -1640,15 +1645,15 @@ export default {
       switch (id) {
 
         case 'sp1':
-           data = {SP1: {MoveTo: -2000000}};
+          data = {SP1: {MoveTo: -2000000}};
           this.sendToWebsocket(data);
           break;
         case'sp2':
-           data = {SP2: {MoveTo: -2000000}};
+          data = {SP2: {MoveTo: -2000000}};
           this.sendToWebsocket(data);
           break;
         case 'sp3':
-           data = {SP3: {MoveTo: -2000000}};
+          data = {SP3: {MoveTo: -2000000}};
           this.sendToWebsocket(data);
           break;
       }

@@ -9,7 +9,7 @@ export default new Vuex.Store({
         currentIp: '',
         ddIp: '10.10.17.140:81',
         csIp: '10.10.17.241:81',
-        mecatechIp:'10.10.15.101',
+        mecatechIp: '10.10.15.101',
 
         // Modules Names
         trayModuleName: 'Tray',
@@ -21,7 +21,10 @@ export default new Vuex.Store({
         aurasModuleName: 'Auras',
         commentModuleName: 'Comment',
         lalModuleName: 'LAL',
-        connectionWS:null
+
+        //Miscellaneous
+        connectionWS: null,
+        totalOfSteps:0,
 
 
     },

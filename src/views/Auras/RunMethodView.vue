@@ -300,7 +300,7 @@
 
     </vue-scroll-snap>
 
-    <PlatFormCard mode="run" total-of-steps="stepModule.totalOfSteps" ref="plateForm"/>
+    <PlatFormCard mode="run" ref="plateForm"/>
 
     <!--Timeout dialog-->
 
@@ -522,7 +522,6 @@ export default {
     this.initialization();
     this.fetchModulesList();
     this.loadModulesData();
-    this.$refs.plateForm.totalOfSteps = this.stepModule.totalOfSteps;
   },
   computed: {},
 
@@ -640,14 +639,6 @@ export default {
     manageWaitingCondition() {
 
       if (this.currentStep.paused) return;
-      if (!this.currentStep.running) return;
-
-      // Prevent from outbound steps
-      if (this.currentStep.number > this.stepModule.totalOfSteps) {
-        this.stopMethodRun();
-        return;
-      }
-
 
       //Waiting conditions
       if (this.waitingConditionModule.data[this.currentStep.number].value > 0) {
