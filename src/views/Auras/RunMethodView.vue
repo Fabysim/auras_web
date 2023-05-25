@@ -513,7 +513,8 @@ export default {
       connected: false,
       ipAddress: '',
       connection: '',
-    }
+    },
+    prev:String,
   }),
 
   mounted() {
@@ -522,14 +523,28 @@ export default {
     this.initialization();
     this.fetchModulesList();
     this.loadModulesData();
+
   },
-  computed: {},
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevRoute = from;
+      if(vm.prevRoute.path !=='/')
+        location.reload();
+    });
+  },
+  computed: {
+    prevRoutePath() {return this.prevRoute ? this.prevRoute.path : '/'},
+  },
 
   watch: {
 
-    'currentStep.running'(){
-
-      console.log(this.currentStep.running);
+    '$route': {
+      handler: function() {
+        this.prev =  this.prevRoutePath;
+        console.log('here', this.prev)
+      },
+      deep: true,
+      immediate: true
     },
 
     'currentStep.number'() {
