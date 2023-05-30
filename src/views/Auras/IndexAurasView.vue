@@ -13,6 +13,8 @@
             flat
         >
           <v-spacer/>
+          <v-toolbar-title><h2>Auras: list of all methods</h2></v-toolbar-title>
+          <v-spacer/>
 
           <!-- Create Method Dialog-->
 
@@ -146,7 +148,7 @@
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="test(item)">
+                   @click="duplicateMethod(item)">
               <v-icon color="white" small>
                 mdi-content-duplicate
               </v-icon>
@@ -205,7 +207,7 @@
           <v-btn color="secondary" @click="dialogDelete = false">
             Cancel
           </v-btn>
-          <v-btn color="primary" @click="deleteMethod()">
+          <v-btn color="error" @click="deleteMethod()">
             Delete
           </v-btn>
           <v-spacer/>
@@ -250,6 +252,9 @@ export default {
     methods: [],
     editedIndex: -1,
 
+    createdMethod: {},
+    duplicatedMethod: {},
+
     editedItem: {
       name: ''
     },
@@ -267,6 +272,8 @@ export default {
   mounted() {
     this.fetchMethods();
   },
+
+
   methods: {
 
     /*--------------------------------------------------------------------------
@@ -290,7 +297,8 @@ export default {
                   if (response.status === 201) {
 
                     this.displayedMessage = "Method created correctly";
-                    this.methods.unshift(response.data);
+                    this.createdMethod = response.data;
+                    this.fetchMethods();
                     this.dialogRename = false;
 
                   } else {
@@ -387,7 +395,7 @@ export default {
     * -------------------------------------------------------------------------*/
     getTotalSteps(id) {
 
-      axios.get('http://' + this.$aurasApi + 'api/Methods/NumberOfSteps/' +id)
+      axios.get('http://' + this.$aurasApi + 'api/Methods/NumberOfSteps/' + id)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -396,6 +404,7 @@ export default {
               })
 
     },
+
 
     /*--------------------------------------------------------------------------
      * Delete confirmation
@@ -423,12 +432,56 @@ export default {
       document.activeElement.blur();
     },
 
+    /*--------------------------------------------------------------------------
+     * Duplicate data of a newly created method
+     * -------------------------------------------------------------------------*/
+    duplicateMethodData() {
+
+      axios.put('http://' + this.$aurasApi + 'api/Methods/duplicate/' + this.createdMethod.id, this.duplicatedMethod)
+          .then(
+              (response) => {
+                if (response.status === 200) {
+                  this.displayedMessage = "Method correctly duplicated";
+                  this.fetchMethods();
+                }
+              })
+          .catch(
+              (error) => {
+                this.displayedMessage = "Error deleting method";
+                console.log(error.data);
+              });
+      this.snackbar = true;
+    },
+
 
     /*--------------------------------------------------------------------------
-     * Duplicates a method with all its steps
+     * Duplicates a method with name
      * -------------------------------------------------------------------------*/
     duplicateMethod(item) {
-      console.log(item)
+
+      this.duplicatedMethod = item;
+      let params = {
+        'Name': item.name + '_duplicated'
+      }
+
+      axios.post('http://' + this.$aurasApi + "api/Methods", params)
+          .then(
+              (response) => {
+
+                if (response.status === 201) {
+                  this.createdMethod = response.data;
+                  this.duplicateMethodData();
+                }
+              })
+
+          .catch(
+              (error) => {
+                if (error.response.data.status === 400) {
+                  this.displayedMessage = "Sorry could not duplicate method";
+                }
+              });
+
+
     },
     /*--------------------------------------------------------------------------
      * Close dialog and reset editedItem
