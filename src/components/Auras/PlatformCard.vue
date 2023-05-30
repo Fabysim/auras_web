@@ -392,7 +392,7 @@
                 class="button firstLineComponent"
                 id="razPs3"
                 @click="resetSp('sp3')">
-          RAZ
+          Empty
         </button>
         <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
                 class="button firstLineComponent"
@@ -428,7 +428,7 @@
                 class="button firstLineComponent"
                 id="razPs1"
                 @click="resetSp('sp1')">
-          RAZ
+          Empty
         </button>
 
         <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
@@ -467,7 +467,7 @@
                 class="button firstLineComponent"
                 id="razPs2"
                 @click="resetSp('sp2')">
-          RAZ
+          Empty
         </button>
         <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
                 id="volumeSp2Up"
@@ -1983,7 +1983,7 @@ select {
 
 #razPs3 {
   margin-left: 20px;
-  background-color: darkblue;
+  background-color: #eb3434;
 }
 
 #volumeSp3Down {
@@ -2019,7 +2019,7 @@ select {
 
 #razPs1 {
   margin-left: 20px;
-  background-color: darkblue;
+  background-color: #eb3434;
 }
 
 #volumeSp1Up {
@@ -2063,7 +2063,7 @@ select {
 
 #razPs2 {
   margin-left: 20px;
-  background-color: darkblue;
+  background-color: #eb3434;
 }
 
 #volumeSp2Down {
