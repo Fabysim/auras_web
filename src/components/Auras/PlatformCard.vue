@@ -1188,6 +1188,11 @@ export default {
       }
     },
 
+    reloadPage(){
+      location.reload();
+      console.log('reloaded');
+    }
+,
     /*--------------------------------------------------------------------------
     * Extracts info from received Json
     * -------------------------------------------------------------------------*/
@@ -1209,6 +1214,13 @@ export default {
           return;
         }
       }
+      //Restart Simulator
+      if (obj.Restarted !== undefined){
+
+        setTimeout(this.reloadPage, 2000);
+      }
+
+
 
       //TLCMigration
       if (obj.TLCMigration !== undefined)

@@ -24,6 +24,13 @@
             Run method
           </v-btn>
           <v-spacer/>
+          <v-btn color="#eb3434"
+                 class="ma-2 white--text"
+                 @click="restartSimulator()"
+          >
+            <v-icon>mdi-refresh</v-icon>
+            Restart Simulator
+          </v-btn>
           <download-excel :data="downloadedData" :name="currentMethod.name + '.xls'">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -41,7 +48,6 @@
               <span>Download method in Excel</span>
             </v-tooltip>
           </download-excel>
-
           <v-btn color="primary"
                  class="ma-2 white--text"
                  @click="loadModulesData()"
@@ -747,6 +753,13 @@ export default {
 
   methods: {
 
+    restartSimulator(){
+      let data = {
+        restart : true
+      }
+      this.$refs.plateForm.sendToWebsocket(data);
+
+    },
     /*------------------------------------------------------------------------
      * Create data to be downloaded
      * ------------------------------------------------------------------------*/
