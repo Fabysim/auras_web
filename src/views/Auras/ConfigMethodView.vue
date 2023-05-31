@@ -4,8 +4,16 @@
     <div style="min-height: 100px" class="visibleTop">
       <v-card elevation="1" id="navCard">
         <v-card-title class="justify-center">
-          Method: {{ currentMethod.name }}
+          <strong><u>Current Method:</u> {{ currentMethod.name }}</strong>
 
+          <v-spacer/>
+          <v-btn color="purple"
+                 class="white--text"
+                 @click="redirectTo('home')"
+          >
+            <v-icon>mdi-slot-machine-outline</v-icon>
+            All stations
+          </v-btn>
           <v-spacer/>
           <v-btn color="#a83248"
                  class="white--text"
@@ -29,7 +37,7 @@
                  @click="restartSimulator()"
           >
             <v-icon>mdi-refresh</v-icon>
-            Restart Simulator
+            Reset Simulator
           </v-btn>
           <download-excel :data="downloadedData" :name="currentMethod.name + '.xls'">
             <v-tooltip bottom>
@@ -696,7 +704,7 @@ export default {
       ],
       data: []
     },
-
+    contentHeight:0,
   }),
 
   mounted() {
@@ -1389,6 +1397,7 @@ export default {
      * Function used to load all modules names
      * ------------------------------------------------------------------------*/
     initialization() {
+      this.contentHeight = this.$vuetify.application.top;
 
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
@@ -1818,7 +1827,7 @@ table .absorbing-column {
 
 .visibleTop {
   position: sticky;
-  top: 0;
+  top: v-bind(contentHeight);
   width: 100%;
   z-index: 3;
   opacity: 1;

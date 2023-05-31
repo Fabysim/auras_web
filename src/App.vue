@@ -83,8 +83,5 @@ nav {
     }
   }
 
-  #app_bar {
-    background-color: red;
-  }
 }
 </style>

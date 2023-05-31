@@ -5,9 +5,19 @@
     <div style="min-height: 100px" class="visibleTop">
       <v-card id="navCard">
         <v-card-title class="justify-center">
-          Method: {{ currentMethod.name }}
+          <strong><u>Current Method:</u> {{ currentMethod.name }}</strong>
 
           <v-spacer/>
+          <v-btn color="purple"
+                 class="white--text"
+                 @click="redirectTo('home')"
+          >
+            <v-icon>mdi-slot-machine-outline</v-icon>
+            All stations
+          </v-btn>
+
+          <v-spacer/>
+
           <v-btn color="#a83248"
                  class="white--text"
                  width="150"
@@ -1090,8 +1100,6 @@ function stickyScrollHandler(el) {
     let tableHeaderFloat = el.querySelector(".adx-table_sticky--float");
 
     let navOffset = document.getElementById('navCard').offsetHeight;
-
-
     const pos = getOffsetTop(table) - navOffset - window.scrollY;
 
 
