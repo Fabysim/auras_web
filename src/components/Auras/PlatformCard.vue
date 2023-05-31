@@ -541,19 +541,16 @@
         <!--    PS ranges -->
 
         <div class="progressbar-wrapper" id="PS3PProgressbar">
-          <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" v-bind:style="{ width: computedWidthSp3 }"
-               class="progressbar">
+          <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" class="progressbar">
           </div>
         </div>
         <div class="progressbar-wrapper" id="PS1PProgressbar">
-          <div id="ps1AbsolutePosition" title="ps1AbsolutePosition" v-bind:style="{ width: computedWidthSp1 }"
-               class="progressbar ">
+          <div id="ps1AbsolutePosition" title="ps1AbsolutePosition" class="progressbar ">
           </div>
         </div>
 
         <div class="progressbar-wrapper" id="PS2PProgressbar">
-          <div id="ps2AbsolutePosition" title="ps2AbsolutePosition" v-bind:style="{ width: computedWidthSp2 }"
-               class="progressbar">
+          <div id="ps2AbsolutePosition" title="ps2AbsolutePosition" class="progressbar">
           </div>
         </div>
 
@@ -810,18 +807,6 @@ export default {
       }
   ),
 
-  computed: {
-    computedWidthSp1: function () {
-      return this.sp1Width;
-    },
-    computedWidthSp2: function () {
-      return this.sp2Width;
-    },
-    computedWidthSp3: function () {
-      return this.sp3Width;
-    },
-
-  },
   /*------------------------------------------------------------------------
   * Loads data when this page (component) is mounted
   * ------------------------------------------------------------------------*/
@@ -1188,11 +1173,11 @@ export default {
       }
     },
 
-    reloadPage(){
+    reloadPage() {
       location.reload();
       console.log('reloaded');
     }
-,
+    ,
     /*--------------------------------------------------------------------------
     * Extracts info from received Json
     * -------------------------------------------------------------------------*/
@@ -1215,11 +1200,10 @@ export default {
         }
       }
       //Restart Simulator
-      if (obj.Restarted !== undefined){
+      if (obj.Restarted !== undefined) {
 
         setTimeout(this.reloadPage, 2000);
       }
-
 
 
       //TLCMigration
@@ -1299,10 +1283,12 @@ export default {
       if (obj.SP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP1CurrentPosition) / 1000;
-        document.getElementById("ps1AbsolutePosition").innerText = value.toFixed(0);
+        let element = document.getElementById("ps1AbsolutePosition");
+        element.innerText = value.toFixed(0);
+        element.style.width = value / 10 + '%';
         this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP1PAbsolutePosition = value;
-        this.sp1Width = value / 10 + '%';
+        // this.sp1Width = value / 10 + '%';
 
 
       }
@@ -1340,10 +1326,11 @@ export default {
       if (obj.SP2CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP2CurrentPosition) / 1000;
-        document.getElementById("ps2AbsolutePosition").innerText = value.toFixed(0);
+        let element = document.getElementById("ps2AbsolutePosition");
+        element.innerText = value.toFixed(0);
+        element.style.width = value / 10 + '%';
         this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
-        this.sp2Width = value / 10 + '%';
 
 
         // Init PS Absolute position
@@ -1383,10 +1370,12 @@ export default {
       if (obj.SP3CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP3CurrentPosition) / 1000;
-        document.getElementById("ps3AbsolutePosition").innerText = value.toFixed(0);
+        let element = document.getElementById("ps3AbsolutePosition");
+        element.innerText = value.toFixed(0);
+        element.style.width = value / 10 + '%';
         this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
-        this.sp3Width = value / 10 + '%';
+
 
         // Init PS Absolute position
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
