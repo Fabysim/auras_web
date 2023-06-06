@@ -1078,7 +1078,7 @@ export default {
 
           console.log("Starting connection to WebSocket Server");
 
-          this.$store.state.connectionWS = new WebSocket('ws://' + this.webSocket.ipAddress);
+          this.$store.state.connectionWS = new WebSocket('ws://10.10.17.143:81');
           this.$store.state.connectionWS.onmessage = (event) => {
             this.extractDataSentFromSocket(event.data);
           }
@@ -1122,13 +1122,13 @@ export default {
 
       if (id === 'ldS7' || id === 'ldS8') {
 
-        if (this.angle === 0) this.angle = 50;
-        else if (this.angle === 50) this.angle = -50;
+        if (this.angle === 0) this.angle = 55;
+        else if (this.angle > 5) this.angle = -55;
         if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
 
       } else {
         if (this.angle === 0) this.angle = 15;
-        else if (this.angle === 15) this.angle = -20;
+        else if (this.angle > 5) this.angle = -20;
         if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
 
       }

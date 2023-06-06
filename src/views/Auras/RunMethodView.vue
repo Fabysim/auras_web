@@ -977,51 +977,51 @@ export default {
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
         if (line.ldS1 === 0) line.displayedLds1 = '0';
-        else if (line.ldS1 === 1) line.displayedLds1 = 'Right';
+        else if (line.ldS1 > 0) line.displayedLds1 = 'Right';
         else line.displayedLds1 = 'Left';
 
         if (line.ldS2 === 0) line.displayedLds2 = '0';
-        else if (line.ldS2 === 1) line.displayedLds2 = 'Right';
+        else if (line.ldS2 > 0) line.displayedLds2 = 'Right';
         else line.displayedLds2 = 'Left';
 
         if (line.ldS3 === 0) line.displayedLds3 = '0';
-        else if (line.ldS3 === 1) line.displayedLds3 = 'Right';
+        else if (line.ldS3 > 0) line.displayedLds3 = 'Right';
         else line.displayedLds3 = 'Left';
 
         if (line.ldS4 === 0) line.displayedLds4 = '0';
-        else if (line.ldS4 === 1) line.displayedLds4 = 'Right';
+        else if (line.ldS4 > 0) line.displayedLds4 = 'Right';
         else line.displayedLds4 = 'Left';
 
         if (line.ldS5 === 0) line.displayedLds5 = '0';
-        else if (line.ldS5 === 1) line.displayedLds5 = 'Right';
+        else if (line.ldS5 > 0) line.displayedLds5 = 'Right';
         else line.displayedLds5 = 'Left';
 
         if (line.ldS6 === 0) line.displayedLds6 = '0';
-        else if (line.ldS6 === 1) line.displayedLds6 = 'Right';
+        else if (line.ldS6 > 0) line.displayedLds6 = 'Right';
         else line.displayedLds6 = 'Left';
 
         if (line.ldS7 === 0) line.displayedLds7 = '0';
-        else if (line.ldS7 === 1) line.displayedLds7 = 'Right';
+        else if (line.ldS7 > 0) line.displayedLds7 = 'Right';
         else line.displayedLds7 = 'Left';
 
         if (line.ldS8 === 0) line.displayedLds8 = '0';
-        else if (line.ldS8 === 1) line.displayedLds8 = 'Right';
+        else if (line.ldS8 > 0) line.displayedLds8 = 'Right';
         else line.displayedLds8 = 'Left';
 
         if (line.ldS9 === 0) line.displayedLds9 = '0';
-        else if (line.ldS9 === 1) line.displayedLds9 = 'Right';
+        else if (line.ldS9 > 0) line.displayedLds9 = 'Right';
         else line.displayedLds9 = 'Left';
 
         if (line.ldS10 === 0) line.displayedLds10 = '0';
-        else if (line.ldS10 === 1) line.displayedLds10 = 'Right';
+        else if (line.ldS10 > 0) line.displayedLds10 = 'Right';
         else line.displayedLds10 = 'Left';
 
         if (line.ldS11 === 0) line.displayedLds11 = '0';
-        else if (line.ldS11 === 1) line.displayedLds11 = 'Right';
+        else if (line.ldS11 > 0) line.displayedLds11 = 'Right';
         else line.displayedLds11 = 'Left';
 
         if (line.ldS12 === 0) line.displayedLds12 = '0';
-        else if (line.ldS12 === 1) line.displayedLds12 = 'Right';
+        else if (line.ldS12 > 0) line.displayedLds12 = 'Right';
         else line.displayedLds12 = 'Left';
 
       });
