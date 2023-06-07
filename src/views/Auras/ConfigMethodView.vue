@@ -286,8 +286,36 @@
                                   </tr>
                                   <tr>
                                     <td v-if="liquidDispenserModule.update.volumeSelected">
-                                      <v-text-field v-model="liquidDispenserModule.update.selectedValue"
+                                      <v-text-field v-model="liquidDispenserModule.update.selectedVolumeValue"
                                                    label="Volume in µL"/>
+
+                                    </td>
+
+                                  </tr>
+                                </table>
+                                <table
+                                    v-else-if="header.value ==='sP1S'|| header.value ==='sP2S' || header.value ==='sP3S'">
+
+                                  <tr>
+                                    <td>
+                                      <v-text-field
+                                          :rules="[speedRulesForSp.acceptedValues]"
+                                          v-model="liquidDispenserModule.update.selectedSpeedValue"
+                                          label="Speed in µL/s"/>
+
+                                    </td>
+
+                                  </tr>
+                                </table>
+                                <table
+                                    v-else-if="header.value ==='pumP1S'">
+
+                                  <tr>
+                                    <td>
+                                      <v-text-field
+                                          :rules="[speedRulesForPump.acceptedValues]"
+                                          v-model="liquidDispenserModule.update.selectedSpeedValue"
+                                          label="Speed in rpm"/>
 
                                     </td>
 
@@ -667,13 +695,22 @@ export default {
       update: {
         selectedSPOption: '',
         selectedLDSOption: '',
-        selectedValue: '',
+        selectedVolumeValue: '',
+        selectedSpeedValue: '',
         volumeSelected: false
       }
     },
 
-    rules: {
+    volumeRules: {
       acceptedValues: value => value > 0 && value <= 1000 || 'Values must be between 0µL and 1000 µL'
+    },
+
+    speedRulesForSp: {
+      acceptedValues: value => value > 0 && value <= 200 || 'Values must be between 1µL/s and 200 µL/s'
+    },
+
+    speedRulesForPump: {
+      acceptedValues: value => value > 0 && value <= 500 || 'Values must be between rpm and 200 rpm'
     },
 
     commentModule: {
@@ -715,7 +752,13 @@ export default {
     this.loadModulesData();
 
   },
-
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.prevRoute = from;
+      if(vm.prevRoute.path !=='/')
+        location.reload();
+    });
+  },
 
   watch: {
 
@@ -1033,24 +1076,40 @@ export default {
         else
           this.liquidDispenserModule.data[line].ldS12 = 0;
 
-
       if (col === 12)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-            this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedValue;
+            this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
 
+      if (col === 13)
+        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+          this.liquidDispenserModule.data[line].sP1S = this.liquidDispenserModule.update.selectedSpeedValue;
+
       if (col === 14)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-            this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedValue;
+            this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
 
+      if (col === 15)
+        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+          this.liquidDispenserModule.data[line].sP2S = this.liquidDispenserModule.update.selectedSpeedValue;
+
       if (col === 16)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-            this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedValue;
+            this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
+
+      if (col === 17)
+        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+          this.liquidDispenserModule.data[line].sP3S = this.liquidDispenserModule.update.selectedSpeedValue;
+
+      if (col === 19)
+        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 500)
+          this.liquidDispenserModule.data[line].pumP1S = this.liquidDispenserModule.update.selectedSpeedValue;
+
     },
 
 
@@ -1172,28 +1231,10 @@ export default {
     * --------------------------------------------------------------------------*/
     loadLiquidDispenserDataInDialog(value, col, line) {
 
+
       this.liquidDispenserModule.update.volumeSelected = false;
       let volume;
-
-      if (col === 12)
-        volume = this.liquidDispenserModule.data[line].sP1P;
-      if (col === 14)
-        volume = this.liquidDispenserModule.data[line].sP2P;
-      if (col === 16)
-        volume = this.liquidDispenserModule.data[line].sP3P;
-
-      if (col === 12 || col === 14 || col === 16) {
-
-        if (value.toLowerCase().includes("volume")) {
-
-          this.liquidDispenserModule.update.selectedSPOption = "Volume";
-          this.liquidDispenserModule.update.volumeSelected = true;
-          this.liquidDispenserModule.update.selectedValue = volume;
-
-        } else {
-          this.liquidDispenserModule.update.selectedSPOption = value;
-        }
-      }
+      let speed;
 
       if (col === 0)
         this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds1;
@@ -1219,6 +1260,39 @@ export default {
         this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds11;
       if (col === 11)
         this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds12;
+
+      if (col === 12)
+        volume = this.liquidDispenserModule.data[line].sP1P;
+      if (col === 13)
+        speed = this.liquidDispenserModule.data[line].sP1S;
+      if (col === 14)
+        volume = this.liquidDispenserModule.data[line].sP2P;
+      if (col === 15)
+        speed = this.liquidDispenserModule.data[line].sP2S;
+      if (col === 16)
+        volume = this.liquidDispenserModule.data[line].sP3P;
+      if (col === 17)
+        speed = this.liquidDispenserModule.data[line].sP3S;
+      if (col === 19)
+        speed = this.liquidDispenserModule.data[line].pumP1S;
+
+
+      if (col === 13 || col === 15 || col === 17 || col === 19) {
+
+        this.liquidDispenserModule.update.selectedSpeedValue = speed;
+
+      } else if (col === 12 || col === 14 || col === 16) {
+
+        if (value.toLowerCase().includes("volume")) {
+
+          this.liquidDispenserModule.update.selectedSPOption = "Volume";
+          this.liquidDispenserModule.update.volumeSelected = true;
+          this.liquidDispenserModule.update.selectedVolumeValue = volume;
+
+        } else {
+          this.liquidDispenserModule.update.selectedSPOption = value;
+        }
+      }
     },
 
 

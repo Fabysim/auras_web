@@ -1561,53 +1561,25 @@ export default {
 
           if (componentId === 'volumeSp1Input') {
 
-            let newValue = parseInt(value);
-
-            if (newValue < 0 || newValue > 1000) {
-              this.overflowDialog.message = "The limit has been exceeded";
-              this.overflowDialog.open = true
-              document.getElementById('volumeSp1Input').value = this.liquidDispenserModule.data[0].sP1P;
-
-            } else {
-              let data = {SP1: {MoveTo: parseInt(value) * 1000}};
-              this.liquidDispenserModule.data[0].sP1P = parseInt(value);
-              this.liquidDispenserModule.sp1VolumeUsed = true;
-              this.sendToWebsocket(data);
-            }
+            let data = {SP1: {MoveTo: parseInt(value) * 1000}};
+            this.liquidDispenserModule.data[0].sP1P = parseInt(value);
+            this.liquidDispenserModule.sp1VolumeUsed = true;
+            this.sendToWebsocket(data);
           }
 
           if (componentId === 'volumeSp2Input') {
-
-            let newValue = parseInt(value);
-
-            if (newValue < 0 || newValue > 1000) {
-
-              this.overflowDialog.message = "The limit has been exceeded";
-              this.overflowDialog.open = true;
-              document.getElementById('volumeSp2Input').value = this.liquidDispenserModule.data[0].sP2P;
-            } else {
-              let data = {SP2: {MoveTo: parseInt(value) * 1000}};
-              this.liquidDispenserModule.data[0].sP2P = parseInt(value);
-              this.liquidDispenserModule.sp2VolumeUsed = true;
-              this.sendToWebsocket(data);
-            }
+            let data = {SP2: {MoveTo: parseInt(value) * 1000}};
+            this.liquidDispenserModule.data[0].sP2P = parseInt(value);
+            this.liquidDispenserModule.sp2VolumeUsed = true;
+            this.sendToWebsocket(data);
           }
 
           if (componentId === 'volumeSp3Input') {
-            let newValue = parseInt(value);
 
-            if (newValue < 0 || newValue > 1000) {
-
-              this.overflowDialog.message = "The limit has been exceeded";
-              this.overflowDialog.open = true;
-              document.getElementById('volumeSp3Input').value = this.liquidDispenserModule.data[0].sP3P;
-
-            } else {
-              let data = {SP3: {MoveTo: parseInt(value) * 1000}};
-              this.liquidDispenserModule.data[0].sP3P = parseInt(value);
-              this.liquidDispenserModule.sp3VolumeUsed = true;
-              this.sendToWebsocket(data);
-            }
+            let data = {SP3: {MoveTo: parseInt(value) * 1000}};
+            this.liquidDispenserModule.data[0].sP3P = parseInt(value);
+            this.liquidDispenserModule.sp3VolumeUsed = true;
+            this.sendToWebsocket(data);
           }
 
           if (componentId === 'pump1Input') {
