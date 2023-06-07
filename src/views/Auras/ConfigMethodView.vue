@@ -978,101 +978,101 @@ export default {
 
       if (col === 0)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS1 = 1;
+          this.liquidDispenserModule.data[line].ldS1 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS1 = 2;
+          this.liquidDispenserModule.data[line].ldS1 = -20;
         else
           this.liquidDispenserModule.data[line].ldS1 = 0;
 
       if (col === 1)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS2 = 1;
+          this.liquidDispenserModule.data[line].ldS2 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS2 = 2;
+          this.liquidDispenserModule.data[line].ldS2 = -20;
         else
           this.liquidDispenserModule.data[line].ldS2 = 0;
 
       if (col === 2)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS3 = 1;
+          this.liquidDispenserModule.data[line].ldS3 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS3 = 2;
+          this.liquidDispenserModule.data[line].ldS3 = -20;
         else
           this.liquidDispenserModule.data[line].ldS3 = 0;
 
       if (col === 3)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS4 = 1;
+          this.liquidDispenserModule.data[line].ldS4 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS4 = 2;
+          this.liquidDispenserModule.data[line].ldS4 = -20;
         else
           this.liquidDispenserModule.data[line].ldS4 = 0;
 
       if (col === 4)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS5 = 1;
+          this.liquidDispenserModule.data[line].ldS5 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS5 = 2;
+          this.liquidDispenserModule.data[line].ldS5 = -20;
         else
           this.liquidDispenserModule.data[line].ldS5 = 0;
 
       if (col === 5)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS6 = 1;
+          this.liquidDispenserModule.data[line].ldS6 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS6 = 2;
+          this.liquidDispenserModule.data[line].ldS6 = -20;
         else
           this.liquidDispenserModule.data[line].ldS6 = 0;
 
       if (col === 6)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS7 = 1;
+          this.liquidDispenserModule.data[line].ldS7 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS7 = 2;
+          this.liquidDispenserModule.data[line].ldS7 = -20;
         else
           this.liquidDispenserModule.data[line].ldS7 = 0;
 
 
       if (col === 7)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS8 = 1;
+          this.liquidDispenserModule.data[line].ldS8 = 55;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS8 = 2;
+          this.liquidDispenserModule.data[line].ldS8 = -55;
         else
           this.liquidDispenserModule.data[line].ldS8 = 0;
 
 
       if (col === 8)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS9 = 1;
+          this.liquidDispenserModule.data[line].ldS9 = 55;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS9 = 2;
+          this.liquidDispenserModule.data[line].ldS9 = -55;
         else
           this.liquidDispenserModule.data[line].ldS9 = 0;
 
 
       if (col === 9)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS10 = 1;
+          this.liquidDispenserModule.data[line].ldS10 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS10 = 2;
+          this.liquidDispenserModule.data[line].ldS10 = -20;
         else
           this.liquidDispenserModule.data[line].ldS10 = 0;
 
 
       if (col === 10)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS11 = 1;
+          this.liquidDispenserModule.data[line].ldS11 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS11 = 2;
+          this.liquidDispenserModule.data[line].ldS11 = -20;
         else
           this.liquidDispenserModule.data[line].ldS11 = 0;
 
       if (col === 11)
         if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS12 = 1;
+          this.liquidDispenserModule.data[line].ldS12 = 20;
         else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS12 = 2;
+          this.liquidDispenserModule.data[line].ldS12 = -20;
         else
           this.liquidDispenserModule.data[line].ldS12 = 0;
 
@@ -1111,6 +1111,7 @@ export default {
           this.liquidDispenserModule.data[line].pumP1S = this.liquidDispenserModule.update.selectedSpeedValue;
 
     },
+
 
 
     /*------------------------------------------------------------------------
