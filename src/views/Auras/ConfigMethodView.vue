@@ -682,12 +682,12 @@ export default {
         {text: "LDS10", value: "displayedLds10", width: 82, sortable: false, align: 'center'},
         {text: "LDS11", value: "displayedLds11", width: 82, sortable: false, align: 'center'},
         {text: "LDS12", value: "displayedLds12", width: 82, sortable: false, align: 'center'},
+        {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Speed", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Speed", value: "sP2S", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Speed", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
       ],
@@ -1078,33 +1078,33 @@ export default {
 
       if (col === 12)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
+          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedVolumeValue;
+        } else
+          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
+
+      if (col === 13)
+        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+          this.liquidDispenserModule.data[line].sP3S = this.liquidDispenserModule.update.selectedSpeedValue;
+
+      if (col === 14)
+        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
             this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
 
-      if (col === 13)
+      if (col === 15)
         if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
           this.liquidDispenserModule.data[line].sP1S = this.liquidDispenserModule.update.selectedSpeedValue;
 
-      if (col === 14)
+      if (col === 16)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
             this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
 
-      if (col === 15)
-        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
-          this.liquidDispenserModule.data[line].sP2S = this.liquidDispenserModule.update.selectedSpeedValue;
-
-      if (col === 16)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-            this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedVolumeValue;
-        } else
-          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
-
       if (col === 17)
         if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
-          this.liquidDispenserModule.data[line].sP3S = this.liquidDispenserModule.update.selectedSpeedValue;
+          this.liquidDispenserModule.data[line].sP2S = this.liquidDispenserModule.update.selectedSpeedValue;
 
       if (col === 19)
         if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 500)
@@ -1260,19 +1260,18 @@ export default {
         this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds11;
       if (col === 11)
         this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds12;
-
       if (col === 12)
-        volume = this.liquidDispenserModule.data[line].sP1P;
-      if (col === 13)
-        speed = this.liquidDispenserModule.data[line].sP1S;
-      if (col === 14)
-        volume = this.liquidDispenserModule.data[line].sP2P;
-      if (col === 15)
-        speed = this.liquidDispenserModule.data[line].sP2S;
-      if (col === 16)
         volume = this.liquidDispenserModule.data[line].sP3P;
-      if (col === 17)
+      if (col === 13)
         speed = this.liquidDispenserModule.data[line].sP3S;
+      if (col === 14)
+        volume = this.liquidDispenserModule.data[line].sP1P;
+      if (col === 15)
+        speed = this.liquidDispenserModule.data[line].sP1S;
+      if (col === 16)
+        volume = this.liquidDispenserModule.data[line].sP2P;
+      if (col === 17)
+        speed = this.liquidDispenserModule.data[line].sP2S;
       if (col === 19)
         speed = this.liquidDispenserModule.data[line].pumP1S;
 
