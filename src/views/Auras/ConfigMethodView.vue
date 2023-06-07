@@ -287,7 +287,7 @@
                                   <tr>
                                     <td v-if="liquidDispenserModule.update.volumeSelected">
                                       <v-text-field v-model="liquidDispenserModule.update.selectedVolumeValue"
-                                                   label="Volume in µL"/>
+                                                    label="Volume in µL"/>
 
                                     </td>
 
@@ -741,7 +741,7 @@ export default {
       ],
       data: []
     },
-    contentHeight:0,
+    contentHeight: 0,
   }),
 
   mounted() {
@@ -755,7 +755,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.prevRoute = from;
-      if(vm.prevRoute.path !=='/')
+      if (vm.prevRoute.path !== '/')
         location.reload();
     });
   },
@@ -804,9 +804,9 @@ export default {
 
   methods: {
 
-    restartSimulator(){
+    restartSimulator() {
       let data = {
-        restart : true
+        restart: true
       }
       this.$refs.plateForm.sendToWebsocket(data);
 
@@ -1088,7 +1088,7 @@ export default {
 
       if (col === 14)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-            this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedVolumeValue;
+          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
 
@@ -1098,7 +1098,7 @@ export default {
 
       if (col === 16)
         if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-            this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedVolumeValue;
+          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedVolumeValue;
         } else
           this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
 
@@ -1640,6 +1640,9 @@ export default {
       this.$refs.plateForm.resetPlatformTables();
 
       this.currentStep++;
+
+      let data = {stepCreated: true}
+      this.$refs.plateForm.sendToWebsocket(data);
     },
 
     /*------------------------------------------------------------------------
@@ -1822,7 +1825,7 @@ function stickyScrollHandler(el) {
 
     let navOffset = document.getElementById('navCard').offsetHeight;
 
-    const pos = getOffsetTop(table)-navOffset - window.scrollY;
+    const pos = getOffsetTop(table) - navOffset - window.scrollY;
 
     if (pos < 0) {
       if (!tableHeaderFloat) {
