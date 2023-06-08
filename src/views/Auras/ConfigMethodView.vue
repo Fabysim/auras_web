@@ -1113,7 +1113,6 @@ export default {
     },
 
 
-
     /*------------------------------------------------------------------------
     * Function to extract Drop Dispenser's updated data from the update dialog
     * ------------------------------------------------------------------------*/
@@ -1561,6 +1560,19 @@ export default {
       liquidDispenserStep.step = this.currentStep;
       liquidDispenserStep.methodId = this.currentMethod.id;
 
+      liquidDispenserStep.ldS1 = liquidDispenserStep.ldS1 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS2 = liquidDispenserStep.ldS2 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS3 = liquidDispenserStep.ldS3 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS4 = liquidDispenserStep.ldS4 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS5 = liquidDispenserStep.ldS5 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS6 = liquidDispenserStep.ldS6 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS7 = liquidDispenserStep.ldS7 > 0 ? 55 : -55;
+      liquidDispenserStep.ldS8 = liquidDispenserStep.ldS8 > 0 ? 55 : -55;
+      liquidDispenserStep.ldS9 = liquidDispenserStep.ldS9 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS10 = liquidDispenserStep.ldS10 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS11 = liquidDispenserStep.ldS11 > 0 ? 20 : -20;
+      liquidDispenserStep.ldS12 = liquidDispenserStep.ldS12 > 0 ? 20 : -20;
+
       liquidDispenserStep.sP1P = liquidDispenserStep.sP1P.toString();
       liquidDispenserStep.sP2P = liquidDispenserStep.sP2P.toString();
       liquidDispenserStep.sP3P = liquidDispenserStep.sP3P.toString();
@@ -1791,7 +1803,7 @@ export default {
           .put('http://' + this.$aurasApi + url + data.id, data)
           .then((response) => {
 
-            if (response.status === 200) {
+            if (response.status === 204) {
               this.snackbar.color = 'black';
               name.toLowerCase().includes('delete')
                   ? this.snackbar.message = "Step deleted successfully"
