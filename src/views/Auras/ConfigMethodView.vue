@@ -32,12 +32,19 @@
             Run method
           </v-btn>
           <v-spacer/>
-          <v-btn color="#eb3434"
+          <v-btn v-if="simulatorMode"
+                 color="#eb3434"
                  class="ma-2 white--text"
                  @click="restartSimulator()"
           >
             <v-icon>mdi-refresh</v-icon>
             Reset Simulator
+          </v-btn>
+          <v-btn v-else
+                 color="#eb3434"
+                 class="ma-2 white--text"
+                 @click="emergencyStop">
+            Emergency Stop
           </v-btn>
           <download-excel :data="downloadedData" :name="currentMethod.name + '.xls'">
             <v-tooltip bottom>
@@ -742,6 +749,7 @@ export default {
       data: []
     },
     contentHeight: 0,
+    simulatorMode: false,
   }),
 
   mounted() {
@@ -848,6 +856,11 @@ export default {
       }
 
 
+    },
+
+    emergencyStop(){
+
+      this.$refs.plateForm.sendToWebsocket({"EmergencyStop ": true});
     },
     /*------------------------------------------------------------------------
     * Function to load all method's data
@@ -1560,18 +1573,54 @@ export default {
       liquidDispenserStep.step = this.currentStep;
       liquidDispenserStep.methodId = this.currentMethod.id;
 
-      liquidDispenserStep.ldS1 = liquidDispenserStep.ldS1 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS2 = liquidDispenserStep.ldS2 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS3 = liquidDispenserStep.ldS3 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS4 = liquidDispenserStep.ldS4 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS5 = liquidDispenserStep.ldS5 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS6 = liquidDispenserStep.ldS6 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS7 = liquidDispenserStep.ldS7 > 0 ? 55 : -55;
-      liquidDispenserStep.ldS8 = liquidDispenserStep.ldS8 > 0 ? 55 : -55;
-      liquidDispenserStep.ldS9 = liquidDispenserStep.ldS9 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS10 = liquidDispenserStep.ldS10 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS11 = liquidDispenserStep.ldS11 > 0 ? 20 : -20;
-      liquidDispenserStep.ldS12 = liquidDispenserStep.ldS12 > 0 ? 20 : -20;
+      if (liquidDispenserStep.ldS1 > 7) liquidDispenserStep.ldS1 = 20;
+      else if (liquidDispenserStep.ldS1 < -7) liquidDispenserStep.ldS1 = -20;
+      else liquidDispenserStep.ldS1 = 0;
+
+      if (liquidDispenserStep.ldS2 > 7) liquidDispenserStep.ldS2 = 20;
+      else if (liquidDispenserStep.ldS2 < -7) liquidDispenserStep.ldS2 = -20;
+      else liquidDispenserStep.ldS2 = 0;
+
+      if (liquidDispenserStep.ldS3 > 7) liquidDispenserStep.ldS3 = 20;
+      else if (liquidDispenserStep.ldS3 < -7) liquidDispenserStep.ldS3 = -20;
+      else liquidDispenserStep.ldS3 = 0;
+
+      if (liquidDispenserStep.ldS4 > 7) liquidDispenserStep.ldS4 = 20;
+      else if (liquidDispenserStep.ldS4 < -7) liquidDispenserStep.ldS4 = -20;
+      else liquidDispenserStep.ldS4 = 0;
+
+      if (liquidDispenserStep.ldS5 > 7) liquidDispenserStep.ldS5 = 20;
+      else if (liquidDispenserStep.ldS5 < -7) liquidDispenserStep.ldS5 = -20;
+      else liquidDispenserStep.ldS5 = 0;
+
+      if (liquidDispenserStep.ldS6 > 7) liquidDispenserStep.ldS6 = 20;
+      else if (liquidDispenserStep.ldS6 < -7) liquidDispenserStep.ldS6 = -20;
+      else liquidDispenserStep.ldS6 = 0;
+
+      if (liquidDispenserStep.ldS7 > 7) liquidDispenserStep.ldS7 = 55;
+      else if (liquidDispenserStep.ldS7 < -7) liquidDispenserStep.ldS7 = -55;
+      else liquidDispenserStep.ldS7 = 0;
+
+      if (liquidDispenserStep.ldS8 > 7) liquidDispenserStep.ldS8 = 55;
+      else if (liquidDispenserStep.ldS8 < -7) liquidDispenserStep.ldS8 = -55;
+      else liquidDispenserStep.ldS8 = 0;
+
+      if (liquidDispenserStep.ldS9 > 7) liquidDispenserStep.ldS9 = 20;
+      else if (liquidDispenserStep.ldS9 < -7) liquidDispenserStep.ldS9 = -20;
+      else liquidDispenserStep.ldS9 = 0;
+
+      if (liquidDispenserStep.ldS10 > 7) liquidDispenserStep.ldS10 = 20;
+      else if (liquidDispenserStep.ldS10 < -7) liquidDispenserStep.ldS10 = -20;
+      else liquidDispenserStep.ldS10 = 0;
+
+      if (liquidDispenserStep.ldS11 > 7) liquidDispenserStep.ldS11 = 20;
+      else if (liquidDispenserStep.ldS11 < -7) liquidDispenserStep.ldS11 = -20;
+      else liquidDispenserStep.ldS11 = 0;
+
+      if (liquidDispenserStep.ldS12 > 7) liquidDispenserStep.ldS12 = 20;
+      else if (liquidDispenserStep.ldS12 < -7) liquidDispenserStep.ldS12 = -20;
+      else liquidDispenserStep.ldS12 = 0;
+
 
       liquidDispenserStep.sP1P = liquidDispenserStep.sP1P.toString();
       liquidDispenserStep.sP2P = liquidDispenserStep.sP2P.toString();

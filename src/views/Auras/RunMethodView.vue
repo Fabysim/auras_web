@@ -38,6 +38,11 @@
           </v-btn>
 
           <v-spacer/>
+          <v-btn color="#eb3434"
+                 class="ma-2 white--text"
+                 @click="emergencyStop">
+            Emergency Stop
+          </v-btn>
           <v-btn color="error"
                  class="ma-2 white--text"
                  justify="end"
@@ -584,6 +589,9 @@ export default {
 
     },
 
+    emergencyStop(){
+      this.$refs.plateForm.sendToWebsocket({"EmergencyStop ": true});
+    },
     /*--------------------------------------------------------------------------
     *  Stops running method
     * -------------------------------------------------------------------------*/

@@ -141,11 +141,23 @@
         </vue-scroll-snap>
 
       </v-card-text>
-
-      <v-btn style="background-color: dodgerblue; color: white;"
-             @click="$emit('lineSaved')">
-        Save step
-      </v-btn>
+      <v-card-actions>
+        <v-btn color="error" @click="emergencyStop">Emergency Stop</v-btn>
+        <v-spacer/>
+        <v-btn style="background-color: dodgerblue; color: white;"
+               @click="$emit('lineSaved')">
+          Save step
+        </v-btn>
+        <v-spacer/>
+        <div v-if="online">
+          <v-icon color="success">mdi-power</v-icon>
+          <span style="color: green"> Online</span>
+        </div>
+        <div v-else>
+          <v-icon color="error">mdi-power</v-icon>
+          <span style="color: red"> Offline</span>
+        </div>
+      </v-card-actions>
     </v-card>
 
     <v-dialog v-model="overflowDialog.open" max-width="500px">
@@ -624,7 +636,7 @@ export default {
   },
 
   data: () => ({
-
+        online: false,
         totalOfSteps: 0,
         rotateRight: false,
         rotateLeft: false,
@@ -802,8 +814,8 @@ export default {
           connected: false,
           ipAddress: '',
           connection: '',
-        }
-
+        },
+        timer: null,
       }
   ),
 
@@ -816,6 +828,10 @@ export default {
     this.initialization();
 
     this.totalOfSteps = this.$store.state.totalOfSteps;
+
+    this.timer = setInterval(() => {
+      this.checkAurasIsOnline()
+    }, 3000)
 
   },
 
@@ -960,6 +976,11 @@ export default {
 
   methods: {
 
+    emergencyStop(){
+
+      this.sendToWebsocket({"EmergencyStop ": true});
+    },
+
     loadInitData() {
       let data = {
         sendData: true
@@ -1059,7 +1080,11 @@ export default {
               (response) => {
                 if (response.status === 200) {
                   let network = response.data;
-                  this.webSocket.ipAddress = network['ipAddress'];
+                  this.$store.state.aurasIp = this.webSocket.ipAddress = network['ipAddress'];
+
+                  this.webSocket.ipAddress = '10.10.17.143:81' //TODO: to be deleted
+                  this.$parent.simulatorMode = this.webSocket.ipAddress.toString().includes('ws');
+
                   this.connectToWebSocket();
                 }
               })
@@ -1078,7 +1103,7 @@ export default {
 
           console.log("Starting connection to WebSocket Server");
 
-          this.$store.state.connectionWS = new WebSocket('ws://10.10.17.143:81');
+          this.$store.state.connectionWS = new WebSocket('ws://' + this.webSocket.ipAddress);
           this.$store.state.connectionWS.onmessage = (event) => {
             this.extractDataSentFromSocket(event.data);
           }
@@ -1094,6 +1119,7 @@ export default {
 
             // connection closed, discard old websocket and create a new one in 1s
             this.$store.state.connectionWS = null;
+            this.online = false;
             setTimeout(this.connectToWebSocket, 1000);
           }
           this.$store.state.connectionWS.onerror = function (event) {
@@ -1109,6 +1135,9 @@ export default {
       }
     },
 
+    checkAurasIsOnline() {
+      this.online = this.$store.state.connectionWS.readyState === 1;
+    },
     /*------------------------------------------------------------------------
     * Method used to rotate pinch valves physically
     * ------------------------------------------------------------------------*/
