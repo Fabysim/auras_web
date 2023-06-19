@@ -160,6 +160,8 @@
       </v-card-actions>
     </v-card>
 
+    <!--    Values Overflow Dialog-->
+
     <v-dialog v-model="overflowDialog.open" max-width="500px">
       <v-card>
         <v-card-title class="text-h5 red lighten-2">
@@ -189,386 +191,401 @@
     <!--Image    -->
 
     <div id="image-container">
-      <vue-scroll-snap :horizontal="true" id="scroll-snap-container">
 
-        <!--TLC Migration-->
+
+      <!--TLC Migration-->
+
+      <div id="tlcMigration-section">
 
         <label id="tlc_title" class="module-title-color">{{ tlcMigrationModule.name }}</label>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="tlc_btn_0"
-                @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[0])"
-            >
-              mdi-numeric-0-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ tlcMigrationModule.items[0] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="tlc_btn_1"
-                @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[1])"
-            >
-              mdi-numeric-1-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ tlcMigrationModule.items[1] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="tlc_btn_2"
-                @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[2])"
-            >
-              mdi-numeric-2-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ tlcMigrationModule.items[2] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="tlc_btn_3"
-                @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[3])"
-            >
-              mdi-numeric-3-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ tlcMigrationModule.items[3] }}</span>
-        </v-tooltip>
+        <img id="tlcMigration-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
 
-        <!--Ph Meter-->
+        <div id="tlcMigration-buttons">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  id="tlc_btn_0"
+                  @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[0])"
+              >
+                mdi-numeric-0-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ tlcMigrationModule.items[0] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  id="tlc_btn_1"
+                  @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[1])"
+              >
+                mdi-numeric-1-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ tlcMigrationModule.items[1] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  id="tlc_btn_2"
+                  @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[2])"
+              >
+                mdi-numeric-2-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ tlcMigrationModule.items[2] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  id="tlc_btn_3"
+                  @click="setModulePhysicalPosition(tlcMigrationModule, tlcMigrationModule.items[3])"
+              >
+                mdi-numeric-3-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ tlcMigrationModule.items[3] }}</span>
+          </v-tooltip>
+        </div>
+      </div>
 
+      <!--Drop Dispenser-->
+      <div id="dropDispenser-section">
+        <label id="dd_title" class="module-title-color">{{ dropDispenserModule.name }}</label>
+        <img ID="dropDispenser-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
+        <div id="dropDispenser-buttons">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  id="dd_btn_0"
+                  @click="setModulePhysicalPosition(dropDispenserModule, dropDispenserModule.items[0])"
+              >
+                mdi-numeric-0-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ dropDispenserModule.items[0] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  id="dd_btn_1"
+                  @click="setModulePhysicalPosition(dropDispenserModule,dropDispenserModule.items[1])"
+              >
+                mdi-numeric-1-circle-outline
+              </v-icon>
+            </template>
+            <span>{{ dropDispenserModule.items[1] }}</span>
+          </v-tooltip>
+        </div>
+      </div>
+
+      <!--Ph Meter-->
+
+      <div id="phMeter-section">
         <label id="ph_title" class="module-title-color">{{ phMeterModule.name }}</label>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="phm_btn_0"
-                @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[0])"
-            >
-              mdi-numeric-0-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ phMeterModule.items[0] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="phm_btn_1"
-                @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[1])"
-            >
-              mdi-numeric-1-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ phMeterModule.items[1] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="phm_btn_2"
-                @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[2])"
-            >
-              mdi-numeric-2-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ phMeterModule.items[2] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="phm_btn_3"
-                @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[3])"
-            >
-              mdi-numeric-3-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ phMeterModule.items[3] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="phm_btn_4"
-                @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[4])"
-            >
-              mdi-numeric-4-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ phMeterModule.items[4] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="phm_btn_5"
-                @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[5])"
-            >
-              mdi-numeric-5-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ phMeterModule.items[5] }}</span>
-        </v-tooltip>
+        <img id="phMeter-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
+        <img id="phSolutions-image" src="../../assets/LiquidDispenserImages/ph_solutions.png" alt=""/>
+        <img id="phProbe-image" src="../../assets/LiquidDispenserImages/ph_probe.png" alt=""/>
 
-        <!--Drop Dispenser-->
-        <label id="dd_title" class="module-title-color">{{ dropDispenserModule.name }}</label>
+        <div id="phMeters-buttons">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  fab
+                  outlined
+                  dark
+                  large
+                  color="black"
+                  id="phm_btn_0"
+                  @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[0])"
+              >
+                <v-icon dark>
+                  mdi-home
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>{{ phMeterModule.items[0] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  fab
+                  outlined
+                  dark
+                  large
+                  color="black"
+                  id="phm_btn_1"
+                  @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[1])"
+              >
+                <v-icon dark>
+                  mdi-ph
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>{{ phMeterModule.items[1] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  fab
+                  outlined
+                  dark
+                  large
+                  color="black"
+                  id="phm_btn_2"
+                  @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[2])"
+              >
+                <v-icon dark>
+                  mdi-waves
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>{{ phMeterModule.items[2] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  fab
+                  outlined
+                  dark
+                  large
+                  id="phm_btn_3"
+                  @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[3])"
+              >
+                <v-icon large>
+                  mdi-water-thermometer-outline
+                </v-icon>
+                <v-icon>
+                  mdi-numeric-1
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>{{ phMeterModule.items[3] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  fab
+                  outlined
+                  large
+                  id="phm_btn_4"
+                  @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[4])"
+              >
+                <v-icon large>
+                  mdi-water-thermometer-outline
+                </v-icon>
+                <v-icon>
+                  mdi-numeric-2
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>{{ phMeterModule.items[4] }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="black"
+                  large
+                  fab
+                  outlined
+                  id="phm_btn_5"
+                  @click="setModulePhysicalPosition(phMeterModule, phMeterModule.items[5])"
+              >
+                <v-icon large>
+                  mdi-transfer-up
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>{{ phMeterModule.items[5] }}</span>
+          </v-tooltip>
+        </div>
+      </div>
 
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="dd_btn_0"
-                @click="setModulePhysicalPosition(dropDispenserModule, dropDispenserModule.items[0])"
-            >
-              mdi-numeric-0-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ dropDispenserModule.items[0] }}</span>
-        </v-tooltip>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-icon
-                v-on="on"
-                v-bind="attrs"
-                color="black"
-                large
-                id="dd_btn_1"
-                @click="setModulePhysicalPosition(dropDispenserModule,dropDispenserModule.items[1])"
-            >
-              mdi-numeric-1-circle-outline
-            </v-icon>
-          </template>
-          <span>{{ dropDispenserModule.items[1] }}</span>
-        </v-tooltip>
+      <!--Liquid Dispenser--><!--Liquid Dispenser-->
 
-        <!--Liquid Dispenser-->
-
+      <div id="liquid-dispenser-section">
         <!--        Title-->
         <label id="ld_title" class="module-title-color">{{ liquidDispenserModule.name }}</label>
 
         <!--        Main images-->
 
-        <img ID="liquid-dispenser-body" src="../../assets/LiquidDispenserImages/LDF18vide.png" alt=""/>
+        <img ID="liquid-dispenser-image" src="../../assets/LiquidDispenserImages/LD_F18_No_SP.png" alt=""/>
+        <img ID="sp-plug3" src="../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
+        <img ID="sp-plug1" src="../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
+        <img ID="sp-plug2" src="../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
 
         <!--        PS3 control-->
+        <div id="ps3">
 
-        <select id="select-sp3" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP3">
-          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
-        </select>
+          <select id="select-sp3" v-model="liquidDispenserModule.selectedSP3">
+            <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
+          </select>
 
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button firstLineComponent"
-                id="razPs3"
-                @click="resetSp('sp3')">
-          Empty
-        </button>
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button firstLineComponent"
-                id="volumeSp3Up"
-                @mousedown="moveStepperMotors('sp3Up','mousedown')"
-                @mouseup="moveStepperMotors('sp3Up','mouseup')">
-          Up
-        </button>
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button firstLineComponent"
-                id="volumeSp3Down"
-                @mousedown="moveStepperMotors('sp3Down','mousedown')"
-                @mouseup="moveStepperMotors('sp3Down','mouseup')">
-          Down
-        </button>
-        <input type="text"
-               :disabled="!liquidDispenserModule.sp3VolumeSelected"
-               id="volumeSp3Input"
-               class="input-text"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule,  event.target.value,'volumeSp3Input')"/>
+          <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                  class="button firstLineComponent"
+                  id="razPs3"
+                  @click="resetSp('sp3')">
+            Empty
+          </button>
+          <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                  class="button firstLineComponent"
+                  id="volumeSp3Up"
+                  @mousedown="moveStepperMotors('sp3Up','mousedown')"
+                  @mouseup="moveStepperMotors('sp3Up','mouseup')">
+            Up
+          </button>
+          <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                  class="button firstLineComponent"
+                  id="volumeSp3Down"
+                  @mousedown="moveStepperMotors('sp3Down','mousedown')"
+                  @mouseup="moveStepperMotors('sp3Down','mouseup')">
+            Down
+          </button>
+          <input type="text"
+                 :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                 id="volumeSp3Input"
+                 class="input-text"
+                 @change="event => setModulePhysicalPosition(liquidDispenserModule,  event.target.value,'volumeSp3Input')"/>
 
-        <textarea readonly id="ps3SpeedLabel"></textarea>
-        <input type="range" id="ps3SpeedRange" min="1" max="200"
-               @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps3SpeedRange')"
-               list="tickMarks">
-
+          <textarea readonly id="ps3SpeedLabel"></textarea>
+          <input type="range" id="ps3SpeedRange" min="1" max="200"
+                 @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps3SpeedRange')"
+                 list="tickMarks">
+        </div>
         <!--        PS1 control-->
-        <select id="select-sp1" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP1">
-          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
-        </select>
 
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button firstLineComponent"
-                id="razPs1"
-                @click="resetSp('sp1')">
-          Empty
-        </button>
+        <div id="ps1">
+          <select id="select-sp1" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP1">
+            <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
+          </select>
 
-        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
-                id="volumeSp1Up"
-                class="button firstLineComponent"
-                @mousedown="moveStepperMotors('sp1Up','mousedown')"
-                @mouseup="moveStepperMotors('sp1Up','mouseup')">
-          Up
-        </button>
-        <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
-                id="volumeSp1Down"
-                class="button firstLineComponent"
-                @mousedown="moveStepperMotors('sp1Down','mousedown')"
-                @mouseup="moveStepperMotors('sp1Down','mouseup')">
-          Down
-        </button>
-        <input type="text"
-               :disabled="!liquidDispenserModule.sp1VolumeSelected"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
-               class="input-text"
-               id="volumeSp1Input"
-        />
+          <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                  class="button firstLineComponent"
+                  id="razPs1"
+                  @click="resetSp('sp1')">
+            Empty
+          </button>
 
-        <textarea readonly id="ps1SpeedLabel"></textarea>
-        <input type="range" id="ps1SpeedRange" min="1" max="200"
-               @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
-               list="tickMarks">
+          <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
+                  id="volumeSp1Up"
+                  class="button firstLineComponent"
+                  @mousedown="moveStepperMotors('sp1Up','mousedown')"
+                  @mouseup="moveStepperMotors('sp1Up','mouseup')">
+            Up
+          </button>
+          <button :disabled="!liquidDispenserModule.sp1VolumeSelected"
+                  id="volumeSp1Down"
+                  class="button firstLineComponent"
+                  @mousedown="moveStepperMotors('sp1Down','mousedown')"
+                  @mouseup="moveStepperMotors('sp1Down','mouseup')">
+            Down
+          </button>
+          <input type="text"
+                 :disabled="!liquidDispenserModule.sp1VolumeSelected"
+                 @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp1Input')"
+                 class="input-text"
+                 id="volumeSp1Input"
+          />
 
+          <textarea readonly id="ps1SpeedLabel"></textarea>
+          <input type="range" id="ps1SpeedRange" min="1" max="200"
+                 @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps1SpeedRange')"
+                 list="tickMarks">
+        </div>
         <!--        PS2 control-->
+        <div id="ps2">
+          <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP2">
+            <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
+          </select>
 
-        <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModule.selectedSP2">
-          <option v-for="item in liquidDispenserModule.items" :value="item" :key="item">{{ item }}</option>
-        </select>
+          <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
+                  class="button firstLineComponent"
+                  id="razPs2"
+                  @click="resetSp('sp2')">
+            Empty
+          </button>
+          <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
+                  id="volumeSp2Up"
+                  class="button firstLineComponent"
+                  @mousedown="moveStepperMotors('sp2Up','mousedown')"
+                  @mouseup="moveStepperMotors('sp2Up','mouseup')">
+            Up
+          </button>
+          <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
+                  id="volumeSp2Down"
+                  class="button firstLineComponent"
+                  @mousedown="moveStepperMotors('sp2Down','mousedown')"
+                  @mouseup="moveStepperMotors('sp2Down','mouseup')">
+            Down
+          </button>
+          <input type="text"
+                 :disabled="!liquidDispenserModule.sp2VolumeSelected"
+                 class="input-text"
+                 id="volumeSp2Input"
+                 @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
 
-        <button :disabled="!liquidDispenserModule.sp3VolumeSelected"
-                class="button firstLineComponent"
-                id="razPs2"
-                @click="resetSp('sp2')">
-          Empty
-        </button>
-        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
-                id="volumeSp2Up"
-                class="button firstLineComponent"
-                @mousedown="moveStepperMotors('sp2Up','mousedown')"
-                @mouseup="moveStepperMotors('sp2Up','mouseup')">
-          Up
-        </button>
-        <button :disabled="!liquidDispenserModule.sp2VolumeSelected"
-                id="volumeSp2Down"
-                class="button firstLineComponent"
-                @mousedown="moveStepperMotors('sp2Down','mousedown')"
-                @mouseup="moveStepperMotors('sp2Down','mouseup')">
-          Down
-        </button>
-        <input type="text"
-               :disabled="!liquidDispenserModule.sp2VolumeSelected"
-               class="input-text"
-               id="volumeSp2Input"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'volumeSp2Input')"/>
+          <textarea readonly id="ps2SpeedLabel"></textarea>
+          <input type="range" id="ps2SpeedRange" min="1" max="200"
+                 @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
+                 list="tickMarks">
 
-        <textarea readonly id="ps2SpeedLabel"></textarea>
-        <input type="range" id="ps2SpeedRange" min="1" max="200"
-               @input="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'ps2SpeedRange')"
-               list="tickMarks">
-
-
-        <!--        Pump control-->
-
-        <button id="pumpLeft"
-                class="button"
-                @mousedown="moveStepperMotors('pumpLeft','mousedown')"
-                @mouseup="moveStepperMotors('pumpLeft','mouseup')">
-          Left
-        </button>
-        <button id="pumpRight"
-                class="button"
-                @mousedown="moveStepperMotors('pumpRight','mousedown')"
-                @mouseup="moveStepperMotors('pumpRight','mouseup')">
-          Right
-        </button>
-        <input type="text"
-               class="input-text"
-               id="pump1Input"
-               @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Input')"/>
-
-        <input type="range" id="pump1Speed" min="1" max="500"
-               @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Speed')"
-               list="tickMarks">
-        <textarea readonly id="pumpsLabel"></textarea>
-        <datalist id="tickMarks">
-          <option value="1"/>
-          <option value="5"/>
-          <option value="10"/>
-          <option value="20"/>
-          <option value="30"/>
-          <option value="40"/>
-          <option value="50"/>
-          <option value="75"/>
-          <option value="100"/>
-          <option value="125"/>
-          <option value="150"/>
-          <option value="200"/>
-          <option value="250"/>
-          <option value="300"/>
-          <option value="400"/>
-          <option value="500"/>
-        </datalist>
-
-
+        </div>
         <!--    PS ranges -->
 
         <div class="progressbar-wrapper" id="PS3PProgressbar">
-          <div id="ps3AbsolutePosition" title="ps3AbsolutePosition" class="progressbar">
+          <div id="ps3LiquidLevel" title="ps3LiquidLevel" class="progressbar">
           </div>
         </div>
         <div class="progressbar-wrapper" id="PS1PProgressbar">
-          <div id="ps1AbsolutePosition" title="ps1AbsolutePosition" class="progressbar ">
+          <div id="ps1LiquidLevel" title="ps1LiquidLevel" class="progressbar ">
           </div>
         </div>
 
         <div class="progressbar-wrapper" id="PS2PProgressbar">
-          <div id="ps2AbsolutePosition" title="ps2AbsolutePosition" class="progressbar">
+          <div id="ps2LiquidLevel" title="ps2LiquidLevel" class="progressbar">
           </div>
         </div>
 
-
         <!--        pinch valves images-->
-
 
         <img @click="rotate('ldS1')" class="pinch" ID="ldS1" alt=""
              src="../../assets/LiquidDispenserImages/pinch25b.png"/>
@@ -607,15 +624,54 @@
              src="../../assets/LiquidDispenserImages/pinch25c.png"/>
 
         <!--  Pump  images -->
-        <div id="wheelDiv">
+        <div id="pump">
+          <button id="pumpLeft-button"
+                  class="button"
+                  @mousedown="moveStepperMotors('pumpLeft','mousedown')"
+                  @mouseup="moveStepperMotors('pumpLeft','mouseup')">
+            Left
+          </button>
+          <button id="pumpRight-button"
+                  class="button"
+                  @mousedown="moveStepperMotors('pumpRight','mousedown')"
+                  @mouseup="moveStepperMotors('pumpRight','mouseup')">
+            Right
+          </button>
+          <input type="text"
+                 class="input-text"
+                 id="pump1Input"
+                 @change="event => setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Input')"/>
+
+          <input type="range" id="pump1Speed" min="1" max="500"
+                 @input="event =>  setModulePhysicalPosition(liquidDispenserModule, event.target.value,'pump1Speed')"
+                 list="tickMarks">
+          <textarea readonly id="pumpsLabel"></textarea>
+          <datalist id="tickMarks">
+            <option value="1"/>
+            <option value="5"/>
+            <option value="10"/>
+            <option value="20"/>
+            <option value="30"/>
+            <option value="40"/>
+            <option value="50"/>
+            <option value="75"/>
+            <option value="100"/>
+            <option value="125"/>
+            <option value="150"/>
+            <option value="200"/>
+            <option value="250"/>
+            <option value="300"/>
+            <option value="400"/>
+            <option value="500"/>
+          </datalist>
+
 
           <img id="wheelRight" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
           <img id="wheelLeft" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
 
         </div>
 
-
-      </vue-scroll-snap>
+      </div>
     </div>
 
   </div>
@@ -676,7 +732,7 @@ export default {
 
         phMeterModule: {
           name: '',
-          items: ['Idle position', 'QC sample', 'Rinsing', 'Tempo 1', 'Tempo 2', 'Lift'],
+          items: ['Idle position', 'QC sample', 'Rinsing', 'Calibration 1', 'Calibration 2', 'Lift'],
           selectedOption: 'Idle position',
           columns: [
             {text: 'Position', value: 'position', width: 150, align: 'center'},
@@ -976,7 +1032,7 @@ export default {
 
   methods: {
 
-    emergencyStop(){
+    emergencyStop() {
 
       this.sendToWebsocket({"EmergencyStop ": true});
     },
@@ -1035,8 +1091,8 @@ export default {
         document.getElementById('ps2SpeedRange').style.visibility = 'hidden';
         document.getElementById('ps3SpeedRange').style.visibility = 'hidden';
         document.getElementById('pump1Speed').style.visibility = 'hidden';
-        document.getElementById('pumpLeft').style.visibility = 'hidden';
-        document.getElementById('pumpRight').style.visibility = 'hidden';
+        document.getElementById('pumpLeft-button').style.visibility = 'hidden';
+        document.getElementById('pumpRight-button').style.visibility = 'hidden';
         document.getElementById('razPs1').style.visibility = 'hidden';
         document.getElementById('razPs2').style.visibility = 'hidden';
         document.getElementById('razPs3').style.visibility = 'hidden';
@@ -1059,7 +1115,7 @@ export default {
       this.waitingCondition.instrumentSelected = this.ginaModule.name;
 
       // Initialize the PS positions
-      this.liquidDispenserModule.sP1PAbsolutePosition = document.getElementById('ps1AbsolutePosition').value;
+      this.liquidDispenserModule.sP1PAbsolutePosition = document.getElementById('ps1LiquidLevel').value;
 
     },
 
@@ -1081,8 +1137,6 @@ export default {
                 if (response.status === 200) {
                   let network = response.data;
                   this.$store.state.aurasIp = this.webSocket.ipAddress = network['ipAddress'];
-
-                  this.webSocket.ipAddress = '10.10.17.143:81' //TODO: to be deleted
                   this.$parent.simulatorMode = this.webSocket.ipAddress.toString().includes('ws');
 
                   this.connectToWebSocket();
@@ -1240,8 +1294,20 @@ export default {
         this.tlcMigrationModule.selectedOption = this.tlcMigrationModule.items[obj.TLCMigration];
 
       //PHMeter
-      if (obj.PHMeter !== undefined)
+      if (obj.PHMeter !== undefined) {
+
         this.phMeterModule.selectedOption = this.phMeterModule.items[obj.PHMeter];
+      }
+
+      if (obj.SolCurrentPosition !== undefined) {
+        let value = -1 * (-193 + obj.SolCurrentPosition * 0.0024);
+        document.getElementById('phSolutions-image').style.left = value + 'px';
+      }
+
+      if (obj.ProbeCurrentPosition !== undefined) {
+        let value = (105 + obj.ProbeCurrentPosition * 0.0024);
+        document.getElementById('phProbe-image').style.top = value + 'px';
+      }
 
       //DropDispenser
       if (obj.DropDispenser !== undefined)
@@ -1312,13 +1378,15 @@ export default {
       if (obj.SP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP1CurrentPosition) / 1000;
-        let element = document.getElementById("ps1AbsolutePosition");
+        let element = document.getElementById("ps1LiquidLevel");
         element.innerText = value.toFixed(0);
         element.style.width = value / 10 + '%';
         this.liquidDispenserModule.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP1PAbsolutePosition = value;
-        // this.sp1Width = value / 10 + '%';
 
+        let element1 = document.getElementById('sp-plug1');
+        let value1 = 425 - value / 5;
+        element1.style.top = value1 + 'px';
 
       }
 
@@ -1355,12 +1423,15 @@ export default {
       if (obj.SP2CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP2CurrentPosition) / 1000;
-        let element = document.getElementById("ps2AbsolutePosition");
+        let element = document.getElementById("ps2LiquidLevel");
         element.innerText = value.toFixed(0);
         element.style.width = value / 10 + '%';
         this.liquidDispenserModule.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
 
+        let element1 = document.getElementById('sp-plug2');
+        let value1 = 425 - value / 5;
+        element1.style.top = value1 + 'px';
 
         // Init PS Absolute position
         this.liquidDispenserModule.sP2PAbsolutePosition = value;
@@ -1399,12 +1470,15 @@ export default {
       if (obj.SP3CurrentPosition !== undefined) {
 
         let value = parseInt(obj.SP3CurrentPosition) / 1000;
-        let element = document.getElementById("ps3AbsolutePosition");
+        let element = document.getElementById("ps3LiquidLevel");
         element.innerText = value.toFixed(0);
         element.style.width = value / 10 + '%';
         this.liquidDispenserModule.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
 
+        let element1 = document.getElementById('sp-plug3');
+        let value1 = 425 - value / 5;
+        element1.style.top = value1 + 'px';
 
         // Init PS Absolute position
         this.liquidDispenserModule.sP3PAbsolutePosition = value;
@@ -1485,7 +1559,6 @@ export default {
           element.style.display = 'inline';
           element.style.visibility = 'visible';
           element.style.animationDuration = speed + "s";
-
 
           let element1 = document.getElementById('wheelLeft');
           element1.style.display = 'none';
@@ -1775,7 +1848,6 @@ export default {
     ,
 
     setDefaultSettings() {
-
       document.getElementById('wheelLeft').style.display = 'none';
       document.getElementById('wheelRight').style.display = 'none';
     }
@@ -1784,7 +1856,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 /*general tags*/
 .table {
@@ -1841,6 +1913,8 @@ select {
 
 #platform {
   position: relative;
+  height: 1400px;
+  overflow-x: auto;
 }
 
 #scroll-snap-container {
@@ -1883,437 +1957,601 @@ select {
 /*modules*/
 
 /*TLC Migration*/
-#tlc_btn_0 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: -100px;
+
+#tlcMigration-section {
+  position: absolute;
+  left: 20px;
+  top: 120px;
+  display: none;
+
+  #tlc_title {
+    position: absolute;
+    left: 100px;
+    top: -100px;
+    font-size: 25px;
+  }
+
+  #tlcMigration-image {
+    position: absolute;
+    top: 148px;
+    width: 600px;
+  }
+
+  #tlcMigration-buttons {
+
+    position: absolute;
+    left: 150px;
+    top: 40px;
+
+    #tlc_btn_0 {
+      position: absolute;
+    }
+
+    #tlc_btn_1 {
+      position: absolute;
+      left: 50px;
+    }
+
+    #tlc_btn_2 {
+      position: absolute;
+      left: 100px;
+    }
+
+    #tlc_btn_3 {
+      position: absolute;
+      left: 150px;
+    }
+  }
 }
 
-#tlc_btn_1 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: -0px;
-}
 
-#tlc_btn_2 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: 5px;
-}
+/*Drop Dispenser*/
 
-#tlc_btn_3 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: 10px;
+#dropDispenser-section {
+  position: absolute;
+  left: 50px;
+  top: 148px;
+
+  #dd_title {
+    position: absolute;
+    left: 180px;
+    margin-top: -50px;
+    font-size: 25px;
+
+  }
+
+  #dropDispenser-image {
+    margin-top: 100px;
+    width: 600px;
+  }
+
+  #dropDispenser-buttons {
+    position: absolute;
+    top: 0;
+    left: -440px;
+
+    #dd_btn_0 {
+      margin-left: 650px;
+    }
+
+    #dd_btn_1 {
+      margin-left: 30px;
+    }
+
+  }
+
 }
 
 /*PH Meter*/
 
+#phMeter-section {
 
-#phm_btn_0 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: -150px;
-}
+  position: absolute;
+  left: 1000px;
+  top: 148px;
 
-#phm_btn_1 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: -0px;
-}
+  #ph_title {
+    position: absolute;
+    left: 0;
+    margin-top: -50px;
+    font-size: 25px;
 
-#phm_btn_2 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: 5px;
-}
+  }
 
-#phm_btn_3 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: 10px;
-}
+  #phMeter-image {
+    position: absolute;
+    margin-top: 100px;
+    width: 1400px;
+    height: auto;
+    left: -400px;
+  }
 
-#phm_btn_4 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: 15px;
-}
+  #phSolutions-image {
+    position: absolute;
+    height: auto;
+    top: 500px;
+    left: 13px;
+    width: 546px;
+  }
 
-#phm_btn_5 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: 20px;
-}
-
-/*Drop Dispenser*/
+  #phProbe-image {
+    position: absolute;
+    left: -110px;
+    top: 258px;
+    height: auto;
+    width: 780px;
+  }
 
 
-#dd_btn_0 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: -100px;
-}
+  #phMeters-buttons {
+    position: absolute;
+    top: 70px;
 
-#dd_btn_1 {
-  height: fit-content;
-  margin-top: 200px;
-  margin-left: -0px;
+    #phm_btn_0 {
+      position: absolute;
+    }
+
+    #phm_btn_1 {
+      position: absolute;
+      left: 80px;
+    }
+
+    #phm_btn_2 {
+      position: absolute;
+      left: 160px;
+    }
+
+    #phm_btn_3 {
+      position: absolute;
+      left: 240px;
+    }
+
+    #phm_btn_4 {
+      position: absolute;
+      left: 320px;
+    }
+
+    #phm_btn_5 {
+      position: absolute;
+      left: 400px;
+    }
+  }
+
 }
 
 /* Liquid Dispenser */
 
-#liquid-dispenser-body {
-  height: 700px;
-  width: 1200px;
-  margin-left: -480px;
-  margin-top: 180px;
+#liquid-dispenser-section {
+  position: absolute;
+  left: 1000px;
+  top: 120px;
 
-
-}
-
-/* syringes */
-
-#select-sp3 {
-  margin-left: -1020px;
-  z-index: 1;
-}
-
-#volumeSp3Up {
-  margin-left: 20px;
-}
-
-#razPs3 {
-  margin-left: 20px;
-  background-color: #eb3434;
-}
-
-#volumeSp3Down {
-  margin-left: 5px;
-  background-color: #e07b39;
-}
-
-#volumeSp3Input {
-  margin-left: -102px;
-  margin-top: 130px;
-}
-
-#ps3SpeedLabel {
-  margin-left: -340px;
-  font-size: 14px;
-  margin-top: 120px;
-  height: fit-content;
-  width: 170px;
-  resize: none;
-}
-
-#ps3SpeedRange {
-  margin-left: -170px;
-  margin-top: 160px;
-  height: fit-content;
-}
-
-
-#select-sp1 {
-  margin-left: 280px;
-  z-index: 1;
-}
-
-#razPs1 {
-  margin-left: 20px;
-  background-color: #eb3434;
-}
-
-#volumeSp1Up {
-  margin-left: 20px;
-  z-index: 2;
-}
-
-#volumeSp1Down {
-  margin-left: 5px;
-  background-color: #e07b39;
-}
-
-#volumeSp1Input {
-  margin-left: -102px;
-  margin-top: 130px;
-}
-
-#ps1SpeedRange {
-  margin-left: -170px;
-  margin-top: 160px;
-  height: fit-content;
-}
-
-#ps1SpeedLabel {
-  margin-left: -340px;
-  font-size: 14px;
-  margin-top: 120px;
-  height: fit-content;
-  width: 170px;
-  resize: none;
-}
-
-#select-sp2 {
-  margin-left: 260px;
-  z-index: 1;
-}
-
-#volumeSp2Up {
-  margin-left: 20px;
-}
-
-#razPs2 {
-  margin-left: 20px;
-  background-color: #eb3434;
-}
-
-#volumeSp2Down {
-  margin-left: 5px;
-  background-color: #e07b39;
-}
-
-#volumeSp2Input {
-  margin-left: -102px;
-  margin-top: 130px;
-}
-
-#ps2SpeedRange {
-  margin-left: -160px;
-  margin-top: 160px;
-  height: fit-content;
-}
-
-#ps2SpeedLabel {
-  margin-left: -340px;
-  font-size: 14px;
-  margin-top: 120px;
-  height: fit-content;
-  width: 160px;
-  resize: none;
-}
-
-
-/*pump*/
-
-#pumpLeft {
-  margin-left: -440px;
-  margin-top: 350px;
-}
-
-#pumpRight {
-  margin-left: 5px;
-  margin-top: 350px;
-  background-color: #e07b39;
-}
-
-#pump1Input {
-  margin-left: 25px;
-  margin-top: 350px;
-}
-
-#pump1Speed {
-  margin-left: -230px;
-  margin-top: 430px;
-  height: fit-content;
-}
-
-#pumpsLabel {
-  margin-left: -131px;
-  margin-top: 385px;
-  font-size: 14px;
-  height: fit-content;
-  width: 180px;
-  resize: none;
-}
-
-/*pinch valves*/
-
-.pinch {
-  height: 60px;
-  width: 60px;
-  display: inline-block;
-}
-
-#ldS1 {
-  margin-left: -785px;
-  margin-top: 350px;
-  display: inline-block;
-
-}
-
-#ldS2 {
-  margin-left: -60px;
-  margin-top: 435px;
-  display: inline-block;
-}
-
-#ldS3 {
-  margin-left: -60px;
-  margin-top: 520px;
-  display: inline-block;
-}
-
-#ldS4 {
-  margin-left: -60px;
-  margin-top: 605px;
-  display: inline-block;
-}
-
-#ldS5 {
-  margin-left: -60px;
-  margin-top: 690px;
-  display: inline-block;
-}
-
-#ldS6 {
-  margin-left: -338px;
-  margin-top: 690px;
-  display: inline-block;
-}
-
-#ldS7 {
-  margin-left: 75px;
-  margin-top: 738px;
-  height: 120px;
-  width: 120px;
-  display: inline-block;
-}
-
-#ldS8 {
-  margin-left: 200px;
-  margin-top: 738px;
-  height: 120px;
-  width: 120px;
-  display: inline-block;
-}
-
-#ldS9 {
-  margin-left: 21px;
-  margin-top: 690px;
-  display: inline-block;
-}
-
-#ldS10 {
-  margin-left: 50px;
-  margin-top: 680px;
-  display: inline-block;
-}
-
-#ldS11 {
-  margin-left: 75px;
-  margin-top: 750px;
-  display: inline-block;
-}
-
-#ldS12 {
-  margin-left: 90px;
-  margin-top: 750px;
-  display: inline-block;
-}
-
-#PS1PProgressbar {
-  width: 155px;
-  height: 15px;
-  margin-top: 570px;
-  margin-left: 165px;
-}
-
-
-.progressbar-wrapper {
-  -webkit-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  background-color: lightgray;
-  color: white;
-  border-radius: 5px;
-  font-size: 12px;
-}
-
-.progressbar {
-  background-color: red;
-  height: 15px;
-  border-radius: 5px;
-}
-
-
-#PS2PProgressbar {
-  width: 155px;
-  height: 15px;
-  margin-top: 570px;
-  margin-left: 317px;
-}
-
-#PS3PProgressbar {
-  width: 155px;
-  height: 15px;
-  margin-top: 570px;
-  margin-left: -655px;
-  z-index: 1;
-
-}
-
-#wheelDiv {
-  height: fit-content;
-  margin-top: 520px;
-  margin-left: -655px;
-}
-
-#wheelRight {
-  height: 15%;
-  max-width: 15%;
-  -webkit-animation: spin 3s linear infinite;
-  animation: spin 3s linear infinite;
-}
-
-#wheelLeft {
-  height: 15%;
-  max-width: 15%;
-  -webkit-animation: spin1 3s linear infinite;
-  animation: spin1 3s linear infinite;
-}
-
-
-/* for Safari browser  */
-@-webkit-keyframes spin {
-  0% {
-    -webkit-transform: rotate(0deg);
+  #ld_title {
+    position: absolute;
+    left: 1000px;
+    margin-top: -100px;
+    font-size: 25px;
   }
-  100% {
-    -webkit-transform: rotate(360deg);
+
+  #liquid-dispenser-image {
+    position: absolute;
+    height: 720px;
+    width: 1280px;
+    left: 735px;
+    top: 148px;
   }
+
+  #sp-plug3 {
+    position: absolute;
+    z-index: 1;
+    left: 1028px;
+    top: 420px;
+    width: 70px;
+  }
+
+  #sp-plug1 {
+    position: absolute;
+    z-index: 1;
+    left: 1354px;
+    top: 420px;
+    width: 70px;
+  }
+
+  #sp-plug2 {
+    position: absolute;
+    z-index: 1;
+    left: 1830px;
+    top: 420px;
+    width: 70px;
+  }
+
+  /* syringes */
+
+  /* PS3 */
+  #ps3 {
+    position: absolute;
+    left: 1000px;
+    top: 100px;
+
+    #select-sp3 {
+      position: absolute;
+    }
+
+    #ps3SpeedLabel {
+      position: absolute;
+      margin-top: 30px;
+      font-size: 14px;
+      height: fit-content;
+      width: 200px;
+      resize: none;
+    }
+
+    #ps3SpeedRange {
+      position: absolute;
+      margin-top: 80px;
+      height: fit-content;
+    }
+
+    #razPs3 {
+      position: absolute;
+      left: 160px;
+      background-color: #eb3434;
+    }
+
+    #volumeSp3Up {
+      position: absolute;
+      left: 220px;
+    }
+
+    #volumeSp3Down {
+      position: absolute;
+      background-color: #e07b39;
+      left: 272px;
+    }
+
+    #volumeSp3Input {
+      position: absolute;
+      left: 220px;
+      margin-top: 30px;
+    }
+
+
+  }
+
+  #PS3PProgressbar {
+    position: absolute;
+    left: 984px;
+    top: 569px;
+    width: 157px;
+    height: 18px;
+
+  }
+
+  /* PS1 */
+
+  #ps1 {
+    position: absolute;
+    left: 1400px;
+    top: 100px;
+
+    #select-sp1 {
+      position: absolute;
+
+    }
+
+    #ps1SpeedLabel {
+      position: absolute;
+      margin-top: 30px;
+      font-size: 14px;
+      height: fit-content;
+      width: 200px;
+      resize: none;
+    }
+
+    #ps1SpeedRange {
+      position: absolute;
+      margin-top: 80px;
+      height: fit-content;
+    }
+
+    #razPs1 {
+      position: absolute;
+      left: 160px;
+      background-color: #eb3434;
+    }
+
+    #volumeSp1Up {
+      position: absolute;
+      left: 220px;
+    }
+
+    #volumeSp1Down {
+      position: absolute;
+      background-color: #e07b39;
+      left: 272px;
+    }
+
+    #volumeSp1Input {
+      position: absolute;
+      left: 220px;
+      margin-top: 30px;
+    }
+  }
+
+
+  #PS1PProgressbar {
+    position: absolute;
+    left: 1309px;
+    top: 569px;
+    width: 159px;
+    height: 18px;
+  }
+
+
+  /* PS2 */
+
+  #ps2 {
+    position: absolute;
+    left: 1800px;
+    top: 100px;
+
+    #select-sp2 {
+      position: absolute;
+    }
+
+    #ps2SpeedLabel {
+      position: absolute;
+      margin-top: 30px;
+      font-size: 14px;
+      height: fit-content;
+      width: 200px;
+      resize: none;
+    }
+
+    #ps2SpeedRange {
+      position: absolute;
+      margin-top: 80px;
+      height: fit-content;
+    }
+
+    #razPs2 {
+      position: absolute;
+      left: 160px;
+      background-color: #eb3434
+    }
+
+    #volumeSp2Up {
+      position: absolute;
+      left: 220px;
+    }
+
+    #volumeSp2Down {
+      position: absolute;
+      background-color: #e07b39;
+      left: 272px;
+    }
+
+    #volumeSp2Input {
+      position: absolute;
+      left: 220px;
+      margin-top: 30px;
+    }
+  }
+
+  #PS2PProgressbar {
+    position: absolute;
+    left: 1785px;
+    top: 569px;
+    width: 159px;
+    height: 18px;;
+  }
+
+  .progressbar-wrapper {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    background-color: lightgray;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+  }
+
+  .progressbar {
+    background-color: red;
+    height: 18px;
+    border-radius: 5px;
+  }
+
+  /*pump*/
+
+
+  /* pinch valves */
+
+  .pinch {
+    height: 60px;
+    width: 60px;
+    display: inline-block;
+  }
+
+  #ldS1 {
+    position: absolute;
+    left: 1147px;
+    top: 358px;
+
+  }
+
+  #ldS2 {
+    position: absolute;
+    left: 1147px;
+    top: 441px;
+  }
+
+  #ldS3 {
+    position: absolute;
+    left: 1147px;
+    top: 524px;
+  }
+
+  #ldS4 {
+    position: absolute;
+    left: 1147px;
+    top: 605px;
+  }
+
+  #ldS5 {
+    position: absolute;
+    left: 1147px;
+    top: 687px;
+  }
+
+  #ldS6 {
+    position: absolute;
+    left: 868px;
+    top: 688px;
+  }
+
+  #ldS7 {
+    position: absolute;
+    left: 1003px;
+    top: 730px;
+    height: 120px;
+    width: 120px;
+    display: inline-block;
+  }
+
+  #ldS8 {
+    position: absolute;
+    left: 1327px;
+    top: 730px;
+    height: 120px;
+    width: 120px;
+    display: inline-block;
+  }
+
+  #ldS9 {
+    position: absolute;
+    left: 1470px;
+    top: 688px;
+  }
+
+  #ldS10 {
+    position: absolute;
+    left: 1580px;
+    top: 683px;
+  }
+
+  #ldS11 {
+    position: absolute;
+    left: 1718px;
+    top: 745px;
+  }
+
+  #ldS12 {
+    position: absolute;
+    left: 1869px;
+    top: 745px;
+  }
+
+
+  #pump {
+
+    position: absolute;
+    left: 1460px;
+    top: 350px;
+
+    #pumpLeft-button {
+      position: absolute;
+
+    }
+
+
+    #pumpRight-button {
+      position: absolute;
+      background-color: #e07b39;
+      left: 70px;
+    }
+
+    #pump1Input {
+      position: absolute;
+      left: 140px;
+
+    }
+
+    #pumpsLabel {
+      position: absolute;
+      top: 30px;
+      font-size: 14px;
+      height: fit-content;
+      width: 200px;
+      resize: none;
+    }
+
+    #pump1Speed {
+      position: absolute;
+      top: 80px;
+    }
+
+
+    #wheelRight {
+      position: absolute;
+      top: 180px;
+      left: 50px;
+      width: 80px;
+      -webkit-animation: spin 3s linear infinite;
+      animation: spin 3s linear infinite;
+    }
+
+    #wheelLeft {
+      position: absolute;
+      top: 180px;
+      left: 50px;
+      width: 80px;
+      -webkit-animation: spin1 3s linear infinite;
+      animation: spin1 3s linear infinite;
+    }
+  }
+
+
+  /* for Safari browser  */
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+
+  /* for Safari browser  */
+  @-webkit-keyframes spin1 {
+    0% {
+      -webkit-transform: rotate(360deg);
+    }
+    100% {
+      -webkit-transform: rotate(0deg);
+    }
+  }
+
+  @keyframes spin1 {
+    0% {
+      transform: rotate(360deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.firstLineComponent {
-  margin-top: 80px;
-}
-
-/* for Safari browser  */
-@-webkit-keyframes spin1 {
-  0% {
-    -webkit-transform: rotate(360deg);
-  }
-  100% {
-    -webkit-transform: rotate(0deg);
-  }
-}
-
-@keyframes spin1 {
-  0% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
 </style>
 
 <style lang="scss">
