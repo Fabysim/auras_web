@@ -3,11 +3,14 @@
   <div id="platform">
     <!--Actions-->
 
-    <v-card class="table"
-            v-if="mode==='config'">
+    <v-card
+        class="table"
+        v-if="mode==='config'"
+    >
       <v-card-title class="justify-center">
         Define a step
         <v-spacer/>
+
       </v-card-title>
 
       <!--Tables-->
@@ -143,22 +146,56 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="error" @click="emergencyStop">Emergency Stop</v-btn>
+
+        <div v-if="online">
+          <v-icon color="success">mdi-power</v-icon>
+          <span style="color: green"> Online</span>
+        </div>
+
+        <div v-else>
+          <v-icon color="error">mdi-power</v-icon>
+          <span style="color: red"> Offline</span>
+        </div>
+
+        <v-spacer/>
+
+        <v-btn
+            small
+            outlined
+            style="z-index: 7"
+            @click="scrollTo(dropDispenserModuleConfig.name)"
+        > {{ dropDispenserModuleConfig.name }}
+        </v-btn>
+
+        <v-btn
+            small
+            outlined
+            @click="scrollTo(tlcMigrationModuleConfig.name)"
+        > {{ tlcMigrationModuleConfig.name }}
+        </v-btn>
+
+        <v-btn
+            small
+            outlined
+            @click="scrollTo(phMeterModuleConfig.name)"
+        > {{ phMeterModuleConfig.name }}
+        </v-btn>
+
+        <v-btn
+            small
+            outlined
+            @click="scrollTo(liquidDispenserModuleConfig.name)"
+        > {{ liquidDispenserModuleConfig.name }}
+        </v-btn>
+
         <v-spacer/>
         <v-btn style="background-color: dodgerblue; color: white;"
                @click="$emit('lineSaved')">
           Save step
         </v-btn>
-        <v-spacer/>
-        <div v-if="online">
-          <v-icon color="success">mdi-power</v-icon>
-          <span style="color: green"> Online</span>
-        </div>
-        <div v-else>
-          <v-icon color="error">mdi-power</v-icon>
-          <span style="color: red"> Offline</span>
-        </div>
+
       </v-card-actions>
+
     </v-card>
 
     <!--    Values Overflow Dialog-->
@@ -192,6 +229,7 @@
     <!--Image    -->
 
     <div class="cover">
+
       <v-btn
           @click="leftScroll"
           class="ma-2 left"
@@ -281,38 +319,51 @@
 
         <div id="dropDispenser-section">
           <label id="dd_title" class="module-title-color">{{ dropDispenserModuleConfig.name }}</label>
-          <img ID="dropDispenser-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
+          <!--          <img ID="dropDispenser-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>-->
           <div id="dropDispenser-buttons">
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
+                    rounded
+                    outlined
                     large
-                    id="dd_btn_0"
+                    color="black"
+                    id="dd_btn_none"
                     @click="setModulePhysicalPosition(dropDispenserModuleConfig, dropDispenserModuleConfig.items[0])"
                 >
-                  mdi-numeric-0-circle-outline
-                </v-icon>
+                  <v-icon dark>
+                    mdi-circle-off-outline
+                  </v-icon>
+                  {{ dropDispenserModuleConfig.items[0] }}
+                </v-btn>
               </template>
               <span>{{ dropDispenserModuleConfig.items[0] }}</span>
             </v-tooltip>
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
+                    rounded
+                    outlined
                     large
-                    id="dd_btn_1"
+                    color="black"
+                    id="dd_btn_standards"
                     @click="setModulePhysicalPosition(dropDispenserModuleConfig,dropDispenserModuleConfig.items[1])"
                 >
-                  mdi-numeric-1-circle-outline
-                </v-icon>
+                  <v-icon dark>
+                    mdi-water
+                  </v-icon>
+                  {{ dropDispenserModuleConfig.items[1] }}
+                </v-btn>
               </template>
               <span>{{ dropDispenserModuleConfig.items[1] }}</span>
             </v-tooltip>
+
           </div>
         </div>
 
@@ -438,7 +489,7 @@
                     id="phm_btn_lift"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[5])"
                 >
-                  <v-icon >
+                  <v-icon>
                     mdi-transfer-up
                   </v-icon>
                   {{ phMeterModuleConfig.items[5] }}
@@ -1053,11 +1104,38 @@ export default {
 
   methods: {
 
+    scrollTo(module) {
+      /* const mainImage = document.querySelector("#image-container");
+       let value = null;*/
+      let element = null;
+
+      switch (module) {
+        case this.dropDispenserModuleConfig.name:
+          element = document.getElementById("dd_title");
+          break;
+        case this.tlcMigrationModuleConfig.name:
+          element = document.getElementById("tlc_title ");
+          break;
+        case this.phMeterModuleConfig.name:
+          element = document.getElementById("ph_title");
+          break;
+        case this.liquidDispenserModuleConfig.name:
+          element = document.getElementById("ld_title");
+          break;
+        default:
+          element = document.getElementById("dd_title");
+          break;
+      }
+
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+
+    },
+
     leftScroll() {
       const left = document.querySelector("#image-container");
 
       left.scrollBy({
-        top: 600,
+        top: 0,
         left: -600,
         behavior: "smooth"
       })
@@ -1066,7 +1144,7 @@ export default {
       const right = document.querySelector("#image-container");
 
       right.scrollBy({
-        top: 600,
+        top: 0,
         left: 600,
         behavior: "smooth"
       })
@@ -1993,6 +2071,8 @@ select {
   z-index: 1;
 }
 
+/*Tlc Migration*/
+
 #tlcMigration-section {
   position: absolute;
   left: 20px;
@@ -2039,20 +2119,20 @@ select {
   }
 }
 
-
 /*Drop Dispenser*/
 
 #dropDispenser-section {
   position: absolute;
   left: 50px;
-  top: 148px;
+  top: 70px;
 
   #dd_title {
     position: absolute;
-    left: 180px;
+    left: 100px;
     margin-top: -50px;
     font-size: 25px;
     white-space: nowrap;
+    scroll-margin: 800px;
 
   }
 
@@ -2063,15 +2143,16 @@ select {
 
   #dropDispenser-buttons {
     position: absolute;
-    top: 0;
-    left: -440px;
+    top: 10px;
 
-    #dd_btn_0 {
-      margin-left: 650px;
+    #dd_btn_none {
+      position: absolute;
+
     }
 
-    #dd_btn_1 {
-      margin-left: 30px;
+    #dd_btn_standards {
+      position: absolute;
+      left: 120px;
     }
 
   }
@@ -2092,7 +2173,7 @@ select {
     margin-top: -50px;
     font-size: 25px;
     white-space: nowrap;
-
+    scroll-margin: 800px;
   }
 
   #phMeter-image {
@@ -2159,6 +2240,7 @@ select {
 /* Liquid Dispenser */
 
 #liquid-dispenser-section {
+
   position: absolute;
   left: 1000px;
   top: -18px;
@@ -2169,6 +2251,7 @@ select {
     margin-top: 37px;
     font-size: 25px;
     white-space: nowrap;
+    scroll-margin: 800px;
   }
 
   #liquid-dispenser-image {
