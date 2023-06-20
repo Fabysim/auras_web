@@ -1518,10 +1518,10 @@ export default {
     * ------------------------------------------------------------------------*/
     saveTlcMigrationModuleLine() {
 
-      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModule.data[0]));
+      let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModuleConfig.data[0]));
       tlcMMStep.step = this.currentStep;
       tlcMMStep.methodId = this.currentMethod.id;
-      tlcMMStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModule.selectedOption));
+      tlcMMStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModuleConfig.selectedOption));
 
       //this.$data.tlcMigrationModule.data.push(tlcMMStep);
       this.postStep(tlcMMStep, this.tlcMigrationModule.name);
@@ -1531,11 +1531,11 @@ export default {
       * ------------------------------------------------------------------------*/
     savePhMeterModuleLine() {
 
-      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.data[0]));
+      let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModuleConfig.data[0]));
 
       phMeterStep.step = this.currentStep;
       phMeterStep.methodId = this.currentMethod.id;
-      phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModule.selectedOption));
+      phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModuleConfig.selectedOption));
 
       //this.$data.phMeterModule.data.push(phMeterStep);
 
@@ -1545,11 +1545,11 @@ export default {
     * Function used to extract liquidDispenserModule step data
     * ------------------------------------------------------------------------*/
     saveDropDispenserModuleLine() {
-      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.data[0]));
+      let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModuleConfig.data[0]));
 
       dropDispenserStep.step = this.currentStep;
       dropDispenserStep.methodId = this.currentMethod.id;
-      dropDispenserStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModule.selectedOption));
+      dropDispenserStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModuleConfig.selectedOption));
 
       //this.$data.dropDispenserModule.data.push(dropDispenserStep);
       this.postStep(dropDispenserStep, this.dropDispenserModule.name);
@@ -1560,11 +1560,11 @@ export default {
      * ------------------------------------------------------------------------*/
     saveLiquidDispenserLine() {
 
-      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.data[0]));
+      let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModuleConfig.data[0]));
 
-      liquidDispenserStep.displayedSP1Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP1));
-      liquidDispenserStep.displayedSP2Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP2));
-      liquidDispenserStep.displayedSP3Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModule.selectedSP3));
+      liquidDispenserStep.displayedSP1Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModuleConfig.selectedSP1));
+      liquidDispenserStep.displayedSP2Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModuleConfig.selectedSP2));
+      liquidDispenserStep.displayedSP3Info = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModuleConfig.selectedSP3));
 
       liquidDispenserStep.displayedSP1Info.includes('Volume') ? liquidDispenserStep.displayedSP1Info += ': ' + liquidDispenserStep.sP1P + ' µL' : '';
       liquidDispenserStep.displayedSP2Info.includes('Volume') ? liquidDispenserStep.displayedSP2Info += ': ' + liquidDispenserStep.sP2P + ' µL' : '';
@@ -1641,30 +1641,30 @@ export default {
 
 
       let waitingConditionStep = {
-        description: this.$refs.plateForm.waitingCondition.selectedOption
+        description: this.$refs.plateForm.waitingConditionConfig.selectedOption
       };
 
-      if (this.$refs.plateForm.waitingCondition.selectedOption === 'None') {
+      if (this.$refs.plateForm.waitingConditionConfig.selectedOption === 'None') {
         waitingConditionStep.value = 0;
 
-      } else if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout') {
-        waitingConditionStep.value = this.$refs.plateForm.waitingCondition.timeoutValue;
+      } else if (this.$refs.plateForm.waitingConditionConfig.selectedOption === 'Timeout') {
+        waitingConditionStep.value = this.$refs.plateForm.waitingConditionConfig.timeoutValue;
 
       } else {
         waitingConditionStep = {
-          description: this.$refs.plateForm.waitingCondition.selectedOption,
+          description: this.$refs.plateForm.waitingConditionConfig.selectedOption,
           value: -1,
         };
       }
 
       waitingConditionStep.step = this.currentStep;
       waitingConditionStep.methodId = this.currentMethod.id;
-      waitingConditionStep.type = this.$refs.plateForm.waitingCondition.selectedOption
+      waitingConditionStep.type = this.$refs.plateForm.waitingConditionConfig.selectedOption
 
       this.postStep(waitingConditionStep, this.waitingConditionModule.name);
 
       // for UI displaying purpose
-      if (this.$refs.plateForm.waitingCondition.selectedOption === 'Timeout')
+      if (this.$refs.plateForm.waitingConditionConfig.selectedOption === 'Timeout')
         waitingConditionStep.description += ': ' + waitingConditionStep.value + ' ms';
 
       // this.waitingConditionModule.data.push(waitingConditionStep);
@@ -1677,7 +1677,7 @@ export default {
     saveCommentModuleLine() {
 
       let commentStep = {
-        content: this.$refs.plateForm.comment,
+        content: this.$refs.plateForm.commentConfig,
         Step: this.currentStep,
         methodId: this.currentMethod.id
       };
