@@ -416,7 +416,7 @@
 
               <td>
                 <v-card>
-                  <v-card-title class="justify-center module-title-color">Comment</v-card-title>
+                  <v-card-title class="justify-center module-title-color">Description</v-card-title>
                   <v-card-text>
                     <v-data-table
                         :headers="commentModule.columns"
@@ -649,7 +649,7 @@ export default {
 
     phMeterModule: {
       name: '',
-      items: ['Idle position', 'QC sample', 'Rinsing', 'Tempo 1', 'Tempo 2', 'Lift'],
+      items: ['Idle position', 'QC sample', 'Rinsing', 'Calibration 1', 'Calibration 2', 'Lift'],
       columns: [
         {text: 'Position', value: 'description', width: 100, align: 'center'},
       ],
@@ -723,7 +723,7 @@ export default {
     commentModule: {
       name: '',
       columns: [
-        {text: 'Comment', value: 'content', width: 350, sortable: false, align: 'center'},
+        {text: 'Description', value: 'content', width: 350, sortable: false, align: 'center'},
       ],
       data: []
     },
@@ -1823,7 +1823,7 @@ export default {
           .then(
               (response) => {
 
-                if (response.status === 201)
+                if (response.status === 204)
                   this.snackbar.message = "Step created correctly";
                 else
                   this.snackbar.message = "Could not create the step";

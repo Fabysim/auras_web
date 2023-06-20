@@ -186,13 +186,9 @@ export default {
           .then(
               (response) => {
                 if (response.status === 200) {
-                  this.this.networks = response.data;
+                  this.networks = response.data;
                   this.ipAddress = this.networks[0]['ipAddress'];
                 }
-              })
-          .catch(
-              (error) => {
-                console.log('error',error.data)
               });
       this.settings = false;
     },
