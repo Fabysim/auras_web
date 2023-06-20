@@ -200,7 +200,7 @@
           fab
           color="indigo"
       >
-        <v-icon>mdi-chevron-left </v-icon>
+        <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
 
       <div id="image-container">
@@ -331,17 +331,17 @@
                 <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    fab
+                    rounded
                     outlined
-                    dark
                     large
                     color="black"
-                    id="phm_btn_0"
+                    id="phm_btn_home"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[0])"
                 >
-                  <v-icon dark>
+                  <v-icon>
                     mdi-home
                   </v-icon>
+                  {{ phMeterModuleConfig.items[0] }}
                 </v-btn>
               </template>
               <span>{{ phMeterModuleConfig.items[0] }}</span>
@@ -351,17 +351,17 @@
                 <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    fab
+                    rounded
                     outlined
-                    dark
                     large
                     color="black"
-                    id="phm_btn_1"
+                    id="phm_btn_measure"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[1])"
                 >
                   <v-icon dark>
                     mdi-ph
                   </v-icon>
+                  {{ phMeterModuleConfig.items[1] }}
                 </v-btn>
               </template>
               <span>{{ phMeterModuleConfig.items[1] }}</span>
@@ -371,17 +371,17 @@
                 <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    fab
+                    rounded
                     outlined
-                    dark
                     large
                     color="black"
-                    id="phm_btn_2"
+                    id="phm_btn_rinsing"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[2])"
                 >
                   <v-icon dark>
                     mdi-waves
                   </v-icon>
+                  {{ phMeterModuleConfig.items[2] }}
                 </v-btn>
               </template>
               <span>{{ phMeterModuleConfig.items[2] }}</span>
@@ -392,22 +392,19 @@
                     v-on="on"
                     v-bind="attrs"
                     color="black"
-                    fab
+                    rounded
                     outlined
-                    dark
                     large
-                    id="phm_btn_3"
+                    id="phm_btn_calibration1"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[3])"
                 >
-                  <v-icon large>
-                    mdi-water-thermometer-outline
-                  </v-icon>
                   <v-icon>
-                    mdi-numeric-1
+                    mdi-thermometer-probe
                   </v-icon>
+                  {{ phMeterModuleConfig.items[3] }}
                 </v-btn>
               </template>
-              <span>{{ phMeterModuleConfig.items[3] }}</span>
+              <span>Calibration 1</span>
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -415,21 +412,19 @@
                     v-on="on"
                     v-bind="attrs"
                     color="black"
-                    fab
+                    rounded
                     outlined
                     large
-                    id="phm_btn_4"
+                    id="phm_btn_calibration2"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[4])"
                 >
-                  <v-icon large>
-                    mdi-water-thermometer-outline
-                  </v-icon>
                   <v-icon>
-                    mdi-numeric-2
+                    mdi-thermometer-probe
                   </v-icon>
+                  {{ phMeterModuleConfig.items[4] }}
                 </v-btn>
               </template>
-              <span>{{ phMeterModuleConfig.items[4] }}</span>
+              <span>Calibration 2</span>
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -438,14 +433,15 @@
                     v-bind="attrs"
                     color="black"
                     large
-                    fab
+                    rounded
                     outlined
-                    id="phm_btn_5"
+                    id="phm_btn_lift"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[5])"
                 >
-                  <v-icon large>
+                  <v-icon >
                     mdi-transfer-up
                   </v-icon>
+                  {{ phMeterModuleConfig.items[5] }}
                 </v-btn>
               </template>
               <span>{{ phMeterModuleConfig.items[5] }}</span>
@@ -694,7 +690,7 @@
           fab
           color="indigo"
       >
-        <v-icon>mdi-chevron-right </v-icon>
+        <v-icon>mdi-chevron-right</v-icon>
       </v-btn>
 
     </div>
@@ -757,7 +753,7 @@ export default {
 
         phMeterModuleConfig: {
           name: '',
-          items: ['Idle position', 'QC sample', 'Rinsing', 'Calibration 1', 'Calibration 2', 'Lift'],
+          items: ['Home', 'Measure', 'Rinsing', 'Calib. 1', 'Calib. 2', 'Lift'],
           selectedOption: 'Idle position',
           columns: [
             {text: 'Position', value: 'position', width: 150, align: 'center'},
@@ -1063,7 +1059,7 @@ export default {
       left.scrollBy({
         top: 600,
         left: -600,
-        behavior : "smooth"
+        behavior: "smooth"
       })
     },
     rightScroll() {
@@ -1072,7 +1068,7 @@ export default {
       right.scrollBy({
         top: 600,
         left: 600,
-        behavior : "smooth"
+        behavior: "smooth"
       })
     },
 
@@ -2126,34 +2122,35 @@ select {
   #phMeters-buttons {
     position: absolute;
     top: 10px;
+    left: -120px;
 
-    #phm_btn_0 {
+    #phm_btn_home {
       position: absolute;
     }
 
-    #phm_btn_1 {
+    #phm_btn_measure {
       position: absolute;
-      left: 80px;
+      left: 120px;
     }
 
-    #phm_btn_2 {
+    #phm_btn_rinsing {
       position: absolute;
-      left: 160px;
+      left: 270px;
     }
 
-    #phm_btn_3 {
+    #phm_btn_calibration1 {
       position: absolute;
-      left: 240px;
+      left: 410px;
     }
 
-    #phm_btn_4 {
+    #phm_btn_calibration2 {
       position: absolute;
-      left: 320px;
+      left: 550px;
     }
 
-    #phm_btn_5 {
+    #phm_btn_lift {
       position: absolute;
-      left: 400px;
+      left: 690px;
     }
   }
 
