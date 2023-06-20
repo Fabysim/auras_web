@@ -249,7 +249,7 @@
 
           <label id="tlc_title" class="module-title-color">{{ tlcMigrationModuleConfig.name }}</label>
 
-          <img id="tlcMigration-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
+<!--          <img id="tlcMigration-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>-->
 
           <div id="tlcMigration-buttons">
             <v-tooltip bottom>
@@ -2076,14 +2076,14 @@ select {
 #tlcMigration-section {
   position: absolute;
   left: 20px;
-  top: 120px;
-  display: none;
+  top: 0;
 
   #tlc_title {
     position: absolute;
     left: 100px;
-    top: -100px;
+    margin-top: 20px;
     font-size: 25px;
+    white-space: nowrap;
   }
 
   #tlcMigration-image {
@@ -2095,8 +2095,8 @@ select {
   #tlcMigration-buttons {
 
     position: absolute;
-    left: 150px;
-    top: 40px;
+    left: 20px;
+    top: 80px;
 
     #tlc_btn_0 {
       position: absolute;
@@ -2123,13 +2123,13 @@ select {
 
 #dropDispenser-section {
   position: absolute;
-  left: 50px;
-  top: 70px;
+  left: 550px;
+  top: 0;
 
   #dd_title {
     position: absolute;
     left: 100px;
-    margin-top: -50px;
+    margin-top: 20px;
     font-size: 25px;
     white-space: nowrap;
     scroll-margin: 800px;
@@ -2143,7 +2143,7 @@ select {
 
   #dropDispenser-buttons {
     position: absolute;
-    top: 10px;
+    top: 80px;
 
     #dd_btn_none {
       position: absolute;
@@ -2164,7 +2164,7 @@ select {
 #phMeter-section {
 
   position: absolute;
-  left: 1000px;
+  left: 1100px;
   top: 70px;
 
   #ph_title {
