@@ -905,7 +905,7 @@ export default {
   * ------------------------------------------------------------------------*/
 
   mounted() {
-    this.fetchNetworkByName('Auras');
+    this.fetchNetworkByName(this.$aurasVersion);
     this.initialization();
 
     this.totalOfSteps = this.$store.state.totalOfSteps;

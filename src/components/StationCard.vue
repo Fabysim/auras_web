@@ -128,7 +128,7 @@ export default {
       this.currentApp = '';
 
       if (route.toLowerCase().includes('auras'))
-        this.currentApp = 'Auras';
+        this.currentApp = this.$aurasVersion;
       else if (route.toLowerCase().includes('drop'))
         this.currentApp = 'Drop Dispenser';
       else
@@ -187,7 +187,6 @@ export default {
               (response) => {
                 if (response.status === 200) {
                   this.networks = response.data;
-                  this.ipAddress = this.networks[0]['ipAddress'];
                 }
               });
       this.settings = false;
