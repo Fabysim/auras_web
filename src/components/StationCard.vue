@@ -152,11 +152,11 @@ export default {
                   let url = this.networks['ipAddress'];
                   this.ipAddress = url.substring(0, url.indexOf(':'));
 
-                  if(url.includes('/')){
+                  if (url.includes('/')) {
                     this.port = url.substring(url.indexOf(':') + 1, url.indexOf('/'));
                     this.uri = url.substring(url.indexOf('/') + 1);
 
-                  }else {
+                  } else {
 
                     this.port = url.substring(url.indexOf(':') + 1);
                   }
@@ -165,7 +165,7 @@ export default {
               })
           .catch(
               (error) => {
-                console.log('error',error.data)
+                console.log('error', error.data)
               });
     },
 
@@ -180,7 +180,8 @@ export default {
       }
       this.networks['ipAddress'] = this.ipAddress + ':' + this.port;
 
-      if (this.uri) this.networks['ipAddress'] = this.networks['ipAddress'] + '/' + this.uri;
+      if (this.uri)
+        this.networks['ipAddress'] = this.networks['ipAddress'] + '/' + this.uri;
 
       axios.put('http://' + this.$aurasApi + "api/networks/" + this.networks['id'], this.networks)
           .then(
