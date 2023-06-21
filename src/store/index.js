@@ -16,7 +16,7 @@ export default new Vuex.Store({
         liquidDispenserModuleName: 'Liquid Dispenser',
         dropDispenserModuleName: 'Drop Dispenser',
         tlcMigrationModuleName: 'TLC Migration',
-        phMeterModuleName: 'PH Meter',
+        phMeterModuleName: 'pH Meter',
         ginaModuleName: 'Gina',
         aurasModuleName: 'Auras',
         commentModuleName: 'Comment',

@@ -162,17 +162,16 @@
         <v-btn
             small
             outlined
-            style="z-index: 7"
+            @click="scrollTo(tlcMigrationModuleConfig.name)"
+        > {{ tlcMigrationModuleConfig.name }}
+        </v-btn>
+        <v-btn
+            small
+            outlined
             @click="scrollTo(dropDispenserModuleConfig.name)"
         > {{ dropDispenserModuleConfig.name }}
         </v-btn>
 
-        <v-btn
-            small
-            outlined
-            @click="scrollTo(tlcMigrationModuleConfig.name)"
-        > {{ tlcMigrationModuleConfig.name }}
-        </v-btn>
 
         <v-btn
             small
@@ -249,69 +248,96 @@
 
           <label id="tlc_title" class="module-title-color">{{ tlcMigrationModuleConfig.name }}</label>
 
-<!--          <img id="tlcMigration-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>-->
+          <!--          <img id="tlcMigration-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>-->
 
           <div id="tlcMigration-buttons">
+
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
+                    rounded
+                    outlined
                     large
-                    id="tlc_btn_0"
+                    color="black"
+                    id="tlc_btn_home"
                     @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[0])"
                 >
-                  mdi-numeric-0-circle-outline
-                </v-icon>
+                  <v-icon dark>
+                    mdi-home
+                  </v-icon>
+                  {{ tlcMigrationModuleConfig.items[0] }}
+                </v-btn>
               </template>
               <span>{{ tlcMigrationModuleConfig.items[0] }}</span>
             </v-tooltip>
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
+                    rounded
+                    outlined
                     large
-                    id="tlc_btn_1"
+                    color="black"
+                    id="tlc_btn_ready"
                     @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[1])"
                 >
-                  mdi-numeric-1-circle-outline
-                </v-icon>
+                  <v-icon dark>
+                    mdi-circle-off-outline
+                  </v-icon>
+                  {{ tlcMigrationModuleConfig.items[1] }}
+                </v-btn>
               </template>
               <span>{{ tlcMigrationModuleConfig.items[1] }}</span>
             </v-tooltip>
+
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
+                    rounded
+                    outlined
                     large
-                    id="tlc_btn_2"
+                    color="black"
+                    id="tlc_btn_cycle"
                     @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[2])"
                 >
-                  mdi-numeric-2-circle-outline
-                </v-icon>
+                  <v-icon dark>
+                    mdi-recycle-variant
+                  </v-icon>
+                  {{ tlcMigrationModuleConfig.items[2] }}
+                </v-btn>
               </template>
               <span>{{ tlcMigrationModuleConfig.items[2] }}</span>
             </v-tooltip>
+
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
-                <v-icon
+                <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
+                    rounded
+                    outlined
                     large
-                    id="tlc_btn_3"
+                    color="black"
+                    id="tlc_btn_deposit"
                     @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[3])"
                 >
-                  mdi-numeric-3-circle-outline
-                </v-icon>
+                  <v-icon dark>
+                    mdi-boom-gate-arrow-down-outline
+                  </v-icon>
+                  {{ tlcMigrationModuleConfig.items[3] }}
+                </v-btn>
               </template>
               <span>{{ tlcMigrationModuleConfig.items[3] }}</span>
             </v-tooltip>
+
           </div>
         </div>
 
@@ -372,10 +398,11 @@
         <div id="phMeter-section">
           <label id="ph_title" class="module-title-color">{{ phMeterModuleConfig.name }}</label>
 
-          <img id="phMeter-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
-          <img id="phSolutions-image" src="../../assets/LiquidDispenserImages/ph_solutions.png" alt=""/>
-          <img id="phProbe-image" src="../../assets/LiquidDispenserImages/ph_probe.png" alt=""/>
-
+          <div id="phMeterImages">
+            <img id="phMeterBasement-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
+            <img id="phSolutions-image" src="../../assets/LiquidDispenserImages/ph_solutions.png" alt=""/>
+            <img id="phProbe-image" src="../../assets/LiquidDispenserImages/ph_probe.png" alt=""/>
+          </div>
           <div id="phMeters-buttons">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -1114,7 +1141,7 @@ export default {
           element = document.getElementById("dd_title");
           break;
         case this.tlcMigrationModuleConfig.name:
-          element = document.getElementById("tlc_title ");
+          element = document.getElementById("tlc_title");
           break;
         case this.phMeterModuleConfig.name:
           element = document.getElementById("ph_title");
@@ -1418,12 +1445,12 @@ export default {
       }
 
       if (obj.SolCurrentPosition !== undefined) {
-        let value = -1 * (-193 + obj.SolCurrentPosition * 0.0024);
+        let value = -1 * (-590 + obj.SolCurrentPosition * 0.0024);
         document.getElementById('phSolutions-image').style.left = value + 'px';
       }
 
       if (obj.ProbeCurrentPosition !== undefined) {
-        let value = (105 + obj.ProbeCurrentPosition * 0.0024);
+        let value = (obj.ProbeCurrentPosition * 0.0024);
         document.getElementById('phProbe-image').style.top = value + 'px';
       }
 
@@ -2040,7 +2067,7 @@ select {
 #image-container {
   position: absolute;
   min-width: 97%;
-  height: 900px;
+  height: 850px;
   overflow-x: auto;
   overflow-y: hidden;
   margin-right: 550px;
@@ -2075,7 +2102,7 @@ select {
 
 #tlcMigration-section {
   position: absolute;
-  left: 20px;
+  left: 0;
   top: 0;
 
   #tlc_title {
@@ -2084,6 +2111,7 @@ select {
     margin-top: 20px;
     font-size: 25px;
     white-space: nowrap;
+    scroll-margin: 800px;
   }
 
   #tlcMigration-image {
@@ -2095,26 +2123,26 @@ select {
   #tlcMigration-buttons {
 
     position: absolute;
-    left: 20px;
+    left: 0;
     top: 80px;
 
-    #tlc_btn_0 {
+    #tlc_btn_home {
       position: absolute;
     }
 
-    #tlc_btn_1 {
+    #tlc_btn_ready {
       position: absolute;
-      left: 50px;
+      left: 190px;
     }
 
-    #tlc_btn_2 {
+    #tlc_btn_cycle {
       position: absolute;
-      left: 100px;
+      left: 400px;
     }
 
-    #tlc_btn_3 {
+    #tlc_btn_deposit {
       position: absolute;
-      left: 150px;
+      left: 530px;
     }
   }
 }
@@ -2123,7 +2151,7 @@ select {
 
 #dropDispenser-section {
   position: absolute;
-  left: 550px;
+  left: 900px;
   top: 0;
 
   #dd_title {
@@ -2164,7 +2192,7 @@ select {
 #phMeter-section {
 
   position: absolute;
-  left: 1100px;
+  left: 1450px;
   top: 70px;
 
   #ph_title {
@@ -2176,28 +2204,33 @@ select {
     scroll-margin: 800px;
   }
 
-  #phMeter-image {
+  #phMeterImages {
     position: absolute;
-    margin-top: 100px;
-    width: 1400px;
-    height: auto;
+    top: 40px;
     left: -400px;
-  }
 
-  #phSolutions-image {
-    position: absolute;
-    height: auto;
-    top: 500px;
-    left: 13px;
-    width: 546px;
-  }
+    #phMeterBasement-image {
+      position: absolute;
+      width: 1400px;
+      height: auto;
+    }
 
-  #phProbe-image {
-    position: absolute;
-    left: -110px;
-    top: 258px;
-    height: auto;
-    width: 780px;
+    #phSolutions-image {
+      position: absolute;
+      height: auto;
+      width: 546px;
+      top: 400px;
+      left: 412px;
+    }
+
+    #phProbe-image {
+      position: absolute;
+      height: auto;
+      width: 780px;
+      top: 156px;
+      left: 289px;
+    }
+
   }
 
   #phMeters-buttons {
@@ -2242,7 +2275,7 @@ select {
 #liquid-dispenser-section {
 
   position: absolute;
-  left: 1000px;
+  left: 1400px;
   top: -18px;
 
   #ld_title {
