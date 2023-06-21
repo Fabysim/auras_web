@@ -235,6 +235,7 @@
 
     <div class="cover">
 
+      <!--      Button left-->
       <v-btn
           @click="leftScroll"
           class="ma-2 left"
@@ -766,6 +767,8 @@
 
         </div>
       </div>
+
+      <!--      Button right-->
       <v-btn
           @click="rightScroll"
           class="ma-2 right"
@@ -2064,6 +2067,7 @@ select {
 
 #platform {
   position: relative;
+  z-index: 7;
 }
 
 #scroll-snap-container {
@@ -2077,31 +2081,33 @@ select {
   overflow-x: auto;
   overflow-y: hidden;
   margin-right: 550px;
+  z-index: 3;
+  background-color: white;
+  opacity: 100;
 
 }
 
 
 /*modules*/
 
-/*TLC Migration*/
+
 .cover {
   padding: 10px 30px;
   position: relative;
-  z-index: 1;
 }
 
 .left {
   position: absolute;
   left: 10px;
   top: 10px;
-  z-index: 1;
+  z-index: 4;
 }
 
 .right {
   position: absolute;
   right: 10px;
   top: 10px;
-  z-index: 1;
+  z-index: 4;
 }
 
 /*Tlc Migration*/
