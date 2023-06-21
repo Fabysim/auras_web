@@ -5,9 +5,12 @@
 
     <v-card
         class="table"
-        v-if="mode==='config'"
+
     >
-      <v-card-title class="justify-center">
+      <v-card-title
+          class="justify-center"
+          v-if="mode==='config'"
+      >
         Define a step
         <v-spacer/>
 
@@ -188,8 +191,11 @@
         </v-btn>
 
         <v-spacer/>
-        <v-btn style="background-color: dodgerblue; color: white;"
-               @click="$emit('lineSaved')">
+        <v-btn
+            v-if="mode==='config'"
+            style="background-color: dodgerblue; color: white;"
+            @click="$emit('lineSaved')"
+        >
           Save step
         </v-btn>
 
