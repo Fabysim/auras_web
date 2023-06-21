@@ -1163,7 +1163,7 @@ export default {
           break;
       }
 
-      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+      element.scrollIntoView({behavior: 'smooth', block: 'start', inline: "nearest"});
 
     },
 
@@ -1359,13 +1359,16 @@ export default {
 
       if (id === 'ldS7' || id === 'ldS8') {
 
-        if (this.angle === 0) this.angle = 55;
-        else if (this.angle > 5) this.angle = -55;
+        if (this.angle >= 5) this.angle = -55;
+        else if (this.angle <= -5) this.angle = 0;
+        else this.angle = 55;
+
         if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
 
       } else {
-        if (this.angle === 0) this.angle = 15;
-        else if (this.angle > 5) this.angle = -20;
+        if (this.angle >= 5) this.angle = -20;
+        else if (this.angle <= -5) this.angle = 0;
+        else this.angle = 20;
         if (document.getElementById(id).style.transform.includes('-')) this.angle = 0;
 
       }
@@ -2380,8 +2383,6 @@ select {
       left: 220px;
       margin-top: 30px;
     }
-
-
   }
 
   #PS3PProgressbar {
@@ -2390,11 +2391,9 @@ select {
     top: 569px;
     width: 157px;
     height: 18px;
-
   }
 
   /* PS1 */
-
   #ps1 {
     position: absolute;
     left: 1400px;
@@ -2444,7 +2443,6 @@ select {
     }
   }
 
-
   #PS1PProgressbar {
     position: absolute;
     left: 1309px;
@@ -2452,7 +2450,6 @@ select {
     width: 159px;
     height: 18px;
   }
-
 
   /* PS2 */
 
