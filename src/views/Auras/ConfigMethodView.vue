@@ -1823,7 +1823,7 @@ export default {
           .then(
               (response) => {
 
-                if (response.status === 204)
+                if (response.status === 201)
                   this.snackbar.message = "Step created correctly";
                 else
                   this.snackbar.message = "Could not create the step";
