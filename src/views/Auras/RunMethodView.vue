@@ -121,7 +121,7 @@
 
       <v-card elevation="0" style="width:82%">
 
-        <vue-horizontal scroll snap="none" responsive :displacement="0.5">
+        <vue-horizontal ref="horizontal" :button="false" scroll snap="none" responsive :displacement="0.5">
 
           <table>
             <tr>
@@ -258,6 +258,29 @@
           </table>
 
         </vue-horizontal>
+
+        <!--        Navigation buttons-->
+        <v-btn
+            @click="$refs.horizontal.prev()"
+            id="btnPrev"
+            outlined
+            small
+            fab
+            color="indigo"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+        <v-btn
+            @click="$refs.horizontal.next()"
+            id="btnNext"
+            outlined
+            small
+            fab
+            color="indigo"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+
 
       </v-card>
 
@@ -1185,4 +1208,22 @@ Vue.directive("simple-table-sticky", {
   z-index: 3;
   opacity: 1;
 }
+#btnNext {
+  position: fixed;
+  top: 500px;
+  right: 100px;
+  z-index: 3;
+  background: lightsteelblue;
+  opacity: 0.50;
+
+}
+#btnPrev {
+  position: fixed;
+  top: 500px;
+  left: 100px;
+  background: lightsteelblue;
+  opacity: 0.50;
+
+}
+
 </style>

@@ -461,6 +461,8 @@
           </table>
 
         </vue-horizontal>
+
+<!--        Navigation buttons-->
         <v-btn
             @click="$refs.horizontal.prev()"
            id="btnPrev"
@@ -2007,11 +2009,15 @@ table .absorbing-column {
   top: 500px;
   right: 100px;
   z-index: 3;
+  background: lightsteelblue;
+  opacity: 0.50;
 }
 #btnPrev {
   position: fixed;
   top: 500px;
   left: 100px;
+  background: lightsteelblue;
+  opacity: 0.50;
 }
 
 </style>
