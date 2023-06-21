@@ -122,7 +122,7 @@
 
       <v-card elevation="0" style="width:88%;">
 
-        <vue-horizontal scroll snap="none" responsive :displacement="0.5">
+        <vue-horizontal ref="horizontal" scroll snap="none" responsive :displacement="0.5" :button="false">
 
           <table>
 
@@ -461,6 +461,26 @@
           </table>
 
         </vue-horizontal>
+        <v-btn
+            @click="$refs.horizontal.prev()"
+           id="btnPrev"
+            outlined
+            small
+            fab
+            color="indigo"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+        <v-btn
+            @click="$refs.horizontal.next()"
+            id="btnNext"
+            outlined
+            small
+            fab
+            color="indigo"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
 
       </v-card>
 
@@ -858,7 +878,7 @@ export default {
 
     },
 
-    emergencyStop(){
+    emergencyStop() {
 
       this.$refs.plateForm.sendToWebsocket({"EmergencyStop ": true});
     },
@@ -1956,19 +1976,42 @@ table .absorbing-column {
   color: dodgerblue;
 }
 
+.vue-horizontal {
+  position: fixed;
+  top: 0;
+
+
+}
+
 .horizontal >>> .v-hl-btn svg {
-  margin-left: 60px;
-  background: lightsteelblue;
   opacity: 0.50;
 
+}
+
+.horizontal >>> .v-hl-btn-next  svg {
+  background-color: red;
+  top: 250px;
+  position: sticky;
 }
 
 .visibleTop {
   position: sticky;
   top: v-bind(contentHeight);
   width: 100%;
-  z-index: 3;
+  z-index: 1;
   opacity: 1;
+}
+
+#btnNext {
+  position: fixed;
+  top: 500px;
+  right: 100px;
+  z-index: 3;
+}
+#btnPrev {
+  position: fixed;
+  top: 500px;
+  left: 100px;
 }
 
 </style>
