@@ -287,7 +287,7 @@
                     @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[1])"
                 >
                   <v-icon dark>
-                    mdi-circle-off-outline
+                    mdi-beaker-check-outline
                   </v-icon>
                   {{ tlcMigrationModuleConfig.items[1] }}
                 </v-btn>
