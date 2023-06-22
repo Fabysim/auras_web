@@ -2070,7 +2070,7 @@ select {
 
 #platform {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 #scroll-snap-container {
@@ -2387,9 +2387,9 @@ select {
 
   #PS3PProgressbar {
     position: absolute;
-    left: 984px;
-    top: 569px;
-    width: 157px;
+    left: 987px;
+    top: 571px;
+    width: 152px;
     height: 18px;
   }
 
@@ -2445,9 +2445,9 @@ select {
 
   #PS1PProgressbar {
     position: absolute;
-    left: 1309px;
-    top: 569px;
-    width: 159px;
+    left: 1312px;
+    top: 571px;
+    width: 152px;
     height: 18px;
   }
 
@@ -2503,10 +2503,10 @@ select {
 
   #PS2PProgressbar {
     position: absolute;
-    left: 1785px;
-    top: 569px;
-    width: 159px;
-    height: 18px;;
+    left: 1789px;
+    top: 571px;
+    width: 152px;
+    height: 18px;
   }
 
   .progressbar-wrapper {

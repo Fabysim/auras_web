@@ -2000,7 +2000,7 @@ table .absorbing-column {
   position: sticky;
   top: v-bind(contentHeight);
   width: 100%;
-  z-index: 3;
+  z-index: 4;
   opacity: 1;
 }
 
