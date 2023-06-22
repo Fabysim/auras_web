@@ -2070,7 +2070,7 @@ select {
 
 #platform {
   position: relative;
-  z-index: 7;
+  z-index: 2;
 }
 
 #scroll-snap-container {
