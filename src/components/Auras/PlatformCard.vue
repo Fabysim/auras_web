@@ -1673,7 +1673,7 @@ export default {
       if (obj.PUMP1CurrentPosition !== undefined) {
 
         let value = parseInt(obj.PUMP1CurrentPosition) / 360;
-        value = value.toFixed(1);
+        value = value.toFixed(2);
 
         this.liquidDispenserModuleConfig.data[0].pumP1P = value;
         document.getElementById("pump1Input").value = value;
