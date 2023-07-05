@@ -554,26 +554,39 @@
               <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
             </select>
 
-            <button :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
-                    class="button firstLineComponent"
-                    id="razPs3"
-                    @click="resetSp('sp3')">
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                   small
+                   outlined
+                   class="empty"
+                   id="razPs3"
+                   @click="resetSp('sp3')">
+              <v-icon>
+                mdi-needle-off
+              </v-icon>
               Empty
-            </button>
-            <button :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
-                    class="button firstLineComponent"
-                    id="volumeSp3Up"
-                    @mousedown="moveStepperMotors('sp3Up','mousedown')"
-                    @mouseup="moveStepperMotors('sp3Up','mouseup')">
-              Up
-            </button>
-            <button :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
-                    class="button firstLineComponent"
-                    id="volumeSp3Down"
-                    @mousedown="moveStepperMotors('sp3Down','mousedown')"
-                    @mouseup="moveStepperMotors('sp3Down','mouseup')">
-              Down
-            </button>
+            </v-btn>
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                   rounded
+                   small
+                   outlined
+                   id="volumeSp3Up"
+                   @mousedown="moveStepperMotors('sp3Up','mousedown')"
+                   @mouseup="moveStepperMotors('sp3Up','mouseup')">
+              <v-icon>
+                mdi-chevron-up
+              </v-icon>
+            </v-btn>
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                   rounded
+                   small
+                   outlined
+                   id="volumeSp3Down"
+                   @mousedown="moveStepperMotors('sp3Down','mousedown')"
+                   @mouseup="moveStepperMotors('sp3Down','mouseup')">
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </v-btn>
             <input type="text"
                    :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                    id="volumeSp3Input"
@@ -592,27 +605,41 @@
               <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
             </select>
 
-            <button :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
-                    class="button firstLineComponent"
-                    id="razPs1"
-                    @click="resetSp('sp1')">
-              Empty
-            </button>
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                   small
+                   outlined
+                   class="empty"
+                   id="razPs1"
+                   @click="resetSp('sp1')">
+              <v-icon>
+                mdi-needle-off
+              </v-icon>
 
-            <button :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
-                    id="volumeSp1Up"
-                    class="button firstLineComponent"
-                    @mousedown="moveStepperMotors('sp1Up','mousedown')"
-                    @mouseup="moveStepperMotors('sp1Up','mouseup')">
-              Up
-            </button>
-            <button :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
-                    id="volumeSp1Down"
-                    class="button firstLineComponent"
-                    @mousedown="moveStepperMotors('sp1Down','mousedown')"
-                    @mouseup="moveStepperMotors('sp1Down','mouseup')">
-              Down
-            </button>
+              Empty
+            </v-btn>
+
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
+                   rounded
+                   small
+                   outlined
+                   id="volumeSp1Up"
+                   @mousedown="moveStepperMotors('sp1Up','mousedown')"
+                   @mouseup="moveStepperMotors('sp1Up','mouseup')">
+              <v-icon>
+                mdi-chevron-up
+              </v-icon>
+            </v-btn>
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
+                   rounded
+                   small
+                   outlined
+                   id="volumeSp1Down"
+                   @mousedown="moveStepperMotors('sp1Down','mousedown')"
+                   @mouseup="moveStepperMotors('sp1Down','mouseup')">
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </v-btn>
             <input type="text"
                    :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
                    @change="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'volumeSp1Input')"
@@ -631,26 +658,39 @@
               <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
             </select>
 
-            <button :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
-                    class="button firstLineComponent"
-                    id="razPs2"
-                    @click="resetSp('sp2')">
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                   small
+                   outlined
+                   class="empty"
+                   id="razPs2"
+                   @click="resetSp('sp2')">
+              <v-icon>
+                mdi-needle-off
+              </v-icon>
               Empty
-            </button>
-            <button :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
-                    id="volumeSp2Up"
-                    class="button firstLineComponent"
-                    @mousedown="moveStepperMotors('sp2Up','mousedown')"
-                    @mouseup="moveStepperMotors('sp2Up','mouseup')">
-              Up
-            </button>
-            <button :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
-                    id="volumeSp2Down"
-                    class="button firstLineComponent"
-                    @mousedown="moveStepperMotors('sp2Down','mousedown')"
-                    @mouseup="moveStepperMotors('sp2Down','mouseup')">
-              Down
-            </button>
+            </v-btn>
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
+                   rounded
+                   small
+                   outlined
+                   id="volumeSp2Up"
+                   @mousedown="moveStepperMotors('sp2Up','mousedown')"
+                   @mouseup="moveStepperMotors('sp2Up','mouseup')">
+              <v-icon>
+                mdi-chevron-up
+              </v-icon>
+            </v-btn>
+            <v-btn :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
+                   rounded
+                   small
+                   outlined
+                   id="volumeSp2Down"
+                   @mousedown="moveStepperMotors('sp2Down','mousedown')"
+                   @mouseup="moveStepperMotors('sp2Down','mouseup')">
+              <v-icon>
+                mdi-chevron-down
+              </v-icon>
+            </v-btn>
             <input type="text"
                    :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
                    class="input-text"
@@ -719,18 +759,26 @@
 
           <!--  Pump  images -->
           <div id="pump">
-            <button id="pumpLeft-button"
-                    class="button"
-                    @mousedown="moveStepperMotors('pumpLeft','mousedown')"
-                    @mouseup="moveStepperMotors('pumpLeft','mouseup')">
-              Left
-            </button>
-            <button id="pumpRight-button"
-                    class="button"
-                    @mousedown="moveStepperMotors('pumpRight','mousedown')"
-                    @mouseup="moveStepperMotors('pumpRight','mouseup')">
-              Right
-            </button>
+            <v-btn id="pumpLeft-button"
+                   small
+                   outlined
+                   rounded
+                   @mousedown="moveStepperMotors('pumpLeft','mousedown')"
+                   @mouseup="moveStepperMotors('pumpLeft','mouseup')">
+              <v-icon>
+                mdi-chevron-left
+              </v-icon>
+            </v-btn>
+            <v-btn id="pumpRight-button"
+                   small
+                   outlined
+                   rounded
+                   @mousedown="moveStepperMotors('pumpRight','mousedown')"
+                   @mouseup="moveStepperMotors('pumpRight','mouseup')">
+              <v-icon>
+                mdi-chevron-right
+              </v-icon>
+            </v-btn>
             <input type="text"
                    class="input-text"
                    id="pump1Input"
@@ -2046,7 +2094,7 @@ select {
 
 .input-text {
   height: fit-content;
-  width: 100px;
+  width: 103px;
   border: 1px solid black;
   border-radius: 4px;
 
@@ -2363,8 +2411,9 @@ select {
 
     #razPs3 {
       position: absolute;
-      left: 160px;
-      background-color: #eb3434;
+      left: 222px;
+      top: 75px;
+      background-color: #e36868;
     }
 
     #volumeSp3Up {
@@ -2374,7 +2423,6 @@ select {
 
     #volumeSp3Down {
       position: absolute;
-      background-color: #e07b39;
       left: 272px;
     }
 
@@ -2421,8 +2469,9 @@ select {
 
     #razPs1 {
       position: absolute;
-      left: 160px;
-      background-color: #eb3434;
+      left: 222px;
+      top: 75px;
+      background-color: #e36868;
     }
 
     #volumeSp1Up {
@@ -2432,7 +2481,6 @@ select {
 
     #volumeSp1Down {
       position: absolute;
-      background-color: #e07b39;
       left: 272px;
     }
 
@@ -2479,8 +2527,13 @@ select {
 
     #razPs2 {
       position: absolute;
-      left: 160px;
-      background-color: #eb3434
+      left: 222px;
+      top: 75px;
+      background-color: #e36868;
+    }
+
+    .empty {
+      background-color: #e36868;
     }
 
     #volumeSp2Up {
@@ -2490,7 +2543,6 @@ select {
 
     #volumeSp2Down {
       position: absolute;
-      background-color: #e07b39;
       left: 272px;
     }
 
@@ -2629,8 +2681,7 @@ select {
 
     #pumpRight-button {
       position: absolute;
-      background-color: #e07b39;
-      left: 70px;
+      left: 55px;
     }
 
     #pump1Input {
