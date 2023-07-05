@@ -1650,7 +1650,7 @@ export default {
       liquidDispenserStep.sP1S = parseInt(liquidDispenserStep.sP1S);
       liquidDispenserStep.sP2S = parseInt(liquidDispenserStep.sP2S);
       liquidDispenserStep.sP3S = parseInt(liquidDispenserStep.sP3S);
-      liquidDispenserStep.pumP1P = parseInt(liquidDispenserStep.pumP1P);
+      liquidDispenserStep.pumP1P = parseFloat(liquidDispenserStep.pumP1P);
 
       //this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
       this.postStep(liquidDispenserStep, this.liquidDispenserModule.name);
