@@ -2276,7 +2276,7 @@ select {
   #phMeters-buttons {
     position: absolute;
     top: 10px;
-    left: -120px;
+    left: -200px;
 
     #phm_btn_home {
       position: absolute;
@@ -2299,12 +2299,12 @@ select {
 
     #phm_btn_calibration2 {
       position: absolute;
-      left: 550px;
+      left: 586px;
     }
 
     #phm_btn_lift {
       position: absolute;
-      left: 690px;
+      left: 768px;
     }
   }
 
