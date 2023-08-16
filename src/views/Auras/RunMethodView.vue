@@ -147,27 +147,6 @@
                 </v-card>
               </td>
 
-              <!--PH Meter Module-->
-
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="phMeterModule.columns"
-                        :items="phMeterModule.data"
-                        :hide-default-footer="true"
-                        disable-pagination
-                        :item-class="itemRowBackground"
-                        v-simple-table-sticky
-                    >
-
-                    </v-data-table>
-
-                  </v-card-text>
-                </v-card>
-              </td>
-
               <!--Drop dispenser module-->
 
               <td>
@@ -191,6 +170,28 @@
 
                 </v-card>
               </td>
+
+              <!--PH Meter Module-->
+
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="phMeterModule.columns"
+                        :items="phMeterModule.data"
+                        :hide-default-footer="true"
+                        disable-pagination
+                        :item-class="itemRowBackground"
+                        v-simple-table-sticky
+                    >
+
+                    </v-data-table>
+
+                  </v-card-text>
+                </v-card>
+              </td>
+
 
               <!--Liquid dispenser module-->
 
@@ -486,7 +487,7 @@ export default {
     phMeterModule: {
       name: '',
       columns: [
-        {text: 'Position', value: 'description', width: 120, align: 'center'},
+        {text: 'Position', value: 'position', width: 120, align: 'center'},
       ],
       data: []
     },

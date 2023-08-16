@@ -36,19 +36,6 @@
                 </v-card>
               </td>
 
-              <!-- PH Meter -->
-
-              <td>
-                <v-card height="200" width="230" style="padding: 20px">
-                  <v-card-title class="justify-center module-title-color">
-                    {{ phMeterModuleConfig.name }}
-                  </v-card-title>
-                  <v-card-text class="card-text">
-                    {{ phMeterModuleConfig.selectedOption }}
-                  </v-card-text>
-                </v-card>
-              </td>
-
               <!-- Drop Dispenser -->
 
               <td>
@@ -62,6 +49,19 @@
                 </v-card>
               </td>
 
+
+              <!-- PH Meter -->
+
+              <td>
+                <v-card height="200" width="230" style="padding: 20px">
+                  <v-card-title class="justify-center module-title-color">
+                    {{ phMeterModuleConfig.name }}
+                  </v-card-title>
+                  <v-card-text class="card-text">
+                    {{ phMeterModuleConfig.selectedOption }}
+                  </v-card-text>
+                </v-card>
+              </td>
               <!-- Liquid Dispenser -->
 
               <td>
@@ -312,37 +312,16 @@
                     outlined
                     large
                     color="black"
-                    id="tlc_btn_cycle"
+                    id="tlc_btn_migration"
                     @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[2])"
                 >
                   <v-icon dark>
-                    mdi-recycle-variant
+                    mdi-boom-gate-arrow-down-outline
                   </v-icon>
                   {{ tlcMigrationModuleConfig.items[2] }}
                 </v-btn>
               </template>
               <span>{{ tlcMigrationModuleConfig.items[2] }}</span>
-            </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    v-on="on"
-                    v-bind="attrs"
-                    rounded
-                    outlined
-                    large
-                    color="black"
-                    id="tlc_btn_deposit"
-                    @click="setModulePhysicalPosition(tlcMigrationModuleConfig, tlcMigrationModuleConfig.items[3])"
-                >
-                  <v-icon dark>
-                    mdi-boom-gate-arrow-down-outline
-                  </v-icon>
-                  {{ tlcMigrationModuleConfig.items[3] }}
-                </v-btn>
-              </template>
-              <span>{{ tlcMigrationModuleConfig.items[3] }}</span>
             </v-tooltip>
 
           </div>
@@ -867,7 +846,7 @@ export default {
         //Modules
         tlcMigrationModuleConfig: {
           name: '',
-          items: ['Idle position', 'Ready position', 'Cycle', 'Redeposit tab'],
+          items: ['Idle position', 'Ready position', 'Migration'],
           selectedOption: 'Idle position',
           data: [
             {
@@ -888,7 +867,7 @@ export default {
 
         phMeterModuleConfig: {
           name: '',
-          items: ['Home', 'Measure', 'Rinsing', 'Calib. 1', 'Calib. 2', 'Lift'],
+          items: ['KCl', 'Measure', 'Rinsing', 'Buffer Low', 'Buffer High', 'Lift'],
           selectedOption: 'Idle position',
           columns: [
             {text: 'Position', value: 'position', width: 150, align: 'center'},
@@ -1142,11 +1121,8 @@ export default {
         case "Ready position":
           this.tlcMigrationModuleConfig.data[0].position = 1;
           break;
-        case "Cycle":
+        case "Migration":
           this.tlcMigrationModuleConfig.data[0].position = 2;
-          break;
-        case "Redeposit tab":
-          this.tlcMigrationModuleConfig.data[0].position = 3;
           break;
         default:
           this.tlcMigrationModuleConfig.data[0].position = 0;
@@ -1802,7 +1778,7 @@ export default {
         this.sendToWebsocket(data);
       }
       if (module.name.toLowerCase().includes('ph')) {
-        let data = {PHMeter: {MoveTo: parseInt(module.items.indexOf(value))}};
+        let data = {PHMeter: {MoveTo: value}};
         this.sendToWebsocket(data);
       }
       if (module.name.toLowerCase().includes('drop')) {
@@ -2145,6 +2121,7 @@ select {
 .cover {
   padding: 10px 30px;
   position: relative;
+  background-color: white;
 }
 
 .left {
@@ -2198,7 +2175,7 @@ select {
       left: 190px;
     }
 
-    #tlc_btn_cycle {
+    #tlc_btn_migration {
       position: absolute;
       left: 400px;
     }
@@ -2214,7 +2191,7 @@ select {
 
 #dropDispenser-section {
   position: absolute;
-  left: 900px;
+  left: 800px;
   top: 0;
 
   #dd_title {

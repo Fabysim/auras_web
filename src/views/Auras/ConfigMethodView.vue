@@ -75,7 +75,7 @@
     </div>
     <!-- Method data -->
 
-    <vue-scroll-snap style="width:100%; overflow: hidden; " :horizontal="true">
+    <vue-scroll-snap style="width:100%; overflow: hidden;" :horizontal="true">
 
       <!--Steps -->
 
@@ -168,49 +168,6 @@
                 </v-card>
               </td>
 
-              <!--PH Meter Module-->
-
-              <td>
-                <v-card>
-                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
-                  <v-card-text>
-                    <v-data-table
-                        :headers="phMeterModule.columns"
-                        :items="phMeterModule.data"
-                        style="min-width: 150px"
-                        :hide-default-footer="true"
-                        disable-pagination
-
-                        v-simple-table-sticky
-                    >
-                      <template v-slot:body="{ items, headers }">
-                        <tbody v-if="items.length > 0">
-                        <tr v-for="(item,idx) in items" :key="idx">
-                          <td v-for="(header,key) in headers" :key="key">
-                            <v-edit-dialog large
-                                           :return-value.sync="item[header.value]"
-                                           @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
-                                           @cancel="cancelLineUpdate"
-                                           @open="open(item[header.value], key, phMeterModule.name, idx)"
-                                           @close="close"
-
-                            > {{ item[header.value] }}
-                              <template v-slot:input>
-                                <v-select :items="phMeterModule.items"
-                                          v-model="phMeterModule.update.selectedOption"/>
-
-                              </template>
-                            </v-edit-dialog>
-                          </td>
-                        </tr>
-                        </tbody>
-                      </template>
-                    </v-data-table>
-
-                  </v-card-text>
-                </v-card>
-              </td>
-
               <!--Drop dispenser module-->
 
               <td>
@@ -251,6 +208,49 @@
                     </v-data-table>
                   </v-card-text>
 
+                </v-card>
+              </td>
+
+              <!--PH Meter Module-->
+
+              <td>
+                <v-card>
+                  <v-card-title class="justify-center module-title-color">{{ phMeterModule.name }}</v-card-title>
+                  <v-card-text>
+                    <v-data-table
+                        :headers="phMeterModule.columns"
+                        :items="phMeterModule.data"
+                        style="min-width: 150px"
+                        :hide-default-footer="true"
+                        disable-pagination
+
+                        v-simple-table-sticky
+                    >
+                      <template v-slot:body="{ items, headers }">
+                        <tbody v-if="items.length > 0">
+                        <tr v-for="(item,idx) in items" :key="idx">
+                          <td v-for="(header,key) in headers" :key="key">
+                            <v-edit-dialog large
+                                           :return-value.sync="item[header.value]"
+                                           @save="updateLine(item[header.value], key, phMeterModule.name, idx)"
+                                           @cancel="cancelLineUpdate"
+                                           @open="open(item[header.value], key, phMeterModule.name, idx)"
+                                           @close="close"
+
+                            > {{ item[header.value] }}
+                              <template v-slot:input>
+                                <v-select :items="phMeterModule.items"
+                                          v-model="phMeterModule.update.selectedOption"/>
+
+                              </template>
+                            </v-edit-dialog>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
+
+                  </v-card-text>
                 </v-card>
               </td>
 
@@ -462,10 +462,10 @@
 
         </vue-horizontal>
 
-<!--        Navigation buttons-->
+        <!--        Navigation buttons-->
         <v-btn
             @click="$refs.horizontal.prev()"
-           id="btnPrev"
+            id="btnPrev"
             outlined
             small
             fab
@@ -659,7 +659,7 @@ export default {
 
     tlcMigrationModule: {
       name: '',
-      items: ['Idle position', 'Ready position', 'Cycle', 'Redeposit tab'],
+      items: ['Idle position', 'Ready position', 'Migration'],
       columns: [
         {text: 'Position', value: 'description', width: 150, align: 'center'},
       ],
@@ -671,9 +671,9 @@ export default {
 
     phMeterModule: {
       name: '',
-      items: ['Idle position', 'QC sample', 'Rinsing', 'Calibration 1', 'Calibration 2', 'Lift'],
+      items: ['KCl', 'Measure', 'Rinsing', 'Buffer Low', 'Buffer High', 'Lift'],
       columns: [
-        {text: 'Position', value: 'description', width: 100, align: 'center'},
+        {text: 'Position', value: 'position', width: 100, align: 'center'},
       ],
       data: [],
       update: {
@@ -771,6 +771,7 @@ export default {
       data: []
     },
     contentHeight: 0,
+    modulesHeight: 0,
     simulatorMode: false,
   }),
 
@@ -1162,11 +1163,8 @@ export default {
         case "Ready position":
           this.tlcMigrationModule.data[line].position = 1;
           break;
-        case "Cycle":
+        case "Migration":
           this.tlcMigrationModule.data[line].position = 2;
-          break;
-        case "Redeposit tab":
-          this.tlcMigrationModule.data[line].position = 3;
           break;
         default:
           this.tlcMigrationModule.data[line].position = 0;
@@ -1179,32 +1177,9 @@ export default {
     * ------------------------------------------------------------------------*/
     extractPhMeterDataFromDialog(line) {
 
-      this.phMeterModule.data[line].description = this.phMeterModule.update.selectedOption;
+      this.phMeterModule.data[line].position = this.phMeterModule.data[line].description = this.phMeterModule.update.selectedOption; // Position has changed from int to string
 
-      switch (this.phMeterModule.update.selectedOption) {
 
-        case "Idle position":
-          this.phMeterModule.data[line].position = 0;
-          break;
-        case "QC sample":
-          this.phMeterModule.data[line].position = 1;
-          break;
-        case "Rinsing":
-          this.phMeterModule.data[line].position = 2;
-          break;
-        case "Tempo 1":
-          this.phMeterModule.data[line].position = 3;
-          break;
-        case "Tempo 2":
-          this.phMeterModule.data[line].position = 4;
-          break;
-        case "Lift":
-          this.phMeterModule.data[line].position = 5;
-          break;
-        default:
-          this.phMeterModule.data[line].position = 0;
-          break;
-      }
     },
     /*------------------------------------------------------------------------
     * Function to extract Drop Dispenser's updated data from the update dialog
@@ -1506,6 +1481,7 @@ export default {
      * ------------------------------------------------------------------------*/
     initialization() {
       this.contentHeight = this.$vuetify.application.top;
+      this.modulesHeight = document.getElementById('navCard').offsetHeight;
 
       this.dropDispenserModule.name = this.$store.state.dropDispenserModuleName;
       this.liquidDispenserModule.name = this.$store.state.liquidDispenserModuleName;
@@ -1557,7 +1533,7 @@ export default {
 
       phMeterStep.step = this.currentStep;
       phMeterStep.methodId = this.currentMethod.id;
-      phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModuleConfig.selectedOption));
+      phMeterStep.position = phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModuleConfig.selectedOption)); // position has changed from int to string
 
       //this.$data.phMeterModule.data.push(phMeterStep);
 
@@ -1874,7 +1850,7 @@ export default {
           .put('http://' + this.$aurasApi + url + data.id, data)
           .then((response) => {
 
-            if (response.status === 204) {
+            if (response.status === 200 || response.status === 201 || response.status === 204) {
               this.snackbar.color = 'black';
               name.toLowerCase().includes('delete')
                   ? this.snackbar.message = "Step deleted successfully"
@@ -1990,7 +1966,7 @@ table .absorbing-column {
 
 }
 
-.horizontal >>> .v-hl-btn-next  svg {
+.horizontal >>> .v-hl-btn-next svg {
   background-color: red;
   top: 250px;
   position: sticky;
@@ -2012,6 +1988,7 @@ table .absorbing-column {
   background: lightsteelblue;
   opacity: 0.50;
 }
+
 #btnPrev {
   position: fixed;
   top: 500px;
