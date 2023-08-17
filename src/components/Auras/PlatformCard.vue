@@ -1071,7 +1071,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener: to waitingCondition.selectedOption
     * ------------------------------------------------------------------------*/
-    'waitingCondition.selectedOption'() {
+    'waitingConditionConfig.selectedOption'() {
       this.waitingConditionConfig.data[0].value = 0;
       this.waitingConditionConfig.selectedOption === 'Timeout' ?
           this.waitingConditionConfig.timeoutOptionSelected = true : this.waitingConditionConfig.timeoutOptionSelected = false;
