@@ -233,7 +233,7 @@
 
     <!--Image    -->
 
-    <div class="cover">
+    <div class="image_cover">
 
       <!--      Button left-->
       <v-btn
@@ -2150,7 +2150,7 @@ select {
 /*modules*/
 
 
-.cover {
+.image_cover {
   padding: 10px 30px;
   position: relative;
   background-color: white;

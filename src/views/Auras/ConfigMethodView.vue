@@ -671,7 +671,7 @@ export default {
 
     phMeterModule: {
       name: '',
-      items: ['KCl', 'Measure', 'Rinsing', 'Buffer Low', 'Buffer High', 'Lift'],
+      items: ['Buffer Low', 'Buffer High', 'KCl', 'Rinsing', 'Measure', 'Init'],
       columns: [
         {text: 'Position', value: 'position', width: 100, align: 'center'},
       ],
