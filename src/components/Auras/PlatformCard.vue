@@ -510,6 +510,26 @@
               </template>
               <span>{{ phMeterModuleConfig.items[5] }}</span>
             </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    v-on="on"
+                    v-bind="attrs"
+                    color="black"
+                    large
+                    rounded
+                    outlined
+                    id="phm_btn_init"
+                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[6])"
+                >
+                  <v-icon>
+                    mdi-reload
+                  </v-icon>
+                  {{ phMeterModuleConfig.items[6] }}
+                </v-btn>
+              </template>
+              <span>{{ phMeterModuleConfig.items[6] }}</span>
+            </v-tooltip>
           </div>
         </div>
 
@@ -867,7 +887,7 @@ export default {
 
         phMeterModuleConfig: {
           name: '',
-          items: ['KCl', 'Measure', 'Rinsing', 'Buffer Low', 'Buffer High', 'Lift'],
+          items: ['KCl', 'Measure', 'Rinsing', 'Buffer Low', 'Buffer High', 'Lift', 'Init'],
           selectedOption: 'Idle position',
           columns: [
             {text: 'Position', value: 'position', width: 150, align: 'center'},
@@ -2305,6 +2325,11 @@ select {
     #phm_btn_lift {
       position: absolute;
       left: 768px;
+    }
+
+    #phm_btn_init {
+      position: absolute;
+      left: 876px;
     }
   }
 
