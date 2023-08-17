@@ -1778,7 +1778,7 @@ export default {
         this.sendToWebsocket(data);
       }
       if (module.name.toLowerCase().includes('ph')) {
-        let data = {PHMeter: {MoveTo: value}};
+        let data = {PhMeter: {MoveTo: value}};
         this.sendToWebsocket(data);
       }
       if (module.name.toLowerCase().includes('drop')) {
