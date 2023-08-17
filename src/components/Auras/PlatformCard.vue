@@ -390,6 +390,50 @@
             <img id="phProbe-image" src="../../assets/LiquidDispenserImages/ph_probe.png" alt=""/>
           </div>
           <div id="phMeters-buttons">
+
+            <!--Buffer Low-->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    v-on="on"
+                    v-bind="attrs"
+                    color="black"
+                    rounded
+                    outlined
+                    large
+                    id="phm_btn_buffer_low"
+                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[3])"
+                >
+                  <v-icon>
+                    mdi-thermometer-probe
+                  </v-icon>
+                  {{ phMeterModuleConfig.items[3] }}
+                </v-btn>
+              </template>
+              <span>Calibration 1</span>
+            </v-tooltip>
+            <!--Buffer High-->
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    v-on="on"
+                    v-bind="attrs"
+                    color="black"
+                    rounded
+                    outlined
+                    large
+                    id="phm_btn_buffer_high"
+                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[4])"
+                >
+                  <v-icon>
+                    mdi-thermometer-probe
+                  </v-icon>
+                  {{ phMeterModuleConfig.items[4] }}
+                </v-btn>
+              </template>
+              <span>Calibration 2</span>
+            </v-tooltip>
+            <!--Kcl-->
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -399,37 +443,18 @@
                     outlined
                     large
                     color="black"
-                    id="phm_btn_home"
+                    id="phm_btn_kcl"
                     @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[0])"
                 >
                   <v-icon>
-                    mdi-home
+                    mdi-alpha-k-circle-outline
                   </v-icon>
                   {{ phMeterModuleConfig.items[0] }}
                 </v-btn>
               </template>
               <span>{{ phMeterModuleConfig.items[0] }}</span>
             </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    v-on="on"
-                    v-bind="attrs"
-                    rounded
-                    outlined
-                    large
-                    color="black"
-                    id="phm_btn_measure"
-                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[1])"
-                >
-                  <v-icon dark>
-                    mdi-ph
-                  </v-icon>
-                  {{ phMeterModuleConfig.items[1] }}
-                </v-btn>
-              </template>
-              <span>{{ phMeterModuleConfig.items[1] }}</span>
-            </v-tooltip>
+            <!--Rinsing-->
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -450,66 +475,28 @@
               </template>
               <span>{{ phMeterModuleConfig.items[2] }}</span>
             </v-tooltip>
+            <!--Measure-->
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                     v-on="on"
                     v-bind="attrs"
-                    color="black"
                     rounded
                     outlined
                     large
-                    id="phm_btn_calibration1"
-                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[3])"
-                >
-                  <v-icon>
-                    mdi-thermometer-probe
-                  </v-icon>
-                  {{ phMeterModuleConfig.items[3] }}
-                </v-btn>
-              </template>
-              <span>Calibration 1</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    v-on="on"
-                    v-bind="attrs"
                     color="black"
-                    rounded
-                    outlined
-                    large
-                    id="phm_btn_calibration2"
-                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[4])"
+                    id="phm_btn_measure"
+                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[1])"
                 >
-                  <v-icon>
-                    mdi-thermometer-probe
+                  <v-icon dark>
+                    mdi-ph
                   </v-icon>
-                  {{ phMeterModuleConfig.items[4] }}
+                  {{ phMeterModuleConfig.items[1] }}
                 </v-btn>
               </template>
-              <span>Calibration 2</span>
+              <span>{{ phMeterModuleConfig.items[1] }}</span>
             </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                    v-on="on"
-                    v-bind="attrs"
-                    color="black"
-                    large
-                    rounded
-                    outlined
-                    id="phm_btn_lift"
-                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[5])"
-                >
-                  <v-icon>
-                    mdi-transfer-up
-                  </v-icon>
-                  {{ phMeterModuleConfig.items[5] }}
-                </v-btn>
-              </template>
-              <span>{{ phMeterModuleConfig.items[5] }}</span>
-            </v-tooltip>
+            <!--Init-->
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -530,6 +517,27 @@
               </template>
               <span>{{ phMeterModuleConfig.items[6] }}</span>
             </v-tooltip>
+
+            <!--            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                    v-on="on"
+                    v-bind="attrs"
+                    color="black"
+                    large
+                    rounded
+                    outlined
+                    id="phm_btn_lift"
+                    @click="setModulePhysicalPosition(phMeterModuleConfig, phMeterModuleConfig.items[5])"
+                >
+                  <v-icon>
+                    mdi-transfer-up
+                  </v-icon>
+                  {{ phMeterModuleConfig.items[5] }}
+                </v-btn>
+              </template>
+              <span>{{ phMeterModuleConfig.items[5] }}</span>
+            </v-tooltip>-->
           </div>
         </div>
 
@@ -597,6 +605,7 @@
                    @input="event =>  setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'ps3SpeedRange')"
                    list="tickMarks">
           </div>
+
           <!--        PS1 control-->
 
           <div id="ps1">
@@ -651,6 +660,7 @@
                    @input="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'ps1SpeedRange')"
                    list="tickMarks">
           </div>
+
           <!--        PS2 control-->
           <div id="ps2">
             <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP2">
@@ -702,12 +712,14 @@
                    list="tickMarks">
 
           </div>
+
           <!--    PS ranges -->
 
           <div class="progressbar-wrapper" id="PS3PProgressbar">
             <div id="ps3LiquidLevel" title="ps3LiquidLevel" class="progressbar">
             </div>
           </div>
+
           <div class="progressbar-wrapper" id="PS1PProgressbar">
             <div id="ps1LiquidLevel" title="ps1LiquidLevel" class="progressbar ">
             </div>
@@ -1495,9 +1507,9 @@ export default {
         this.tlcMigrationModuleConfig.selectedOption = this.tlcMigrationModuleConfig.items[obj.TLCMigration];
 
       //PHMeter
-      if (obj.PHMeter !== undefined) {
+      if (obj.PhMeter !== undefined) {
 
-        this.phMeterModuleConfig.selectedOption = this.phMeterModuleConfig.items[obj.PHMeter];
+        this.phMeterModuleConfig.selectedOption = obj.PhMeter;
       }
 
       if (obj.SolCurrentPosition !== undefined) {
@@ -2298,40 +2310,42 @@ select {
     top: 10px;
     left: -217px;
 
-    #phm_btn_home {
+    #phm_btn_buffer_low {
       position: absolute;
+
     }
 
-    #phm_btn_measure {
+    #phm_btn_buffer_high {
       position: absolute;
-      left: 120px;
+      left: 181px;
+    }
+
+    #phm_btn_kcl {
+      position: absolute;
+      left: 366px;
     }
 
     #phm_btn_rinsing {
       position: absolute;
-      left: 270px;
+      left: 473px;
     }
 
-    #phm_btn_calibration1 {
+    #phm_btn_measure {
       position: absolute;
-      left: 410px;
-    }
-
-    #phm_btn_calibration2 {
-      position: absolute;
-      left: 586px;
-    }
-
-    #phm_btn_lift {
-      position: absolute;
-      left: 768px;
+      left: 616px;
     }
 
     #phm_btn_init {
       position: absolute;
-      left: 876px;
+      left: 770px;
     }
   }
+
+  #phm_btn_lift {
+    position: absolute;
+    left: 896px;
+  }
+
 
 }
 
