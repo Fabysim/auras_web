@@ -888,7 +888,7 @@ export default {
         phMeterModuleConfig: {
           name: '',
           items: ['KCl', 'Measure', 'Rinsing', 'Buffer Low', 'Buffer High', 'Lift', 'Init'],
-          selectedOption: 'Idle position',
+          selectedOption: 'KCl',
           columns: [
             {text: 'Position', value: 'position', width: 150, align: 'center'},
 
@@ -2296,7 +2296,7 @@ select {
   #phMeters-buttons {
     position: absolute;
     top: 10px;
-    left: -200px;
+    left: -217px;
 
     #phm_btn_home {
       position: absolute;
