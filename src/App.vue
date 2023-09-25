@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <v-app-bar
         id="app_bar"
         color="#FF0000"
@@ -12,7 +12,6 @@
             alt="Elysia Logo"
             class="shrink mr-2"
             contain
-
             :src="require('./assets/LiquidDispenserImages/ElysiaRaytest_Logo.png')"
             transition="scale-transition"
             width="200"
@@ -21,8 +20,13 @@
       <v-spacer/>
       <v-btn text
              color="#FFFFFF"
+             @click ="redirectTo('IndexAurasV2')">
+        Auras V2
+      </v-btn>
+      <v-btn text
+             color="#FFFFFF"
              @click ="redirectTo('IndexAuras')">
-        Auras
+        Auras V1
       </v-btn>
       <v-btn text
              color="#FFFFFF"

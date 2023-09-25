@@ -1,6 +1,8 @@
 <template>
 
   <div>
+
+    <!--Ip Machine-->
     <v-dialog v-model="settings"
               width="500px">
       <v-card>
@@ -45,6 +47,7 @@
         <h1 style="margin-top: 50px; color:purple">
           {{ name }}
         </h1>
+        <img id="app-image" :src="imageUrl" alt="">
 
       </v-card-text>
 
@@ -91,6 +94,7 @@ export default {
   props: {
     'name': String,
     'url': String,
+    'imageUrl': String,
     'items': Array
   },
 
@@ -128,7 +132,11 @@ export default {
       this.currentApp = '';
 
       if (route.toLowerCase().includes('auras'))
-        this.currentApp = this.$aurasVersion;
+        if (route.toLowerCase().includes('v2'))
+          this.currentApp = this.$aurasVersionV2;
+        else
+          this.currentApp = this.$aurasVersion;
+
       else if (route.toLowerCase().includes('drop'))
         this.currentApp = 'Drop Dispenser';
       else
@@ -143,7 +151,13 @@ export default {
     * --------------------------------------------------------------------------*/
     fetchNetworkByName(name) {
 
-      axios.get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
+      let base_url;
+      if (name.toLowerCase().includes('v2'))
+        base_url = 'https://' + this.$aurasApiV2;
+      else
+        base_url = 'http://' + this.$aurasApi;
+
+      axios.get(base_url + "api/networks/byName?name=" + name)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -183,7 +197,15 @@ export default {
       if (this.uri)
         this.networks['ipAddress'] = this.networks['ipAddress'] + '/' + this.uri;
 
-      axios.put('http://' + this.$aurasApi + "api/networks/" + this.networks['id'], this.networks)
+      let base_url;
+
+      if (this.currentApp === this.$aurasVersionV2)
+        base_url = 'https://' + this.$aurasApiV2;
+      else
+        base_url = 'http://' + this.$aurasApiV;
+
+
+      axios.put(base_url + "api/networks/" + this.networks['id'], this.networks)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -207,4 +229,9 @@ export default {
 
 <style scoped>
 
+#app-image {
+  width: 100px;
+  height: auto;
+  margin-top: 20px;
+}
 </style>

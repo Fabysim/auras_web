@@ -73,6 +73,7 @@
         </v-card-title>
       </v-card>
     </div>
+
     <!-- Method data -->
 
     <vue-scroll-snap style="width:100%; overflow: hidden;" :horizontal="true">
@@ -561,7 +562,7 @@
 import VueHorizontal from "vue-horizontal";
 
 Vue.component("downloadExcel", JsonExcel);
-import PlatFormCard from '@/components/Auras/PlatformCard.vue'
+import PlatFormCard from '@/components/Auras/V2/PlatformCard_V2.vue'
 import VueScrollSnap from "vue-scroll-snap";
 import axios from "axios";
 import Vue from "vue";
@@ -569,7 +570,7 @@ import JsonExcel from "vue-json-excel";
 
 
 export default {
-  name: 'AurasConfigMethodView',
+  name: 'AurasConfigMethodViewV2',
   components: {
     PlatFormCard,
     VueScrollSnap,
@@ -613,18 +614,34 @@ export default {
       tlcMigration: '',
       phMeter: '',
       dropDispenser: '',
-      ldS1: '',
-      ldS2: '',
-      ldS3: '',
-      ldS4: '',
-      ldS5: '',
-      ldS6: '',
-      ldS7: '',
-      ldS8: '',
-      ldS9: '',
-      ldS10: '',
-      ldS11: '',
-      ldS12: '',
+      v11: '',
+      v12: '',
+      v13: '',
+      v14: '',
+      v21: '',
+      v22: '',
+      v23: '',
+      v24: '',
+      v31: '',
+      v32: '',
+      v33: '',
+      v34: '',
+      v41: '',
+      v42: '',
+      v43: '',
+      v44: '',
+      v51: '',
+      v52: '',
+      v53: '',
+      v54: '',
+      v61: '',
+      v62: '',
+      v63: '',
+      v64: '',
+      v71: '',
+      v72: '',
+      v73: '',
+      v74: '',
       sp1P: '',
       sp1S: '',
       sp2P: '',
@@ -699,18 +716,34 @@ export default {
       items: ['Volume', 'QC sample drop', 'Fill LAL cartridge'],
       items2: ['Left', 'Right', '0'],
       columns: [
-        {text: "LDS1", value: "displayedLds1", width: 82, sortable: false, align: 'center'},
-        {text: "LDS2", value: "displayedLds2", width: 82, sortable: false, align: 'center'},
-        {text: "LDS3", value: "displayedLds3", width: 82, sortable: false, align: 'center'},
-        {text: "LDS4", value: "displayedLds4", width: 82, sortable: false, align: 'center'},
-        {text: "LDS5", value: "displayedLds5", width: 82, sortable: false, align: 'center'},
-        {text: "LDS6", value: "displayedLds6", width: 82, sortable: false, align: 'center'},
-        {text: "LDS7", value: "displayedLds7", width: 82, sortable: false, align: 'center'},
-        {text: "LDS8", value: "displayedLds8", width: 82, sortable: false, align: 'center'},
-        {text: "LDS9", value: "displayedLds9", width: 82, sortable: false, align: 'center'},
-        {text: "LDS10", value: "displayedLds10", width: 82, sortable: false, align: 'center'},
-        {text: "LDS11", value: "displayedLds11", width: 82, sortable: false, align: 'center'},
-        {text: "LDS12", value: "displayedLds12", width: 82, sortable: false, align: 'center'},
+        {text: "v11", value: "v11", width: 82, sortable: false, align: 'center'},
+        {text: "v12", value: "v12", width: 82, sortable: false, align: 'center'},
+        {text: "v13", value: "v13", width: 82, sortable: false, align: 'center'},
+        {text: "v14", value: "v14", width: 82, sortable: false, align: 'center'},
+        {text: "v21", value: "v21", width: 82, sortable: false, align: 'center'},
+        {text: "v22", value: "v22", width: 82, sortable: false, align: 'center'},
+        {text: "v23", value: "v23", width: 82, sortable: false, align: 'center'},
+        {text: "v24", value: "v24", width: 82, sortable: false, align: 'center'},
+        {text: "v31", value: "v31", width: 82, sortable: false, align: 'center'},
+        {text: "v32", value: "v32", width: 82, sortable: false, align: 'center'},
+        {text: "v33", value: "v33", width: 82, sortable: false, align: 'center'},
+        {text: "v34", value: "v34", width: 82, sortable: false, align: 'center'},
+        {text: "v41", value: "v41", width: 82, sortable: false, align: 'center'},
+        {text: "v42", value: "v42", width: 82, sortable: false, align: 'center'},
+        {text: "v43", value: "v43", width: 82, sortable: false, align: 'center'},
+        {text: "v44", value: "v44", width: 82, sortable: false, align: 'center'},
+        {text: "v51", value: "v51", width: 82, sortable: false, align: 'center'},
+        {text: "v52", value: "v52", width: 82, sortable: false, align: 'center'},
+        {text: "v53", value: "v53", width: 82, sortable: false, align: 'center'},
+        {text: "v54", value: "v54", width: 82, sortable: false, align: 'center'},
+        {text: "v61", value: "v61", width: 82, sortable: false, align: 'center'},
+        {text: "v62", value: "v62", width: 82, sortable: false, align: 'center'},
+        {text: "v63", value: "v63", width: 82, sortable: false, align: 'center'},
+        {text: "v64", value: "v64", width: 82, sortable: false, align: 'center'},
+        {text: "v71", value: "v71", width: 82, sortable: false, align: 'center'},
+        {text: "v72", value: "v72", width: 82, sortable: false, align: 'center'},
+        {text: "v73", value: "v73", width: 82, sortable: false, align: 'center'},
+        {text: "v74", value: "v74", width: 82, sortable: false, align: 'center'},
         {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Speed (µL/s)", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
@@ -1737,7 +1770,7 @@ export default {
     fetchMethod() {
 
       axios
-          .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
+          .get('http://' + this.$aurasApiV2 + 'api/Methods/' + this.$route.params.idMethod)
           .then((response) => {
             if (response.status === 200) {
               this.currentMethod = response.data;
@@ -1752,7 +1785,7 @@ export default {
      * ------------------------------------------------------------------------*/
     fetchModulesList() {
       axios
-          .get('http://' + this.$aurasApi + 'api/Modules')
+          .get('http://' + this.$aurasApiV2 + 'api/Modules')
           .then((response) => {
             if (response.status === 200) {
               this.allModulesList = response.data;
@@ -1786,7 +1819,7 @@ export default {
       let uri = this.getModuleUri(module.name);
 
       await axios
-          .get('http://' + this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
+          .get('http://' + this.$aurasApiV2 + 'api/' + uri + this.$route.params.idMethod)
           .then(async (response) => {
             if (response.status === 200) {
               module.data = await response.data;
@@ -1817,7 +1850,7 @@ export default {
     async postStep(moduleData, moduleName) {
       let url = this.getModuleUri(moduleName);
 
-      axios.post('http://' + this.$aurasApi + "api/" + url, moduleData)
+      axios.post('http://' + this.$aurasApiV2 + "api/" + url, moduleData)
           .then(
               (response) => {
 
@@ -1847,7 +1880,7 @@ export default {
       url = 'api/' + url;
 
       axios
-          .put('http://' + this.$aurasApi + url + data.id, data)
+          .put('http://' + this.$aurasApiV2 + url + data.id, data)
           .then((response) => {
 
             if (response.status === 200 || response.status === 201 || response.status === 204) {

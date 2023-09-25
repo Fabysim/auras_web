@@ -1,13 +1,16 @@
-<template >
+<template>
   <v-row class="center">
     <v-col>
-      <StationCard v-bind:name="appName1" v-bind:items="itemsAuras"/>
+      <StationCard v-bind:name="appName4" v-bind:items="itemsAurasV2" v-bind:imageUrl="image4"/>
     </v-col>
     <v-col>
-      <StationCard v-bind:name="appName2" v-bind:items="itemsCS"/>
+      <StationCard v-bind:name="appName1" v-bind:items="itemsAurasV1" v-bind:imageUrl="image1"/>
     </v-col>
     <v-col>
-      <StationCard v-bind:name="appName3" v-bind:items="itemsLD"/>
+      <StationCard v-bind:name="appName2" v-bind:items="itemsCS" v-bind:imageUrl="image2"/>
+    </v-col>
+    <v-col>
+      <StationCard v-bind:name="appName3" v-bind:items="itemsLD" v-bind:imageUrl="image3"/>
     </v-col>
   </v-row>
 </template>
@@ -22,14 +25,23 @@ export default {
 
   data: () => ({
     settings: false,
-    appName1: 'Auras',
+    appName1: 'Auras v1',
     appName2: 'Color Sensor',
     appName3: 'Liquid Dispenser',
+    appName4: 'Auras v2',
+    image1:'/Auras/Images/V1/Auras_icon_v1.png',
+    image2:'/ColorSensor/images/ColorSensor.png',
+    image3:'/LiquidDispenserSD/images/Assemblage_210504.png',
+    image4:'/Auras/Images/V2/Auras_icon_v2.png',
 
 
-    itemsAuras: [
-      {text: 'Start Auras', icon: 'mdi-power', url: 'IndexAuras'},
-      {text: 'Auras Network', icon: 'mdi-access-point-network', url: 'AurasNetwork'},
+    itemsAurasV1: [
+      {text: 'Start Auras V2', icon: 'mdi-power', url: 'IndexAuras'},
+      {text: 'Auras V1 Network', icon: 'mdi-access-point-network', url: 'AurasNetwork'},
+    ],
+    itemsAurasV2: [
+      {text: 'Start Auras V2', icon: 'mdi-power', url: 'IndexAurasV2'},
+      {text: 'Auras V2 Network', icon: 'mdi-access-point-network', url: 'AurasNetworkV2'},
     ],
     itemsLD: [
       {text: 'Liquid Dispenser Run', icon: 'mdi-power', url: 'IndexLd'},
@@ -46,14 +58,13 @@ export default {
 <style scoped>
 
 
-.center{
+.center {
   margin-left: 2%;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
-
 
 
 </style>

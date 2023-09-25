@@ -385,9 +385,9 @@
           <label id="ph_title" class="module-title-color">{{ phMeterModuleConfig.name }}</label>
 
           <div id="phMeterImages">
-            <img id="phMeterBasement-image" src="../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
-            <img id="phSolutions-image" src="../../assets/LiquidDispenserImages/ph_solutions.png" alt=""/>
-            <img id="phProbe-image" src="../../assets/LiquidDispenserImages/ph_probe.png" alt=""/>
+            <img id="phMeterBasement-image" src="../../../assets/LiquidDispenserImages/phMeter.png" alt=""/>
+            <img id="phSolutions-image" src="../../../assets/LiquidDispenserImages/ph_solutions.png" alt=""/>
+            <img id="phProbe-image" src="../../../assets/LiquidDispenserImages/ph_probe.png" alt=""/>
           </div>
           <div id="phMeters-buttons">
 
@@ -544,17 +544,20 @@
         <!--Liquid Dispenser--><!--Liquid Dispenser-->
 
         <div id="liquid-dispenser-section">
+
           <!--        Title-->
+
           <label id="ld_title" class="module-title-color">{{ liquidDispenserModuleConfig.name }}</label>
 
           <!--        Main images-->
 
-          <img ID="liquid-dispenser-image" src="../../assets/LiquidDispenserImages/LD_F18_No_SP.png" alt=""/>
-          <img ID="sp-plug3" src="../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
-          <img ID="sp-plug1" src="../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
-          <img ID="sp-plug2" src="../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
+          <img ID="liquid-dispenser-image" src="../../../assets/LiquidDispenserImages/LD_F18_No_SP.png" alt=""/>
+          <img ID="sp-plug3" src="../../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
+          <img ID="sp-plug1" src="../../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
+          <img ID="sp-plug2" src="../../../assets/LiquidDispenserImages/SP-plug.png" alt=""/>
 
           <!--        PS3 control-->
+
           <div id="ps3">
 
             <select id="select-sp3" v-model="liquidDispenserModuleConfig.selectedSP3">
@@ -662,6 +665,7 @@
           </div>
 
           <!--        PS2 control-->
+
           <div id="ps2">
             <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP2">
               <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
@@ -733,40 +737,40 @@
           <!--        pinch valves images-->
 
           <img @click="rotate('ldS1')" class="pinch" ID="ldS1" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25b.png"/>
 
           <img @click="rotate('ldS2')" class="pinch" ID="ldS2" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25b.png"/>
 
           <img @click="rotate('ldS3')" class="pinch" ID="ldS3" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25b.png"/>
 
           <img @click="rotate('ldS4')" class="pinch" ID="ldS4" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25b.png"/>
 
           <img @click="rotate('ldS5')" class="pinch" ID="ldS5" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25b.png"/>
 
           <img @click="rotate('ldS6')" class="pinch" ID="ldS6" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25b.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25b.png"/>
 
           <img @click="rotate('ldS7')" class="pinch" ID="ldS7" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25e.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25e.png"/>
 
           <img @click="rotate('ldS8')" class="pinch" ID="ldS8" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25e.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25e.png"/>
 
           <img @click="rotate('ldS9')" class="pinch" ID="ldS9" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25c.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25c.png"/>
 
           <img @click="rotate('ldS10')" class="pinch" ID="ldS10" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25a.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25a.png"/>
 
           <img @click="rotate('ldS11')" class="pinch" ID="ldS11" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25c.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25c.png"/>
 
           <img @click="rotate('ldS12')" class="pinch" ID="ldS12" alt=""
-               src="../../assets/LiquidDispenserImages/pinch25c.png"/>
+               src="../../../assets/LiquidDispenserImages/pinch25c.png"/>
 
           <!--  Pump  images -->
           <div id="pump">
@@ -795,7 +799,7 @@
                    id="pump1Input"
                    @change="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'pump1Input')"/>
 
-            <input type="range" id="pump1Speed" min="1" max="500"
+            <input type="range" id="pump1SpeedRange" min="1" max="500"
                    @input="event =>  setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'pump1Speed')"
                    list="tickMarks">
             <textarea readonly id="pumpsLabel"></textarea>
@@ -819,8 +823,8 @@
             </datalist>
 
 
-            <img id="wheelRight" alt="" src="../../assets/LiquidDispenserImages/Pump1R.png"/>
-            <img id="wheelLeft" alt="" src="../../assets/LiquidDispenserImages/Pump1L.png"/>
+            <img id="wheelRight" alt="" src="../../../assets/LiquidDispenserImages/Pump1R.png"/>
+            <img id="wheelLeft" alt="" src="../../../assets/LiquidDispenserImages/Pump1L.png"/>
 
           </div>
 
@@ -1300,13 +1304,13 @@ export default {
         document.getElementById('ps1SpeedRange').style.visibility = 'hidden';
         document.getElementById('ps2SpeedRange').style.visibility = 'hidden';
         document.getElementById('ps3SpeedRange').style.visibility = 'hidden';
-        document.getElementById('pump1Speed').style.visibility = 'hidden';
+        document.getElementById('pump1SpeedRange').style.visibility = 'hidden';
         document.getElementById('pumpLeft-button').style.visibility = 'hidden';
         document.getElementById('pumpRight-button').style.visibility = 'hidden';
         document.getElementById('razPs1').style.visibility = 'hidden';
         document.getElementById('razPs2').style.visibility = 'hidden';
         document.getElementById('razPs3').style.visibility = 'hidden';
-        document.getElementById('pump1Speed').disabled = true;
+        document.getElementById('pump1SpeedRange').disabled = true;
         document.getElementById('pump1Input').disabled = true;
 
       }
@@ -1750,7 +1754,7 @@ export default {
         document.getElementById("pumpsLabel").innerHTML += "\nCurrent Speed: " + this.liquidDispenserModuleConfig.pump1CurrentSpeed + " RPM";
         this.liquidDispenserModuleConfig.data[0].pumP1S = parseInt(value);
 
-        document.getElementById("pump1Speed").value = value;
+        document.getElementById("pump1SpeedRange").value = value;
 
       }
 
@@ -2715,7 +2719,7 @@ select {
       resize: none;
     }
 
-    #pump1Speed {
+    #pump1SpeedRange {
       position: absolute;
       top: 80px;
     }

@@ -384,7 +384,7 @@
 import axios from "axios";
 import VueScrollSnap from "vue-scroll-snap";
 import CountDown from "@/components/CountDown";
-import PlatFormCard from "@/components/Auras/PlatformCard";
+import PlatFormCard from "@/components/Auras/V1/PlatformCard_V1";
 import VueHorizontal from "vue-horizontal";
 import Vue from "vue";
 
