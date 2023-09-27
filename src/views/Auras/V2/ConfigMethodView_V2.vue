@@ -1770,7 +1770,7 @@ export default {
     fetchMethod() {
 
       axios
-          .get('http://' + this.$aurasApiV2 + 'api/Methods/' + this.$route.params.idMethod)
+          .get(this.$aurasApiV2 + 'api/Methods/' + this.$route.params.idMethod)
           .then((response) => {
             if (response.status === 200) {
               this.currentMethod = response.data;
@@ -1785,7 +1785,7 @@ export default {
      * ------------------------------------------------------------------------*/
     fetchModulesList() {
       axios
-          .get('http://' + this.$aurasApiV2 + 'api/Modules')
+          .get(this.$aurasApiV2 + 'api/Modules')
           .then((response) => {
             if (response.status === 200) {
               this.allModulesList = response.data;
@@ -1819,7 +1819,7 @@ export default {
       let uri = this.getModuleUri(module.name);
 
       await axios
-          .get('http://' + this.$aurasApiV2 + 'api/' + uri + this.$route.params.idMethod)
+          .get(this.$aurasApiV2 + 'api/' + uri + this.$route.params.idMethod)
           .then(async (response) => {
             if (response.status === 200) {
               module.data = await response.data;
@@ -1850,7 +1850,7 @@ export default {
     async postStep(moduleData, moduleName) {
       let url = this.getModuleUri(moduleName);
 
-      axios.post('http://' + this.$aurasApiV2 + "api/" + url, moduleData)
+      axios.post(this.$aurasApiV2 + "api/" + url, moduleData)
           .then(
               (response) => {
 
@@ -1880,7 +1880,7 @@ export default {
       url = 'api/' + url;
 
       axios
-          .put('http://' + this.$aurasApiV2 + url + data.id, data)
+          .put(this.$aurasApiV2 + url + data.id, data)
           .then((response) => {
 
             if (response.status === 200 || response.status === 201 || response.status === 204) {

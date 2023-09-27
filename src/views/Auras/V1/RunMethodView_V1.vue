@@ -864,7 +864,7 @@ export default {
     * --------------------------------------------------------------------------*/
     fetchNetworkByName(name) {
       axios
-          .get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
+          .get(this.$aurasApi + "api/networks/byName?name=" + name)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -896,7 +896,7 @@ export default {
     fetchMethod() {
 
       axios
-          .get('http://' + this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
+          .get(this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
           .then((response) => {
             if (response.status === 200) {
               this.currentMethod = response.data;
@@ -936,7 +936,7 @@ export default {
       let uri = this.getModuleUri(module.name);
 
       await axios
-          .get('http://' + this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
+          .get(this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
           .then(async (response) => {
             if (response.status === 200) {
               module.data = await response.data;
@@ -1094,7 +1094,7 @@ export default {
     * ------------------------------------------------------------------------*/
     fetchModulesList() {
       axios
-          .get('http://' + this.$aurasApi + 'api/Modules')
+          .get(this.$aurasApi + 'api/Modules')
           .then((response) => {
             if (response.status === 200) {
               this.allModulesList = response.data;

@@ -153,9 +153,9 @@ export default {
 
       let base_url;
       if (name.toLowerCase().includes('v2'))
-        base_url = 'https://' + this.$aurasApiV2;
+        base_url = this.$aurasApiV2;
       else
-        base_url = 'http://' + this.$aurasApi;
+        base_url = this.$aurasApi;
 
       axios.get(base_url + "api/networks/byName?name=" + name)
           .then(
@@ -200,9 +200,9 @@ export default {
       let base_url;
 
       if (this.currentApp === this.$aurasVersionV2)
-        base_url = 'https://' + this.$aurasApiV2;
+        base_url = this.$aurasApiV2;
       else
-        base_url = 'http://' + this.$aurasApiV;
+        base_url = this.$aurasApi;
 
 
       axios.put(base_url + "api/networks/" + this.networks['id'], this.networks)

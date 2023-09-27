@@ -290,7 +290,7 @@ export default {
         }
 
 
-        axios.post('http://' + this.$aurasApi + "api/Methods", params)
+        axios.post(this.$aurasApi + "api/Methods", params)
             .then(
                 (response) => {
 
@@ -328,7 +328,7 @@ export default {
      * -------------------------------------------------------------------------*/
     updateMethod(item) {
 
-      axios.put('http://' + this.$aurasApi + "api/Methods/" + item.id, item)
+      axios.put(this.$aurasApi + "api/Methods/" + item.id, item)
           .then(
               (response) => {
                 if (response.status === 204) {
@@ -353,7 +353,7 @@ export default {
      * -------------------------------------------------------------------------*/
     fetchMethods() {
 
-      axios.get('http://' + this.$aurasApi + "api/Methods")
+      axios.get(this.$aurasApi + "api/Methods")
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -372,7 +372,7 @@ export default {
     * -------------------------------------------------------------------------*/
     deleteMethod() {
 
-      axios.delete('http://' + this.$aurasApi + 'api/Methods/' + this.deletedMethodId)
+      axios.delete(this.$aurasApi + 'api/Methods/' + this.deletedMethodId)
           .then(
               (response) => {
                 if (response.status === 204) {
@@ -395,7 +395,7 @@ export default {
     * -------------------------------------------------------------------------*/
     getTotalSteps(id) {
 
-      axios.get('http://' + this.$aurasApi + 'api/Methods/NumberOfSteps/' + id)
+      axios.get(this.$aurasApi + 'api/Methods/NumberOfSteps/' + id)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -437,7 +437,7 @@ export default {
      * -------------------------------------------------------------------------*/
     duplicateMethodData() {
 
-      axios.put('http://' + this.$aurasApi + 'api/Methods/duplicate/' + this.createdMethod.id, this.duplicatedMethod)
+      axios.put(this.$aurasApi + 'api/Methods/duplicate/' + this.createdMethod.id, this.duplicatedMethod)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -464,7 +464,7 @@ export default {
         'Name': item.name + '_duplicated'
       }
 
-      axios.post('http://' + this.$aurasApi + "api/Methods", params)
+      axios.post(this.$aurasApi + "api/Methods", params)
           .then(
               (response) => {
 
