@@ -1345,7 +1345,7 @@ export default {
     * --------------------------------------------------------------------------*/
     fetchNetworkByName(name) {
       axios
-          .get('http://' + this.$aurasApi + "api/networks/byName?name=" + name)
+          .get(this.$aurasApi + "api/networks/byName?name=" + name)
           .then(
               (response) => {
                 if (response.status === 200) {
