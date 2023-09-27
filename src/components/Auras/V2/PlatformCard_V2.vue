@@ -148,7 +148,7 @@
 
       </v-card-text>
 
-      <v-card-actions >
+      <v-card-actions>
         <div v-if="online">
           <v-icon color="success">mdi-power</v-icon>
           <span style="color: green"> Online</span>
@@ -545,7 +545,9 @@
           </div>
           <div id="ld-switches">
 
-            <v-switch v-model="liquidDispenserModuleConfig.data[0].v11"
+            <v-switch v-model="liquidDispenserModuleConfig.data[0].v11Info"
+                      true-value="Open"
+                      false-value="Close"
                       @click="togglePinchValveState('v11')"
                       readonly
                       light
@@ -826,9 +828,8 @@
 
             >
             </v-switch>
-
-
           </div>
+
           <div id="ld-commands">
 
             <div id="syringe1-commands">
@@ -1086,7 +1087,6 @@
 
             </div>
 
-
           </div>
         </div>
       </div>
@@ -1205,34 +1205,34 @@ export default {
 
           pump1Quantity: 0,
           columns: [
-            {text: "v11", value: "v11", width: 82, align: 'center'},
-            {text: "v12", value: "v12", width: 82, align: 'center'},
-            {text: "v13", value: "v13", width: 82, align: 'center'},
-            {text: "v14", value: "v14", width: 82, align: 'center'},
-            {text: "v21", value: "v21", width: 82, align: 'center'},
-            {text: "v22", value: "v22", width: 82, align: 'center'},
-            {text: "v23", value: "v23", width: 82, align: 'center'},
-            {text: "v24", value: "v24", width: 82, align: 'center'},
-            {text: "v31", value: "v31", width: 82, align: 'center'},
-            {text: "v32", value: "v32", width: 82, sortable: false, align: 'center'},
-            {text: "v33", value: "v33", width: 82, sortable: false, align: 'center'},
-            {text: "v34", value: "v34", width: 82, sortable: false, align: 'center'},
-            {text: "v41", value: "v41", width: 82, sortable: false, align: 'center'},
-            {text: "v42", value: "v42", width: 82, sortable: false, align: 'center'},
-            {text: "v43", value: "v43", width: 82, sortable: false, align: 'center'},
-            {text: "v44", value: "v44", width: 82, sortable: false, align: 'center'},
-            {text: "v51", value: "v51", width: 82, sortable: false, align: 'center'},
-            {text: "v52", value: "v52", width: 82, sortable: false, align: 'center'},
-            {text: "v53", value: "v53", width: 82, sortable: false, align: 'center'},
-            {text: "v54", value: "v54", width: 82, sortable: false, align: 'center'},
-            {text: "v61", value: "v61", width: 82, sortable: false, align: 'center'},
-            {text: "v62", value: "v62", width: 82, sortable: false, align: 'center'},
-            {text: "v63", value: "v63", width: 82, sortable: false, align: 'center'},
-            {text: "v64", value: "v64", width: 82, sortable: false, align: 'center'},
-            {text: "v71", value: "v71", width: 82, sortable: false, align: 'center'},
-            {text: "v72", value: "v72", width: 82, sortable: false, align: 'center'},
-            {text: "v73", value: "v73", width: 82, sortable: false, align: 'center'},
-            {text: "v74", value: "v74", width: 82, sortable: false, align: 'center'},
+            {text: "v11", value: "v11Info", width: 82, align: 'center'},
+            {text: "v12", value: "v12Info", width: 82, align: 'center'},
+            {text: "v13", value: "v13Info", width: 82, align: 'center'},
+            {text: "v14", value: "v14Info", width: 82, align: 'center'},
+            {text: "v21", value: "v21Info", width: 82, align: 'center'},
+            {text: "v22", value: "v22Info", width: 82, align: 'center'},
+            {text: "v23", value: "v23Info", width: 82, align: 'center'},
+            {text: "v24", value: "v24Info", width: 82, align: 'center'},
+            {text: "v31", value: "v31Info", width: 82, align: 'center'},
+            {text: "v32", value: "v32Info", width: 82, sortable: false, align: 'center'},
+            {text: "v33", value: "v33Info", width: 82, sortable: false, align: 'center'},
+            {text: "v34", value: "v34Info", width: 82, sortable: false, align: 'center'},
+            {text: "v41", value: "v41Info", width: 82, sortable: false, align: 'center'},
+            {text: "v42", value: "v42Info", width: 82, sortable: false, align: 'center'},
+            {text: "v43", value: "v43Info", width: 82, sortable: false, align: 'center'},
+            {text: "v44", value: "v44Info", width: 82, sortable: false, align: 'center'},
+            {text: "v51", value: "v51Info", width: 82, sortable: false, align: 'center'},
+            {text: "v52", value: "v52Info", width: 82, sortable: false, align: 'center'},
+            {text: "v53", value: "v53Info", width: 82, sortable: false, align: 'center'},
+            {text: "v54", value: "v54Info", width: 82, sortable: false, align: 'center'},
+            {text: "v61", value: "v61Info", width: 82, sortable: false, align: 'center'},
+            {text: "v62", value: "v62Info", width: 82, sortable: false, align: 'center'},
+            {text: "v63", value: "v63Info", width: 82, sortable: false, align: 'center'},
+            {text: "v64", value: "v64Info", width: 82, sortable: false, align: 'center'},
+            {text: "v71", value: "v71Info", width: 82, sortable: false, align: 'center'},
+            {text: "v72", value: "v72Info", width: 82, sortable: false, align: 'center'},
+            {text: "v73", value: "v73Info", width: 82, sortable: false, align: 'center'},
+            {text: "v74", value: "v74Info", width: 82, sortable: false, align: 'center'},
             {text: "SP3 Quantity", value: "sP3P", width: 150, align: 'center'},
             {text: "SP3 Speed (µL/s)", value: "sP3S", width: 82, align: 'center'},
             {text: "SP1 Quantity", value: "sP1P", width: 150, align: 'center'},
@@ -1244,61 +1244,61 @@ export default {
           ],
           data: [
             {
-              v11Info: '',
+              v11Info: 'Close',
               v11: false,
-              v12Info: '',
+              v12Info: 'Close',
               v12: false,
-              v13Info: '',
+              v13Info: 'Close',
               v13: false,
-              v14Info: '',
+              v14Info: 'Close',
               v14: false,
-              v21Info: '',
+              v21Info: 'Close',
               v21: false,
-              v22Info: '',
+              v22Info: 'Close',
               v22: false,
-              v23Info: '',
+              v23Info: 'Close',
               v23: false,
-              v24Info: '',
+              v24Info: 'Close',
               v24: false,
-              v31Info: '',
+              v31Info: 'Close',
               v31: false,
-              v32Info: '',
+              v32Info: 'Close',
               v32: false,
-              v33Info: '',
+              v33Info: 'Close',
               v33: false,
-              v34Info: '',
+              v34Info: 'Close',
               v34: false,
-              v41Info: '',
+              v41Info: 'Close',
               v41: false,
-              v42Info: '',
+              v42Info: 'Close',
               v42: false,
-              v43Info: '',
+              v43Info: 'Close',
               v43: false,
-              v44Info: '',
+              v44Info: 'Close',
               v44: false,
-              v51Info: '',
+              v51Info: 'Close',
               v51: false,
-              v52Info: '',
+              v52Info: 'Close',
               v52: false,
-              v53Info: '',
+              v53Info: 'Close',
               v53: false,
-              v54Info: '',
+              v54Info: 'Close',
               v54: false,
-              v61Info: '',
+              v61Info: 'Close',
               v61: false,
-              v62Info: '',
+              v62Info: 'Close',
               v62: false,
-              v63Info: '',
+              v63Info: 'Close',
               v63: false,
-              v64Info: '',
+              v64Info: 'Close',
               v64: false,
-              v71Info: '',
+              v71Info: 'Close',
               v71: false,
-              v72Info: '',
+              v72Info: 'Close',
               v72: false,
-              v73Info: '',
+              v73Info: 'Close',
               v73: false,
-              v74Info: '',
+              v74Info: 'Close',
               v74: false,
               sP1P: '0',
               sP1S: 1,
@@ -1912,117 +1912,145 @@ export default {
       if (obj.DropDispenser !== undefined)
         this.dropDispenserModuleConfig.selectedOption = this.dropDispenserModuleConfig.items[obj.DropDispenser];
 
-      //LDS
+      //Pinch valves
       if (obj.V11 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v11 = parseInt(obj.V11.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v11 = parseInt(obj.V11) === 1;
+        this.liquidDispenserModuleConfig.data[0].v11Info = parseInt(obj.V11) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V12 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v12 = parseInt(obj.V12.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v12 = parseInt(obj.V12) === 1;
+        this.liquidDispenserModuleConfig.data[0].v12Info = parseInt(obj.V12) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V13 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v13 = parseInt(obj.V13.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v13 = parseInt(obj.V13) === 1;
+        this.liquidDispenserModuleConfig.data[0].v13Info = parseInt(obj.V13) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V14 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v14 = parseInt(obj.V14.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v14 = parseInt(obj.V14) === 1;
+        this.liquidDispenserModuleConfig.data[0].v14Info = parseInt(obj.V14) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V21 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v21 = parseInt(obj.V21.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v21 = parseInt(obj.V21) === 1;
+        this.liquidDispenserModuleConfig.data[0].v21Info = parseInt(obj.V21) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V22 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v22 = parseInt(obj.V22.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v22 = parseInt(obj.V22) === 1;
+        this.liquidDispenserModuleConfig.data[0].v22Info = parseInt(obj.V22) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V23 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v23 = parseInt(obj.V23.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v23 = parseInt(obj.V23) === 1;
+        this.liquidDispenserModuleConfig.data[0].v23Info = parseInt(obj.V23) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V24 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v24 = parseInt(obj.V24.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v24 = parseInt(obj.V24) === 1;
+        this.liquidDispenserModuleConfig.data[0].v24Info = parseInt(obj.V24) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V31 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v31 = parseInt(obj.V31.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v31 = parseInt(obj.V31) === 1;
+        this.liquidDispenserModuleConfig.data[0].v31Info = parseInt(obj.V31) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V32 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v32 = parseInt(obj.V32.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v32 = parseInt(obj.V32) === 1;
+        this.liquidDispenserModuleConfig.data[0].v32Info = parseInt(obj.V32) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V33 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v33 = parseInt(obj.V33.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v33 = parseInt(obj.V33) === 1;
+        this.liquidDispenserModuleConfig.data[0].v33Info = parseInt(obj.V33) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V34 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v34 = parseInt(obj.V34.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v34 = parseInt(obj.V34) === 1;
+        this.liquidDispenserModuleConfig.data[0].v34Info = parseInt(obj.V34) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V41 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v41 = parseInt(obj.V41.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v41 = parseInt(obj.V41) === 1;
+        this.liquidDispenserModuleConfig.data[0].v41Info = parseInt(obj.V41) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V42 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v42 = parseInt(obj.V42.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v42 = parseInt(obj.V42) === 1;
+        this.liquidDispenserModuleConfig.data[0].v42Info = parseInt(obj.V42) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V43 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v43 = parseInt(obj.V43.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v43 = parseInt(obj.V43) === 1;
+        this.liquidDispenserModuleConfig.data[0].v43Info = parseInt(obj.V43) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V44 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v44 = parseInt(obj.V44.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v44 = parseInt(obj.V44) === 1;
+        this.liquidDispenserModuleConfig.data[0].v44Info = parseInt(obj.V44) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V51 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v51 = parseInt(obj.V51.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v51 = parseInt(obj.V51) === 1;
+        this.liquidDispenserModuleConfig.data[0].v51Info = parseInt(obj.V51) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V52 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v52 = parseInt(obj.V52.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v52 = parseInt(obj.V52) === 1;
+        this.liquidDispenserModuleConfig.data[0].v52Info = parseInt(obj.V52) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V53 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v53 = parseInt(obj.V53.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v53 = parseInt(obj.V53) === 1;
+        this.liquidDispenserModuleConfig.data[0].v53Info = parseInt(obj.V53) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V54 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v54 = parseInt(obj.V54.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v54 = parseInt(obj.V54) === 1;
+        this.liquidDispenserModuleConfig.data[0].v54Info = parseInt(obj.V54) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V61 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v61 = parseInt(obj.V61.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v61 = parseInt(obj.V61) === 1;
+        this.liquidDispenserModuleConfig.data[0].v61Info = parseInt(obj.V61) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V62 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v62 = parseInt(obj.V62.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v62 = parseInt(obj.V62) === 1;
+        this.liquidDispenserModuleConfig.data[0].v62Info = parseInt(obj.V62) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V63 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v63 = parseInt(obj.V63.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v63 = parseInt(obj.V63) === 1;
+        this.liquidDispenserModuleConfig.data[0].v63Info = parseInt(obj.V63) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V64 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v64 = parseInt(obj.V64.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v64 = parseInt(obj.V64) === 1;
+        this.liquidDispenserModuleConfig.data[0].v64Info = parseInt(obj.V64) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V71 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v71 = parseInt(obj.V71.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v71 = parseInt(obj.V71) === 1;
+        this.liquidDispenserModuleConfig.data[0].v71Info = parseInt(obj.V71) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V72 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v72 = parseInt(obj.V72.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v72 = parseInt(obj.V72) === 1;
+        this.liquidDispenserModuleConfig.data[0].v72Info = parseInt(obj.V72) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V73 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v73 = parseInt(obj.V73.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v73 = parseInt(obj.V73) === 1;
+        this.liquidDispenserModuleConfig.data[0].v73Info = parseInt(obj.V73) === 1 ? 'Open' : 'Close';
       }
 
       if (obj.V74 !== undefined) {
-        this.liquidDispenserModuleConfig.data[0].v74 = parseInt(obj.V74.SwitchState) === 1;
+        this.liquidDispenserModuleConfig.data[0].v74 = parseInt(obj.V74) === 1;
+        this.liquidDispenserModuleConfig.data[0].v74Info = parseInt(obj.V74) === 1 ? 'Open' : 'Close';
       }
 
       // SP1 Absolute position
@@ -2031,8 +2059,8 @@ export default {
         let value = parseInt(obj.SP1CurrentPosition) / 1000;
         let element = document.getElementById("ps1LiquidLevel");
         element.innerText = value.toFixed(0);
-        element.style.height= '18px';
-        element.style.width = value /10 + '%';
+        element.style.height = '18px';
+        element.style.width = value / 10 + '%';
         this.liquidDispenserModuleConfig.data[0].sP1P = document.getElementById("volumeSp1Input").value = value.toFixed(0);
         this.liquidDispenserModuleConfig.sP1PAbsolutePosition = value;
 
@@ -2077,7 +2105,7 @@ export default {
         let value = parseInt(obj.SP2CurrentPosition) / 1000;
         let element = document.getElementById("ps2LiquidLevel");
         element.innerText = value.toFixed(0);
-        element.style.height= '18px';
+        element.style.height = '18px';
         element.style.width = value / 10 + '%';
         this.liquidDispenserModuleConfig.data[0].sP2P = document.getElementById("volumeSp2Input").value = value.toFixed(0);
         this.liquidDispenserModuleConfig.sP2PAbsolutePosition = value;
@@ -2125,7 +2153,7 @@ export default {
         let value = parseInt(obj.SP3CurrentPosition) / 1000;
         let element = document.getElementById("ps3LiquidLevel");
         element.innerText = value.toFixed(0);
-        element.style.height= '18px';
+        element.style.height = '18px';
         element.style.width = value / 10 + '%';
         this.liquidDispenserModuleConfig.data[0].sP3P = document.getElementById("volumeSp3Input").value = value.toFixed(0);
         this.liquidDispenserModuleConfig.sP3PAbsolutePosition = value;
@@ -2175,13 +2203,6 @@ export default {
         this.liquidDispenserModuleConfig.data[0].pumP1P = value;
         document.getElementById("pump1Input").value = value;
 
-        // Display turning wheel if method is running
-
-        if (this.mode === 'run' && obj.stage !== 'init') {
-
-          // TODO: Stop the pump revolutions
-
-        }
       }
       // PUMP1 Max speed
       if (obj.PUMP1MaxSpeed !== undefined) {
@@ -3201,6 +3222,7 @@ select {
       width: 200px;
       height: 18px;
     }
+
 
     #PS2PProgressbar {
       position: absolute;
