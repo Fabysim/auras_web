@@ -62,6 +62,7 @@
                   </v-card-text>
                 </v-card>
               </td>
+
               <!-- Liquid Dispenser -->
 
               <td>
@@ -74,6 +75,239 @@
                       :items="liquidDispenserModuleConfig.data"
                       :hide-default-footer="true"
                   >
+                    <template v-slot:[`item.v11Info`]="{ item }">
+                      <div v-if="item.v11Info ==='Close'">
+                        <span style="color: red"> {{ item.v11Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v11Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v12Info`]="{ item }">
+                      <div v-if="item.v12Info ==='Close'">
+                        <span style="color: red"> {{ item.v12Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v12Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v13Info`]="{ item }">
+                      <div v-if="item.v13Info ==='Close'">
+                        <span style="color: red"> {{ item.v13Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v13Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v14Info`]="{ item }">
+                      <div v-if="item.v14Info ==='Close'">
+                        <span style="color: red"> {{ item.v14Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v14Info }}</span>
+                      </div>
+                    </template>
+
+                    <template v-slot:[`item.v21Info`]="{ item }">
+                      <div v-if="item.v21Info ==='Close'">
+                        <span style="color: red"> {{ item.v21Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v21Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v22Info`]="{ item }">
+                      <div v-if="item.v22Info ==='Close'">
+                        <span style="color: red"> {{ item.v22Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v22Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v23Info`]="{ item }">
+                      <div v-if="item.v23Info ==='Close'">
+                        <span style="color: red"> {{ item.v23Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v23Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v24Info`]="{ item }">
+                      <div v-if="item.v34Info ==='Close'">
+                        <span style="color: red"> {{ item.v24Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v24Info }}</span>
+                      </div>
+                    </template>
+
+                    <template v-slot:[`item.v31Info`]="{ item }">
+                      <div v-if="item.v31Info ==='Close'">
+                        <span style="color: red"> {{ item.v31Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v31Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v32Info`]="{ item }">
+                      <div v-if="item.v32Info ==='Close'">
+                        <span style="color: red"> {{ item.v32Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v32Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v33Info`]="{ item }">
+                      <div v-if="item.v33Info ==='Close'">
+                        <span style="color: red"> {{ item.v33Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v33Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v34Info`]="{ item }">
+                      <div v-if="item.v34Info ==='Close'">
+                        <span style="color: red"> {{ item.v34Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v34Info }}</span>
+                      </div>
+                    </template>
+
+                    <template v-slot:[`item.v41Info`]="{ item }">
+                      <div v-if="item.v41Info ==='Close'">
+                        <span style="color: red"> {{ item.v41Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v41Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v42Info`]="{ item }">
+                      <div v-if="item.v42Info ==='Close'">
+                        <span style="color: red"> {{ item.v42Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v42Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v43Info`]="{ item }">
+                      <div v-if="item.v43Info ==='Close'">
+                        <span style="color: red"> {{ item.v43Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v43Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v44Info`]="{ item }">
+                      <div v-if="item.v44Info ==='Close'">
+                        <span style="color: red"> {{ item.v44Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v44Info }}</span>
+                      </div>
+                    </template>
+
+                    <template v-slot:[`item.v51Info`]="{ item }">
+                      <div v-if="item.v51Info ==='Close'">
+                        <span style="color: red"> {{ item.v51Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v51Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v52Info`]="{ item }">
+                      <div v-if="item.v52Info ==='Close'">
+                        <span style="color: red"> {{ item.v52Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v52Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v53Info`]="{ item }">
+                      <div v-if="item.v53Info ==='Close'">
+                        <span style="color: red"> {{ item.v53Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v53Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v54Info`]="{ item }">
+                      <div v-if="item.v54Info ==='Close'">
+                        <span style="color: red"> {{ item.v54Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v54Info }}</span>
+                      </div>
+                    </template>
+
+                    <template v-slot:[`item.v61Info`]="{ item }">
+                      <div v-if="item.v61Info ==='Close'">
+                        <span style="color: red"> {{ item.v61Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v61Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v62Info`]="{ item }">
+                      <div v-if="item.v62Info ==='Close'">
+                        <span style="color: red"> {{ item.v62Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v62Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v63Info`]="{ item }">
+                      <div v-if="item.v63Info ==='Close'">
+                        <span style="color: red"> {{ item.v63Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v63Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v64Info`]="{ item }">
+                      <div v-if="item.v64Info ==='Close'">
+                        <span style="color: red"> {{ item.v64Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v64Info }}</span>
+                      </div>
+                    </template>
+
+                    <template v-slot:[`item.v71Info`]="{ item }">
+                      <div v-if="item.v71Info ==='Close'">
+                        <span style="color: red"> {{ item.v71Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v71Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v72Info`]="{ item }">
+                      <div v-if="item.v72Info ==='Close'">
+                        <span style="color: red"> {{ item.v72Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v72Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v73Info`]="{ item }">
+                      <div v-if="item.v73Info ==='Close'">
+                        <span style="color: red"> {{ item.v73Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v73Info }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:[`item.v74Info`]="{ item }">
+                      <div v-if="item.v74Info ==='Close'">
+                        <span style="color: red"> {{ item.v74Info }}</span>
+                      </div>
+                      <div v-else>
+                        <span style="color: green"> {{ item.v74Info }}</span>
+                      </div>
+                    </template>
+
+
+
                     <template v-slot:[`item.sP1P`]="{item}">
                       <table>
                         <tr>
@@ -1233,12 +1467,12 @@ export default {
             {text: "v72", value: "v72Info", width: 82, sortable: false, align: 'center'},
             {text: "v73", value: "v73Info", width: 82, sortable: false, align: 'center'},
             {text: "v74", value: "v74Info", width: 82, sortable: false, align: 'center'},
-            {text: "SP3 Quantity", value: "sP3P", width: 150, align: 'center'},
-            {text: "SP3 Speed (µL/s)", value: "sP3S", width: 82, align: 'center'},
             {text: "SP1 Quantity", value: "sP1P", width: 150, align: 'center'},
             {text: "SP1 Speed (µL/s)", value: "sP1S", width: 82, align: 'center'},
             {text: "SP2 Quantity", value: "sP2P", width: 150, align: 'center'},
             {text: "SP2 Speed (µL/s)", value: "sP2S", width: 82, align: 'center'},
+            {text: "SP3 Quantity", value: "sP3P", width: 150, align: 'center'},
+            {text: "SP3 Speed (µL/s)", value: "sP3S", width: 82, align: 'center'},
             {text: "Rotations pump", value: "pumP1P", width: 82, align: 'center'},
             {text: "Speed pump (rpm)", value: "pumP1S", width: 82, align: 'center'},
           ],
@@ -1457,7 +1691,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener: to tlcMigrationModule.selectedOption
     * ------------------------------------------------------------------------*/
-    'tlcMigrationModule.selectedOption'() {
+    'tlcMigrationModuleConfig.selectedOption'() {
 
       switch (this.tlcMigrationModuleConfig.selectedOption) {
         case "Idle position":

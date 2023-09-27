@@ -17,14 +17,14 @@
           <v-spacer/>
           <v-btn color="#a83248"
                  class="white--text"
-                 @click="redirectTo('IndexAuras')"
+                 @click="redirectTo('IndexAurasV2')"
           >
             <v-icon>mdi-format-list-bulleted</v-icon>
             All Methods
           </v-btn>
           <v-btn color="#2e4c80"
                  class="ma-2 white--text"
-                 @click="redirectTo('RunAuras')"
+                 @click="redirectTo('RunAurasV2')"
           >
             <v-icon small>
               mdi-play-outline
@@ -716,39 +716,39 @@ export default {
       items: ['Volume', 'QC sample drop', 'Fill LAL cartridge'],
       items2: ['Left', 'Right', '0'],
       columns: [
-        {text: "v11", value: "v11", width: 82, sortable: false, align: 'center'},
-        {text: "v12", value: "v12", width: 82, sortable: false, align: 'center'},
-        {text: "v13", value: "v13", width: 82, sortable: false, align: 'center'},
-        {text: "v14", value: "v14", width: 82, sortable: false, align: 'center'},
-        {text: "v21", value: "v21", width: 82, sortable: false, align: 'center'},
-        {text: "v22", value: "v22", width: 82, sortable: false, align: 'center'},
-        {text: "v23", value: "v23", width: 82, sortable: false, align: 'center'},
-        {text: "v24", value: "v24", width: 82, sortable: false, align: 'center'},
-        {text: "v31", value: "v31", width: 82, sortable: false, align: 'center'},
-        {text: "v32", value: "v32", width: 82, sortable: false, align: 'center'},
-        {text: "v33", value: "v33", width: 82, sortable: false, align: 'center'},
-        {text: "v34", value: "v34", width: 82, sortable: false, align: 'center'},
-        {text: "v41", value: "v41", width: 82, sortable: false, align: 'center'},
-        {text: "v42", value: "v42", width: 82, sortable: false, align: 'center'},
-        {text: "v43", value: "v43", width: 82, sortable: false, align: 'center'},
-        {text: "v44", value: "v44", width: 82, sortable: false, align: 'center'},
-        {text: "v51", value: "v51", width: 82, sortable: false, align: 'center'},
-        {text: "v52", value: "v52", width: 82, sortable: false, align: 'center'},
-        {text: "v53", value: "v53", width: 82, sortable: false, align: 'center'},
-        {text: "v54", value: "v54", width: 82, sortable: false, align: 'center'},
-        {text: "v61", value: "v61", width: 82, sortable: false, align: 'center'},
-        {text: "v62", value: "v62", width: 82, sortable: false, align: 'center'},
-        {text: "v63", value: "v63", width: 82, sortable: false, align: 'center'},
-        {text: "v64", value: "v64", width: 82, sortable: false, align: 'center'},
-        {text: "v71", value: "v71", width: 82, sortable: false, align: 'center'},
-        {text: "v72", value: "v72", width: 82, sortable: false, align: 'center'},
-        {text: "v73", value: "v73", width: 82, sortable: false, align: 'center'},
-        {text: "v74", value: "v74", width: 82, sortable: false, align: 'center'},
-        {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
-        {text: "SP3 Speed (µL/s)", value: "sP3S", width: 150, sortable: false, align: 'center'},
+        {text: "v11", value: "v11Info", width: 82, sortable: false, align: 'center'},
+        {text: "v12", value: "v12Info", width: 82, sortable: false, align: 'center'},
+        {text: "v13", value: "v13Info", width: 82, sortable: false, align: 'center'},
+        {text: "v14", value: "v14Info", width: 82, sortable: false, align: 'center'},
+        {text: "v21", value: "v21Info", width: 82, sortable: false, align: 'center'},
+        {text: "v22", value: "v22Info", width: 82, sortable: false, align: 'center'},
+        {text: "v23", value: "v23Info", width: 82, sortable: false, align: 'center'},
+        {text: "v24", value: "v24Info", width: 82, sortable: false, align: 'center'},
+        {text: "v31", value: "v31Info", width: 82, sortable: false, align: 'center'},
+        {text: "v32", value: "v32Info", width: 82, sortable: false, align: 'center'},
+        {text: "v33", value: "v33Info", width: 82, sortable: false, align: 'center'},
+        {text: "v34", value: "v34Info", width: 82, sortable: false, align: 'center'},
+        {text: "v41", value: "v41Info", width: 82, sortable: false, align: 'center'},
+        {text: "v42", value: "v42Info", width: 82, sortable: false, align: 'center'},
+        {text: "v43", value: "v43Info", width: 82, sortable: false, align: 'center'},
+        {text: "v44", value: "v44Info", width: 82, sortable: false, align: 'center'},
+        {text: "v51", value: "v51Info", width: 82, sortable: false, align: 'center'},
+        {text: "v52", value: "v52Info", width: 82, sortable: false, align: 'center'},
+        {text: "v53", value: "v53Info", width: 82, sortable: false, align: 'center'},
+        {text: "v54", value: "v54Info", width: 82, sortable: false, align: 'center'},
+        {text: "v61", value: "v61Info", width: 82, sortable: false, align: 'center'},
+        {text: "v62", value: "v62Info", width: 82, sortable: false, align: 'center'},
+        {text: "v63", value: "v63Info", width: 82, sortable: false, align: 'center'},
+        {text: "v64", value: "v64Info", width: 82, sortable: false, align: 'center'},
+        {text: "v71", value: "v71Info", width: 82, sortable: false, align: 'center'},
+        {text: "v72", value: "v72Info", width: 82, sortable: false, align: 'center'},
+        {text: "v73", value: "v73Info", width: 82, sortable: false, align: 'center'},
+        {text: "v74", value: "v74Info", width: 82, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed (µL/s)", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
+        {text: "SP3 Speed (µL/s)", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Speed (µL/s)", value: "sP2S", width: 150, sortable: false, align: 'center'},
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
@@ -883,18 +883,41 @@ export default {
       for (let i = 0; i < this.stepModule.data.length; i++) {
 
         this.concatenatedData.step = this.liquidDispenserModule.data[i].step;
-        this.concatenatedData.ldS1 = this.liquidDispenserModule.data[i].ldS1;
-        this.concatenatedData.ldS2 = this.liquidDispenserModule.data[i].ldS2;
-        this.concatenatedData.ldS3 = this.liquidDispenserModule.data[i].ldS3;
-        this.concatenatedData.ldS4 = this.liquidDispenserModule.data[i].ldS4;
-        this.concatenatedData.ldS5 = this.liquidDispenserModule.data[i].ldS5;
-        this.concatenatedData.ldS6 = this.liquidDispenserModule.data[i].ldS6;
-        this.concatenatedData.ldS7 = this.liquidDispenserModule.data[i].ldS7;
-        this.concatenatedData.ldS8 = this.liquidDispenserModule.data[i].ldS8;
-        this.concatenatedData.ldS9 = this.liquidDispenserModule.data[i].ldS9;
-        this.concatenatedData.ldS10 = this.liquidDispenserModule.data[i].ldS10;
-        this.concatenatedData.ldS11 = this.liquidDispenserModule.data[i].ldS11;
-        this.concatenatedData.ldS12 = this.liquidDispenserModule.data[i].ldS12;
+        this.concatenatedData.v11 = this.liquidDispenserModule.data[i].v11;
+        this.concatenatedData.v12 = this.liquidDispenserModule.data[i].v12;
+        this.concatenatedData.v13 = this.liquidDispenserModule.data[i].v13;
+        this.concatenatedData.v14 = this.liquidDispenserModule.data[i].v14;
+
+        this.concatenatedData.v21 = this.liquidDispenserModule.data[i].v21;
+        this.concatenatedData.v22 = this.liquidDispenserModule.data[i].v22;
+        this.concatenatedData.v23 = this.liquidDispenserModule.data[i].v23;
+        this.concatenatedData.v24 = this.liquidDispenserModule.data[i].v24;
+
+        this.concatenatedData.v31 = this.liquidDispenserModule.data[i].v31;
+        this.concatenatedData.v32 = this.liquidDispenserModule.data[i].v32;
+        this.concatenatedData.v33 = this.liquidDispenserModule.data[i].v33;
+        this.concatenatedData.v34 = this.liquidDispenserModule.data[i].v34;
+
+        this.concatenatedData.v41 = this.liquidDispenserModule.data[i].v41;
+        this.concatenatedData.v42 = this.liquidDispenserModule.data[i].v42;
+        this.concatenatedData.v43 = this.liquidDispenserModule.data[i].v43;
+        this.concatenatedData.v44 = this.liquidDispenserModule.data[i].v44;
+
+        this.concatenatedData.v51 = this.liquidDispenserModule.data[i].v51;
+        this.concatenatedData.v52 = this.liquidDispenserModule.data[i].v52;
+        this.concatenatedData.v53 = this.liquidDispenserModule.data[i].v53;
+        this.concatenatedData.v54 = this.liquidDispenserModule.data[i].v54;
+
+        this.concatenatedData.v61 = this.liquidDispenserModule.data[i].v61;
+        this.concatenatedData.v62 = this.liquidDispenserModule.data[i].v62;
+        this.concatenatedData.v63 = this.liquidDispenserModule.data[i].v63;
+        this.concatenatedData.v64 = this.liquidDispenserModule.data[i].v64;
+
+        this.concatenatedData.v71 = this.liquidDispenserModule.data[i].v71;
+        this.concatenatedData.v72 = this.liquidDispenserModule.data[i].v72;
+        this.concatenatedData.v73 = this.liquidDispenserModule.data[i].v73;
+        this.concatenatedData.v74 = this.liquidDispenserModule.data[i].v74;
+
         this.concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
         this.concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
         this.concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
@@ -938,57 +961,45 @@ export default {
     loadLiquidDispenserUpdateInfo() {
 
       this.liquidDispenserModule.data.forEach(function (line) {
+
         !isNaN(parseInt(line.sP1P)) ? line.displayedSP1Info = 'Volume: ' + line.sP1P + ' µL' : line.displayedSP1Info = line.sP1P;
         !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        if (line.ldS1 === 0) line.displayedLds1 = '0';
-        else if (line.ldS1 > 0) line.displayedLds1 = 'Right';
-        else line.displayedLds1 = 'Left';
+        line.v11Info = line.v11 === 0 ? 'Close' : 'Open';
+        line.v12Info = line.v12 === 0 ? 'Close' : 'Open';
+        line.v13Info = line.v13 === 0 ? 'Close' : 'Open';
+        line.v14Info = line.v14 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS2 === 0) line.displayedLds2 = '0';
-        else if (line.ldS2 > 0) line.displayedLds2 = 'Right';
-        else line.displayedLds2 = 'Left';
+        line.v21Info = line.v11 === 0 ? 'Close' : 'Open';
+        line.v22Info = line.v22 === 0 ? 'Close' : 'Open';
+        line.v23Info = line.v23 === 0 ? 'Close' : 'Open';
+        line.v24Info = line.v24 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS3 === 0) line.displayedLds3 = '0';
-        else if (line.ldS3 > 0) line.displayedLds3 = 'Right';
-        else line.displayedLds3 = 'Left';
+        line.v31Info = line.v31 === 0 ? 'Close' : 'Open';
+        line.v32Info = line.v32 === 0 ? 'Close' : 'Open';
+        line.v33Info = line.v33 === 0 ? 'Close' : 'Open';
+        line.v34Info = line.v34 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS4 === 0) line.displayedLds4 = '0';
-        else if (line.ldS4 > 0) line.displayedLds4 = 'Right';
-        else line.displayedLds4 = 'Left';
+        line.v41Info = line.v41 === 0 ? 'Close' : 'Open';
+        line.v42Info = line.v42 === 0 ? 'Close' : 'Open';
+        line.v43Info = line.v43 === 0 ? 'Close' : 'Open';
+        line.v44Info = line.v44 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS5 === 0) line.displayedLds5 = '0';
-        else if (line.ldS5 > 0) line.displayedLds5 = 'Right';
-        else line.displayedLds5 = 'Left';
+        line.v51Info = line.v51 === 0 ? 'Close' : 'Open';
+        line.v52Info = line.v52 === 0 ? 'Close' : 'Open';
+        line.v53Info = line.v53 === 0 ? 'Close' : 'Open';
+        line.v54Info = line.v54 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS6 === 0) line.displayedLds6 = '0';
-        else if (line.ldS6 > 0) line.displayedLds6 = 'Right';
-        else line.displayedLds6 = 'Left';
+        line.v61Info = line.v61 === 0 ? 'Close' : 'Open';
+        line.v62Info = line.v62 === 0 ? 'Close' : 'Open';
+        line.v63Info = line.v63 === 0 ? 'Close' : 'Open';
+        line.v64Info = line.v64 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS7 === 0) line.displayedLds7 = '0';
-        else if (line.ldS7 > 0) line.displayedLds7 = 'Right';
-        else line.displayedLds7 = 'Left';
-
-        if (line.ldS8 === 0) line.displayedLds8 = '0';
-        else if (line.ldS8 > 0) line.displayedLds8 = 'Right';
-        else line.displayedLds8 = 'Left';
-
-        if (line.ldS9 === 0) line.displayedLds9 = '0';
-        else if (line.ldS9 > 0) line.displayedLds9 = 'Right';
-        else line.displayedLds9 = 'Left';
-
-        if (line.ldS10 === 0) line.displayedLds10 = '0';
-        else if (line.ldS10 > 0) line.displayedLds10 = 'Right';
-        else line.displayedLds10 = 'Left';
-
-        if (line.ldS11 === 0) line.displayedLds11 = '0';
-        else if (line.ldS11 > 0) line.displayedLds11 = 'Right';
-        else line.displayedLds11 = 'Left';
-
-        if (line.ldS12 === 0) line.displayedLds12 = '0';
-        else if (line.ldS12 > 0) line.displayedLds12 = 'Right';
-        else line.displayedLds12 = 'Left';
+        line.v71Info = line.v71 === 0 ? 'Close' : 'Open';
+        line.v72Info = line.v72 === 0 ? 'Close' : 'Open';
+        line.v73Info = line.v73 === 0 ? 'Close' : 'Open';
+        line.v74Info = line.v74 === 0 ? 'Close' : 'Open';
 
       });
     },
@@ -1604,53 +1615,40 @@ export default {
       liquidDispenserStep.step = this.currentStep;
       liquidDispenserStep.methodId = this.currentMethod.id;
 
-      if (liquidDispenserStep.ldS1 > 7) liquidDispenserStep.ldS1 = 20;
-      else if (liquidDispenserStep.ldS1 < -7) liquidDispenserStep.ldS1 = -20;
-      else liquidDispenserStep.ldS1 = 0;
+      liquidDispenserStep.v11 = liquidDispenserStep.v11 === true ? 1 : 0;
+      liquidDispenserStep.v12 = liquidDispenserStep.v12 === true ? 1 : 0;
+      liquidDispenserStep.v13 = liquidDispenserStep.v13 === true ? 1 : 0;
+      liquidDispenserStep.v14 = liquidDispenserStep.v14 === true ? 1 : 0;
 
-      if (liquidDispenserStep.ldS2 > 7) liquidDispenserStep.ldS2 = 20;
-      else if (liquidDispenserStep.ldS2 < -7) liquidDispenserStep.ldS2 = -20;
-      else liquidDispenserStep.ldS2 = 0;
+      liquidDispenserStep.v21 = liquidDispenserStep.v21 === true ? 1 : 0;
+      liquidDispenserStep.v22 = liquidDispenserStep.v22 === true ? 1 : 0;
+      liquidDispenserStep.v23 = liquidDispenserStep.v23 === true ? 1 : 0;
+      liquidDispenserStep.v24 = liquidDispenserStep.v24 === true ? 1 : 0;
 
-      if (liquidDispenserStep.ldS3 > 7) liquidDispenserStep.ldS3 = 20;
-      else if (liquidDispenserStep.ldS3 < -7) liquidDispenserStep.ldS3 = -20;
-      else liquidDispenserStep.ldS3 = 0;
+      liquidDispenserStep.v31 = liquidDispenserStep.v31 === true ? 1 : 0;
+      liquidDispenserStep.v32 = liquidDispenserStep.v32 === true ? 1 : 0;
+      liquidDispenserStep.v33 = liquidDispenserStep.v33 === true ? 1 : 0;
+      liquidDispenserStep.v34 = liquidDispenserStep.v34 === true ? 1 : 0;
 
-      if (liquidDispenserStep.ldS4 > 7) liquidDispenserStep.ldS4 = 20;
-      else if (liquidDispenserStep.ldS4 < -7) liquidDispenserStep.ldS4 = -20;
-      else liquidDispenserStep.ldS4 = 0;
+      liquidDispenserStep.v41 = liquidDispenserStep.v41 === true ? 1 : 0;
+      liquidDispenserStep.v42 = liquidDispenserStep.v42 === true ? 1 : 0;
+      liquidDispenserStep.v43 = liquidDispenserStep.v43 === true ? 1 : 0;
+      liquidDispenserStep.v44 = liquidDispenserStep.v44 === true ? 1 : 0;
 
-      if (liquidDispenserStep.ldS5 > 7) liquidDispenserStep.ldS5 = 20;
-      else if (liquidDispenserStep.ldS5 < -7) liquidDispenserStep.ldS5 = -20;
-      else liquidDispenserStep.ldS5 = 0;
+      liquidDispenserStep.v51 = liquidDispenserStep.v51 === true ? 1 : 0;
+      liquidDispenserStep.v52 = liquidDispenserStep.v52 === true ? 1 : 0;
+      liquidDispenserStep.v53 = liquidDispenserStep.v53 === true ? 1 : 0;
+      liquidDispenserStep.v54 = liquidDispenserStep.v54 === true ? 1 : 0;
 
-      if (liquidDispenserStep.ldS6 > 7) liquidDispenserStep.ldS6 = 20;
-      else if (liquidDispenserStep.ldS6 < -7) liquidDispenserStep.ldS6 = -20;
-      else liquidDispenserStep.ldS6 = 0;
+      liquidDispenserStep.v61 = liquidDispenserStep.v61 === true ? 1 : 0;
+      liquidDispenserStep.v62 = liquidDispenserStep.v62 === true ? 1 : 0;
+      liquidDispenserStep.v63 = liquidDispenserStep.v63 === true ? 1 : 0;
+      liquidDispenserStep.v64 = liquidDispenserStep.v64 === true ? 1 : 0;
 
-      if (liquidDispenserStep.ldS7 > 7) liquidDispenserStep.ldS7 = 55;
-      else if (liquidDispenserStep.ldS7 < -7) liquidDispenserStep.ldS7 = -55;
-      else liquidDispenserStep.ldS7 = 0;
-
-      if (liquidDispenserStep.ldS8 > 7) liquidDispenserStep.ldS8 = 55;
-      else if (liquidDispenserStep.ldS8 < -7) liquidDispenserStep.ldS8 = -55;
-      else liquidDispenserStep.ldS8 = 0;
-
-      if (liquidDispenserStep.ldS9 > 7) liquidDispenserStep.ldS9 = 20;
-      else if (liquidDispenserStep.ldS9 < -7) liquidDispenserStep.ldS9 = -20;
-      else liquidDispenserStep.ldS9 = 0;
-
-      if (liquidDispenserStep.ldS10 > 7) liquidDispenserStep.ldS10 = 20;
-      else if (liquidDispenserStep.ldS10 < -7) liquidDispenserStep.ldS10 = -20;
-      else liquidDispenserStep.ldS10 = 0;
-
-      if (liquidDispenserStep.ldS11 > 7) liquidDispenserStep.ldS11 = 20;
-      else if (liquidDispenserStep.ldS11 < -7) liquidDispenserStep.ldS11 = -20;
-      else liquidDispenserStep.ldS11 = 0;
-
-      if (liquidDispenserStep.ldS12 > 7) liquidDispenserStep.ldS12 = 20;
-      else if (liquidDispenserStep.ldS12 < -7) liquidDispenserStep.ldS12 = -20;
-      else liquidDispenserStep.ldS12 = 0;
+      liquidDispenserStep.v71 = liquidDispenserStep.v71 === true ? 1 : 0;
+      liquidDispenserStep.v72 = liquidDispenserStep.v72 === true ? 1 : 0;
+      liquidDispenserStep.v73 = liquidDispenserStep.v73 === true ? 1 : 0;
+      liquidDispenserStep.v74 = liquidDispenserStep.v74 === true ? 1 : 0;
 
 
       liquidDispenserStep.sP1P = liquidDispenserStep.sP1P.toString();
@@ -1760,10 +1758,21 @@ export default {
       };
 
       this.updateModule(data, 'methods/deleteStep');
+      this.clearAllArrays();
 
       setTimeout(() => this.loadModulesData(), 1000);
     },
 
+
+    clearAllArrays(){
+
+      this.liquidDispenserModule.data=[];
+      this.tlcMigrationModule.data=[];
+      this.dropDispenserModule.data=[];
+      this.phMeterModule.data=[];
+      this.waitingConditionModule.data=[];
+      this.commentModule.data=[];
+    },
     /*------------------------------------------------------------------------
      * Function to fetch current method data
      * ------------------------------------------------------------------------*/
@@ -1888,6 +1897,7 @@ export default {
               name.toLowerCase().includes('delete')
                   ? this.snackbar.message = "Step deleted successfully"
                   : this.snackbar.message = "Step updated successfully";
+              this.loadModulesData();
             } else {
               this.snackbar.message = response.data.message;
               this.snackbar.color = 'error';
