@@ -271,10 +271,16 @@
                         disable-pagination
                         v-simple-table-sticky
                     >
+
                       <template v-slot:body="{ items, headers }">
+
                         <tbody v-if="items.length > 0">
+
+
                         <tr v-for="(item,idx) in items" :key="idx">
                           <td v-for="(header,key) in headers" :key="key">
+
+
                             <v-edit-dialog large
                                            :return-value.sync="item[header.value]"
                                            @save="updateLine(item[header.value], key, liquidDispenserModule.name, idx)"
@@ -282,7 +288,19 @@
                                            @open="open(item[header.value], key, liquidDispenserModule.name, idx)"
                                            @close="close"
 
-                            > {{ item[header.value] }}
+                            >
+                              <div v-if="header.value.includes('v')">
+                                <span v-if="item[header.value]==='Close'" style="color: red">
+                                  {{ item[header.value] }}
+                                </span>
+                                <span v-if="item[header.value]==='Open'" style="color: green">
+                                  {{ item[header.value] }}
+                                </span>
+
+                              </div>
+                              <div v-else>
+                                {{ item[header.value] }}
+                              </div>
                               <template v-slot:input>
                                 <table
                                     v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
@@ -315,8 +333,7 @@
 
                                   </tr>
                                 </table>
-                                <table
-                                    v-else-if="header.value ==='pumP1S'">
+                                <table v-else-if="header.value ==='pumP1S'">
 
                                   <tr>
                                     <td>
@@ -329,7 +346,7 @@
 
                                   </tr>
                                 </table>
-                                <table v-else-if="header.value.includes('displayedLds')">
+                                <table v-else-if="header.value.includes('v')">
                                   <tr>
                                     <td>
                                       <v-select :items="liquidDispenserModule.items2"
@@ -337,6 +354,7 @@
                                     </td>
                                   </tr>
                                 </table>
+
                                 <v-text-field v-else
                                               v-model="item[header.value]"
                                               label="Edit"
@@ -348,6 +366,7 @@
                         </tr>
                         </tbody>
                       </template>
+
                     </v-data-table>
                   </v-card-text>
                 </v-card>
@@ -714,7 +733,7 @@ export default {
     liquidDispenserModule: {
       name: '',
       items: ['Volume', 'QC sample drop', 'Fill LAL cartridge'],
-      items2: ['Left', 'Right', '0'],
+      items2: ['Open', 'Close'],
       columns: [
         {text: "v11", value: "v11Info", width: 82, sortable: false, align: 'center'},
         {text: "v12", value: "v12Info", width: 82, sortable: false, align: 'center'},
@@ -1764,14 +1783,14 @@ export default {
     },
 
 
-    clearAllArrays(){
+    clearAllArrays() {
 
-      this.liquidDispenserModule.data=[];
-      this.tlcMigrationModule.data=[];
-      this.dropDispenserModule.data=[];
-      this.phMeterModule.data=[];
-      this.waitingConditionModule.data=[];
-      this.commentModule.data=[];
+      this.liquidDispenserModule.data = [];
+      this.tlcMigrationModule.data = [];
+      this.dropDispenserModule.data = [];
+      this.phMeterModule.data = [];
+      this.waitingConditionModule.data = [];
+      this.commentModule.data = [];
     },
     /*------------------------------------------------------------------------
      * Function to fetch current method data
