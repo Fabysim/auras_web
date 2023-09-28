@@ -29,7 +29,7 @@
           <v-btn color="primary"
                  width="150"
                  class="ma-2 white--text"
-                 @click="redirectTo('ConfigAuras')"
+                 @click="redirectTo('ConfigAurasV2')"
           >
             <v-icon small color="blue-grey-darken-2">
               mdi-cog-outline
@@ -384,7 +384,7 @@
 import axios from "axios";
 import VueScrollSnap from "vue-scroll-snap";
 import CountDown from "@/components/CountDown";
-import PlatFormCard from "@/components/Auras/V1/PlatformCard_V1";
+import PlatFormCard from "@/components/Auras/V2/PlatformCard_V2";
 import VueHorizontal from "vue-horizontal";
 import Vue from "vue";
 
@@ -421,18 +421,34 @@ export default {
         tlcMigration: '',
         phMeter: '',
         dropDispenser: '',
-        lds1: '',
-        lds2: '',
-        lds3: '',
-        lds4: '',
-        lds5: '',
-        lds6: '',
-        lds7: '',
-        lds8: '',
-        lds9: '',
-        lds10: '',
-        lds11: '',
-        lds12: '',
+        v11: '',
+        v12: '',
+        v13: '',
+        v14: '',
+        v21: '',
+        v22: '',
+        v23: '',
+        v24: '',
+        v31: '',
+        v32: '',
+        v33: '',
+        v34: '',
+        v41: '',
+        v42: '',
+        v43: '',
+        v44: '',
+        v51: '',
+        v52: '',
+        v53: '',
+        v54: '',
+        v61: '',
+        v62: '',
+        v63: '',
+        v64: '',
+        v71: '',
+        v72: '',
+        v73: '',
+        v74: '',
         sp1p: '',
         sp2p: '',
         sp3p: '',
@@ -495,18 +511,34 @@ export default {
     liquidDispenserModule: {
       name: '',
       columns: [
-        {text: "LDS1", value: "displayedLds1", width: 82, sortable: false, align: 'center'},
-        {text: "LDS2", value: "displayedLds2", width: 82, sortable: false, align: 'center'},
-        {text: "LDS3", value: "displayedLds3", width: 82, sortable: false, align: 'center'},
-        {text: "LDS4", value: "displayedLds4", width: 82, sortable: false, align: 'center'},
-        {text: "LDS5", value: "displayedLds5", width: 82, sortable: false, align: 'center'},
-        {text: "LDS6", value: "displayedLds6", width: 82, sortable: false, align: 'center'},
-        {text: "LDS7", value: "displayedLds7", width: 82, sortable: false, align: 'center'},
-        {text: "LDS8", value: "displayedLds8", width: 82, sortable: false, align: 'center'},
-        {text: "LDS9", value: "displayedLds9", width: 82, sortable: false, align: 'center'},
-        {text: "LDS10", value: "displayedLds10", width: 82, sortable: false, align: 'center'},
-        {text: "LDS11", value: "displayedLds11", width: 82, sortable: false, align: 'center'},
-        {text: "LDS12", value: "displayedLds12", width: 82, sortable: false, align: 'center'},
+        {text: "v11", value: "v11Info", width: 82, sortable: false, align: 'center'},
+        {text: "v12", value: "v12Info", width: 82, sortable: false, align: 'center'},
+        {text: "v13", value: "v13Info", width: 82, sortable: false, align: 'center'},
+        {text: "v14", value: "v14Info", width: 82, sortable: false, align: 'center'},
+        {text: "v21", value: "v21Info", width: 82, sortable: false, align: 'center'},
+        {text: "v22", value: "v22Info", width: 82, sortable: false, align: 'center'},
+        {text: "v23", value: "v23Info", width: 82, sortable: false, align: 'center'},
+        {text: "v24", value: "v24Info", width: 82, sortable: false, align: 'center'},
+        {text: "v31", value: "v31Info", width: 82, sortable: false, align: 'center'},
+        {text: "v32", value: "v32Info", width: 82, sortable: false, align: 'center'},
+        {text: "v33", value: "v33Info", width: 82, sortable: false, align: 'center'},
+        {text: "v34", value: "v34Info", width: 82, sortable: false, align: 'center'},
+        {text: "v41", value: "v41Info", width: 82, sortable: false, align: 'center'},
+        {text: "v42", value: "v42Info", width: 82, sortable: false, align: 'center'},
+        {text: "v43", value: "v43Info", width: 82, sortable: false, align: 'center'},
+        {text: "v44", value: "v44Info", width: 82, sortable: false, align: 'center'},
+        {text: "v51", value: "v51Info", width: 82, sortable: false, align: 'center'},
+        {text: "v52", value: "v52Info", width: 82, sortable: false, align: 'center'},
+        {text: "v53", value: "v53Info", width: 82, sortable: false, align: 'center'},
+        {text: "v54", value: "v54Info", width: 82, sortable: false, align: 'center'},
+        {text: "v61", value: "v61Info", width: 82, sortable: false, align: 'center'},
+        {text: "v62", value: "v62Info", width: 82, sortable: false, align: 'center'},
+        {text: "v63", value: "v63Info", width: 82, sortable: false, align: 'center'},
+        {text: "v64", value: "v64Info", width: 82, sortable: false, align: 'center'},
+        {text: "v71", value: "v71Info", width: 82, sortable: false, align: 'center'},
+        {text: "v72", value: "v72Info", width: 82, sortable: false, align: 'center'},
+        {text: "v73", value: "v73Info", width: 82, sortable: false, align: 'center'},
+        {text: "v74", value: "v74Info", width: 82, sortable: false, align: 'center'},
         {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Speed (µL/s)", value: "sP3S", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
@@ -557,7 +589,7 @@ export default {
   }),
 
   mounted() {
-    this.fetchNetworkByName('Auras');
+    this.fetchNetworkByName(this.$aurasVersionV2 );
     this.fetchMethod();
     this.initialization();
     this.fetchModulesList();
@@ -580,7 +612,6 @@ export default {
     '$route': {
       handler: function() {
         this.prev =  this.prevRoutePath;
-        console.log('here', this.prev)
       },
       deep: true,
       immediate: true
@@ -780,54 +811,109 @@ export default {
         DropDispenser: {
           MoveTo: this.dropDispenserModule.data[this.currentStep.number].value
         },
-        LDS1: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS1
+
+        V11:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v11
         },
-        LDS2: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS2
+        V12:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v12
         },
-        LDS3: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS3
+        V13:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v13
         },
-        LDS4: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS4
+        V14:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v14
         },
-        LDS5: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS5
+
+        V21:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v21
         },
-        LDS6: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS6
+        V22:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v22
         },
-        LDS7: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS7
+        V23:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v23
         },
-        LDS8: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS8
+        V24:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v24
         },
-        LDS9: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS9
+
+        V31:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v31
         },
-        LDS10: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS10
+        V32:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v32
         },
-        LDS11: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS11
+        V33:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v33
         },
-        LDS12: {
-          MoveTo: this.liquidDispenserModule.data[this.currentStep.number].ldS12
+        V34:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v34
         },
+
+        V41:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v41
+        },
+        V42:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v42
+        },
+        V43:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v43
+        },
+        V44:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v44
+        },
+
+        V51:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v51
+        },
+        V52:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v52
+        },
+        V53:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v53
+        },
+        V54:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v54
+        },
+
+        V61:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v61
+        },
+        V62:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v62
+        },
+        V63:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v63
+        },
+        V64:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v64
+        },
+
+        V71:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v71
+        },
+        V72:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v72
+        },
+        V73:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v73
+        },
+        V74:{
+          Switch:this.liquidDispenserModule.data[this.currentStep.number].v74
+        },
+
         SP1: SP1,
         SP2: SP2,
         SP3: SP3,
         PUMP1: {
-          Move: this.liquidDispenserModule.data[this.currentStep.number].pumP1P * 360,
+          Move: (this.liquidDispenserModule.data[this.currentStep.number].pumP1P * 360).toFixed(2),
           SetMaxSpeed: this.liquidDispenserModule.data[this.currentStep.number].pumP1S * 6
         },
         Master: Master
 
       };
     },
-
 
     /*--------------------------------------------------------------------------
     * Connection to websocket
@@ -864,7 +950,7 @@ export default {
     * --------------------------------------------------------------------------*/
     fetchNetworkByName(name) {
       axios
-          .get(this.$aurasApi + "api/networks/byName?name=" + name)
+          .get(this.$aurasApiV2 + "api/networks/byName?name=" + name)
           .then(
               (response) => {
                 if (response.status === 200) {
@@ -885,7 +971,7 @@ export default {
     redirectTo(route) {
 
       if (route.includes('ConfigAuras'))
-        this.$router.push({name: route, params: {idMethod: this.currentMethod.id}});
+        this.$router.push({name: route, params: {idMethod: this.$route.params.idMethod}});
       else
         this.$router.push({name: route});
     },
@@ -896,7 +982,7 @@ export default {
     fetchMethod() {
 
       axios
-          .get(this.$aurasApi + 'api/Methods/' + this.$route.params.idMethod)
+          .get(this.$aurasApiV2 + 'api/Methods/' + this.$route.params.idMethod)
           .then((response) => {
             if (response.status === 200) {
               this.currentMethod = response.data;
@@ -936,7 +1022,7 @@ export default {
       let uri = this.getModuleUri(module.name);
 
       await axios
-          .get(this.$aurasApi + 'api/' + uri + this.$route.params.idMethod)
+          .get(this.$aurasApiV2 + 'api/' + uri + this.$route.params.idMethod)
           .then(async (response) => {
             if (response.status === 200) {
               module.data = await response.data;
@@ -1008,53 +1094,40 @@ export default {
         !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        if (line.ldS1 === 0) line.displayedLds1 = '0';
-        else if (line.ldS1 > 0) line.displayedLds1 = 'Right';
-        else line.displayedLds1 = 'Left';
+        line.v11Info = line.v11 === 0 ? 'Close' : 'Open';
+        line.v12Info = line.v12 === 0 ? 'Close' : 'Open';
+        line.v13Info = line.v13 === 0 ? 'Close' : 'Open';
+        line.v14Info = line.v14 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS2 === 0) line.displayedLds2 = '0';
-        else if (line.ldS2 > 0) line.displayedLds2 = 'Right';
-        else line.displayedLds2 = 'Left';
+        line.v21Info = line.v21 === 0 ? 'Close' : 'Open';
+        line.v22Info = line.v22 === 0 ? 'Close' : 'Open';
+        line.v23Info = line.v23 === 0 ? 'Close' : 'Open';
+        line.v24Info = line.v24 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS3 === 0) line.displayedLds3 = '0';
-        else if (line.ldS3 > 0) line.displayedLds3 = 'Right';
-        else line.displayedLds3 = 'Left';
+        line.v31Info = line.v31 === 0 ? 'Close' : 'Open';
+        line.v32Info = line.v32 === 0 ? 'Close' : 'Open';
+        line.v33Info = line.v33 === 0 ? 'Close' : 'Open';
+        line.v34Info = line.v34 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS4 === 0) line.displayedLds4 = '0';
-        else if (line.ldS4 > 0) line.displayedLds4 = 'Right';
-        else line.displayedLds4 = 'Left';
+        line.v41Info = line.v41 === 0 ? 'Close' : 'Open';
+        line.v42Info = line.v42 === 0 ? 'Close' : 'Open';
+        line.v43Info = line.v43 === 0 ? 'Close' : 'Open';
+        line.v44Info = line.v44 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS5 === 0) line.displayedLds5 = '0';
-        else if (line.ldS5 > 0) line.displayedLds5 = 'Right';
-        else line.displayedLds5 = 'Left';
+        line.v51Info = line.v51 === 0 ? 'Close' : 'Open';
+        line.v52Info = line.v52 === 0 ? 'Close' : 'Open';
+        line.v53Info = line.v53 === 0 ? 'Close' : 'Open';
+        line.v54Info = line.v54 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS6 === 0) line.displayedLds6 = '0';
-        else if (line.ldS6 > 0) line.displayedLds6 = 'Right';
-        else line.displayedLds6 = 'Left';
+        line.v61Info = line.v61 === 0 ? 'Close' : 'Open';
+        line.v62Info = line.v62 === 0 ? 'Close' : 'Open';
+        line.v63Info = line.v63 === 0 ? 'Close' : 'Open';
+        line.v64Info = line.v64 === 0 ? 'Close' : 'Open';
 
-        if (line.ldS7 === 0) line.displayedLds7 = '0';
-        else if (line.ldS7 > 0) line.displayedLds7 = 'Right';
-        else line.displayedLds7 = 'Left';
-
-        if (line.ldS8 === 0) line.displayedLds8 = '0';
-        else if (line.ldS8 > 0) line.displayedLds8 = 'Right';
-        else line.displayedLds8 = 'Left';
-
-        if (line.ldS9 === 0) line.displayedLds9 = '0';
-        else if (line.ldS9 > 0) line.displayedLds9 = 'Right';
-        else line.displayedLds9 = 'Left';
-
-        if (line.ldS10 === 0) line.displayedLds10 = '0';
-        else if (line.ldS10 > 0) line.displayedLds10 = 'Right';
-        else line.displayedLds10 = 'Left';
-
-        if (line.ldS11 === 0) line.displayedLds11 = '0';
-        else if (line.ldS11 > 0) line.displayedLds11 = 'Right';
-        else line.displayedLds11 = 'Left';
-
-        if (line.ldS12 === 0) line.displayedLds12 = '0';
-        else if (line.ldS12 > 0) line.displayedLds12 = 'Right';
-        else line.displayedLds12 = 'Left';
+        line.v71Info = line.v71 === 0 ? 'Close' : 'Open';
+        line.v72Info = line.v72 === 0 ? 'Close' : 'Open';
+        line.v73Info = line.v73 === 0 ? 'Close' : 'Open';
+        line.v74Info = line.v74 === 0 ? 'Close' : 'Open';
 
       });
 
@@ -1094,7 +1167,7 @@ export default {
     * ------------------------------------------------------------------------*/
     fetchModulesList() {
       axios
-          .get(this.$aurasApi + 'api/Modules')
+          .get(this.$aurasApiV2 + 'api/Modules')
           .then((response) => {
             if (response.status === 200) {
               this.allModulesList = response.data;

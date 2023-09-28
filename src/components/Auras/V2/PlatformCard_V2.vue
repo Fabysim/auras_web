@@ -307,7 +307,6 @@
                     </template>
 
 
-
                     <template v-slot:[`item.sP1P`]="{item}">
                       <table>
                         <tr>
@@ -1070,16 +1069,15 @@
 
               <!--        PS1 control-->
 
-              <select id="select-sp1" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP1">
-                <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{
-                    item
-                  }}
+              <select id="select-sp1" v-show="mode.toLowerCase()==='config'" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP1">
+                <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">
+                  {{ item }}
                 </option>
               </select>
 
               <textarea readonly id="ps1SpeedLabel"/>
 
-              <div id="syringe1-buttons">
+              <div id="syringe1-buttons" v-show="mode.toLowerCase()==='config'">
                 <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        small
                        outlined
@@ -1132,13 +1130,13 @@
             <!--        PS2 control-->
 
             <div id="syringe2-commands">
-              <select id="select-sp2" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP2">
+              <select id="select-sp2" v-show="mode.toLowerCase()==='config'" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP2">
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
               </select>
 
               <textarea readonly id="ps2SpeedLabel"></textarea>
 
-              <div id="syringe2-buttons">
+              <div id="syringe2-buttons" v-show="mode.toLowerCase()==='config'">
                 <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        small
                        outlined
@@ -1189,13 +1187,13 @@
 
             <div id="syringe3-commands">
 
-              <select id="select-sp3" v-model="liquidDispenserModuleConfig.selectedSP3">
+              <select id="select-sp3" v-show="mode.toLowerCase()==='config'" v-model="liquidDispenserModuleConfig.selectedSP3">
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
               </select>
 
               <textarea readonly id="ps3SpeedLabel"></textarea>
 
-              <div id="syringe3-buttons">
+              <div id="syringe3-buttons" v-show="mode.toLowerCase()==='config'">
 
                 <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        small
@@ -1266,7 +1264,8 @@
                   mdi-chevron-right
                 </v-icon>
               </v-btn>
-              <input type="text"
+              <input v-show="mode.toLowerCase()==='config'"
+                     type="text"
                      class="input-text"
                      id="pump1Input"
                      @change="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'pump1Input')"/>
@@ -2345,7 +2344,7 @@ export default {
         this.liquidDispenserModuleConfig.sP2PAbsolutePosition = value;
 
         let element1 = document.getElementById('sp-plug2');
-        let value1 = 348 - value / 5;
+        let value1 = 352 - value / 5;
         element1.style.top = value1 + 'px';
 
         // Init PS Absolute position
@@ -3121,21 +3120,21 @@ select {
       #sp-plug1 {
         position: absolute;
         left: 512px;
-        top: 165px;
+        top: 170px;
         z-index: 1;
       }
 
       #sp-plug2 {
         position: absolute;
         left: 815px;
-        top: 165px;
+        top: 170px;
         z-index: 1;
       }
 
       #sp-plug3 {
         position: absolute;
         left: 1219px;
-        top: 165px;
+        top: 170px;
         z-index: 1;
       }
     }

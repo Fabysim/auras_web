@@ -183,7 +183,7 @@
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="redirectTo('RunAuras', item.id)">
+                   @click="redirectTo('RunAurasV2', item.id)">
               <v-icon small>
                 mdi-play-circle-outline
               </v-icon>

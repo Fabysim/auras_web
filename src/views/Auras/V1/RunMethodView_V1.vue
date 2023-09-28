@@ -557,7 +557,7 @@ export default {
   }),
 
   mounted() {
-    this.fetchNetworkByName('Auras');
+    this.fetchNetworkByName(this.$aurasVersion);
     this.fetchMethod();
     this.initialization();
     this.fetchModulesList();
@@ -580,7 +580,6 @@ export default {
     '$route': {
       handler: function() {
         this.prev =  this.prevRoutePath;
-        console.log('here', this.prev)
       },
       deep: true,
       immediate: true
@@ -885,7 +884,7 @@ export default {
     redirectTo(route) {
 
       if (route.includes('ConfigAuras'))
-        this.$router.push({name: route, params: {idMethod: this.currentMethod.id}});
+        this.$router.push({name: route, params: {idMethod: this.$route.params.idMethod}});
       else
         this.$router.push({name: route});
     },
