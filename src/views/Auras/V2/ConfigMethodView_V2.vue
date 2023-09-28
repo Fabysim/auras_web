@@ -307,7 +307,7 @@
                                   <tr>
                                     <td>
                                       <v-select :items="liquidDispenserModule.items"
-                                                v-model="liquidDispenserModule.update.selectedSPOption"/>
+                                                v-model="liquidDispenserModule.update.selectedSyringePositionOption"/>
                                     </td>
                                   </tr>
                                   <tr>
@@ -350,7 +350,7 @@
                                   <tr>
                                     <td>
                                       <v-select :items="liquidDispenserModule.items2"
-                                                v-model="liquidDispenserModule.update.selectedLDSOption"/>
+                                                v-model="liquidDispenserModule.update.selectedPinchValveOption"/>
                                     </td>
                                   </tr>
                                 </table>
@@ -766,16 +766,16 @@ export default {
         {text: "SP1 Quantity", value: "displayedSP1Info", width: 150, sortable: false, align: 'center'},
         {text: "SP1 Speed (µL/s)", value: "sP1S", width: 150, sortable: false, align: 'center'},
         {text: "SP2 Quantity", value: "displayedSP2Info", width: 150, sortable: false, align: 'center'},
+        {text: "SP2 Speed (µL/s)", value: "sP2S", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Quantity", value: "displayedSP3Info", width: 150, sortable: false, align: 'center'},
         {text: "SP3 Speed (µL/s)", value: "sP3S", width: 150, sortable: false, align: 'center'},
-        {text: "SP2 Speed (µL/s)", value: "sP2S", width: 150, sortable: false, align: 'center'},
         {text: "Rotations pump", value: "pumP1P", width: 150, sortable: false, align: 'center'},
         {text: "Speed pump (rpm)", value: "pumP1S", width: 150, sortable: false, align: 'center'},
       ],
       data: [],
       update: {
-        selectedSPOption: '',
-        selectedLDSOption: '',
+        selectedSyringePositionOption: '',
+        selectedPinchValveOption: '',
         selectedVolumeValue: '',
         selectedSpeedValue: '',
         volumeSelected: false
@@ -878,7 +878,7 @@ export default {
     * ------------------------------------------------------------------------*/
     'liquidDispenserModule.update.selectedSPOption'() {
 
-      this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume') ?
+      this.liquidDispenserModule.update.selectedSyringePositionOption.toLowerCase().includes('volume') ?
           this.liquidDispenserModule.update.volumeSelected = true :
           this.liquidDispenserModule.update.volumeSelected = false;
     }
@@ -990,7 +990,7 @@ export default {
         line.v13Info = line.v13 === 0 ? 'Close' : 'Open';
         line.v14Info = line.v14 === 0 ? 'Close' : 'Open';
 
-        line.v21Info = line.v11 === 0 ? 'Close' : 'Open';
+        line.v21Info = line.v21 === 0 ? 'Close' : 'Open';
         line.v22Info = line.v22 === 0 ? 'Close' : 'Open';
         line.v23Info = line.v23 === 0 ? 'Close' : 'Open';
         line.v24Info = line.v24 === 0 ? 'Close' : 'Open';
@@ -1075,139 +1075,143 @@ export default {
     * ------------------------------------------------------------------------*/
     extractLiquidDispenserDataFromDialog(col, line) {
 
-      if (col === 0)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS1 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS1 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS1 = 0;
+      switch (col) {
 
-      if (col === 1)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS2 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS2 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS2 = 0;
+        case 0:
+          this.liquidDispenserModule.data[line].v11 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 1:
+          this.liquidDispenserModule.data[line].v12 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 2:
+          this.liquidDispenserModule.data[line].v13 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 3:
+          this.liquidDispenserModule.data[line].v14 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
-      if (col === 2)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS3 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS3 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS3 = 0;
+        case 4:
+          this.liquidDispenserModule.data[line].v21 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 5:
+          this.liquidDispenserModule.data[line].v22 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 6:
+          this.liquidDispenserModule.data[line].v23 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 7:
+          this.liquidDispenserModule.data[line].v24 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
-      if (col === 3)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS4 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS4 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS4 = 0;
+        case 8:
+          this.liquidDispenserModule.data[line].v31 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 9:
+          this.liquidDispenserModule.data[line].v32 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 10:
+          this.liquidDispenserModule.data[line].v33 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 11:
+          this.liquidDispenserModule.data[line].v34 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
-      if (col === 4)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS5 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS5 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS5 = 0;
+        case 12:
+          this.liquidDispenserModule.data[line].v41 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 13:
+          this.liquidDispenserModule.data[line].v42 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 14:
+          this.liquidDispenserModule.data[line].v43 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 15:
+          this.liquidDispenserModule.data[line].v44 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
-      if (col === 5)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS6 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS6 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS6 = 0;
+        case 16:
+          this.liquidDispenserModule.data[line].v51 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 17:
+          this.liquidDispenserModule.data[line].v52 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 18:
+          this.liquidDispenserModule.data[line].v53 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 19:
+          this.liquidDispenserModule.data[line].v54 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
-      if (col === 6)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS7 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS7 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS7 = 0;
+        case 20:
+          this.liquidDispenserModule.data[line].v61 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 21:
+          this.liquidDispenserModule.data[line].v62 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 22:
+          this.liquidDispenserModule.data[line].v63 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 23:
+          this.liquidDispenserModule.data[line].v64 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
+        case 24:
+          this.liquidDispenserModule.data[line].v71 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 25:
+          this.liquidDispenserModule.data[line].v72 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 26:
+          this.liquidDispenserModule.data[line].v73 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
+        case 27:
+          this.liquidDispenserModule.data[line].v74 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('open') ? 1 : 0;
+          break;
 
-      if (col === 7)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS8 = 55;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS8 = -55;
-        else
-          this.liquidDispenserModule.data[line].ldS8 = 0;
+        case 28:
+          if (this.liquidDispenserModule.update.selectedSyringePositionOption.toLowerCase().includes('volume'))
+            this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedVolumeValue;
+          else
+            this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSyringePositionOption;
+          break;
 
+        case 29:
+          if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+            this.liquidDispenserModule.data[line].sP1S = this.liquidDispenserModule.update.selectedSpeedValue;
+          break;
 
-      if (col === 8)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS9 = 55;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS9 = -55;
-        else
-          this.liquidDispenserModule.data[line].ldS9 = 0;
+        case 30:
+          if (this.liquidDispenserModule.update.selectedSyringePositionOption.toLowerCase().includes('volume'))
+            this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedVolumeValue;
+          else
+            this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSyringePositionOption;
+          break;
 
+        case 31:
+          if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+            this.liquidDispenserModule.data[line].sP2S = this.liquidDispenserModule.update.selectedSpeedValue;
 
-      if (col === 9)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS10 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS10 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS10 = 0;
+          break;
 
+        case 32:
+          if (this.liquidDispenserModule.update.selectedSyringePositionOption.toLowerCase().includes('volume'))
+            this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedVolumeValue;
+           else
+            this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSyringePositionOption;
+          break;
 
-      if (col === 10)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS11 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS11 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS11 = 0;
+        case 33:
+          if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
+            this.liquidDispenserModule.data[line].sP3S = this.liquidDispenserModule.update.selectedSpeedValue;
 
-      if (col === 11)
-        if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('right'))
-          this.liquidDispenserModule.data[line].ldS12 = 20;
-        else if (this.liquidDispenserModule.update.selectedLDSOption.toLowerCase().includes('left'))
-          this.liquidDispenserModule.data[line].ldS12 = -20;
-        else
-          this.liquidDispenserModule.data[line].ldS12 = 0;
+          break;
 
-      if (col === 12)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedVolumeValue;
-        } else
-          this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSPOption;
+        case 35:
+          if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 500)
+            this.liquidDispenserModule.data[line].pumP1S = this.liquidDispenserModule.update.selectedSpeedValue;
+          break;
 
-      if (col === 13)
-        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
-          this.liquidDispenserModule.data[line].sP3S = this.liquidDispenserModule.update.selectedSpeedValue;
-
-      if (col === 14)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedVolumeValue;
-        } else
-          this.liquidDispenserModule.data[line].sP1P = this.liquidDispenserModule.update.selectedSPOption;
-
-      if (col === 15)
-        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
-          this.liquidDispenserModule.data[line].sP1S = this.liquidDispenserModule.update.selectedSpeedValue;
-
-      if (col === 16)
-        if (this.liquidDispenserModule.update.selectedSPOption.toLowerCase().includes('volume')) {
-          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedVolumeValue;
-        } else
-          this.liquidDispenserModule.data[line].sP2P = this.liquidDispenserModule.update.selectedSPOption;
-
-      if (col === 17)
-        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 200)
-          this.liquidDispenserModule.data[line].sP2S = this.liquidDispenserModule.update.selectedSpeedValue;
-
-      if (col === 19)
-        if (this.liquidDispenserModule.update.selectedSpeedValue >= 1 && this.liquidDispenserModule.update.selectedSpeedValue <= 500)
-          this.liquidDispenserModule.data[line].pumP1S = this.liquidDispenserModule.update.selectedSpeedValue;
+      }
 
     },
 
@@ -1310,59 +1314,98 @@ export default {
       let speed;
 
       if (col === 0)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds1;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v11Info;
       if (col === 1)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds2;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v12Info;
       if (col === 2)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds3;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v13Info;
       if (col === 3)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds4;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v14Info;
+
       if (col === 4)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds5;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v21Info;
       if (col === 5)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds6;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v22Info;
       if (col === 6)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds7;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v23Info;
       if (col === 7)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds8;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v24Info;
+
       if (col === 8)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds9;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v31Info;
       if (col === 9)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds10;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v32Info;
       if (col === 10)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds11;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v33Info;
       if (col === 11)
-        this.liquidDispenserModule.update.selectedLDSOption = this.liquidDispenserModule.data[line].displayedLds12;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v34Info;
+
       if (col === 12)
-        volume = this.liquidDispenserModule.data[line].sP3P;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v41Info;
       if (col === 13)
-        speed = this.liquidDispenserModule.data[line].sP3S;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v42Info;
       if (col === 14)
-        volume = this.liquidDispenserModule.data[line].sP1P;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v43Info;
       if (col === 15)
-        speed = this.liquidDispenserModule.data[line].sP1S;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v44Info;
+
       if (col === 16)
-        volume = this.liquidDispenserModule.data[line].sP2P;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v51Info;
       if (col === 17)
-        speed = this.liquidDispenserModule.data[line].sP2S;
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v52Info;
+      if (col === 18)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v53Info;
       if (col === 19)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v54Info;
+
+      if (col === 20)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v61Info;
+      if (col === 21)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v62Info;
+      if (col === 22)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v63Info;
+      if (col === 23)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v64Info;
+
+      if (col === 24)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v71Info;
+      if (col === 25)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v72Info;
+      if (col === 26)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v73Info;
+      if (col === 27)
+        this.liquidDispenserModule.update.selectedPinchValveOption = this.liquidDispenserModule.data[line].v74Info;
+
+      if (col === 28)
+        volume = this.liquidDispenserModule.data[line].sP1P;
+      if (col === 29)
+        speed = this.liquidDispenserModule.data[line].sP1S;
+      if (col === 30)
+        volume = this.liquidDispenserModule.data[line].sP2P;
+      if (col === 31)
+        speed = this.liquidDispenserModule.data[line].sP2S;
+      if (col === 32)
+        volume = this.liquidDispenserModule.data[line].sP3P;
+      if (col === 33)
+        speed = this.liquidDispenserModule.data[line].sP3S;
+      if (col === 35)
         speed = this.liquidDispenserModule.data[line].pumP1S;
 
 
-      if (col === 13 || col === 15 || col === 17 || col === 19) {
+      if (col === 29 || col === 31 || col === 33 || col === 35) {
 
         this.liquidDispenserModule.update.selectedSpeedValue = speed;
 
-      } else if (col === 12 || col === 14 || col === 16) {
+      } else if (col === 28 || col === 30 || col === 32) {
 
         if (value.toLowerCase().includes("volume")) {
 
-          this.liquidDispenserModule.update.selectedSPOption = "Volume";
+          this.liquidDispenserModule.update.selectedSyringePositionOption = "Volume";
           this.liquidDispenserModule.update.volumeSelected = true;
           this.liquidDispenserModule.update.selectedVolumeValue = volume;
 
         } else {
-          this.liquidDispenserModule.update.selectedSPOption = value;
+          this.liquidDispenserModule.update.selectedSyringePositionOption = value;
         }
       }
     },
@@ -1678,7 +1721,6 @@ export default {
       liquidDispenserStep.sP3S = parseInt(liquidDispenserStep.sP3S);
       liquidDispenserStep.pumP1P = parseFloat(liquidDispenserStep.pumP1P);
 
-      //this.$data.liquidDispenserModule.data.push(liquidDispenserStep);
       this.postStep(liquidDispenserStep, this.liquidDispenserModule.name);
     },
 
