@@ -76,7 +76,7 @@
                       :hide-default-footer="true"
                   >
                     <template v-slot:[`item.v11Info`]="{ item }">
-                      <div v-if="item.v11Info ==='Close'">
+                      <div v-if="item.v11Info ==='Closed'">
                         <span style="color: red"> {{ item.v11Info }}</span>
                       </div>
                       <div v-else>
@@ -84,7 +84,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v12Info`]="{ item }">
-                      <div v-if="item.v12Info ==='Close'">
+                      <div v-if="item.v12Info ==='Closed'">
                         <span style="color: red"> {{ item.v12Info }}</span>
                       </div>
                       <div v-else>
@@ -92,7 +92,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v13Info`]="{ item }">
-                      <div v-if="item.v13Info ==='Close'">
+                      <div v-if="item.v13Info ==='Closed'">
                         <span style="color: red"> {{ item.v13Info }}</span>
                       </div>
                       <div v-else>
@@ -100,7 +100,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v14Info`]="{ item }">
-                      <div v-if="item.v14Info ==='Close'">
+                      <div v-if="item.v14Info ==='Closed'">
                         <span style="color: red"> {{ item.v14Info }}</span>
                       </div>
                       <div v-else>
@@ -109,7 +109,7 @@
                     </template>
 
                     <template v-slot:[`item.v21Info`]="{ item }">
-                      <div v-if="item.v21Info ==='Close'">
+                      <div v-if="item.v21Info ==='Closed'">
                         <span style="color: red"> {{ item.v21Info }}</span>
                       </div>
                       <div v-else>
@@ -117,7 +117,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v22Info`]="{ item }">
-                      <div v-if="item.v22Info ==='Close'">
+                      <div v-if="item.v22Info ==='Closed'">
                         <span style="color: red"> {{ item.v22Info }}</span>
                       </div>
                       <div v-else>
@@ -125,7 +125,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v23Info`]="{ item }">
-                      <div v-if="item.v23Info ==='Close'">
+                      <div v-if="item.v23Info ==='Closed'">
                         <span style="color: red"> {{ item.v23Info }}</span>
                       </div>
                       <div v-else>
@@ -133,7 +133,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v24Info`]="{ item }">
-                      <div v-if="item.v34Info ==='Close'">
+                      <div v-if="item.v34Info ==='Closed'">
                         <span style="color: red"> {{ item.v24Info }}</span>
                       </div>
                       <div v-else>
@@ -142,7 +142,7 @@
                     </template>
 
                     <template v-slot:[`item.v31Info`]="{ item }">
-                      <div v-if="item.v31Info ==='Close'">
+                      <div v-if="item.v31Info ==='Closed'">
                         <span style="color: red"> {{ item.v31Info }}</span>
                       </div>
                       <div v-else>
@@ -150,7 +150,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v32Info`]="{ item }">
-                      <div v-if="item.v32Info ==='Close'">
+                      <div v-if="item.v32Info ==='Closed'">
                         <span style="color: red"> {{ item.v32Info }}</span>
                       </div>
                       <div v-else>
@@ -158,7 +158,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v33Info`]="{ item }">
-                      <div v-if="item.v33Info ==='Close'">
+                      <div v-if="item.v33Info ==='Closed'">
                         <span style="color: red"> {{ item.v33Info }}</span>
                       </div>
                       <div v-else>
@@ -166,7 +166,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v34Info`]="{ item }">
-                      <div v-if="item.v34Info ==='Close'">
+                      <div v-if="item.v34Info ==='Closed'">
                         <span style="color: red"> {{ item.v34Info }}</span>
                       </div>
                       <div v-else>
@@ -175,7 +175,7 @@
                     </template>
 
                     <template v-slot:[`item.v41Info`]="{ item }">
-                      <div v-if="item.v41Info ==='Close'">
+                      <div v-if="item.v41Info ==='Closed'">
                         <span style="color: red"> {{ item.v41Info }}</span>
                       </div>
                       <div v-else>
@@ -183,7 +183,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v42Info`]="{ item }">
-                      <div v-if="item.v42Info ==='Close'">
+                      <div v-if="item.v42Info ==='Closed'">
                         <span style="color: red"> {{ item.v42Info }}</span>
                       </div>
                       <div v-else>
@@ -191,7 +191,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v43Info`]="{ item }">
-                      <div v-if="item.v43Info ==='Close'">
+                      <div v-if="item.v43Info ==='Closed'">
                         <span style="color: red"> {{ item.v43Info }}</span>
                       </div>
                       <div v-else>
@@ -199,7 +199,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v44Info`]="{ item }">
-                      <div v-if="item.v44Info ==='Close'">
+                      <div v-if="item.v44Info ==='Closed'">
                         <span style="color: red"> {{ item.v44Info }}</span>
                       </div>
                       <div v-else>
@@ -208,7 +208,7 @@
                     </template>
 
                     <template v-slot:[`item.v51Info`]="{ item }">
-                      <div v-if="item.v51Info ==='Close'">
+                      <div v-if="item.v51Info ==='Closed'">
                         <span style="color: red"> {{ item.v51Info }}</span>
                       </div>
                       <div v-else>
@@ -216,7 +216,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v52Info`]="{ item }">
-                      <div v-if="item.v52Info ==='Close'">
+                      <div v-if="item.v52Info ==='Closed'">
                         <span style="color: red"> {{ item.v52Info }}</span>
                       </div>
                       <div v-else>
@@ -224,7 +224,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v53Info`]="{ item }">
-                      <div v-if="item.v53Info ==='Close'">
+                      <div v-if="item.v53Info ==='Closed'">
                         <span style="color: red"> {{ item.v53Info }}</span>
                       </div>
                       <div v-else>
@@ -232,7 +232,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v54Info`]="{ item }">
-                      <div v-if="item.v54Info ==='Close'">
+                      <div v-if="item.v54Info ==='Closed'">
                         <span style="color: red"> {{ item.v54Info }}</span>
                       </div>
                       <div v-else>
@@ -241,7 +241,7 @@
                     </template>
 
                     <template v-slot:[`item.v61Info`]="{ item }">
-                      <div v-if="item.v61Info ==='Close'">
+                      <div v-if="item.v61Info ==='Closed'">
                         <span style="color: red"> {{ item.v61Info }}</span>
                       </div>
                       <div v-else>
@@ -249,7 +249,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v62Info`]="{ item }">
-                      <div v-if="item.v62Info ==='Close'">
+                      <div v-if="item.v62Info ==='Closed'">
                         <span style="color: red"> {{ item.v62Info }}</span>
                       </div>
                       <div v-else>
@@ -257,7 +257,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v63Info`]="{ item }">
-                      <div v-if="item.v63Info ==='Close'">
+                      <div v-if="item.v63Info ==='Closed'">
                         <span style="color: red"> {{ item.v63Info }}</span>
                       </div>
                       <div v-else>
@@ -265,7 +265,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v64Info`]="{ item }">
-                      <div v-if="item.v64Info ==='Close'">
+                      <div v-if="item.v64Info ==='Closed'">
                         <span style="color: red"> {{ item.v64Info }}</span>
                       </div>
                       <div v-else>
@@ -274,7 +274,7 @@
                     </template>
 
                     <template v-slot:[`item.v71Info`]="{ item }">
-                      <div v-if="item.v71Info ==='Close'">
+                      <div v-if="item.v71Info ==='Closed'">
                         <span style="color: red"> {{ item.v71Info }}</span>
                       </div>
                       <div v-else>
@@ -282,7 +282,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v72Info`]="{ item }">
-                      <div v-if="item.v72Info ==='Close'">
+                      <div v-if="item.v72Info ==='Closed'">
                         <span style="color: red"> {{ item.v72Info }}</span>
                       </div>
                       <div v-else>
@@ -290,7 +290,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v73Info`]="{ item }">
-                      <div v-if="item.v73Info ==='Close'">
+                      <div v-if="item.v73Info ==='Closed'">
                         <span style="color: red"> {{ item.v73Info }}</span>
                       </div>
                       <div v-else>
@@ -298,7 +298,7 @@
                       </div>
                     </template>
                     <template v-slot:[`item.v74Info`]="{ item }">
-                      <div v-if="item.v74Info ==='Close'">
+                      <div v-if="item.v74Info ==='Closed'">
                         <span style="color: red"> {{ item.v74Info }}</span>
                       </div>
                       <div v-else>
@@ -779,8 +779,8 @@
           <div id="ld-switches">
 
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v11Info"
-                      true-value="Open"
-                      false-value="Close"
+                      true-value="Opened"
+                      false-value="Closed"
                       @click="togglePinchValveState('v11')"
                       readonly
                       light
@@ -1477,61 +1477,61 @@ export default {
           ],
           data: [
             {
-              v11Info: 'Close',
+              v11Info: 'Closed',
               v11: false,
-              v12Info: 'Close',
+              v12Info: 'Closed',
               v12: false,
-              v13Info: 'Close',
+              v13Info: 'Closed',
               v13: false,
-              v14Info: 'Close',
+              v14Info: 'Closed',
               v14: false,
-              v21Info: 'Close',
+              v21Info: 'Closed',
               v21: false,
-              v22Info: 'Close',
+              v22Info: 'Closed',
               v22: false,
-              v23Info: 'Close',
+              v23Info: 'Closed',
               v23: false,
-              v24Info: 'Close',
+              v24Info: 'Closed',
               v24: false,
-              v31Info: 'Close',
+              v31Info: 'Closed',
               v31: false,
-              v32Info: 'Close',
+              v32Info: 'Closed',
               v32: false,
-              v33Info: 'Close',
+              v33Info: 'Closed',
               v33: false,
-              v34Info: 'Close',
+              v34Info: 'Closed',
               v34: false,
-              v41Info: 'Close',
+              v41Info: 'Closed',
               v41: false,
-              v42Info: 'Close',
+              v42Info: 'Closed',
               v42: false,
-              v43Info: 'Close',
+              v43Info: 'Closed',
               v43: false,
-              v44Info: 'Close',
+              v44Info: 'Closed',
               v44: false,
-              v51Info: 'Close',
+              v51Info: 'Closed',
               v51: false,
-              v52Info: 'Close',
+              v52Info: 'Closed',
               v52: false,
-              v53Info: 'Close',
+              v53Info: 'Closed',
               v53: false,
-              v54Info: 'Close',
+              v54Info: 'Closed',
               v54: false,
-              v61Info: 'Close',
+              v61Info: 'Closed',
               v61: false,
-              v62Info: 'Close',
+              v62Info: 'Closed',
               v62: false,
-              v63Info: 'Close',
+              v63Info: 'Closed',
               v63: false,
-              v64Info: 'Close',
+              v64Info: 'Closed',
               v64: false,
-              v71Info: 'Close',
+              v71Info: 'Closed',
               v71: false,
-              v72Info: 'Close',
+              v72Info: 'Closed',
               v72: false,
-              v73Info: 'Close',
+              v73Info: 'Closed',
               v73: false,
-              v74Info: 'Close',
+              v74Info: 'Closed',
               v74: false,
               sP1P: '0',
               sP1S: 1,
@@ -2148,142 +2148,142 @@ export default {
       //Pinch valves
       if (obj.V11 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v11 = parseInt(obj.V11) === 1;
-        this.liquidDispenserModuleConfig.data[0].v11Info = parseInt(obj.V11) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v11Info = parseInt(obj.V11) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V12 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v12 = parseInt(obj.V12) === 1;
-        this.liquidDispenserModuleConfig.data[0].v12Info = parseInt(obj.V12) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v12Info = parseInt(obj.V12) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V13 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v13 = parseInt(obj.V13) === 1;
-        this.liquidDispenserModuleConfig.data[0].v13Info = parseInt(obj.V13) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v13Info = parseInt(obj.V13) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V14 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v14 = parseInt(obj.V14) === 1;
-        this.liquidDispenserModuleConfig.data[0].v14Info = parseInt(obj.V14) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v14Info = parseInt(obj.V14) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V21 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v21 = parseInt(obj.V21) === 1;
-        this.liquidDispenserModuleConfig.data[0].v21Info = parseInt(obj.V21) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v21Info = parseInt(obj.V21) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V22 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v22 = parseInt(obj.V22) === 1;
-        this.liquidDispenserModuleConfig.data[0].v22Info = parseInt(obj.V22) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v22Info = parseInt(obj.V22) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V23 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v23 = parseInt(obj.V23) === 1;
-        this.liquidDispenserModuleConfig.data[0].v23Info = parseInt(obj.V23) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v23Info = parseInt(obj.V23) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V24 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v24 = parseInt(obj.V24) === 1;
-        this.liquidDispenserModuleConfig.data[0].v24Info = parseInt(obj.V24) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v24Info = parseInt(obj.V24) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V31 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v31 = parseInt(obj.V31) === 1;
-        this.liquidDispenserModuleConfig.data[0].v31Info = parseInt(obj.V31) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v31Info = parseInt(obj.V31) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V32 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v32 = parseInt(obj.V32) === 1;
-        this.liquidDispenserModuleConfig.data[0].v32Info = parseInt(obj.V32) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v32Info = parseInt(obj.V32) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V33 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v33 = parseInt(obj.V33) === 1;
-        this.liquidDispenserModuleConfig.data[0].v33Info = parseInt(obj.V33) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v33Info = parseInt(obj.V33) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V34 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v34 = parseInt(obj.V34) === 1;
-        this.liquidDispenserModuleConfig.data[0].v34Info = parseInt(obj.V34) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v34Info = parseInt(obj.V34) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V41 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v41 = parseInt(obj.V41) === 1;
-        this.liquidDispenserModuleConfig.data[0].v41Info = parseInt(obj.V41) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v41Info = parseInt(obj.V41) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V42 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v42 = parseInt(obj.V42) === 1;
-        this.liquidDispenserModuleConfig.data[0].v42Info = parseInt(obj.V42) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v42Info = parseInt(obj.V42) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V43 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v43 = parseInt(obj.V43) === 1;
-        this.liquidDispenserModuleConfig.data[0].v43Info = parseInt(obj.V43) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v43Info = parseInt(obj.V43) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V44 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v44 = parseInt(obj.V44) === 1;
-        this.liquidDispenserModuleConfig.data[0].v44Info = parseInt(obj.V44) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v44Info = parseInt(obj.V44) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V51 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v51 = parseInt(obj.V51) === 1;
-        this.liquidDispenserModuleConfig.data[0].v51Info = parseInt(obj.V51) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v51Info = parseInt(obj.V51) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V52 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v52 = parseInt(obj.V52) === 1;
-        this.liquidDispenserModuleConfig.data[0].v52Info = parseInt(obj.V52) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v52Info = parseInt(obj.V52) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V53 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v53 = parseInt(obj.V53) === 1;
-        this.liquidDispenserModuleConfig.data[0].v53Info = parseInt(obj.V53) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v53Info = parseInt(obj.V53) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V54 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v54 = parseInt(obj.V54) === 1;
-        this.liquidDispenserModuleConfig.data[0].v54Info = parseInt(obj.V54) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v54Info = parseInt(obj.V54) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V61 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v61 = parseInt(obj.V61) === 1;
-        this.liquidDispenserModuleConfig.data[0].v61Info = parseInt(obj.V61) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v61Info = parseInt(obj.V61) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V62 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v62 = parseInt(obj.V62) === 1;
-        this.liquidDispenserModuleConfig.data[0].v62Info = parseInt(obj.V62) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v62Info = parseInt(obj.V62) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V63 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v63 = parseInt(obj.V63) === 1;
-        this.liquidDispenserModuleConfig.data[0].v63Info = parseInt(obj.V63) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v63Info = parseInt(obj.V63) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V64 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v64 = parseInt(obj.V64) === 1;
-        this.liquidDispenserModuleConfig.data[0].v64Info = parseInt(obj.V64) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v64Info = parseInt(obj.V64) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V71 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v71 = parseInt(obj.V71) === 1;
-        this.liquidDispenserModuleConfig.data[0].v71Info = parseInt(obj.V71) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v71Info = parseInt(obj.V71) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V72 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v72 = parseInt(obj.V72) === 1;
-        this.liquidDispenserModuleConfig.data[0].v72Info = parseInt(obj.V72) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v72Info = parseInt(obj.V72) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V73 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v73 = parseInt(obj.V73) === 1;
-        this.liquidDispenserModuleConfig.data[0].v73Info = parseInt(obj.V73) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v73Info = parseInt(obj.V73) === 1 ? 'Opened' : 'Closed';
       }
 
       if (obj.V74 !== undefined) {
         this.liquidDispenserModuleConfig.data[0].v74 = parseInt(obj.V74) === 1;
-        this.liquidDispenserModuleConfig.data[0].v74Info = parseInt(obj.V74) === 1 ? 'Open' : 'Close';
+        this.liquidDispenserModuleConfig.data[0].v74Info = parseInt(obj.V74) === 1 ? 'Opened' : 'Closed';
       }
 
       // SP1 Absolute position
@@ -2703,7 +2703,7 @@ export default {
 
         case 'sp1Up':
           if (click === 'mousedown') {
-            let data = {SP1: {MoveTo: 2000000}};
+            let data = {SP1: {MoveTo: 1000000}};
             this.sendToWebsocket(data);
 
           } else {
@@ -2725,7 +2725,7 @@ export default {
         case 'sp2Up':
 
           if (click === 'mousedown') {
-            let data = {SP2: {MoveTo: 2000000}};
+            let data = {SP2: {MoveTo: 1000000}};
             this.sendToWebsocket(data);
           } else {
             let data = {SP2: {Stop: true}};
@@ -2745,7 +2745,7 @@ export default {
 
         case 'sp3Up':
           if (click === 'mousedown') {
-            let data = {SP3: {MoveTo: 2000000}};
+            let data = {SP3: {MoveTo: 1000000}};
             this.sendToWebsocket(data);
           } else {
             let data = {SP3: {Stop: true}};
