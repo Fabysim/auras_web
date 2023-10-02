@@ -370,7 +370,7 @@
 
               <td>
                 <v-card height="200" width="230" style="padding: 20px">
-                  <v-card-title class="justify-center module-title-color"> Comment</v-card-title>
+                  <v-card-title class="justify-center module-title-color"> Description</v-card-title>
                   <v-text-field label="Enter a comment" v-model="commentConfig"/>
                 </v-card>
               </td>
@@ -429,6 +429,46 @@
               <span style="color: red"> Offline</span>
             </div>
           </div>
+
+
+          <v-tooltip bottom v-if="simulatorMode">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn outlined
+                     fab
+                     class="ml-16"
+                     v-bind="attrs"
+                     v-on="on"
+                     @click="restartSimulator()"
+                     color="red"
+              >
+                <Icon icon="bi:sign-stop"
+                      class="emergency-stop-icon"
+                      x-large
+                      color="#eb3434"/>
+              </v-btn>
+            </template>
+            <span>Reset Simulator</span>
+          </v-tooltip>
+
+          <v-tooltip bottom v-else>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn outlined
+                     fab
+                     class="ml-16"
+                     v-bind="attrs"
+                     v-on="on"
+                     @click="emergencyStop"
+                     color="#ffff"
+              >
+                <Icon icon="bi:sign-stop"
+                      class="emergency-stop-icon"
+                      large
+                      color="#eb3434"/>
+              </v-btn>
+            </template>
+            <span>Emergency Stop</span>
+          </v-tooltip>
+
 
           <v-spacer/>
           <!--        Navigation buttons-->
@@ -768,11 +808,10 @@
         <!--Liquid Dispenser--><!--Liquid Dispenser-->
 
         <div id="liquid-dispenser-section">
-          <!--        Title-->
+
           <label id="ld_title" class="module-title-color">{{ liquidDispenserModuleConfig.name }}</label>
 
           <img id="liquid-dispenser-image" src="/Auras/Images/V2/Platine_prototype.jpg" alt=""/>
-
 
           <div id="syringes">
 
@@ -788,6 +827,7 @@
               <img id="sp-plug3" src="/Auras/Images/V2/Assemblage3.png" alt=""/>
             </div>
           </div>
+
           <div id="ld-switches">
 
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v11Info"
@@ -1349,11 +1389,13 @@
 
 import VueScrollSnap from "vue-scroll-snap";
 import axios from "axios";
+import {Icon} from '@iconify/vue2';
 
 export default {
   name: "PlatFormCard",
   components: {
     VueScrollSnap,
+    Icon,
   },
   props: {
     mode: String
@@ -1361,6 +1403,7 @@ export default {
 
   data: () => ({
         online: false,
+        simulatorMode: false,
         totalOfSteps: 0,
         rotateRight: false,
         rotateLeft: false,
@@ -1792,8 +1835,15 @@ export default {
     },
 
     emergencyStop() {
-
       this.sendToWebsocket({"EmergencyStop ": true});
+    },
+
+    restartSimulator() {
+      let data = {
+        restart: true
+      }
+      this.sendToWebsocket(data);
+
     },
 
     loadInitData() {
@@ -1802,6 +1852,7 @@ export default {
       }
       this.sendToWebsocket(data);
     },
+
 
     /*------------------------------------------------------------------------
     * Method to reset tables after a step is set
@@ -1896,7 +1947,7 @@ export default {
                 if (response.status === 200) {
                   let network = response.data;
                   this.$store.state.aurasIp = this.webSocket.ipAddress = network['ipAddress'];
-                  this.$parent.simulatorMode = this.webSocket.ipAddress.toString().includes('ws');
+                  this.simulatorMode = this.$parent.simulatorMode = this.webSocket.ipAddress.toString().includes('ws');
 
                   this.connectToWebSocket();
                 }
@@ -2824,6 +2875,11 @@ div:disabled {
   display: none;
 }
 
+.emergency-stop-icon {
+  width: 40px;
+  height: auto;
+}
+
 select {
   border: 1px solid black;
   border-radius: 3px;
@@ -2887,12 +2943,13 @@ select {
   z-index: 3;
   background-color: white;
   opacity: 100;
-  margin-top: 50px;
+  margin-top: 60px;
 
 }
 
 #image-navigation-buttons {
   position: absolute;
+  top: 20px;
   left: 1px;
   z-index: 7;
   width: 100%;
