@@ -2001,6 +2001,16 @@ export default {
 
     checkAurasIsOnline() {
       this.online = this.$store.state.connectionWS.readyState === 1;
+
+      if (!this.online) {
+
+        setTimeout(() => {
+          this.$store.state.connectionWS = null;
+          this.connectToWebSocket();
+        }, 3000);
+
+
+      }
     },
     /*------------------------------------------------------------------------
     * Method used to rotate pinch valves physically
