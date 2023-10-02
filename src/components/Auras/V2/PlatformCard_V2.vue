@@ -458,7 +458,7 @@
                      v-bind="attrs"
                      v-on="on"
                      @click="emergencyStop"
-                     color="#ffff"
+                     color="red"
               >
                 <Icon icon="bi:sign-stop"
                       class="emergency-stop-icon"
