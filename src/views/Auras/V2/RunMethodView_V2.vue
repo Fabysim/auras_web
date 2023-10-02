@@ -1094,40 +1094,40 @@ export default {
         !isNaN(parseInt(line.sP2P)) ? line.displayedSP2Info = 'Volume: ' + line.sP2P + ' µL' : line.displayedSP2Info = line.sP2P;
         !isNaN(parseInt(line.sP3P)) ? line.displayedSP3Info = 'Volume: ' + line.sP3P + ' µL' : line.displayedSP3Info = line.sP3P;
 
-        line.v11Info = line.v11 === 0 ? 'Close' : 'Open';
-        line.v12Info = line.v12 === 0 ? 'Close' : 'Open';
-        line.v13Info = line.v13 === 0 ? 'Close' : 'Open';
-        line.v14Info = line.v14 === 0 ? 'Close' : 'Open';
+        line.v11Info = line.v11 === 0 ? 'Closed' : 'Opened';
+        line.v12Info = line.v12 === 0 ? 'Closed' : 'Opened';
+        line.v13Info = line.v13 === 0 ? 'Closed' : 'Opened';
+        line.v14Info = line.v14 === 0 ? 'Closed' : 'Opened';
 
-        line.v21Info = line.v21 === 0 ? 'Close' : 'Open';
-        line.v22Info = line.v22 === 0 ? 'Close' : 'Open';
-        line.v23Info = line.v23 === 0 ? 'Close' : 'Open';
-        line.v24Info = line.v24 === 0 ? 'Close' : 'Open';
+        line.v21Info = line.v21 === 0 ? 'Closed' : 'Opened';
+        line.v22Info = line.v22 === 0 ? 'Closed' : 'Opened';
+        line.v23Info = line.v23 === 0 ? 'Closed' : 'Opened';
+        line.v24Info = line.v24 === 0 ? 'Closed' : 'Opened';
 
-        line.v31Info = line.v31 === 0 ? 'Close' : 'Open';
-        line.v32Info = line.v32 === 0 ? 'Close' : 'Open';
-        line.v33Info = line.v33 === 0 ? 'Close' : 'Open';
-        line.v34Info = line.v34 === 0 ? 'Close' : 'Open';
+        line.v31Info = line.v31 === 0 ? 'Closed' : 'Opened';
+        line.v32Info = line.v32 === 0 ? 'Closed' : 'Opened';
+        line.v33Info = line.v33 === 0 ? 'Closed' : 'Opened';
+        line.v34Info = line.v34 === 0 ? 'Closed' : 'Opened';
 
-        line.v41Info = line.v41 === 0 ? 'Close' : 'Open';
-        line.v42Info = line.v42 === 0 ? 'Close' : 'Open';
-        line.v43Info = line.v43 === 0 ? 'Close' : 'Open';
-        line.v44Info = line.v44 === 0 ? 'Close' : 'Open';
+        line.v41Info = line.v41 === 0 ? 'Closed' : 'Opened';
+        line.v42Info = line.v42 === 0 ? 'Closed' : 'Opened';
+        line.v43Info = line.v43 === 0 ? 'Closed' : 'Opened';
+        line.v44Info = line.v44 === 0 ? 'Closed' : 'Opened';
 
-        line.v51Info = line.v51 === 0 ? 'Close' : 'Open';
-        line.v52Info = line.v52 === 0 ? 'Close' : 'Open';
-        line.v53Info = line.v53 === 0 ? 'Close' : 'Open';
-        line.v54Info = line.v54 === 0 ? 'Close' : 'Open';
+        line.v51Info = line.v51 === 0 ? 'Closed' : 'Opened';
+        line.v52Info = line.v52 === 0 ? 'Closed' : 'Opened';
+        line.v53Info = line.v53 === 0 ? 'Closed' : 'Opened';
+        line.v54Info = line.v54 === 0 ? 'Closed' : 'Opened';
 
-        line.v61Info = line.v61 === 0 ? 'Close' : 'Open';
-        line.v62Info = line.v62 === 0 ? 'Close' : 'Open';
-        line.v63Info = line.v63 === 0 ? 'Close' : 'Open';
-        line.v64Info = line.v64 === 0 ? 'Close' : 'Open';
+        line.v61Info = line.v61 === 0 ? 'Closed' : 'Opened';
+        line.v62Info = line.v62 === 0 ? 'Closed' : 'Opened';
+        line.v63Info = line.v63 === 0 ? 'Closed' : 'Opened';
+        line.v64Info = line.v64 === 0 ? 'Closed' : 'Opened';
 
-        line.v71Info = line.v71 === 0 ? 'Close' : 'Open';
-        line.v72Info = line.v72 === 0 ? 'Close' : 'Open';
-        line.v73Info = line.v73 === 0 ? 'Close' : 'Open';
-        line.v74Info = line.v74 === 0 ? 'Close' : 'Open';
+        line.v71Info = line.v71 === 0 ? 'Closed' : 'Opened';
+        line.v72Info = line.v72 === 0 ? 'Closed' : 'Opened';
+        line.v73Info = line.v73 === 0 ? 'Closed' : 'Opened';
+        line.v74Info = line.v74 === 0 ? 'Closed' : 'Opened';
 
       });
 

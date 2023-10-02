@@ -380,59 +380,6 @@
         </vue-scroll-snap>
 
       </v-card-text>
-
-      <v-card-actions>
-        <div v-if="online">
-          <v-icon color="success">mdi-power</v-icon>
-          <span style="color: green"> Online</span>
-        </div>
-
-        <div v-else>
-          <v-icon color="error">mdi-power</v-icon>
-          <span style="color: red"> Offline</span>
-        </div>
-
-        <v-spacer/>
-
-        <v-btn
-            small
-            outlined
-            @click="scrollTo(tlcMigrationModuleConfig.name)"
-        > {{ tlcMigrationModuleConfig.name }}
-        </v-btn>
-        <v-btn
-            small
-            outlined
-            @click="scrollTo(dropDispenserModuleConfig.name)"
-        > {{ dropDispenserModuleConfig.name }}
-        </v-btn>
-
-
-        <v-btn
-            small
-            outlined
-            @click="scrollTo(phMeterModuleConfig.name)"
-        > {{ phMeterModuleConfig.name }}
-        </v-btn>
-
-        <v-btn
-            small
-            outlined
-            @click="scrollTo(liquidDispenserModuleConfig.name)"
-        > {{ liquidDispenserModuleConfig.name }}
-        </v-btn>
-
-        <v-spacer/>
-        <v-btn
-            v-if="mode==='config'"
-            style="background-color: dodgerblue; color: white;"
-            @click="$emit('lineSaved')"
-        >
-          Save step
-        </v-btn>
-
-      </v-card-actions>
-
     </v-card>
 
     <!--    Values Overflow Dialog-->
@@ -466,18 +413,83 @@
     <!--Image    -->
 
     <div class="image_cover">
+      <!--      Image Navigation-->
 
-      <!--      Button left-->
-      <v-btn
-          @click="leftScroll"
-          class="ma-2 left"
-          outlined
-          small
-          fab
-          color="indigo"
-      >
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
+      <v-card id="image-navigation-buttons">
+        <v-card-actions>
+
+          <div id="connection-state">
+            <div v-if="online">
+              <v-icon color="success">mdi-power</v-icon>
+              <span style="color: green"> Online</span>
+            </div>
+
+            <div v-else>
+              <v-icon color="error">mdi-power</v-icon>
+              <span style="color: red"> Offline</span>
+            </div>
+          </div>
+
+          <v-spacer/>
+          <!--        Navigation buttons-->
+
+          <v-btn
+              @click="leftScroll"
+              class="ma-2 mr-16"
+              outlined
+              small
+          >
+            <v-icon>mdi-chevron-left</v-icon>
+          </v-btn>
+
+          <v-btn
+              small
+              outlined
+              @click="scrollTo(tlcMigrationModuleConfig.name)"
+          > {{ tlcMigrationModuleConfig.name }}
+          </v-btn>
+          <v-btn
+              small
+              outlined
+              @click="scrollTo(dropDispenserModuleConfig.name)"
+          > {{ dropDispenserModuleConfig.name }}
+          </v-btn>
+
+
+          <v-btn
+              small
+              outlined
+              @click="scrollTo(phMeterModuleConfig.name)"
+          > {{ phMeterModuleConfig.name }}
+          </v-btn>
+
+          <v-btn
+              small
+              outlined
+              @click="scrollTo(liquidDispenserModuleConfig.name)"
+          > {{ liquidDispenserModuleConfig.name }}
+          </v-btn>
+
+          <v-btn
+              @click="rightScroll"
+              class="ma-2 ml-16"
+              outlined
+              small
+          >
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+
+          <v-spacer/>
+
+          <v-btn id="save-step-button"
+                 v-if="mode==='config'"
+                 style="background-color: dodgerblue; color: white;"
+                 @click="$emit('lineSaved')"
+          >
+            Save step
+          </v-btn>
+        </v-card-actions>
+      </v-card>
 
       <div id="image-container">
 
@@ -1069,7 +1081,8 @@
 
               <!--        PS1 control-->
 
-              <select id="select-sp1" v-show="mode.toLowerCase()==='config'" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP1">
+              <select id="select-sp1" v-show="mode.toLowerCase()==='config'" class="firstLineComponent"
+                      v-model="liquidDispenserModuleConfig.selectedSP1">
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">
                   {{ item }}
                 </option>
@@ -1130,7 +1143,8 @@
             <!--        PS2 control-->
 
             <div id="syringe2-commands">
-              <select id="select-sp2" v-show="mode.toLowerCase()==='config'" class="firstLineComponent" v-model="liquidDispenserModuleConfig.selectedSP2">
+              <select id="select-sp2" v-show="mode.toLowerCase()==='config'" class="firstLineComponent"
+                      v-model="liquidDispenserModuleConfig.selectedSP2">
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
               </select>
 
@@ -1187,7 +1201,8 @@
 
             <div id="syringe3-commands">
 
-              <select id="select-sp3" v-show="mode.toLowerCase()==='config'" v-model="liquidDispenserModuleConfig.selectedSP3">
+              <select id="select-sp3" v-show="mode.toLowerCase()==='config'"
+                      v-model="liquidDispenserModuleConfig.selectedSP3">
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
               </select>
 
@@ -1324,18 +1339,6 @@
         </div>
       </div>
 
-
-      <!--      Button right-->
-      <v-btn
-          @click="rightScroll"
-          class="ma-2 right"
-          outlined
-          small
-          fab
-          color="indigo"
-      >
-        <v-icon>mdi-chevron-right</v-icon>
-      </v-btn>
 
     </div>
 
@@ -2884,9 +2887,31 @@ select {
   z-index: 3;
   background-color: white;
   opacity: 100;
+  margin-top: 50px;
 
 }
 
+#image-navigation-buttons {
+  position: absolute;
+  left: 1px;
+  z-index: 7;
+  width: 100%;
+  background-color: #ffff;
+
+  .left {
+    position: absolute;
+    left: 10px;
+    top: -5px;
+    z-index: 4;
+  }
+
+  .right {
+    position: absolute;
+    right: 10px;
+    top: -10px;
+    z-index: 4;
+  }
+}
 
 /*modules*/
 
@@ -2897,19 +2922,6 @@ select {
   background-color: white;
 }
 
-.left {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  z-index: 4;
-}
-
-.right {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  z-index: 4;
-}
 
 /*Tlc Migration*/
 
@@ -3334,9 +3346,6 @@ select {
 
       #syringe3-buttons {
 
-        .control-buttons {
-
-        }
 
         position: absolute;
         top: 80px;
