@@ -479,17 +479,20 @@
               outlined
               small
           >
-            <v-icon>mdi-chevron-left</v-icon>
+            <v-icon class="nav-chevron">mdi-chevron-left</v-icon>
           </v-btn>
 
           <v-btn
               small
+              dark
+              class="module-buttons"
               outlined
               @click="scrollTo(tlcMigrationModuleConfig.name)"
           > {{ tlcMigrationModuleConfig.name }}
           </v-btn>
           <v-btn
               small
+              class="module-buttons"
               outlined
               @click="scrollTo(dropDispenserModuleConfig.name)"
           > {{ dropDispenserModuleConfig.name }}
@@ -498,6 +501,7 @@
 
           <v-btn
               small
+              class="module-buttons"
               outlined
               @click="scrollTo(phMeterModuleConfig.name)"
           > {{ phMeterModuleConfig.name }}
@@ -505,6 +509,7 @@
 
           <v-btn
               small
+              class="module-buttons"
               outlined
               @click="scrollTo(liquidDispenserModuleConfig.name)"
           > {{ liquidDispenserModuleConfig.name }}
@@ -516,7 +521,7 @@
               outlined
               small
           >
-            <v-icon>mdi-chevron-right</v-icon>
+            <v-icon class="nav-chevron">mdi-chevron-right</v-icon>
           </v-btn>
 
           <v-spacer/>
@@ -2362,7 +2367,7 @@ export default {
         this.liquidDispenserModuleConfig.sP1PAbsolutePosition = value;
 
         let element1 = document.getElementById('sp-plug1');
-        let value1 = 350 - value / 5;
+        let value1 = 355 - value / 5;
         element1.style.top = value1 + 'px';
 
       }
@@ -2408,7 +2413,7 @@ export default {
         this.liquidDispenserModuleConfig.sP2PAbsolutePosition = value;
 
         let element1 = document.getElementById('sp-plug2');
-        let value1 = 352 - value / 5;
+        let value1 = 355 - value / 5;
         element1.style.top = value1 + 'px';
 
         // Init PS Absolute position
@@ -2456,7 +2461,7 @@ export default {
         this.liquidDispenserModuleConfig.sP3PAbsolutePosition = value;
 
         let element1 = document.getElementById('sp-plug3');
-        let value1 = 348 - value / 5;
+        let value1 = 355 - value / 5;
         element1.style.top = value1 + 'px';
 
         // Init PS Absolute position
@@ -2978,6 +2983,15 @@ select {
     top: -10px;
     z-index: 4;
   }
+
+  .module-buttons {
+    color: darkblue;
+    border-color: black;
+  }
+  .nav-chevron{
+    color: darkblue;
+  }
+
 }
 
 /*modules*/
@@ -3257,12 +3271,14 @@ select {
         position: absolute;
         background-color: #FFFF;
         width: 200px;
+        left: 70px;
 
       }
 
       #ps1SpeedLabel {
         position: absolute;
         top: 25px;
+        left: 70px;
         font-size: 14px;
         height: fit-content;
         width: 200px;
@@ -3325,12 +3341,13 @@ select {
         position: absolute;
         background-color: #FFFF;
         width: 200px;
-
+        left: 70px;
       }
 
       #ps2SpeedLabel {
         position: absolute;
         margin-top: 25px;
+        left: 70px;
         font-size: 14px;
         height: fit-content;
         width: 200px;
@@ -3345,7 +3362,7 @@ select {
       #syringe2-buttons {
         position: absolute;
         top: 80px;
-        left: 68px;
+        left: 70px;
 
         #ps2SpeedRange {
           position: absolute;
@@ -3394,12 +3411,13 @@ select {
         position: absolute;
         background-color: #FFFF;
         width: 200px;
-
+        left: 70px;
       }
 
       #ps3SpeedLabel {
         position: absolute;
         margin-top: 25px;
+        left: 70px;
         font-size: 14px;
         height: fit-content;
         width: 200px;
@@ -3500,23 +3518,23 @@ select {
     }
 
 
-    #wheelRight {
-      position: absolute;
-      top: 124px;
-      left: 63px;
-      width: 90px;
-      -webkit-animation: spin 3s linear infinite;
-      animation: spin 3s linear infinite;
-    }
+    /*  #wheelRight {
+        position: absolute;
+        top: 124px;
+        left: 63px;
+        width: 90px;
+        -webkit-animation: spin 3s linear infinite;
+        animation: spin 3s linear infinite;
+      }
 
-    #wheelLeft {
-      position: absolute;
-      top: 124px;
-      left: 63px;
-      width: 80px;
-      -webkit-animation: spin1 3s linear infinite;
-      animation: spin1 3s linear infinite;
-    }
+      #wheelLeft {
+        position: absolute;
+        top: 124px;
+        left: 63px;
+        width: 80px;
+        -webkit-animation: spin1 3s linear infinite;
+        animation: spin1 3s linear infinite;
+      }*/
   }
 
   #solution-level {
@@ -3575,5 +3593,23 @@ select {
 
 .theme--light.v-input--switch .v-input--switch__track {
   color: #a81d02
+}
+
+#wheelRight {
+  position: absolute;
+  top: 124px;
+  left: 63px;
+  width: 90px;
+  -webkit-animation: spin 3s linear infinite;
+  animation: spin 3s linear infinite;
+}
+
+#wheelLeft {
+  position: absolute;
+  top: 124px;
+  left: 63px;
+  width: 80px;
+  -webkit-animation: spin1 3s linear infinite;
+  animation: spin1 3s linear infinite;
 }
 </style>
