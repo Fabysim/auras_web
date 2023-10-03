@@ -3575,7 +3575,7 @@ select {
     .progressbar {
 
       background-color: #32a852;
-      height: 14px;
+      height: 18px;
       width: 200px;
       border-radius: 5px;
     }
