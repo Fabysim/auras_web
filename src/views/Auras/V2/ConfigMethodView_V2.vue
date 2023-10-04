@@ -81,7 +81,7 @@
       <!--Steps -->
 
       <v-card elevation="0">
-        <v-card-title class="justify-center module-title-color">{{ stepModule.name }}</v-card-title>
+        <v-card-title class="justify-center module-title-color"> Step </v-card-title>
         <v-card-text>
           <v-data-table :headers="stepModule.columns"
                         :items="stepModule.data"
@@ -876,7 +876,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener used to watch the changes in the SP update pop up
     * ------------------------------------------------------------------------*/
-    'liquidDispenserModule.update.selectedSPOption'() {
+    'liquidDispenserModule.update.selectedSyringePositionOption'() {
 
       this.liquidDispenserModule.update.selectedSyringePositionOption.toLowerCase().includes('volume') ?
           this.liquidDispenserModule.update.volumeSelected = true :
@@ -894,6 +894,7 @@ export default {
       this.$refs.plateForm.sendToWebsocket(data);
 
     },
+
     /*------------------------------------------------------------------------
      * Create data to be downloaded
      * ------------------------------------------------------------------------*/
@@ -955,6 +956,7 @@ export default {
 
 
     },
+
 
     emergencyStop() {
 
@@ -1070,6 +1072,7 @@ export default {
       this.$data.actionsModule.data.push(line);
 
     },
+
     /*------------------------------------------------------------------------
     * Function to extract Liquid Dispenser's updated data from the update dialog
     * ------------------------------------------------------------------------*/
@@ -1078,94 +1081,94 @@ export default {
       switch (col) {
 
         case 0:
-          this.liquidDispenserModule.data[line].v11 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v11 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 1:
-          this.liquidDispenserModule.data[line].v12 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v12 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 2:
-          this.liquidDispenserModule.data[line].v13 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v13 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 3:
-          this.liquidDispenserModule.data[line].v14 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v14 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 4:
-          this.liquidDispenserModule.data[line].v21 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v21 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 5:
-          this.liquidDispenserModule.data[line].v22 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v22 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 6:
-          this.liquidDispenserModule.data[line].v23 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v23 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 7:
-          this.liquidDispenserModule.data[line].v24 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v24 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 8:
-          this.liquidDispenserModule.data[line].v31 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v31 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 9:
-          this.liquidDispenserModule.data[line].v32 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v32 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 10:
-          this.liquidDispenserModule.data[line].v33 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v33 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 11:
-          this.liquidDispenserModule.data[line].v34 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v34 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 12:
-          this.liquidDispenserModule.data[line].v41 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v41 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 13:
-          this.liquidDispenserModule.data[line].v42 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v42 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 14:
-          this.liquidDispenserModule.data[line].v43 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v43 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 15:
-          this.liquidDispenserModule.data[line].v44 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v44 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 16:
-          this.liquidDispenserModule.data[line].v51 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v51 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 17:
-          this.liquidDispenserModule.data[line].v52 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v52 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 18:
-          this.liquidDispenserModule.data[line].v53 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v53 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 19:
-          this.liquidDispenserModule.data[line].v54 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v54 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 20:
-          this.liquidDispenserModule.data[line].v61 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v61 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 21:
-          this.liquidDispenserModule.data[line].v62 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v62 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 22:
-          this.liquidDispenserModule.data[line].v63 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v63 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 23:
-          this.liquidDispenserModule.data[line].v64 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v64 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 24:
-          this.liquidDispenserModule.data[line].v71 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v71 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 25:
-          this.liquidDispenserModule.data[line].v72 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v72 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 26:
-          this.liquidDispenserModule.data[line].v73 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v73 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
         case 27:
-          this.liquidDispenserModule.data[line].v74 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('Opened') ? 1 : 0;
+          this.liquidDispenserModule.data[line].v74 = this.liquidDispenserModule.update.selectedPinchValveOption.toLowerCase().includes('opened') ? 1 : 0;
           break;
 
         case 28:
@@ -1196,7 +1199,7 @@ export default {
         case 32:
           if (this.liquidDispenserModule.update.selectedSyringePositionOption.toLowerCase().includes('volume'))
             this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedVolumeValue;
-           else
+          else
             this.liquidDispenserModule.data[line].sP3P = this.liquidDispenserModule.update.selectedSyringePositionOption;
           break;
 
@@ -1214,7 +1217,6 @@ export default {
       }
 
     },
-
 
     /*------------------------------------------------------------------------
     * Function to extract Drop Dispenser's updated data from the update dialog
@@ -1245,7 +1247,6 @@ export default {
     extractPhMeterDataFromDialog(line) {
 
       this.phMeterModule.data[line].position = this.phMeterModule.data[line].description = this.phMeterModule.update.selectedOption; // Position has changed from int to string
-
 
     },
     /*------------------------------------------------------------------------
@@ -1410,19 +1411,20 @@ export default {
       }
     },
 
-
     /*---------------------------------------------------------------------------
     * Function to load selected load Tlc Migration's data into update dialog
     * --------------------------------------------------------------------------*/
     loadTlcMigrationDataInDialog(value) {
       this.tlcMigrationModule.update.selectedOption = value;
     },
+
     /*---------------------------------------------------------------------------
     * Function to load selected load PH Meter's data into update dialog
     * --------------------------------------------------------------------------*/
     loadPhMeterDataInDialog(value) {
       this.phMeterModule.update.selectedOption = value;
     },
+
     /*----------------------------------------------------------------------------------
     * Function to load selected load Drop Dispenser's data into update dialog
     * ---------------------------------------------------------------------------------*/
@@ -1594,7 +1596,7 @@ export default {
       this.tlcMigrationModule.name = this.$store.state.tlcMigrationModuleName;
       this.phMeterModule.name = this.$store.state.phMeterModuleName;
       this.commentModule.name = this.$store.state.commentModuleName;
-      this.stepModule.name = 'Steps';
+      this.stepModule.name = 'MethodStep';
       this.actionsModule.name = 'Actions';
 
       this.aurasModules.push(
@@ -1620,49 +1622,42 @@ export default {
     /*------------------------------------------------------------------------
     * Function used to extract tlcModule step data
     * ------------------------------------------------------------------------*/
-    saveTlcMigrationModuleLine() {
+    saveTlcMigrationModuleLine(methodStepId) {
 
       let tlcMMStep = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModuleConfig.data[0]));
-      tlcMMStep.step = this.currentStep;
-      tlcMMStep.methodId = this.currentMethod.id;
+      tlcMMStep.methodStepId = methodStepId;
       tlcMMStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.tlcMigrationModuleConfig.selectedOption));
-
-      //this.$data.tlcMigrationModule.data.push(tlcMMStep);
       this.postStep(tlcMMStep, this.tlcMigrationModule.name);
     },
     /*------------------------------------------------------------------------
       * Function used to extract phMeterModule step data
       * ------------------------------------------------------------------------*/
-    savePhMeterModuleLine() {
+    savePhMeterModuleLine(methodStepId) {
 
       let phMeterStep = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModuleConfig.data[0]));
 
-      phMeterStep.step = this.currentStep;
-      phMeterStep.methodId = this.currentMethod.id;
+      phMeterStep.methodStepId = methodStepId;
       phMeterStep.position = phMeterStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.phMeterModuleConfig.selectedOption)); // position has changed from int to string
 
-      //this.$data.phMeterModule.data.push(phMeterStep);
 
       this.postStep(phMeterStep, this.phMeterModule.name);
     },
     /*------------------------------------------------------------------------
     * Function used to extract liquidDispenserModule step data
     * ------------------------------------------------------------------------*/
-    saveDropDispenserModuleLine() {
+    saveDropDispenserModuleLine(methodStepId) {
       let dropDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModuleConfig.data[0]));
 
-      dropDispenserStep.step = this.currentStep;
-      dropDispenserStep.methodId = this.currentMethod.id;
+      dropDispenserStep.methodStepId = methodStepId;
       dropDispenserStep.description = JSON.parse(JSON.stringify(this.$refs.plateForm.dropDispenserModuleConfig.selectedOption));
 
-      //this.$data.dropDispenserModule.data.push(dropDispenserStep);
       this.postStep(dropDispenserStep, this.dropDispenserModule.name);
     },
 
     /*------------------------------------------------------------------------
      * Function used to extract dropDispenserModule step data
      * ------------------------------------------------------------------------*/
-    saveLiquidDispenserLine() {
+    saveLiquidDispenserLine(methodStepId) {
 
       let liquidDispenserStep = JSON.parse(JSON.stringify(this.$refs.plateForm.liquidDispenserModuleConfig.data[0]));
 
@@ -1674,8 +1669,7 @@ export default {
       liquidDispenserStep.displayedSP2Info.includes('Volume') ? liquidDispenserStep.displayedSP2Info += ': ' + liquidDispenserStep.sP2P + ' µL' : '';
       liquidDispenserStep.displayedSP3Info.includes('Volume') ? liquidDispenserStep.displayedSP3Info += ': ' + liquidDispenserStep.sP3P + ' µL' : '';
 
-      liquidDispenserStep.step = this.currentStep;
-      liquidDispenserStep.methodId = this.currentMethod.id;
+      liquidDispenserStep.methodStepId = methodStepId;
 
       liquidDispenserStep.v11 = liquidDispenserStep.v11 === true ? 1 : 0;
       liquidDispenserStep.v12 = liquidDispenserStep.v12 === true ? 1 : 0;
@@ -1727,7 +1721,7 @@ export default {
     /*------------------------------------------------------------------------
     * Function used to extract waiting condition step data
     * ------------------------------------------------------------------------*/
-    saveWaitingConditionLine() {
+    saveWaitingConditionLine(methodStepId) {
 
 
       let waitingConditionStep = {
@@ -1747,8 +1741,7 @@ export default {
         };
       }
 
-      waitingConditionStep.step = this.currentStep;
-      waitingConditionStep.methodId = this.currentMethod.id;
+      waitingConditionStep.methodStepId = methodStepId;
       waitingConditionStep.type = this.$refs.plateForm.waitingConditionConfig.selectedOption
 
       this.postStep(waitingConditionStep, this.waitingConditionModule.name);
@@ -1757,21 +1750,20 @@ export default {
       if (this.$refs.plateForm.waitingConditionConfig.selectedOption === 'Timeout')
         waitingConditionStep.description += ': ' + waitingConditionStep.value + ' ms';
 
-      // this.waitingConditionModule.data.push(waitingConditionStep);
+
 
     },
 
     /*------------------------------------------------------------------------
     * Function used to extract Comment step data
     * ------------------------------------------------------------------------*/
-    saveCommentModuleLine() {
+    saveCommentModuleLine(methodStepId) {
 
       let commentStep = {
         content: this.$refs.plateForm.commentConfig,
-        Step: this.currentStep,
-        methodId: this.currentMethod.id
+        methodStepId: methodStepId
       };
-      // this.$data.commentModule.data.push(commentStep);
+
       this.postStep(commentStep, this.commentModule.name);
     },
 
@@ -1781,12 +1773,24 @@ export default {
     async SaveLine() {
 
       this.extractStepModuleLine();
-      this.saveTlcMigrationModuleLine();
-      this.savePhMeterModuleLine();
-      this.saveDropDispenserModuleLine();
-      this.saveLiquidDispenserLine();
-      this.saveWaitingConditionLine();
-      this.saveCommentModuleLine();
+
+      let data = {
+        MethodId: this.currentMethod.id,
+        Number: this.currentStep
+      }
+
+      this.postStep(data, this.stepModule.name);
+    },
+
+    saveAllModules(methodStepId) {
+
+      this.saveTlcMigrationModuleLine(methodStepId);
+      this.savePhMeterModuleLine(methodStepId);
+      this.saveDropDispenserModuleLine(methodStepId);
+      this.saveLiquidDispenserLine(methodStepId);
+      this.saveWaitingConditionLine(methodStepId);
+      this.saveCommentModuleLine(methodStepId);
+
       setTimeout(() => this.loadModulesData(), 1000);
 
       this.$refs.plateForm.resetPlatformTables();
@@ -1924,10 +1928,18 @@ export default {
           .then(
               (response) => {
 
-                if (response.status === 201)
-                  this.snackbar.message = "Step created correctly";
-                else
+                if (response.status === 200 || response.status === 201 || response.status === 204) {
+
+                  if (moduleName === this.stepModule.name) {
+                    let data = response.data;
+                    this.saveAllModules(data.id);
+                  } else
+                    this.snackbar.message = "Step created correctly";
+
+                } else {
+
                   this.snackbar.message = "Could not create the step";
+                }
 
               });
       this.snackbar.show = true;

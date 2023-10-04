@@ -21,6 +21,7 @@ export default new Vuex.Store({
         aurasModuleName: 'Auras',
         commentModuleName: 'Comment',
         lalModuleName: 'LAL',
+        stepModuleName: 'MethodStep',
 
         //Miscellaneous
         connectionWS: null,

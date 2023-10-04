@@ -53,6 +53,7 @@
                           v-model="editedItem.name"
                           label="Method name"
                           aria-required="true"
+                          @keydown.enter.prevent="save"
                       ></v-text-field>
                     </v-col>
 
@@ -349,7 +350,7 @@ export default {
       this.snackbar = true;
     },
     /*--------------------------------------------------------------------------
-     * Used to create a method into the database
+     * Used to retrieve list of methods from database
      * -------------------------------------------------------------------------*/
     fetchMethods() {
 
@@ -505,7 +506,8 @@ export default {
 
         this.createMethod();
       }
-      this.close()
+      this.close();
+
     },
 
 

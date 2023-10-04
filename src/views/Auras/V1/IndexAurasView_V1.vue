@@ -349,7 +349,7 @@ export default {
       this.snackbar = true;
     },
     /*--------------------------------------------------------------------------
-     * Used to create a method into the database
+     * Used to retrieve methods list from the database
      * -------------------------------------------------------------------------*/
     fetchMethods() {
 
