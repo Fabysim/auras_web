@@ -843,7 +843,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 275px;top: 281px;opacity: 200%;"
+                      style="position: absolute; left: 298px;top: 262px;opacity: 200%; transform: rotate(180deg);"
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v12"
@@ -852,7 +852,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 326px;top: 300px;opacity: 200%;transform: rotate(90deg);"
+                      style="position: absolute; left: 344px;top: 321px;opacity: 200%;transform: rotate(270deg);"
 
             >
             </v-switch>
@@ -862,18 +862,17 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 305px;top: 351px;opacity: 200%; transform: rotate(180deg);"
+                      style="position: absolute; left: 283px;top: 370px;opacity: 200%;"
 
             >
             </v-switch>
-
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v14"
                       @click="togglePinchValveState('v14')"
                       readonly
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 255px;top: 330px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 237px;top: 310px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
@@ -884,7 +883,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 274px;top: 483px;opacity: 200%;"
+                      style="position: absolute; left: 298px;top: 466px;opacity: 200%;;transform: rotate(180deg);"
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v22"
@@ -893,7 +892,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 325px;top: 502px;opacity: 200%;transform: rotate(90deg);  "
+                      style="position: absolute; left: 344px;top: 523px;opacity: 200%;transform: rotate(270deg);  "
 
             >
             </v-switch>
@@ -903,18 +902,17 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 306px;top: 553px;opacity: 200%; transform: rotate(180deg);"
+                      style="position: absolute; left: 283px;top: 570px;opacity: 200%; transform: rotate(0deg);"
 
             >
             </v-switch>
-
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v24"
                       @click="togglePinchValveState('v24')"
                       readonly
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 256px;top: 534px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 236px;top: 511px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
@@ -925,7 +923,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 274px;top: 685px;opacity: 200%;"
+                      style="position: absolute; left: 298px;top: 668px;opacity: 200%;;transform: rotate(180deg);"
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v32"
@@ -934,7 +932,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 255px;top: 735px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 344px;top: 724px;opacity: 200%;transform: rotate(270deg);"
 
             >
             </v-switch>
@@ -944,7 +942,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 307px;top: 755px;opacity: 200%; transform: rotate(180deg) "
+                      style="position: absolute; left: 283px;top: 772px;opacity: 200%; transform: rotate(0deg) "
 
             >
             </v-switch>
@@ -954,7 +952,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 325px;top: 702px;opacity: 200%;transform: rotate(90deg);"
+                      style="position: absolute; left: 236px;top: 712px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
@@ -965,7 +963,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 525px;top: 685px;opacity: 200%"
+                      style="position: absolute; left: 549px;top: 667px;opacity: 200%;transform: rotate(180deg);"
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v42"
@@ -974,7 +972,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 577px;top: 703px;opacity: 200%;transform: rotate(90deg);"
+                      style="position: absolute; left: 597px;top: 724px;opacity: 200%;transform: rotate(270deg);"
 
             >
             </v-switch>
@@ -984,7 +982,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 558px;top: 755px;opacity: 200%; transform: rotate(180deg);"
+                      style="position: absolute; left: 534px;top: 772px;opacity: 200%; transform: rotate(0deg);"
 
             >
             </v-switch>
@@ -994,7 +992,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 507px;top: 736px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 485px;top: 712px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
@@ -1005,7 +1003,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 830px;top: 685px;opacity: 200%; "
+                      style="position: absolute; left: 853px;top: 667px;opacity: 200%;transform: rotate(180deg); "
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v52"
@@ -1014,7 +1012,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 881px;top: 704px;opacity: 200%;transform: rotate(90deg);"
+                      style="position: absolute; left: 897px;top: 726px;opacity: 200%;transform: rotate(270deg);"
 
             >
             </v-switch>
@@ -1024,7 +1022,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 861px;top: 756px;opacity: 200%; transform: rotate(180deg);"
+                      style="position: absolute; left: 837px;top: 772px;opacity: 200%; transform: rotate(0deg);"
 
             >
             </v-switch>
@@ -1034,7 +1032,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 811px;top: 735px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 792px;top: 713px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
@@ -1045,7 +1043,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1033px;top: 686px;opacity: 200%;"
+                      style="position: absolute; left: 1055px;top: 667px;opacity: 200%;transform: rotate(180deg);"
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v62"
@@ -1054,7 +1052,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1083px;top: 704px;opacity: 200%;transform: rotate(90deg);"
+                      style="position: absolute; left: 1100px;top: 726px;opacity: 200%;transform: rotate(270deg);"
 
             >
             </v-switch>
@@ -1064,7 +1062,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1063px;top: 756px;opacity: 200%; transform: rotate(180deg);"
+                      style="position: absolute; left: 1039px;top: 773px;opacity: 200%; transform: rotate(0deg);"
 
             >
             </v-switch>
@@ -1074,7 +1072,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1013px;top: 736px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 993px;top: 714px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
@@ -1085,7 +1083,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1235px;top: 686px;opacity: 200%;"
+                      style="position: absolute; left: 1257px;top: 667px;opacity: 200%;transform: rotate(180deg);"
             >
             </v-switch>
             <v-switch v-model="liquidDispenserModuleConfig.data[0].v72"
@@ -1094,7 +1092,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1285px;top: 705px;opacity: 200%;transform: rotate(90deg);"
+                      style="position: absolute; left: 1302px;top: 726px;opacity: 200%;transform: rotate(270deg);"
 
             >
             </v-switch>
@@ -1104,7 +1102,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1265px;top: 757px;opacity: 200%; transform: rotate(180deg);"
+                      style="position: absolute; left: 1241px;top: 772px;opacity: 200%; transform: rotate(0deg);"
 
             >
             </v-switch>
@@ -1114,7 +1112,7 @@
                       light
                       background-color="dimgray"
                       color="#08a122"
-                      style="position: absolute; left: 1215px;top: 736px;opacity: 200%;transform: rotate(-90deg);"
+                      style="position: absolute; left: 1194px;top: 713px;opacity: 200%;transform: rotate(90deg);"
 
             >
             </v-switch>
