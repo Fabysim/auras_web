@@ -1751,7 +1751,6 @@ export default {
         waitingConditionStep.description += ': ' + waitingConditionStep.value + ' ms';
 
 
-
     },
 
     /*------------------------------------------------------------------------
@@ -1819,6 +1818,7 @@ export default {
       this.dialogDelete = false;
       let data = {
         id: this.deletedIndex,
+        OldValue: this.deletedIndex,
         methodId: this.currentMethod.id
       };
 
