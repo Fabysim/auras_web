@@ -857,7 +857,7 @@ export default {
           this.updateWaitingCondition.timeoutOptionSelected = false;
         }
 
-        if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'instrument') {
+        if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'gina') {
           this.updateWaitingCondition.instrumentOptionSelected = true;
           this.updateWaitingCondition.timeoutOptionSelected = false;
 
