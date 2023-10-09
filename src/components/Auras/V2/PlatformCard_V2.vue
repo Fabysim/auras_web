@@ -2707,7 +2707,7 @@ export default {
 
           if (componentId === 'pump1Input') {
             // this.liquidDispenserModule.sp3Quantity = parseInt(value);
-            let data = {PUMP1: {PUMP1TargetPosition: parseFloat(value) * 360}};
+            let data = {PUMP1: {MoveTo: parseFloat(value) * 360}};
             this.liquidDispenserModuleConfig.data[0].pumP1P = parseFloat(value);
             this.sendToWebsocket(data);
           }
