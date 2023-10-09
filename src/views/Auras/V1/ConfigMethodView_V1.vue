@@ -643,7 +643,7 @@ export default {
           value: 'step',
           align: 'center',
           width: 82,
-          sortable: true
+          sortable: false,
         },
       ],
       data: [],
@@ -661,7 +661,7 @@ export default {
       name: '',
       items: ['Idle position', 'Ready position', 'Migration'],
       columns: [
-        {text: 'Position', value: 'description', width: 150, align: 'center'},
+        {text: 'Position', value: 'description', width: 150, sortable: false, align: 'center'},
       ],
       data: [],
       update: {
@@ -673,7 +673,7 @@ export default {
       name: '',
       items: ['Buffer Low', 'Buffer High', 'KCl', 'Rinsing', 'Measure', 'Init'],
       columns: [
-        {text: 'Position', value: 'position', width: 100, align: 'center'},
+        {text: 'Position', value: 'position', width: 100, sortable: false, align: 'center'},
       ],
       data: [],
       update: {
