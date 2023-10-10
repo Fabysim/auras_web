@@ -585,11 +585,11 @@ export default {
       ipAddress: '',
       connection: '',
     },
-    prev:String,
+    prev: String,
   }),
 
   mounted() {
-    this.fetchNetworkByName(this.$aurasVersionV2 );
+    this.fetchNetworkByName(this.$aurasVersionV2);
     this.fetchMethod();
     this.initialization();
     this.fetchModulesList();
@@ -599,19 +599,21 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.prevRoute = from;
-      if(vm.prevRoute.path !=='/')
+      if (vm.prevRoute.path !== '/')
         location.reload();
     });
   },
   computed: {
-    prevRoutePath() {return this.prevRoute ? this.prevRoute.path : '/'},
+    prevRoutePath() {
+      return this.prevRoute ? this.prevRoute.path : '/'
+    },
   },
 
   watch: {
 
     '$route': {
-      handler: function() {
-        this.prev =  this.prevRoutePath;
+      handler: function () {
+        this.prev = this.prevRoutePath;
       },
       deep: true,
       immediate: true
@@ -644,7 +646,7 @@ export default {
 
     },
 
-    emergencyStop(){
+    emergencyStop() {
       this.$refs.plateForm.sendToWebsocket({"EmergencyStop ": true});
     },
     /*--------------------------------------------------------------------------
@@ -812,95 +814,95 @@ export default {
           MoveTo: this.dropDispenserModule.data[this.currentStep.number].value
         },
 
-        V11:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v11
+        V11: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v11
         },
-        V12:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v12
+        V12: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v12
         },
-        V13:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v13
+        V13: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v13
         },
-        V14:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v14
-        },
-
-        V21:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v21
-        },
-        V22:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v22
-        },
-        V23:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v23
-        },
-        V24:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v24
+        V14: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v14
         },
 
-        V31:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v31
+        V21: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v21
         },
-        V32:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v32
+        V22: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v22
         },
-        V33:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v33
+        V23: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v23
         },
-        V34:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v34
-        },
-
-        V41:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v41
-        },
-        V42:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v42
-        },
-        V43:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v43
-        },
-        V44:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v44
+        V24: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v24
         },
 
-        V51:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v51
+        V31: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v31
         },
-        V52:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v52
+        V32: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v32
         },
-        V53:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v53
+        V33: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v33
         },
-        V54:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v54
-        },
-
-        V61:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v61
-        },
-        V62:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v62
-        },
-        V63:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v63
-        },
-        V64:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v64
+        V34: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v34
         },
 
-        V71:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v71
+        V41: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v41
         },
-        V72:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v72
+        V42: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v42
         },
-        V73:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v73
+        V43: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v43
         },
-        V74:{
-          Switch:this.liquidDispenserModule.data[this.currentStep.number].v74
+        V44: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v44
+        },
+
+        V51: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v51
+        },
+        V52: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v52
+        },
+        V53: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v53
+        },
+        V54: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v54
+        },
+
+        V61: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v61
+        },
+        V62: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v62
+        },
+        V63: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v63
+        },
+        V64: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v64
+        },
+
+        V71: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v71
+        },
+        V72: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v72
+        },
+        V73: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v73
+        },
+        V74: {
+          Switch: this.liquidDispenserModule.data[this.currentStep.number].v74
         },
 
         SP1: SP1,
@@ -1027,21 +1029,28 @@ export default {
             if (response.status === 200) {
               module.data = await response.data;
 
+              let step = 0;
+
+              module.data.forEach(function (line) {
+                line.step = step++;
+              });
+
               //Set stepModule data and actions
               if (0 === this.stepCount++)
-                this.loadStepsAndActions(module.data.length);
+                this.loadStepsAndActions(module.data);
 
               // Set drop dispenser's displayed info
-              if (module.name.toLowerCase().includes('drop'))
+              else if (module.name.toLowerCase().includes('drop'))
                 this.loadDropDispenserDisplayedInfo();
 
               // Set liquid dispenser's displayed info
-              if (module.name.toLowerCase().includes('liquid'))
+              else if (module.name.toLowerCase().includes('liquid'))
                 this.loadLiquidDispenserUpdateInfo();
 
               // Set waiting condition's displayed info
-              if (module.name.toLowerCase().includes('waiting'))
-                this.loadWCDisplayedInfo();
+              else if (module.name.toLowerCase().includes('waiting'))
+                this.loadWaitingConditionDisplayedInfo();
+
 
             } else {
               this.snackbar.message = response.data.message;
@@ -1070,10 +1079,11 @@ export default {
     /*------------------------------------------------------------------------
    * Function load number of actual steps
    * ------------------------------------------------------------------------*/
-    loadStepsAndActions(length) {
+    loadStepsAndActions(data) {
 
-      for (let i = 0; i < length; i++) {
+      for (let i = 0; i < data.length; i++) {
         let step = {step: JSON.parse(JSON.stringify(this.currentStep.start))};
+
         this.$data.stepModule.data.push(step);
         let line = {line: JSON.parse(JSON.stringify(this.currentStep.start))};
         this.$data.actionsModule.data.push(line);
@@ -1129,6 +1139,7 @@ export default {
         line.v73Info = line.v73 === 0 ? 'Closed' : 'Opened';
         line.v74Info = line.v74 === 0 ? 'Closed' : 'Opened';
 
+
       });
 
     },
@@ -1152,15 +1163,20 @@ export default {
     /*------------------------------------------------------------------------
     * Function to load the number of actual steps
     * ------------------------------------------------------------------------*/
-    loadWCDisplayedInfo() {
+    loadWaitingConditionDisplayedInfo() {
 
       for (let i = 0; i < this.waitingConditionModule.data.length; i++) {
         this.waitingConditionModule.data[i].description.toLowerCase() === 'timeout' ?
             this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value + ' ms' :
-            this.waitingConditionModule.data[i].description.toLowerCase() === 'gina' ? 'Gina' : '';
+            this.waitingConditionModule.data[i].description.toLowerCase() === 'pause' ? 'Pause' : '';
 
       }
     },
+    loadStepNumber(module) {
+      for (let i = 0; i < this.module.data.length; i++)
+        module.data[i].step = i;
+    },
+
 
     /*------------------------------------------------------------------------
     * Function to fetch all modules data
@@ -1282,6 +1298,7 @@ Vue.directive("simple-table-sticky", {
   z-index: 3;
   opacity: 1;
 }
+
 #btnNext {
   position: fixed;
   top: 500px;
@@ -1291,6 +1308,7 @@ Vue.directive("simple-table-sticky", {
   opacity: 0.50;
 
 }
+
 #btnPrev {
   position: fixed;
   top: 500px;

@@ -371,7 +371,7 @@
               <td>
                 <v-card height="200" width="230" style="padding: 20px">
                   <v-card-title class="justify-center module-title-color"> Description</v-card-title>
-                  <v-text-field label="Enter a comment" v-model="commentConfig"/>
+                  <v-text-field label="Step description" v-model="stepDescription"/>
                 </v-card>
               </td>
 
@@ -381,6 +381,46 @@
 
       </v-card-text>
     </v-card>
+
+    <!--    Dialogs-->
+    <v-dialog
+        v-model="commentDialog.open"
+        width="500"
+    >
+      <v-card>
+        <v-card-title>{{ commentDialog.message }}</v-card-title>
+        <v-card-text>
+          <v-text-field
+              :rules="[rules.required]"
+              v-model="stepDescription"
+          >
+          </v-text-field>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn
+              text
+              color="secondary"
+              @click="commentDialog.open = false"
+          >
+            Cancel
+          </v-btn>
+
+          <v-spacer/>
+
+          <v-btn
+              text
+              color="primary"
+              :disabled='stepDescription === "" ||stepDescription === null || stepDescription.match(/^ *$/) !== null'
+              @click="saveStep"
+          >
+            Save
+          </v-btn>
+
+        </v-card-actions>
+
+      </v-card>
+    </v-dialog>
+
 
     <!--    Values Overflow Dialog-->
 
@@ -429,8 +469,6 @@
               <span style="color: red"> Offline</span>
             </div>
           </div>
-
-
 
 
           <v-spacer/>
@@ -535,7 +573,7 @@
           <v-btn id="save-step-button"
                  v-if="mode==='config'"
                  style="background-color: dodgerblue; color: white;"
-                 @click="$emit('lineSaved')"
+                 @click='stepDescription==="" ?commentDialog.open = true: saveStep'
           >
             Save step
           </v-btn>
@@ -1422,9 +1460,17 @@ export default {
         sp2Width: '10%',
         sp3Width: '10%',
         speed: 2,
+        rules: {
+          required: value => !!value || 'Required.',
+        },
         overflowDialog: {
           open: false,
           message: ''
+        },
+
+        commentDialog: {
+          open: false,
+          message: 'A description is mandatory'
         },
 
         connection: '',
@@ -1604,7 +1650,7 @@ export default {
         //Waiting Condition
 
         waitingConditionConfig: {
-          items: ['None', 'Gina', 'Timeout'],
+          items: ['None', 'Pause', 'Timeout'],
           selectedOption: 'None',
           timeoutOptionSelected: false,
           timeoutValue: 0,
@@ -1619,7 +1665,7 @@ export default {
 
         // Comments
 
-        commentConfig: '',
+        stepDescription: '',
 
         // Other Modules
 
@@ -1797,6 +1843,11 @@ export default {
 
   methods: {
 
+    saveStep() {
+      this.$emit('lineSaved');
+      this.commentDialog.open = false;
+    },
+
     scrollTo(module) {
       /* const mainImage = document.querySelector("#image-container");
        let value = null;*/
@@ -1869,7 +1920,7 @@ export default {
     resetPlatformTables() {
 
       this.waitingConditionConfig.selectedOption = 'None';
-      this.commentConfig = '';
+      this.stepDescription = '';
     },
 
     /*------------------------------------------------------------------------
@@ -2898,7 +2949,10 @@ div:disabled {
   width: 40px;
   height: auto;
 }
-
+button.v-btn[disabled] {
+  opacity: 0.6;
+  color: dodgerblue;
+}
 select {
   border: 1px solid black;
   border-radius: 3px;
@@ -2992,7 +3046,8 @@ select {
     color: darkblue;
     border-color: black;
   }
-  .nav-chevron{
+
+  .nav-chevron {
     color: darkblue;
   }
 

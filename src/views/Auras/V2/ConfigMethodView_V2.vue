@@ -671,14 +671,13 @@ export default {
 
     updateWaitingCondition: {
       selectedOption: '',
-      items: ['None', 'Gina', 'Timeout'],
+      items: ['None', 'Pause', 'Timeout'],
       instrumentOptionSelected: false,
       timeoutOptionSelected: false,
       selectedInstrument: '',
-      selectedOldInstrument: 'Gina',
+      selectedWaitingCondition: 'Pause',
       timeoutValue: '',
       timeoutOldValue: 0,
-      instrumentsList: ['Gina', 'Auras'],
     },
 
     downloadedData: [],
@@ -917,7 +916,7 @@ export default {
           this.updateWaitingCondition.instrumentOptionSelected = true;
           this.updateWaitingCondition.timeoutOptionSelected = false;
 
-          this.updateWaitingCondition.selectedInstrument = this.updateWaitingCondition.selectedOldInstrument;
+          this.updateWaitingCondition.selectedInstrument = this.updateWaitingCondition.selectedWaitingCondition;
         }
 
         if (this.updateWaitingCondition.selectedOption.toLowerCase() === 'timeout') {
@@ -1191,7 +1190,7 @@ export default {
 
         this.waitingConditionModule.data[i].description.toLowerCase().includes('timeout') ?
             this.waitingConditionModule.data[i].description += ': ' + this.waitingConditionModule.data[i].value + ' ms' :
-            this.waitingConditionModule.data[i].description.toLowerCase() === 'gina' ? 'Gina' : '';
+            this.waitingConditionModule.data[i].description.toLowerCase() === 'pause' ? 'Pause' : '';
 
       }
 
@@ -1417,9 +1416,9 @@ export default {
 
         this.waitingConditionModule.data[line].description = 'Timeout';
         this.waitingConditionModule.data[line].value = this.updateWaitingCondition.timeoutValue;
-      } else if (this.updateWaitingCondition.selectedOption.toLowerCase().includes('gina')) {
+      } else if (this.updateWaitingCondition.selectedOption.toLowerCase().includes('pause')) {
 
-        this.waitingConditionModule.data[line].description = 'Gina';
+        this.waitingConditionModule.data[line].description = 'Pause';
         this.waitingConditionModule.data[line].value = -1;
       } else {
         this.waitingConditionModule.data[line].description = 'None';
@@ -1707,7 +1706,7 @@ export default {
       // Reset waiting condition  values
       if (name === this.waitingConditionModule.name) {
         this.updateWaitingCondition.timeoutOldValue = 0;
-        this.updateWaitingCondition.selectedOldInstrument = 'Gina';
+        this.updateWaitingCondition.selectedWaitingCondition = 'Pause';
       }
 
     },
@@ -1895,7 +1894,7 @@ export default {
     saveCommentModuleLine(methodStepId) {
 
       let commentStep = {
-        content: this.$refs.plateForm.commentConfig,
+        content: this.$refs.plateForm.stepDescription,
         methodStepId: methodStepId
       };
 
