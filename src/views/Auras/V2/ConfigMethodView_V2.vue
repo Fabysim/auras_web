@@ -32,20 +32,47 @@
             Run method
           </v-btn>
           <v-spacer/>
-          <v-btn v-if="simulatorMode"
-                 color="#eb3434"
-                 class="ma-2 white--text"
-                 @click="restartSimulator()"
-          >
-            <v-icon>mdi-refresh</v-icon>
-            Reset Simulator
-          </v-btn>
-          <v-btn v-else
-                 color="#eb3434"
-                 class="ma-2 white--text"
-                 @click="emergencyStop">
-            Emergency Stop
-          </v-btn>
+
+          <!-- Excel Emergency stop button -->
+
+          <v-tooltip v-if="simulatorMode" bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="#eb3434"
+                  class="ma-2 white--text"
+                  @click="restartSimulator()"
+              >
+                <Icon icon="bi:sign-stop"
+                      class="ma-2 emergency-stop-icon"
+                      x-large
+                      color="#ffff"/>
+              </v-btn>
+
+            </template>
+            <span>Restart Simulator</span>
+          </v-tooltip>
+
+          <v-tooltip v-else bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="#eb3434"
+                  class="ma-2 white--text"
+                  @click="emergencyStop">
+                <Icon icon="bi:sign-stop"
+                      class="emergency-stop-icon"
+                      x-large
+                      color="#ffff"/>
+              </v-btn>
+            </template>
+            <span>  Emergency Stop</span>
+          </v-tooltip>
+
+          <!-- Excel download button -->
+
           <download-excel :data="downloadedData" :name="currentMethod.name + '.xls'">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -54,22 +81,48 @@
                     v-bind="attrs"
                     color="#1dc249"
                     class="white--text"
-                    min-width="150"
                 >
+                  <v-icon color="#FFFFFF">mdi-tray-arrow-down</v-icon>
                   <v-icon color="#FFFFFF">mdi-file-excel</v-icon>
-                  <span class="mr-2">Download</span>
                 </v-btn>
               </template>
-              <span>Download method in Excel</span>
+              <span>Download method in Excel format</span>
             </v-tooltip>
           </download-excel>
-          <v-btn color="primary"
-                 class="ma-2 white--text"
-                 @click="loadModulesData()"
-          >
-            <v-icon>mdi-refresh</v-icon>
-            Refresh
-          </v-btn>
+
+          <!-- Json download button -->
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="#965408"
+                  class="ma-2 white--text"
+                  @click="downLoadJson">
+
+                <v-icon color="#FFFFFF">mdi-tray-arrow-down</v-icon>
+                <v-icon color="#FFFFFF">mdi-code-json</v-icon>
+              </v-btn>
+            </template>
+            <span>Download method in Json format</span>
+          </v-tooltip>
+
+          <!-- Refresh button -->
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  color="primary"
+                  class="ma-2 white--text"
+                  @click="loadModulesData()"
+              >
+                <v-icon>mdi-refresh</v-icon>
+              </v-btn>
+            </template>
+            <span>Refresh data</span>
+          </v-tooltip>
+
         </v-card-title>
       </v-card>
     </div>
@@ -81,7 +134,7 @@
       <!--Steps -->
 
       <v-card elevation="0">
-        <v-card-title class="justify-center module-title-color"> Step </v-card-title>
+        <v-card-title class="justify-center module-title-color"> Step</v-card-title>
         <v-card-text>
           <v-data-table :headers="stepModule.columns"
                         :items="stepModule.data"
@@ -578,14 +631,15 @@
 
 <script>
 
-import VueHorizontal from "vue-horizontal";
-
 Vue.component("downloadExcel", JsonExcel);
+
+import VueHorizontal from "vue-horizontal";
 import PlatFormCard from '@/components/Auras/V2/PlatformCard_V2.vue'
 import VueScrollSnap from "vue-scroll-snap";
 import axios from "axios";
 import Vue from "vue";
 import JsonExcel from "vue-json-excel";
+import {Icon} from '@iconify/vue2';
 
 
 export default {
@@ -593,7 +647,8 @@ export default {
   components: {
     PlatFormCard,
     VueScrollSnap,
-    VueHorizontal
+    VueHorizontal,
+    Icon,
   },
 
   data: () => ({
@@ -627,6 +682,7 @@ export default {
     },
 
     downloadedData: [],
+    downloadedJsonData: [],
 
     concatenatedData: {
       step: '',
@@ -709,7 +765,7 @@ export default {
       name: '',
       items: ['Buffer Low', 'Buffer High', 'KCl', 'Rinsing', 'Measure', 'Init'],
       columns: [
-        {text: 'Position', value: 'position', width: 100,sortable: false, align: 'center'},
+        {text: 'Position', value: 'position', width: 100, sortable: false, align: 'center'},
       ],
       data: [],
       update: {
@@ -896,7 +952,7 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-     * Create data to be downloaded
+     * Create data to be downloaded in excel
      * ------------------------------------------------------------------------*/
     setDownloadedData() {
 
@@ -958,6 +1014,70 @@ export default {
     },
 
 
+    /*------------------------------------------------------------------------
+     * Create data to be downloaded in Json
+     * ------------------------------------------------------------------------*/
+    setDownloadedJsonData() {
+
+      for (let i = 0; i < this.stepModule.data.length; i++) {
+
+        this.concatenatedData.step = i;
+        this.concatenatedData.v11 = this.liquidDispenserModule.data[i].v11;
+        this.concatenatedData.v12 = this.liquidDispenserModule.data[i].v12;
+        this.concatenatedData.v13 = this.liquidDispenserModule.data[i].v13;
+        this.concatenatedData.v14 = this.liquidDispenserModule.data[i].v14;
+
+        this.concatenatedData.v21 = this.liquidDispenserModule.data[i].v21;
+        this.concatenatedData.v22 = this.liquidDispenserModule.data[i].v22;
+        this.concatenatedData.v23 = this.liquidDispenserModule.data[i].v23;
+        this.concatenatedData.v24 = this.liquidDispenserModule.data[i].v24;
+
+        this.concatenatedData.v31 = this.liquidDispenserModule.data[i].v31;
+        this.concatenatedData.v32 = this.liquidDispenserModule.data[i].v32;
+        this.concatenatedData.v33 = this.liquidDispenserModule.data[i].v33;
+        this.concatenatedData.v34 = this.liquidDispenserModule.data[i].v34;
+
+        this.concatenatedData.v41 = this.liquidDispenserModule.data[i].v41;
+        this.concatenatedData.v42 = this.liquidDispenserModule.data[i].v42;
+        this.concatenatedData.v43 = this.liquidDispenserModule.data[i].v43;
+        this.concatenatedData.v44 = this.liquidDispenserModule.data[i].v44;
+
+        this.concatenatedData.v51 = this.liquidDispenserModule.data[i].v51;
+        this.concatenatedData.v52 = this.liquidDispenserModule.data[i].v52;
+        this.concatenatedData.v53 = this.liquidDispenserModule.data[i].v53;
+        this.concatenatedData.v54 = this.liquidDispenserModule.data[i].v54;
+
+        this.concatenatedData.v61 = this.liquidDispenserModule.data[i].v61;
+        this.concatenatedData.v62 = this.liquidDispenserModule.data[i].v62;
+        this.concatenatedData.v63 = this.liquidDispenserModule.data[i].v63;
+        this.concatenatedData.v64 = this.liquidDispenserModule.data[i].v64;
+
+        this.concatenatedData.v71 = this.liquidDispenserModule.data[i].v71;
+        this.concatenatedData.v72 = this.liquidDispenserModule.data[i].v72;
+        this.concatenatedData.v73 = this.liquidDispenserModule.data[i].v73;
+        this.concatenatedData.v74 = this.liquidDispenserModule.data[i].v74;
+
+        this.concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
+        this.concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
+        this.concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
+        this.concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
+        this.concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
+        this.concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
+        this.concatenatedData.pump1p = this.liquidDispenserModule.data[i].pumP1P;
+        this.concatenatedData.pump1S = this.liquidDispenserModule.data[i].pumP1S;
+
+        this.concatenatedData.dropDispenser = this.dropDispenserModule.data[i].description;
+        this.concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].description;
+        this.concatenatedData.phMeter = this.phMeterModule.data[i].description;
+
+        this.downloadedJsonData.splice(i, 0, JSON.stringify(this.concatenatedData));
+
+      }
+
+
+    },
+
+
     emergencyStop() {
 
       this.$refs.plateForm.sendToWebsocket({"EmergencyStop ": true});
@@ -974,8 +1094,24 @@ export default {
       this.aurasModules.forEach(m => this.fetchData(m));
 
       setTimeout(() => this.setDownloadedData(), 1000);
+      setTimeout(() => this.setDownloadedJsonData(), 1000);
     },
 
+    downLoadJson() {
+
+      let text = "[" + this.downloadedJsonData + "]";
+      let filename = this.currentMethod.name + '.json';
+      let element = document.createElement('a');
+      element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+      document.body.removeChild(element);
+
+    },
     /*------------------------------------------------------------------------
       * Function to set LiquidDispenserModule's update info
       * ------------------------------------------------------------------------*/
@@ -2070,11 +2206,9 @@ table .absorbing-column {
   color: dodgerblue;
 }
 
-.vue-horizontal {
-  position: fixed;
-  top: 0;
-
-
+.emergency-stop-icon {
+  width: 30px;
+  height: auto;
 }
 
 .horizontal >>> .v-hl-btn svg {

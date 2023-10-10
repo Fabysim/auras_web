@@ -431,46 +431,10 @@
           </div>
 
 
-          <v-tooltip bottom v-if="simulatorMode">
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn outlined
-                     fab
-                     class="ml-16"
-                     v-bind="attrs"
-                     v-on="on"
-                     @click="restartSimulator()"
-                     color="red"
-              >
-                <Icon icon="bi:sign-stop"
-                      class="emergency-stop-icon"
-                      x-large
-                      color="#eb3434"/>
-              </v-btn>
-            </template>
-            <span>Reset Simulator</span>
-          </v-tooltip>
-
-          <v-tooltip bottom v-else>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn outlined
-                     fab
-                     class="ml-16"
-                     v-bind="attrs"
-                     v-on="on"
-                     @click="emergencyStop"
-                     color="red"
-              >
-                <Icon icon="bi:sign-stop"
-                      class="emergency-stop-icon"
-                      large
-                      color="#eb3434"/>
-              </v-btn>
-            </template>
-            <span>Emergency Stop</span>
-          </v-tooltip>
 
 
           <v-spacer/>
+
           <!--        Navigation buttons-->
 
           <v-btn
@@ -525,6 +489,48 @@
           </v-btn>
 
           <v-spacer/>
+
+          <!--        Emergency stop buttons-->
+
+          <v-tooltip bottom v-if="simulatorMode">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn outlined
+                     fab
+                     class="ml-16"
+                     v-bind="attrs"
+                     v-on="on"
+                     @click="restartSimulator()"
+                     color="red"
+              >
+                <Icon icon="bi:sign-stop"
+                      class="emergency-stop-icon"
+                      x-large
+                      color="#eb3434"/>
+              </v-btn>
+            </template>
+            <span>Reset Simulator</span>
+          </v-tooltip>
+          <v-tooltip bottom v-else>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn outlined
+                     fab
+                     class="ml-16"
+                     v-bind="attrs"
+                     v-on="on"
+                     @click="emergencyStop"
+                     color="red"
+              >
+                <Icon icon="bi:sign-stop"
+                      class="emergency-stop-icon"
+                      large
+                      color="#eb3434"/>
+              </v-btn>
+            </template>
+            <span>Emergency Stop</span>
+          </v-tooltip>
+          <v-spacer/>
+
+          <!--        Save step button-->
 
           <v-btn id="save-step-button"
                  v-if="mode==='config'"
