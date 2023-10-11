@@ -1175,10 +1175,10 @@
                 </option>
               </select>
 
-              <textarea readonly id="ps1SpeedLabel"/>
+              <textarea readonly id="ps1SpeedLabel" :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"/>
 
               <div id="syringe1-buttons" v-show="mode.toLowerCase()==='config'">
-                <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                <v-btn :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
                        small
                        outlined
                        class="empty"
@@ -1221,6 +1221,7 @@
                 />
 
                 <input type="range" id="ps1SpeedRange" min="1" max="200"
+                       :disabled="!liquidDispenserModuleConfig.sp1VolumeSelected"
                        @input="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'ps1SpeedRange')"
                        list="tickMarks">
               </div>
@@ -1235,10 +1236,11 @@
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
               </select>
 
-              <textarea readonly id="ps2SpeedLabel"></textarea>
+              <textarea readonly id="ps2SpeedLabel"
+                        :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"></textarea>
 
               <div id="syringe2-buttons" v-show="mode.toLowerCase()==='config'">
-                <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                <v-btn :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
                        small
                        outlined
                        class="empty"
@@ -1277,7 +1279,10 @@
                        id="volumeSp2Input"
                        @change="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'volumeSp2Input')"/>
 
-                <input type="range" id="ps2SpeedRange" min="1" max="200"
+                <input type="range"
+                       id="ps2SpeedRange"
+                       min="1" max="200"
+                       :disabled="!liquidDispenserModuleConfig.sp2VolumeSelected"
                        @input="event => setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'ps2SpeedRange')"
                        list="tickMarks">
 
@@ -1293,37 +1298,38 @@
                 <option v-for="item in liquidDispenserModuleConfig.items" :value="item" :key="item">{{ item }}</option>
               </select>
 
-              <textarea readonly id="ps3SpeedLabel"></textarea>
+              <textarea id="ps3SpeedLabel"
+                        :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                        readonly/>
 
               <div id="syringe3-buttons" v-show="mode.toLowerCase()==='config'">
 
-                <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                <v-btn id="razPs3" :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        small
                        outlined
                        class="empty"
-                       id="razPs3"
                        @click="resetSp('sp3')">
                   <v-icon>
                     mdi-needle-off
                   </v-icon>
                   Empty
                 </v-btn>
-                <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                <v-btn id="volumeSp3Up"
                        rounded
                        small
                        outlined
-                       id="volumeSp3Up"
+                       :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        @mousedown="moveStepperMotors('sp3Up','mousedown')"
                        @mouseup="moveStepperMotors('sp3Up','mouseup')">
                   <v-icon>
                     mdi-chevron-up
                   </v-icon>
                 </v-btn>
-                <v-btn :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
+                <v-btn id="volumeSp3Down"
                        rounded
                        small
                        outlined
-                       id="volumeSp3Down"
+                       :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        @mousedown="moveStepperMotors('sp3Down','mousedown')"
                        @mouseup="moveStepperMotors('sp3Down','mouseup')">
                   <v-icon>
@@ -1331,12 +1337,13 @@
                   </v-icon>
                 </v-btn>
                 <input type="text"
-                       :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        id="volumeSp3Input"
                        class="input-text"
+                       :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        @change="event => setModulePhysicalPosition(liquidDispenserModuleConfig,  event.target.value,'volumeSp3Input')"/>
 
                 <input type="range" id="ps3SpeedRange" min="1" max="200"
+                       :disabled="!liquidDispenserModuleConfig.sp3VolumeSelected"
                        @input="event =>  setModulePhysicalPosition(liquidDispenserModuleConfig, event.target.value,'ps3SpeedRange')"
                        list="tickMarks">
               </div>
@@ -1742,7 +1749,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener: to liquidDispenserModule.selectedSP1
     * ------------------------------------------------------------------------*/
-    'liquidDispenserModule.selectedSP1'() {
+    'liquidDispenserModuleConfig.selectedSP1'() {
 
       this.liquidDispenserModuleConfig.sp1Quantity = 0;
       this.liquidDispenserModuleConfig.sp1VolumeSelected = false;
@@ -1759,7 +1766,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener: to liquidDispenserModule.selectedSP2
     * ------------------------------------------------------------------------*/
-    'liquidDispenserModule.selectedSP2'() {
+    'liquidDispenserModuleConfig.selectedSP2'() {
 
       this.liquidDispenserModuleConfig.data[0].sP2P = 0;
       this.liquidDispenserModuleConfig.sp2VolumeSelected = false;
@@ -1775,7 +1782,7 @@ export default {
     /*------------------------------------------------------------------------
     * Listener: to liquidDispenserModule.selectedSP3
     * ------------------------------------------------------------------------*/
-    'liquidDispenserModule.selectedSP3'() {
+    'liquidDispenserModuleConfig.selectedSP3'() {
 
       this.liquidDispenserModuleConfig.data[0].sP3P = 0;
       this.liquidDispenserModuleConfig.sp3VolumeSelected = false;
@@ -2949,10 +2956,12 @@ div:disabled {
   width: 40px;
   height: auto;
 }
+
 button.v-btn[disabled] {
   opacity: 0.6;
   color: dodgerblue;
 }
+
 select {
   border: 1px solid black;
   border-radius: 3px;
