@@ -21,7 +21,7 @@
           <v-btn color="#a83248"
                  class="white--text"
                  width="150"
-                 @click="redirectTo('IndexAuras')"
+                 @click="redirectTo('IndexAurasV2')"
           >
             <v-icon>mdi-format-list-bulleted</v-icon>
             All Methods
