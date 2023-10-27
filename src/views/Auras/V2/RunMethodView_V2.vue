@@ -630,6 +630,7 @@ export default {
       }
     }
   },
+
   methods: {
     /*--------------------------------------------------------------------------
      *  Sends initialization message
@@ -710,7 +711,7 @@ export default {
     * -------------------------------------------------------------------------*/
     runMethod() {
 
-      this.currentStep.stage = 'runMethod';
+      this.currentStep.stage = 'RunMethod';
       let stepToRun = this.setStepDataObject();
       this.sendToWebsocket(stepToRun);
     },
@@ -772,27 +773,27 @@ export default {
       let SP3 = {};
 
       if (this.liquidDispenserModule.data[this.currentStep.number].sP1P === 'QC sample drop') {
-        Master.SP1 = 'QC sample drop';
+        Master.Sp1 = 'QC sample drop';
       } else if (this.liquidDispenserModule.data[this.currentStep.number].sP1P === 'Fill LAL cartridge') {
-        Master.SP1 = 'Fill LAL cartridge';
+        Master.Sp1 = 'Fill LAL cartridge';
       } else {
         SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep.number].sP1P) ? this.liquidDispenserModule.data[this.currentStep.number].sP1P * 1000 : '';
         SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep.number].sP1S * 1000;
       }
 
       if (this.liquidDispenserModule.data[this.currentStep.number].sP2P === 'QC sample drop') {
-        Master.SP2 = 'QC sample drop';
+        Master.Sp2 = 'QC sample drop';
       } else if (this.liquidDispenserModule.data[this.currentStep.number].sP2P === 'Fill LAL cartridge') {
-        Master.SP2 = 'Fill LAL cartridge';
+        Master.Sp2 = 'Fill LAL cartridge';
       } else {
         SP2.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep.number].sP2P) ? this.liquidDispenserModule.data[this.currentStep.number].sP2P * 1000 : '';
         SP2.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep.number].sP2S * 1000;
       }
 
       if (this.liquidDispenserModule.data[this.currentStep.number].sP3P === 'QC sample drop') {
-        Master.SP3 = 'QC sample drop';
+        Master.Sp3 = 'QC sample drop';
       } else if (this.liquidDispenserModule.data[this.currentStep.number].sP3P === 'Fill LAL cartridge') {
-        Master.SP3 = 'Fill LAL cartridge';
+        Master.Sp3 = 'Fill LAL cartridge';
       } else {
         SP3.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep.number].sP3P) ? this.liquidDispenserModule.data[this.currentStep.number].sP3P * 1000 : '';
         SP3.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep.number].sP3S * 1000;
@@ -905,9 +906,9 @@ export default {
           Switch: this.liquidDispenserModule.data[this.currentStep.number].v74
         },
 
-        SP1: SP1,
-        SP2: SP2,
-        SP3: SP3,
+        Sp1: SP1,
+        Sp2: SP2,
+        Sp3: SP3,
         PUMP1: {
           Move: (this.liquidDispenserModule.data[this.currentStep.number].pumP1P * 360).toFixed(2),
           SetMaxSpeed: this.liquidDispenserModule.data[this.currentStep.number].pumP1S * 6

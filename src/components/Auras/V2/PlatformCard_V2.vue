@@ -3,10 +3,7 @@
   <div id="platform">
     <!--Actions-->
 
-    <v-card
-        class="table"
-
-    >
+    <v-card class="table">
       <v-card-title
           class="justify-center"
           v-if="mode==='config'"
@@ -569,14 +566,38 @@
           <v-spacer/>
 
           <!--        Save step button-->
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                  v-if="mode==='config'"
+                  v-on="on"
+                  v-bind="attrs"
+                  class="mr-6"
+                  color="secondary"
+                  id="tlc_btn_home"
+                  @click="loadLastStep"
+              >
+                Last step
+              </v-btn>
+            </template>
+            <span>Load the last step of current step</span>
+          </v-tooltip>
 
-          <v-btn id="save-step-button"
-                 v-if="mode==='config'"
-                 style="background-color: dodgerblue; color: white;"
-                 @click='saveStep'
-          >
-            Save step
-          </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn id="save-step-button"
+                     v-if="mode==='config'"
+                     v-on="on"
+                     v-bind="attrs"
+                     style="background-color: dodgerblue; color: white;"
+                     @click='saveStep'
+              >
+                New step
+              </v-btn>
+
+            </template>
+            <span>Create new step</span>
+          </v-tooltip>
         </v-card-actions>
       </v-card>
 
@@ -1858,9 +1879,12 @@ export default {
       }
     },
 
+    loadLastStep() {
+      this.$emit('lastLineLoaded');
+    },
+
     scrollTo(module) {
-      /* const mainImage = document.querySelector("#image-container");
-       let value = null;*/
+
       let element = null;
 
       switch (module) {
@@ -2938,7 +2962,8 @@ export default {
     setDefaultSettings() {
       document.getElementById('wheelLeft').style.display = 'none';
       document.getElementById('wheelRight').style.display = 'none';
-    }
+    },
+
   }
 }
 
