@@ -577,6 +577,21 @@
                   <v-icon
                       v-on="on"
                       v-bind="attrs"
+                      min-width="150"
+                      @click="duplicateLine(item.line)"
+                  >
+                    mdi-content-duplicate
+                  </v-icon>
+                </template>
+                <span>Duplicate step</span>
+              </v-tooltip>
+
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                      v-on="on"
+                      v-bind="attrs"
                       color="red"
                       min-width="150"
                       @click="confirmDelete(item.line)"
@@ -586,7 +601,6 @@
                 </template>
                 <span>Delete step</span>
               </v-tooltip>
-
             </template>
 
           </v-data-table>
@@ -658,6 +672,7 @@ export default {
     allModulesList: [],
     aurasModules: [],
     currentStep: 0,
+    duplicatedLine: -1,
     dialogDelete: false,
     snackbar: {show: false, message: null, color: null},
     deletedIndex: '',
@@ -1858,7 +1873,7 @@ export default {
     },
 
     /*------------------------------------------------------------------------
-    * Function used to add a step in the currently created method
+    * Function to add a step in the currently created method
     * ------------------------------------------------------------------------*/
     async SaveLine() {
 
@@ -1869,9 +1884,29 @@ export default {
         Number: this.currentStep
       }
 
-      this.postStep(data, this.stepModule.name);
+      this.postStep(data, this.stepModule.name, 'create');
     },
 
+    /*------------------------------------------------------------------------
+    * Function to duplicate a given step of the current method
+    * ------------------------------------------------------------------------*/
+    duplicateLine(line) {
+
+      this.duplicatedLine = line;
+      this.extractStepModuleLine();
+
+      let data = {
+        MethodId: this.currentMethod.id,
+        Number: this.currentStep
+      }
+
+      this.postStep(data, this.stepModule.name, 'duplicate');
+
+    },
+
+    /*------------------------------------------------------------------------
+    * Create each module new step
+    * ------------------------------------------------------------------------*/
     saveAllModules(methodStepId) {
 
       this.saveTlcMigrationModuleLine(methodStepId);
@@ -1892,6 +1927,147 @@ export default {
     },
 
     /*------------------------------------------------------------------------
+    * Duplicates all modules' given step
+    * ------------------------------------------------------------------------*/
+    duplicateAllModules(methodStepId) {
+
+      this.duplicateTlcMigrationStep(methodStepId);
+      this.duplicatePhMeterStep(methodStepId);
+      this.duplicateDropDispenserStep(methodStepId);
+      this.duplicateLiquidDispenserStep(methodStepId);
+      this.duplicateWaitingConditionStep(methodStepId);
+      this.duplicateCommentStep(methodStepId);
+
+      setTimeout(() => this.loadModulesData(), 1000);
+      this.currentStep++;
+
+      let data = {stepCreated: true}
+      this.$refs.plateForm.sendToWebsocket(data);
+    },
+
+    /*------------------------------------------------------------------------
+    * Duplicates TlcMigration module's given step
+    * ------------------------------------------------------------------------*/
+    duplicateTlcMigrationStep(methodStepId) {
+
+      let data = {
+        methodStepId: methodStepId,
+        description: this.tlcMigrationModule.data[this.duplicatedLine].description,
+        position: this.tlcMigrationModule.data[this.duplicatedLine].position
+      }
+      this.postStep(data, this.tlcMigrationModule.name);
+    },
+
+    /*------------------------------------------------------------------------
+    * Duplicates PhMeter module's given step
+    * ------------------------------------------------------------------------*/
+    duplicatePhMeterStep(methodStepId) {
+
+      let data = {
+        methodStepId: methodStepId,
+        description: this.phMeterModule.data[this.duplicatedLine].description,
+        position: this.phMeterModule.data[this.duplicatedLine].position
+      }
+      this.postStep(data, this.phMeterModule.name);
+    },
+
+    /*------------------------------------------------------------------------
+    * Duplicates DropDispenser module's given step
+    * ------------------------------------------------------------------------*/
+    duplicateDropDispenserStep(methodStepId) {
+
+      let data = {
+        methodStepId: methodStepId,
+        description: this.dropDispenserModule.data[this.duplicatedLine].description,
+        value: this.dropDispenserModule.data[this.duplicatedLine].value
+      }
+      this.postStep(data, this.dropDispenserModule.name);
+    },
+
+    /*------------------------------------------------------------------------
+    * Duplicates LiquidDispenser module's given step
+    * ------------------------------------------------------------------------*/
+    duplicateLiquidDispenserStep(methodStepId) {
+
+      let data = {
+        methodStepId: methodStepId,
+        pumP1P: this.liquidDispenserModule.data[this.duplicatedLine].pumP1P,
+        pumP1S: this.liquidDispenserModule.data[this.duplicatedLine].pumP1S,
+        sP1P: this.liquidDispenserModule.data[this.duplicatedLine].sP1P,
+        sP1S: this.liquidDispenserModule.data[this.duplicatedLine].sP1S,
+        sP2P: this.liquidDispenserModule.data[this.duplicatedLine].sP2P,
+        sP2S: this.liquidDispenserModule.data[this.duplicatedLine].sP2S,
+        sP3P: this.liquidDispenserModule.data[this.duplicatedLine].sP3P,
+        sP3S: this.liquidDispenserModule.data[this.duplicatedLine].sP3S,
+
+        v11: this.liquidDispenserModule.data[this.duplicatedLine].v11,
+        v12: this.liquidDispenserModule.data[this.duplicatedLine].v12,
+        v13: this.liquidDispenserModule.data[this.duplicatedLine].v13,
+        v14: this.liquidDispenserModule.data[this.duplicatedLine].v14,
+
+        v21: this.liquidDispenserModule.data[this.duplicatedLine].v21,
+        v22: this.liquidDispenserModule.data[this.duplicatedLine].v22,
+        v23: this.liquidDispenserModule.data[this.duplicatedLine].v23,
+        v24: this.liquidDispenserModule.data[this.duplicatedLine].v24,
+
+        v31: this.liquidDispenserModule.data[this.duplicatedLine].v31,
+        v32: this.liquidDispenserModule.data[this.duplicatedLine].v32,
+        v33: this.liquidDispenserModule.data[this.duplicatedLine].v33,
+        v34: this.liquidDispenserModule.data[this.duplicatedLine].v34,
+
+        v41: this.liquidDispenserModule.data[this.duplicatedLine].v41,
+        v42: this.liquidDispenserModule.data[this.duplicatedLine].v42,
+        v43: this.liquidDispenserModule.data[this.duplicatedLine].v43,
+        v44: this.liquidDispenserModule.data[this.duplicatedLine].v44,
+
+        v51: this.liquidDispenserModule.data[this.duplicatedLine].v51,
+        v52: this.liquidDispenserModule.data[this.duplicatedLine].v52,
+        v53: this.liquidDispenserModule.data[this.duplicatedLine].v53,
+        v54: this.liquidDispenserModule.data[this.duplicatedLine].v54,
+
+        v61: this.liquidDispenserModule.data[this.duplicatedLine].v61,
+        v62: this.liquidDispenserModule.data[this.duplicatedLine].v62,
+        v63: this.liquidDispenserModule.data[this.duplicatedLine].v63,
+        v64: this.liquidDispenserModule.data[this.duplicatedLine].v64,
+
+        v71: this.liquidDispenserModule.data[this.duplicatedLine].v71,
+        v72: this.liquidDispenserModule.data[this.duplicatedLine].v72,
+        v73: this.liquidDispenserModule.data[this.duplicatedLine].v73,
+        v74: this.liquidDispenserModule.data[this.duplicatedLine].v74,
+
+      }
+      this.postStep(data, this.liquidDispenserModule.name);
+    },
+
+    /*------------------------------------------------------------------------
+    * Duplicates WaitingCondition module's given step
+    * ------------------------------------------------------------------------*/
+    duplicateWaitingConditionStep(methodStepId) {
+
+      let data = {
+        methodStepId: methodStepId,
+        description: this.waitingConditionModule.data[this.duplicatedLine].description,
+        type: this.waitingConditionModule.data[this.duplicatedLine].type,
+        value: this.waitingConditionModule.data[this.duplicatedLine].value
+
+      }
+      this.postStep(data, this.waitingConditionModule.name);
+    },
+
+    /*------------------------------------------------------------------------
+    * Duplicates Comment module's given step
+    * ------------------------------------------------------------------------*/
+    duplicateCommentStep(methodStepId) {
+
+      let data = {
+        methodStepId: methodStepId,
+        content: this.commentModule.data[this.duplicatedLine].content
+      }
+      this.postStep(data, this.commentModule.name);
+    },
+
+
+    /*------------------------------------------------------------------------
     * Function to confirm the deletion of a step of current method
     * ------------------------------------------------------------------------*/
     confirmDelete(index) {
@@ -1901,12 +2077,14 @@ export default {
 
     },
 
+
     /*------------------------------------------------------------------------
     * Function to delete a step of current method
     * ------------------------------------------------------------------------*/
     async deleteStep() {
 
       this.dialogDelete = false;
+
       let data = {
         id: this.deletedIndex,
         OldValue: this.deletedIndex,
@@ -2012,7 +2190,7 @@ export default {
     /*------------------------------------------------------------------------
     * Function to send method's line to database
     * ------------------------------------------------------------------------*/
-    async postStep(moduleData, moduleName) {
+    async postStep(moduleData, moduleName, action) {
       let url = this.getModuleUri(moduleName);
 
       axios.post(this.$aurasApiV2 + "api/" + url, moduleData)
@@ -2023,7 +2201,10 @@ export default {
 
                   if (moduleName === this.stepModule.name) {
                     let data = response.data;
-                    this.saveAllModules(data.id);
+                    if (action === 'duplicate')
+                      this.duplicateAllModules(data.id);
+                    if (action === 'create')
+                      this.saveAllModules(data.id);
                   } else
                     this.snackbar.message = "Step created correctly";
 
