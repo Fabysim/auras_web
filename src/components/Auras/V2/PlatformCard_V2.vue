@@ -580,7 +580,7 @@
                 Last step
               </v-btn>
             </template>
-            <span>Load the last step of current step</span>
+            <span>Load last step of current step</span>
           </v-tooltip>
 
           <v-tooltip bottom>
