@@ -683,49 +683,6 @@ export default {
     downloadedData: [],
     downloadedJsonData: [],
 
-    concatenatedData: {
-      step: '',
-      tlcMigration: '',
-      phMeter: '',
-      dropDispenser: '',
-      v11: '',
-      v12: '',
-      v13: '',
-      v14: '',
-      v21: '',
-      v22: '',
-      v23: '',
-      v24: '',
-      v31: '',
-      v32: '',
-      v33: '',
-      v34: '',
-      v41: '',
-      v42: '',
-      v43: '',
-      v44: '',
-      v51: '',
-      v52: '',
-      v53: '',
-      v54: '',
-      v61: '',
-      v62: '',
-      v63: '',
-      v64: '',
-      v71: '',
-      v72: '',
-      v73: '',
-      v74: '',
-      sp1P: '',
-      sp1S: '',
-      sp2P: '',
-      sp2S: '',
-      sp3P: '',
-      sp3S: '',
-      pump1p: '',
-      pumP1S: '',
-    },
-
     stepModule: {
       name: '',
       columns: [
@@ -957,61 +914,60 @@ export default {
 
       for (let i = 0; i < this.stepModule.data.length; i++) {
 
-        this.concatenatedData.step = this.liquidDispenserModule.data[i].step;
-        this.concatenatedData.v11 = this.liquidDispenserModule.data[i].v11;
-        this.concatenatedData.v12 = this.liquidDispenserModule.data[i].v12;
-        this.concatenatedData.v13 = this.liquidDispenserModule.data[i].v13;
-        this.concatenatedData.v14 = this.liquidDispenserModule.data[i].v14;
+        let concatenatedData = {};
+        concatenatedData.step = this.liquidDispenserModule.data[i].step;
+        concatenatedData.v11 = this.liquidDispenserModule.data[i].v11;
+        concatenatedData.v12 = this.liquidDispenserModule.data[i].v12;
+        concatenatedData.v13 = this.liquidDispenserModule.data[i].v13;
+        concatenatedData.v14 = this.liquidDispenserModule.data[i].v14;
 
-        this.concatenatedData.v21 = this.liquidDispenserModule.data[i].v21;
-        this.concatenatedData.v22 = this.liquidDispenserModule.data[i].v22;
-        this.concatenatedData.v23 = this.liquidDispenserModule.data[i].v23;
-        this.concatenatedData.v24 = this.liquidDispenserModule.data[i].v24;
+        concatenatedData.v21 = this.liquidDispenserModule.data[i].v21;
+        concatenatedData.v22 = this.liquidDispenserModule.data[i].v22;
+        concatenatedData.v23 = this.liquidDispenserModule.data[i].v23;
+        concatenatedData.v24 = this.liquidDispenserModule.data[i].v24;
 
-        this.concatenatedData.v31 = this.liquidDispenserModule.data[i].v31;
-        this.concatenatedData.v32 = this.liquidDispenserModule.data[i].v32;
-        this.concatenatedData.v33 = this.liquidDispenserModule.data[i].v33;
-        this.concatenatedData.v34 = this.liquidDispenserModule.data[i].v34;
+        concatenatedData.v31 = this.liquidDispenserModule.data[i].v31;
+        concatenatedData.v32 = this.liquidDispenserModule.data[i].v32;
+        concatenatedData.v33 = this.liquidDispenserModule.data[i].v33;
+        concatenatedData.v34 = this.liquidDispenserModule.data[i].v34;
 
-        this.concatenatedData.v41 = this.liquidDispenserModule.data[i].v41;
-        this.concatenatedData.v42 = this.liquidDispenserModule.data[i].v42;
-        this.concatenatedData.v43 = this.liquidDispenserModule.data[i].v43;
-        this.concatenatedData.v44 = this.liquidDispenserModule.data[i].v44;
+        concatenatedData.v41 = this.liquidDispenserModule.data[i].v41;
+        concatenatedData.v42 = this.liquidDispenserModule.data[i].v42;
+        concatenatedData.v43 = this.liquidDispenserModule.data[i].v43;
+        concatenatedData.v44 = this.liquidDispenserModule.data[i].v44;
 
-        this.concatenatedData.v51 = this.liquidDispenserModule.data[i].v51;
-        this.concatenatedData.v52 = this.liquidDispenserModule.data[i].v52;
-        this.concatenatedData.v53 = this.liquidDispenserModule.data[i].v53;
-        this.concatenatedData.v54 = this.liquidDispenserModule.data[i].v54;
+        concatenatedData.v51 = this.liquidDispenserModule.data[i].v51;
+        concatenatedData.v52 = this.liquidDispenserModule.data[i].v52;
+        concatenatedData.v53 = this.liquidDispenserModule.data[i].v53;
+        concatenatedData.v54 = this.liquidDispenserModule.data[i].v54;
 
-        this.concatenatedData.v61 = this.liquidDispenserModule.data[i].v61;
-        this.concatenatedData.v62 = this.liquidDispenserModule.data[i].v62;
-        this.concatenatedData.v63 = this.liquidDispenserModule.data[i].v63;
-        this.concatenatedData.v64 = this.liquidDispenserModule.data[i].v64;
+        concatenatedData.v61 = this.liquidDispenserModule.data[i].v61;
+        concatenatedData.v62 = this.liquidDispenserModule.data[i].v62;
+        concatenatedData.v63 = this.liquidDispenserModule.data[i].v63;
+        concatenatedData.v64 = this.liquidDispenserModule.data[i].v64;
 
-        this.concatenatedData.v71 = this.liquidDispenserModule.data[i].v71;
-        this.concatenatedData.v72 = this.liquidDispenserModule.data[i].v72;
-        this.concatenatedData.v73 = this.liquidDispenserModule.data[i].v73;
-        this.concatenatedData.v74 = this.liquidDispenserModule.data[i].v74;
+        concatenatedData.v71 = this.liquidDispenserModule.data[i].v71;
+        concatenatedData.v72 = this.liquidDispenserModule.data[i].v72;
+        concatenatedData.v73 = this.liquidDispenserModule.data[i].v73;
+        concatenatedData.v74 = this.liquidDispenserModule.data[i].v74;
 
-        this.concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
-        this.concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
-        this.concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
-        this.concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
-        this.concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
-        this.concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
-        this.concatenatedData.pump1p = this.liquidDispenserModule.data[i].pumP1P;
-        this.concatenatedData.pump1S = this.liquidDispenserModule.data[i].pumP1S;
+        concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
+        concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
+        concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
+        concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
+        concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
+        concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
+        concatenatedData.pump1p = this.liquidDispenserModule.data[i].pumP1P;
+        concatenatedData.pump1S = this.liquidDispenserModule.data[i].pumP1S;
 
-        this.concatenatedData.dropDispenser = this.dropDispenserModule.data[i].description;
-        this.concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].description;
-        this.concatenatedData.phMeter = this.phMeterModule.data[i].description;
+        concatenatedData.dropDispenser = this.dropDispenserModule.data[i].description;
+        concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].description;
+        concatenatedData.phMeter = this.phMeterModule.data[i].description;
 
-        this.downloadedData.splice(i, 0, JSON.parse(JSON.stringify(this.concatenatedData)));
+        this.downloadedData.splice(i, 0, JSON.parse(JSON.stringify(concatenatedData)));
       }
 
-
     },
-
 
     /*------------------------------------------------------------------------
      * Create data to be downloaded in Json
@@ -1020,60 +976,59 @@ export default {
 
       for (let i = 0; i < this.stepModule.data.length; i++) {
 
-        this.concatenatedData.step = i;
-        this.concatenatedData.v11 = this.liquidDispenserModule.data[i].v11;
-        this.concatenatedData.v12 = this.liquidDispenserModule.data[i].v12;
-        this.concatenatedData.v13 = this.liquidDispenserModule.data[i].v13;
-        this.concatenatedData.v14 = this.liquidDispenserModule.data[i].v14;
+        let concatenatedData = {};
+        concatenatedData.step = i;
+        concatenatedData.v11 = this.liquidDispenserModule.data[i].v11;
+        concatenatedData.v12 = this.liquidDispenserModule.data[i].v12;
+        concatenatedData.v13 = this.liquidDispenserModule.data[i].v13;
+        concatenatedData.v14 = this.liquidDispenserModule.data[i].v14;
 
-        this.concatenatedData.v21 = this.liquidDispenserModule.data[i].v21;
-        this.concatenatedData.v22 = this.liquidDispenserModule.data[i].v22;
-        this.concatenatedData.v23 = this.liquidDispenserModule.data[i].v23;
-        this.concatenatedData.v24 = this.liquidDispenserModule.data[i].v24;
+        concatenatedData.v21 = this.liquidDispenserModule.data[i].v21;
+        concatenatedData.v22 = this.liquidDispenserModule.data[i].v22;
+        concatenatedData.v23 = this.liquidDispenserModule.data[i].v23;
+        concatenatedData.v24 = this.liquidDispenserModule.data[i].v24;
 
-        this.concatenatedData.v31 = this.liquidDispenserModule.data[i].v31;
-        this.concatenatedData.v32 = this.liquidDispenserModule.data[i].v32;
-        this.concatenatedData.v33 = this.liquidDispenserModule.data[i].v33;
-        this.concatenatedData.v34 = this.liquidDispenserModule.data[i].v34;
+        concatenatedData.v31 = this.liquidDispenserModule.data[i].v31;
+        concatenatedData.v32 = this.liquidDispenserModule.data[i].v32;
+        concatenatedData.v33 = this.liquidDispenserModule.data[i].v33;
+        concatenatedData.v34 = this.liquidDispenserModule.data[i].v34;
 
-        this.concatenatedData.v41 = this.liquidDispenserModule.data[i].v41;
-        this.concatenatedData.v42 = this.liquidDispenserModule.data[i].v42;
-        this.concatenatedData.v43 = this.liquidDispenserModule.data[i].v43;
-        this.concatenatedData.v44 = this.liquidDispenserModule.data[i].v44;
+        concatenatedData.v41 = this.liquidDispenserModule.data[i].v41;
+        concatenatedData.v42 = this.liquidDispenserModule.data[i].v42;
+        concatenatedData.v43 = this.liquidDispenserModule.data[i].v43;
+        concatenatedData.v44 = this.liquidDispenserModule.data[i].v44;
 
-        this.concatenatedData.v51 = this.liquidDispenserModule.data[i].v51;
-        this.concatenatedData.v52 = this.liquidDispenserModule.data[i].v52;
-        this.concatenatedData.v53 = this.liquidDispenserModule.data[i].v53;
-        this.concatenatedData.v54 = this.liquidDispenserModule.data[i].v54;
+        concatenatedData.v51 = this.liquidDispenserModule.data[i].v51;
+        concatenatedData.v52 = this.liquidDispenserModule.data[i].v52;
+        concatenatedData.v53 = this.liquidDispenserModule.data[i].v53;
+        concatenatedData.v54 = this.liquidDispenserModule.data[i].v54;
 
-        this.concatenatedData.v61 = this.liquidDispenserModule.data[i].v61;
-        this.concatenatedData.v62 = this.liquidDispenserModule.data[i].v62;
-        this.concatenatedData.v63 = this.liquidDispenserModule.data[i].v63;
-        this.concatenatedData.v64 = this.liquidDispenserModule.data[i].v64;
+        concatenatedData.v61 = this.liquidDispenserModule.data[i].v61;
+        concatenatedData.v62 = this.liquidDispenserModule.data[i].v62;
+        concatenatedData.v63 = this.liquidDispenserModule.data[i].v63;
+        concatenatedData.v64 = this.liquidDispenserModule.data[i].v64;
 
-        this.concatenatedData.v71 = this.liquidDispenserModule.data[i].v71;
-        this.concatenatedData.v72 = this.liquidDispenserModule.data[i].v72;
-        this.concatenatedData.v73 = this.liquidDispenserModule.data[i].v73;
-        this.concatenatedData.v74 = this.liquidDispenserModule.data[i].v74;
+        concatenatedData.v71 = this.liquidDispenserModule.data[i].v71;
+        concatenatedData.v72 = this.liquidDispenserModule.data[i].v72;
+        concatenatedData.v73 = this.liquidDispenserModule.data[i].v73;
+        concatenatedData.v74 = this.liquidDispenserModule.data[i].v74;
 
-        this.concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
-        this.concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
-        this.concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
-        this.concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
-        this.concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
-        this.concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
-        this.concatenatedData.pump1p = this.liquidDispenserModule.data[i].pumP1P;
-        this.concatenatedData.pump1S = this.liquidDispenserModule.data[i].pumP1S;
+        concatenatedData.sp1P = this.liquidDispenserModule.data[i].sP1P;
+        concatenatedData.sp1S = this.liquidDispenserModule.data[i].sP1S;
+        concatenatedData.sp2P = this.liquidDispenserModule.data[i].sP2P;
+        concatenatedData.sp2S = this.liquidDispenserModule.data[i].sP2S;
+        concatenatedData.sp3P = this.liquidDispenserModule.data[i].sP3P;
+        concatenatedData.sp3S = this.liquidDispenserModule.data[i].sP3S;
+        concatenatedData.pump1p = this.liquidDispenserModule.data[i].pumP1P;
+        concatenatedData.pump1s = this.liquidDispenserModule.data[i].pumP1S;
 
-        this.concatenatedData.dropDispenser = this.dropDispenserModule.data[i].description;
-        this.concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].description;
-        this.concatenatedData.phMeter = this.phMeterModule.data[i].description;
+        concatenatedData.dropDispenser = this.dropDispenserModule.data[i].value;
+        concatenatedData.tlcMigration = this.tlcMigrationModule.data[i].position;
+        concatenatedData.phMeter = this.phMeterModule.data[i].position;
+        concatenatedData.description = this.commentModule.data[i].content;
 
-        this.downloadedJsonData.splice(i, 0, JSON.stringify(this.concatenatedData));
-
+        this.downloadedJsonData.splice(i, 0, JSON.stringify(concatenatedData));
       }
-
-
     },
 
 
@@ -1093,10 +1048,11 @@ export default {
       this.aurasModules.forEach(m => this.fetchData(m));
 
       setTimeout(() => this.setDownloadedData(), 1000);
-      setTimeout(() => this.setDownloadedJsonData(), 1000);
     },
 
     downLoadJson() {
+
+      this.setDownloadedJsonData();
 
       let text = "[" + this.downloadedJsonData + "]";
       let filename = this.currentMethod.name + '.json';

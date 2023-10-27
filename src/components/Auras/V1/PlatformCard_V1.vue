@@ -1837,10 +1837,6 @@ export default {
             let data = {LDS3: {MoveTo: parseInt(value)}};
             this.sendToWebsocket(data);
           }
-          if (componentId === 'ldS3') {
-            let data = {LDS3: {MoveTo: parseInt(value)}};
-            this.sendToWebsocket(data);
-          }
           if (componentId === 'ldS4') {
             let data = {LDS4: {MoveTo: parseInt(value)}};
             this.sendToWebsocket(data);
