@@ -208,7 +208,7 @@
           <v-btn color="secondary" @click="dialogDelete = false">
             Cancel
           </v-btn>
-          <v-btn color="error" @click="deleteMethod()">
+          <v-btn color="error" @click="deleteMethodManager()">
             Delete
           </v-btn>
           <v-spacer/>
@@ -367,18 +367,31 @@ export default {
               });
     },
 
+    deleteMethodManager() {
+
+      this.deleteMethod("api/Methods/deleteMethodData/", 0);
+
+    },
 
     /*--------------------------------------------------------------------------
     * Delete method
     * -------------------------------------------------------------------------*/
-    deleteMethod() {
+    deleteMethod(url, index) {
 
-      axios.delete(this.$aurasApiV2 + 'api/Methods/' + this.deletedMethodId)
+      axios.delete(this.$aurasApiV2 + url + this.deletedMethodId)
           .then(
               (response) => {
                 if (response.status === 204) {
-                  this.displayedMessage = "Method deleted correctly";
-                  this.fetchMethods();
+                  if (index === 0)
+                    this.deleteMethod("api/Methods/deleteMethodSteps/", 1);
+
+                  if (index === 1)
+                    this.deleteMethod("api/Methods/", 2);
+
+                  else {
+                    this.displayedMessage = "Method deleted correctly";
+                    this.fetchMethods();
+                  }
                 }
               })
           .catch(
@@ -390,6 +403,7 @@ export default {
       this.dialogDelete = false;
       this.removeFocusToAll();
     },
+
 
     /*--------------------------------------------------------------------------
     * Delete method
@@ -433,10 +447,10 @@ export default {
       document.activeElement.blur();
     },
 
-    duplicateMethodStep(){
+    duplicateMethodStep() {
 
       let params = {
-        'MethodId' : this.createdMethod.id,
+        'MethodId': this.createdMethod.id,
       }
 
       axios.put(this.$aurasApiV2 + 'api/MethodSteps/duplicate/' + this.duplicatedMethod.id, params)

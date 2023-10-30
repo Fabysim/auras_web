@@ -2111,13 +2111,11 @@ export default {
           .then(
               (response) => {
                 if (response.status === 204) {
-                  this.displayedMessage = "Method deleted correctly";
                   this.fetchMethods();
                 }
               })
           .catch(
               (error) => {
-                this.displayedMessage = "Error deleting method";
                 console.log(error.data);
               });
 
