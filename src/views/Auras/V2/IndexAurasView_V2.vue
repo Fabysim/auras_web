@@ -433,6 +433,28 @@ export default {
       document.activeElement.blur();
     },
 
+    duplicateMethodStep(){
+
+      let params = {
+        'MethodId' : this.createdMethod.id,
+      }
+
+      axios.put(this.$aurasApiV2 + 'api/MethodSteps/duplicate/' + this.duplicatedMethod.id, params)
+          .then(
+              (response) => {
+
+                if (response.status === 200) {
+                  this.duplicateMethodData();
+                }
+              })
+
+          .catch(
+              (error) => {
+                if (error.response.data.status === 400) {
+                  this.displayedMessage = "Sorry could not duplicate method";
+                }
+              });
+    },
     /*--------------------------------------------------------------------------
      * Duplicate data of a newly created method
      * -------------------------------------------------------------------------*/
@@ -465,13 +487,14 @@ export default {
         'Name': item.name + '_duplicated'
       }
 
+
       axios.post(this.$aurasApiV2 + "api/Methods", params)
           .then(
               (response) => {
 
                 if (response.status === 201) {
                   this.createdMethod = response.data;
-                  this.duplicateMethodData();
+                  this.duplicateMethodStep();
                 }
               })
 

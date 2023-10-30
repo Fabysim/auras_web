@@ -2099,11 +2099,29 @@ export default {
       };
 
       this.updateModule(data, 'methods/deleteStep');
+      this.deleteMethodStep();
       this.clearAllArrays();
 
       setTimeout(() => this.loadModulesData(), 1000);
     },
 
+    deleteMethodStep() {
+
+      axios.delete(this.$aurasApiV2 + 'api/MethodSteps/' + this.currentMethod.id, this.deletedIndex)
+          .then(
+              (response) => {
+                if (response.status === 204) {
+                  this.displayedMessage = "Method deleted correctly";
+                  this.fetchMethods();
+                }
+              })
+          .catch(
+              (error) => {
+                this.displayedMessage = "Error deleting method";
+                console.log(error.data);
+              });
+
+    },
 
     clearAllArrays() {
 
@@ -2245,10 +2263,12 @@ export default {
           .then((response) => {
 
             if (response.status === 200 || response.status === 201 || response.status === 204) {
-              this.snackbar.color = 'black';
-              name.toLowerCase().includes('delete')
-                  ? this.snackbar.message = "Step deleted successfully"
-                  : this.snackbar.message = "Step updated successfully";
+              //this.snackbar.color = 'black';
+              if (name.toLowerCase().includes('delete'))
+                this.snackbar.message = "Step deleted successfully"
+              else
+                this.snackbar.message = "Step updated successfully";
+
               this.loadModulesData();
             } else {
               this.snackbar.message = response.data.message;
@@ -2270,146 +2290,146 @@ export default {
       let SP2 = {};
       let SP3 = {};
 
-      if (this.liquidDispenserModule.data[this.currentStep-1].sP1P === 'QC sample drop') {
+      if (this.liquidDispenserModule.data[this.currentStep - 1].sP1P === 'QC sample drop') {
         Master.Sp1 = 'QC sample drop';
-      } else if (this.liquidDispenserModule.data[this.currentStep-1].sP1P === 'Fill LAL cartridge') {
+      } else if (this.liquidDispenserModule.data[this.currentStep - 1].sP1P === 'Fill LAL cartridge') {
         Master.Sp1 = 'Fill LAL cartridge';
       } else {
-        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep-1].sP1P) ? this.liquidDispenserModule.data[this.currentStep-1].sP1P * 1000 : '';
-        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep-1].sP1S * 1000;
+        SP1.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep - 1].sP1P) ? this.liquidDispenserModule.data[this.currentStep - 1].sP1P * 1000 : '';
+        SP1.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep - 1].sP1S * 1000;
       }
 
-      if (this.liquidDispenserModule.data[this.currentStep-1].sP2P === 'QC sample drop') {
+      if (this.liquidDispenserModule.data[this.currentStep - 1].sP2P === 'QC sample drop') {
         Master.Sp2 = 'QC sample drop';
-      } else if (this.liquidDispenserModule.data[this.currentStep-1].sP2P === 'Fill LAL cartridge') {
+      } else if (this.liquidDispenserModule.data[this.currentStep - 1].sP2P === 'Fill LAL cartridge') {
         Master.Sp2 = 'Fill LAL cartridge';
       } else {
-        SP2.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep-1].sP2P) ? this.liquidDispenserModule.data[this.currentStep-1].sP2P * 1000 : '';
-        SP2.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep-1].sP2S * 1000;
+        SP2.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep - 1].sP2P) ? this.liquidDispenserModule.data[this.currentStep - 1].sP2P * 1000 : '';
+        SP2.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep - 1].sP2S * 1000;
       }
 
-      if (this.liquidDispenserModule.data[this.currentStep-1].sP3P === 'QC sample drop') {
+      if (this.liquidDispenserModule.data[this.currentStep - 1].sP3P === 'QC sample drop') {
         Master.Sp3 = 'QC sample drop';
-      } else if (this.liquidDispenserModule.data[this.currentStep-1].sP3P === 'Fill LAL cartridge') {
+      } else if (this.liquidDispenserModule.data[this.currentStep - 1].sP3P === 'Fill LAL cartridge') {
         Master.Sp3 = 'Fill LAL cartridge';
       } else {
-        SP3.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep-1].sP3P) ? this.liquidDispenserModule.data[this.currentStep-1].sP3P * 1000 : '';
-        SP3.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep-1].sP3S * 1000;
+        SP3.MoveTo = !isNaN(this.liquidDispenserModule.data[this.currentStep - 1].sP3P) ? this.liquidDispenserModule.data[this.currentStep - 1].sP3P * 1000 : '';
+        SP3.SetMaxSpeed = this.liquidDispenserModule.data[this.currentStep - 1].sP3S * 1000;
       }
 
       return {
         stage: 'runStep',
         MethodName: this.currentMethod.name,
         NumberOfSteps: this.stepModule.totalOfSteps,
-        CurrentStep: this.currentStep-1,
+        CurrentStep: this.currentStep - 1,
 
         TlcMigration: {
-          MoveTo: this.tlcMigrationModule.data[this.currentStep-1].position
+          MoveTo: this.tlcMigrationModule.data[this.currentStep - 1].position
         },
         PhMeter: {
-          MoveTo: this.phMeterModule.data[this.currentStep-1].position
+          MoveTo: this.phMeterModule.data[this.currentStep - 1].position
         },
         DropDispenser: {
-          MoveTo: this.dropDispenserModule.data[this.currentStep-1].value
+          MoveTo: this.dropDispenserModule.data[this.currentStep - 1].value
         },
 
         V11: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v11
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v11
         },
         V12: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v12
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v12
         },
         V13: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v13
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v13
         },
         V14: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v14
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v14
         },
 
         V21: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v21
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v21
         },
         V22: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v22
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v22
         },
         V23: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v23
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v23
         },
         V24: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v24
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v24
         },
 
         V31: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v31
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v31
         },
         V32: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v32
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v32
         },
         V33: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v33
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v33
         },
         V34: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v34
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v34
         },
 
         V41: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v41
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v41
         },
         V42: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v42
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v42
         },
         V43: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v43
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v43
         },
         V44: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v44
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v44
         },
 
         V51: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v51
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v51
         },
         V52: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v52
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v52
         },
         V53: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v53
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v53
         },
         V54: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v54
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v54
         },
 
         V61: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v61
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v61
         },
         V62: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v62
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v62
         },
         V63: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v63
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v63
         },
         V64: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v64
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v64
         },
 
         V71: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v71
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v71
         },
         V72: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v72
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v72
         },
         V73: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v73
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v73
         },
         V74: {
-          Switch: this.liquidDispenserModule.data[this.currentStep-1].v74
+          Switch: this.liquidDispenserModule.data[this.currentStep - 1].v74
         },
 
         Sp1: SP1,
         Sp2: SP2,
         Sp3: SP3,
         PUMP1: {
-          Move: (this.liquidDispenserModule.data[this.currentStep-1].pumP1P * 360).toFixed(2),
-          SetMaxSpeed: this.liquidDispenserModule.data[this.currentStep-1].pumP1S * 6
+          Move: (this.liquidDispenserModule.data[this.currentStep - 1].pumP1P * 360).toFixed(2),
+          SetMaxSpeed: this.liquidDispenserModule.data[this.currentStep - 1].pumP1S * 6
         },
         Master: Master
 
