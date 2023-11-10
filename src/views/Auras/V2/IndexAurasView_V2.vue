@@ -220,9 +220,11 @@
 </template>
 
 <script>
+
 import axios from "axios";
 
 export default {
+
   name: "IndexAurasV2",
   data: () => ({
 
@@ -273,7 +275,6 @@ export default {
   mounted() {
     this.fetchMethods();
   },
-
 
   methods: {
 

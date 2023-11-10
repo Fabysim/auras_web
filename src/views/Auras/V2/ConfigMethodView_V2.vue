@@ -1,4 +1,6 @@
+
 <template>
+
   <div>
     <!--Method actions-->
     <div style="min-height: 100px" class="visibleTop">
@@ -636,11 +638,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-snackbar v-model="snackbar.show" :timeout="timeout" :color="snackbar.color">
       {{ snackbar.message }}
     </v-snackbar>
 
   </div>
+
 </template>
 
 <script>
@@ -657,7 +661,9 @@ import {Icon} from '@iconify/vue2';
 
 
 export default {
+
   name: 'AurasConfigMethodViewV2',
+
   components: {
     PlatFormCard,
     VueScrollSnap,
@@ -862,6 +868,7 @@ export default {
     this.loadModulesData();
 
   },
+
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.prevRoute = from;
@@ -2495,6 +2502,7 @@ Vue.directive("simple-table-sticky", {
     window.removeEventListener('scroll', stickyScrollHandler(el));
   }
 });
+
 </script>
 
 
