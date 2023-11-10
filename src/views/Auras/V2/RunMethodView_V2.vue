@@ -906,9 +906,9 @@ export default {
           Switch: this.liquidDispenserModule.data[this.currentStep.number].v74
         },
 
-        Sp1: SP1,
-        Sp2: SP2,
-        Sp3: SP3,
+        SP1: SP1,
+        SP2: SP2,
+        SP3: SP3,
         PUMP1: {
           Move: (this.liquidDispenserModule.data[this.currentStep.number].pumP1P * 360).toFixed(2),
           SetMaxSpeed: this.liquidDispenserModule.data[this.currentStep.number].pumP1S * 6
