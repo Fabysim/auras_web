@@ -1,4 +1,3 @@
-
 <template>
 
   <div>
@@ -194,7 +193,6 @@
                         :items="tlcMigrationModule.data"
                         :hide-default-footer="true"
                         disable-pagination
-
                         v-simple-table-sticky
                     >
                       <template v-slot:body="{ items, headers }">
@@ -210,7 +208,8 @@
 
                             > {{ item[header.value] }}
                               <template v-slot:input>
-                                <v-select :items="tlcMigrationModule.items"
+                                <v-select :disabled="mode==='run'"
+                                          :items="tlcMigrationModule.items"
                                           v-model="tlcMigrationModule.update.selectedOption"/>
                               </template>
                             </v-edit-dialog>
@@ -253,8 +252,10 @@
                                            @close="close">
                               {{ item[header.value] }}
                               <template v-slot:input>
-                                <v-select :items="dropDispenserModule.items"
-                                          v-model="dropDispenserModule.update.selectedOption"/>
+                                <v-select
+                                    :disabled="mode==='run'"
+                                    :items="dropDispenserModule.items"
+                                    v-model="dropDispenserModule.update.selectedOption"/>
                               </template>
                             </v-edit-dialog>
                           </td>
@@ -295,7 +296,9 @@
 
                             > {{ item[header.value] }}
                               <template v-slot:input>
-                                <v-select :items="phMeterModule.items"
+                                <v-select
+                                    :disabled="mode==='run'"
+                                    :items="phMeterModule.items"
                                           v-model="phMeterModule.update.selectedOption"/>
 
                               </template>
@@ -330,11 +333,8 @@
                       <template v-slot:body="{ items, headers }">
 
                         <tbody v-if="items.length > 0">
-
-
                         <tr v-for="(item,idx) in items" :key="idx">
                           <td v-for="(header,key) in headers" :key="key">
-
 
                             <v-edit-dialog large
                                            :return-value.sync="item[header.value]"
@@ -344,7 +344,7 @@
                                            @close="close"
 
                             >
-                              <div v-if="header.value.includes('v')">
+                              <div v-if="header.value.includes('v')" >
                                 <span v-if="item[header.value]==='Closed'" style="color: red">
                                   {{ item[header.value] }}
                                 </span>
@@ -361,13 +361,16 @@
                                     v-if="header.value ==='displayedSP1Info'|| header.value ==='displayedSP2Info' || header.value ==='displayedSP3Info'">
                                   <tr>
                                     <td>
-                                      <v-select :items="liquidDispenserModule.items"
+                                      <v-select
+                                          :disabled="mode==='run'" :items="liquidDispenserModule.items"
                                                 v-model="liquidDispenserModule.update.selectedSyringePositionOption"/>
                                     </td>
                                   </tr>
                                   <tr>
                                     <td v-if="liquidDispenserModule.update.volumeSelected">
-                                      <v-text-field v-model="liquidDispenserModule.update.selectedVolumeValue"
+                                      <v-text-field
+                                          :disabled="mode==='run'"
+                                          v-model="liquidDispenserModule.update.selectedVolumeValue"
                                                     label="Volume in µL"/>
 
                                     </td>
@@ -380,6 +383,7 @@
                                   <tr>
                                     <td>
                                       <v-text-field
+                                          :disabled="mode==='run'"
                                           :rules="[speedRulesForSp.acceptedValues]"
                                           v-model="liquidDispenserModule.update.selectedSpeedValue"
                                           label="Speed in µL/s"/>
@@ -393,6 +397,7 @@
                                   <tr>
                                     <td>
                                       <v-text-field
+                                          :disabled="mode==='run'"
                                           :rules="[speedRulesForPump.acceptedValues]"
                                           v-model="liquidDispenserModule.update.selectedSpeedValue"
                                           label="Speed in rpm"/>
@@ -404,13 +409,17 @@
                                 <table v-else-if="header.value.includes('v')">
                                   <tr>
                                     <td>
-                                      <v-select :items="liquidDispenserModule.items2"
+                                      <v-select
+                                          :disabled="mode==='run'"
+                                          :items="liquidDispenserModule.items2"
                                                 v-model="liquidDispenserModule.update.selectedPinchValveOption"/>
                                     </td>
                                   </tr>
                                 </table>
 
                                 <v-text-field v-else
+
+                                              :disabled="mode==='run'"
                                               v-model="item[header.value]"
                                               label="Edit"
                                               single-line
@@ -459,6 +468,7 @@
                                   <tr>
                                     <td>
                                       <v-select
+                                          :disabled="mode==='run'"
                                           v-model="updateWaitingCondition.selectedOption"
                                           :items="updateWaitingCondition.items"
                                       >
@@ -469,6 +479,7 @@
                                   <tr>
                                     <td v-if="updateWaitingCondition.timeoutOptionSelected">
                                       <v-text-field
+                                          :disabled="mode==='run'"
                                           label="timeout in ms"
                                           v-model="updateWaitingCondition.timeoutValue"
                                       />
@@ -515,6 +526,7 @@
                             > {{ item[header.value] }}
                               <template v-slot:input>
                                 <v-text-field
+                                    :disabled="mode==='run'"
                                     v-model="item[header.value]"
                                     label="Edit"
                                     single-line
@@ -563,7 +575,8 @@
 
       <!--Step actions-->
 
-      <v-card elevation="0">
+      <v-card elevation="0"
+              :disabled="mode==='run'">
         <v-card-title class="justify-center module-title-color">{{ actionsModule.name }}</v-card-title>
         <v-card-text>
           <v-data-table :headers="actionsModule.columns"
@@ -574,7 +587,9 @@
           >
             <template v-slot:[`item.actions`]="{ item }">
 
-              <v-tooltip bottom>
+              <v-tooltip
+
+                  bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-icon
                       v-on="on"
@@ -613,7 +628,7 @@
 
     <!-- PlatForms -->
 
-    <PlatFormCard mode="config" @lastLineLoaded="loadLastLine" @lineSaved="SaveLine" ref="plateForm"
+    <PlatFormCard :mode="mode" @lastLineLoaded="loadLastLine" @lineSaved="SaveLine" ref="plateForm"
                   key="configComponent"/>
 
     <!--Confirm deletion dialog-->
@@ -673,6 +688,7 @@ export default {
 
   data: () => ({
 
+    mode: 'config',
     lineNumber: 0,
     currentMethod: '',
     allModulesList: [],
@@ -1571,6 +1587,8 @@ export default {
     * ------------------------------------------------------------------------*/
     updateLine(value, col, name, line) {
 
+      if (this.mode === 'run') return
+
       switch (name) {
 
         case this.tlcMigrationModule.name:
@@ -2147,6 +2165,8 @@ export default {
           .then((response) => {
             if (response.status === 200) {
               this.currentMethod = response.data;
+              if (this.currentMethod.completed)
+                this.mode = 'run';
             } else {
               this.snackbar.message = response.data.message;
             }

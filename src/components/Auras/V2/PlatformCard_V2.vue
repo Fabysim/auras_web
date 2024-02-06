@@ -617,6 +617,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -638,6 +639,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -660,6 +662,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -691,6 +694,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -712,6 +716,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -749,6 +754,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     color="black"
@@ -770,6 +776,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     color="black"
@@ -791,6 +798,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -812,6 +820,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -833,6 +842,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     rounded
@@ -854,6 +864,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                    v-if="mode==='config'"
                     v-on="on"
                     v-bind="attrs"
                     color="black"
@@ -1373,6 +1384,7 @@
             <div id="pump"
             >
               <v-btn id="pumpLeft-button"
+                     v-show="mode.toLowerCase()==='config'"
                      small
                      outlined
                      rounded

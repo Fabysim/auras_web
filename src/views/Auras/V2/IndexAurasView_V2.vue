@@ -1,11 +1,25 @@
 <template>
   <div>
+
     <v-data-table
         :headers="headers"
         :items="methods"
-        sort-by="calories"
+        sort-by="['version']"
         class="elevation-1"
+        group-by="guid"
+        :footer-props="{'items-per-page-options': [10, 20, 30, 40, 50]}"
+        :items-per-page="30"
+
     >
+      <template v-slot:[`group.header`]="{items, isOpen, toggle}">
+        <th colspan="11">
+          <v-icon @click="toggle"
+          >{{ isOpen ? 'mdi-minus' : 'mdi-plus' }}
+          </v-icon>
+          {{ items[0].name }}
+        </th>
+      </template>
+
       <!-- Table header-->
 
       <template v-slot:top>
@@ -19,7 +33,7 @@
           <!-- Create Method Dialog-->
 
           <v-dialog
-              v-model="dialogRename"
+              v-model="dialogCreateMethod"
               max-width="500px"
           >
             <template v-slot:activator="{ on, attrs }">
@@ -50,7 +64,7 @@
                         md="4"
                     >
                       <v-text-field
-                          v-model="editedItem.name"
+                          v-model="createdItem.name"
                           label="Method name"
                           aria-required="true"
                           @keydown.enter.prevent="save"
@@ -58,13 +72,25 @@
                     </v-col>
 
                   </v-row>
+                  <v-row>
+                    <v-col
+                        cols="12"
+                    >
+                      <v-textarea
+                          v-model="createdItem.description"
+                          label="Description"
+                          aria-required="true"
+                          @keydown.enter.prevent="save"
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
                 </v-container>
               </v-card-text>
 
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="secondary"
-                       @click="dialogRename=false"
+                       @click="dialogCreateMethod=false"
                 >
                   Cancel
                 </v-btn>
@@ -90,11 +116,66 @@
 
           <!-- Message banner -->
 
-          <v-snackbar v-model="snackbar" :timeout="timeout">
+          <v-snackbar v-model="snackbar.value" :color="snackbar.color" :timeout="timeout">
             {{ displayedMessage }}
           </v-snackbar>
         </v-toolbar>
 
+      </template>
+
+      <!-- Line custom completed -->
+
+      <template v-slot:[`item.completed`]="{ item }">
+        <v-chip
+            :color="getColor(item.completed)"
+            dark
+        >
+          <div v-if="item.completed ===false">Open</div>
+          <div v-else>Completed</div>
+        </v-chip>
+      </template>
+
+      <!-- Line custom name -->
+
+      <template v-slot:[`item.name`]="{ item }">
+        <v-edit-dialog
+            :return-value.sync="item.name"
+            large
+            @save="save('name', item)"
+            @cancel="cancel"
+            @close="close"
+        >
+          {{ item.name }}
+          <template v-slot:input>
+            <v-text-field
+                v-model="item.name"
+                label="Edit"
+                single-line
+                counter
+            ></v-text-field>
+          </template>
+        </v-edit-dialog>
+      </template>
+
+      <!-- Line custom name -->
+      <template v-slot:[`item.description`]="{ item }">
+        <v-edit-dialog
+            :return-value.sync="item.description"
+            large
+            @save="save('description',item)"
+            @cancel="cancel"
+            @close="close"
+        >
+          {{ item.description }}
+          <template v-slot:input>
+            <v-text-field
+                v-model="item.description"
+                label="Edit"
+                single-line
+                counter
+            ></v-text-field>
+          </template>
+        </v-edit-dialog>
       </template>
 
       <!-- Line custom date -->
@@ -105,21 +186,22 @@
 
       <!-- Line custom actions -->
 
-      <template v-slot:[`item.rename`]="{ item }">
+      <template v-slot:[`item.complete`]="{ item }">
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary"
+            <v-btn color="green"
                    small
                    v-on="on"
                    v-bind="attrs"
-                   @click="renameMethod(item)">
-              <v-icon small class="mr-2">
-                mdi-form-textbox
+                   @click="completeMethod(item)">
+              <v-icon small
+                      color="white">
+                mdi-checkbox-marked-circle-outline
               </v-icon>
             </v-btn>
           </template>
-          Rename method
+          Complete method
         </v-tooltip>
 
       </template>
@@ -180,7 +262,7 @@
       <template v-slot:[`item.run`]="{ item }">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="success"
+            <v-btn color="primary"
                    small
                    v-on="on"
                    v-bind="attrs"
@@ -227,26 +309,27 @@ export default {
 
   name: "IndexAurasV2",
   data: () => ({
-
-    dialogRename: false,
+    formTitle: 'New Method',
+    oldMethodName: '',
+    dialogCreateMethod: false,
     dialogDelete: false,
     loading: false,
-    snackbar: false,
+    snackbar: {
+      value: false,
+      color: 'black'
+    },
     timeout: 2000,
     displayedMessage: '',
     deletedMethodId: '',
 
     headers: [
-      {
-        text: 'Id',
-        align: 'start',
-        sortable: true,
-        value: 'id',
-        width: '5%'
-      },
-      {text: 'Creation Date', value: 'date', width: '15%'},
-      {text: 'Method Name', value: 'name', width: '40%'},
-      {text: 'Rename', value: 'rename', sortable: false, width: '5%'},
+      {text: '', align: 'start', value: '', width: '5%'},
+      {text: 'Creation Date', align: 'start', value: 'date', width: '15%'},
+      {text: 'Completed', value: 'completed', width: '7%'},
+      {text: 'Version', value: 'version', width: '7%'},
+      {text: 'Method Name', value: 'name', width: '30%'},
+      {text: 'Description', value: 'description', width: '40%'},
+      {text: 'Complete', value: 'complete', sortable: false, width: '5%'},
       {text: 'Duplicate', value: 'duplicate', sortable: false, width: '5%'},
       {text: 'Delete', value: 'delete', sortable: false, width: '10%'},
       {text: 'Configuration', value: 'config', sortable: false, width: '5%'},
@@ -258,23 +341,31 @@ export default {
     createdMethod: {},
     duplicatedMethod: {},
 
-    editedItem: {
-      name: ''
+    createdItem: {
+      name: '',
+      description: ''
     },
     defaultItem: {
       name: ''
     },
   }),
 
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Method' : 'Rename Method'
-    },
-  },
 
   mounted() {
     this.fetchMethods();
   },
+
+  watch: {
+
+    dialogCreateMethod() {
+      if (this.dialogCreateMethod === false) {
+        this.formTitle = 'New Method';
+        this.createdItem = '';
+        this.editedIndex = -1
+      }
+    }
+  },
+
 
   methods: {
 
@@ -283,12 +374,14 @@ export default {
      * -------------------------------------------------------------------------*/
     createMethod() {
 
-      if (this.editedItem.name !== "" && typeof this.editedItem.name !== undefined) {
+      if (this.createdItem.name !== "" && typeof this.createdItem.name !== undefined) {
         this.loading = true;
         this.error = false;
 
         let params = {
-          'Name': this.editedItem.name
+          'Name': this.createdItem.name,
+          'Description': this.createdItem.description,
+          'Version': 1
         }
 
 
@@ -299,13 +392,15 @@ export default {
                   if (response.status === 201) {
 
                     this.displayedMessage = "Method created correctly";
+                    this.snackbar.color = 'black';
                     this.createdMethod = response.data;
                     this.fetchMethods();
-                    this.dialogRename = false;
+                    this.dialogCreateMethod = false;
 
                   } else {
 
                     this.displayedMessage = "Could not create the method";
+                    this.snackbar.color = 'error';
                   }
                 })
 
@@ -313,6 +408,7 @@ export default {
                 (error) => {
                   if (error.response.data.status === 400) {
                     this.displayedMessage = "Method name already exists";
+                    this.snackbar.color = 'error';
                   }
                 });
 
@@ -321,34 +417,66 @@ export default {
       }
 
       this.loading = false;
-      this.snackbar = true;
+      this.snackbar.value = true;
       this.removeFocusToAll();
     },
 
     /*--------------------------------------------------------------------------
      * Used to update a method into the database
      * -------------------------------------------------------------------------*/
-    updateMethod(item) {
 
-      axios.put(this.$aurasApiV2 + "api/Methods/" + item.id, item)
+
+    async checkNameExists(item) {
+
+
+      await axios.put(this.$aurasApiV2 + "api/Methods/CheckIfNameExists/" + item.id, item)
+          .then(
+              (response) => {
+                if (response.status === 200 || response.status === 201 || response.status === 204) {
+
+                  if (response.data === false)
+                    this.updateMethod(item);
+                  else {
+                    this.displayedMessage = "Method name already exists";
+                    this.snackbar.color = 'error';
+                    this.snackbar.value = true;
+                  }
+                }
+              })
+          .catch(() => {
+            this.displayedMessage = "Could not rename the method";
+          });
+
+
+    },
+
+    async updateMethod(item) {
+
+
+      await axios.put(this.$aurasApiV2 + "api/Methods/" + item.id, item)
           .then(
               (response) => {
                 if (response.status === 204) {
 
                   this.displayedMessage = "Method updated correctly";
-                  this.dialogRename = false;
+                  this.snackbar.color = 'black';
+                  this.dialogCreateMethod = false;
 
                 } else {
 
-                  this.displayedMessage = "Could not create the method";
+                  this.displayedMessage = "Could not update the method";
+                  this.snackbar.color = 'error';
                 }
               })
 
           .catch(
               (error) => {
-                console.log(error.response.data);
-              })
-      this.snackbar = true;
+                if (error.response.data.status === 400) {
+                  this.displayedMessage = "Method name already exists";
+                  this.snackbar.color = 'error';
+                }
+              });
+      this.snackbar.value = true;
     },
     /*--------------------------------------------------------------------------
      * Used to retrieve list of methods from database
@@ -400,7 +528,7 @@ export default {
                 this.displayedMessage = "Error deleting method";
                 console.log(error.data);
               });
-      this.snackbar = true;
+      this.snackbar.value = true;
       this.dialogDelete = false;
       this.removeFocusToAll();
     },
@@ -433,11 +561,10 @@ export default {
     /*--------------------------------------------------------------------------
      * Edit Method name
      * -------------------------------------------------------------------------*/
-    renameMethod(item) {
-      this.editedIndex = this.methods.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      this.dialogRename = true
-      this.removeFocusToAll();
+    completeMethod(item) {
+
+      item.completed = true;
+      this.updateMethod(item);
 
     },
 
@@ -480,15 +607,17 @@ export default {
               (response) => {
                 if (response.status === 200) {
                   this.displayedMessage = "Method correctly duplicated";
+                  this.snackbar.color = 'black';
                   this.fetchMethods();
                 }
               })
           .catch(
               (error) => {
                 this.displayedMessage = "Error deleting method";
+                this.snackbar.color = 'error';
                 console.log(error.data);
               });
-      this.snackbar = true;
+      this.snackbar.value = true;
     },
 
 
@@ -498,12 +627,15 @@ export default {
     duplicateMethod(item) {
 
       this.duplicatedMethod = item;
+
       let params = {
-        'Name': item.name + '_duplicated'
+        'Name': item.name,
+        'Description': item.description,
+        'Guid': item.guid
       }
 
 
-      axios.post(this.$aurasApiV2 + "api/Methods", params)
+      axios.post(this.$aurasApiV2 + "api/Methods/DuplicateMethod", params)
           .then(
               (response) => {
 
@@ -526,20 +658,34 @@ export default {
      * Close dialog and reset editedItem
      * -------------------------------------------------------------------------*/
     close() {
-      this.dialogRename = false
+      this.dialogCreateMethod = false
       this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem)
+        this.createdItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
+    },
+
+
+    open(item) {
+
+      this.oldMethodName = item.name
     },
 
     /*--------------------------------------------------------------------------
      * Save and edit method
      * -------------------------------------------------------------------------*/
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.methods[this.editedIndex], this.editedItem);
-        this.updateMethod(this.editedItem);
+    save(action, item) {
+
+      if (item !== undefined) {
+
+        if (action === 'name') {
+          this.checkNameExists(item);
+
+          return;
+        }
+
+        this.updateMethod(item);
+
       } else {
 
         this.createMethod();
@@ -547,7 +693,8 @@ export default {
       this.close();
 
     },
-
+    cancel() {
+    },
 
     /*--------------------------------------------------------------------------
      * Redirection to another page
@@ -555,8 +702,11 @@ export default {
     redirectTo(route, idMethod) {
       this.getTotalSteps(idMethod);
       this.$router.push({name: route, params: {idMethod: idMethod}});
-    }
-
+    },
+    getColor(completed) {
+      if (completed === true) return 'green'
+      else return 'orange'
+    },
 
   }
 
