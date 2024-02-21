@@ -3,12 +3,12 @@
 
     <v-data-table
         :headers="headers"
-        :items="methods"
-        sort-by="['version']"
+        :items="methodsList"
         class="elevation-1"
-        group-by="guid"
+        group-by="groupId"
         :footer-props="{'items-per-page-options': [10, 20, 30, 40, 50]}"
         :items-per-page="30"
+        group-desc
 
     >
       <template v-slot:[`group.header`]="{items, isOpen, toggle}">
@@ -145,8 +145,9 @@
             @cancel="cancel"
             @close="close"
         >
-          {{ item.name }}
+          <b>{{ item.name }}</b>
           <template v-slot:input>
+
             <v-text-field
                 v-model="item.name"
                 label="Edit"
@@ -181,7 +182,7 @@
       <!-- Line custom date -->
 
       <template v-slot:[`item.date`]="{ item }">
-        <span>{{ new Date(item.date).toLocaleString() }}</span>
+        <span>{{ new Date(item.date).toLocaleString("de-DE") }}</span>
       </template>
 
       <!-- Line custom actions -->
@@ -324,18 +325,18 @@ export default {
 
     headers: [
       {text: '', align: 'start', value: '', width: '5%'},
-      {text: 'Creation Date', align: 'start', value: 'date', width: '15%'},
-      {text: 'Completed', value: 'completed', width: '7%'},
       {text: 'Version', value: 'version', width: '7%'},
-      {text: 'Method Name', value: 'name', width: '30%'},
+      {text: 'Method Name', value: 'name', width: '15%'},
+      {text: 'Completed', value: 'completed', width: '7%'},
+      {text: 'Creation Date', align: 'start', value: 'date', width: '15%' },
       {text: 'Description', value: 'description', width: '40%'},
       {text: 'Complete', value: 'complete', sortable: false, width: '5%'},
       {text: 'Duplicate', value: 'duplicate', sortable: false, width: '5%'},
       {text: 'Delete', value: 'delete', sortable: false, width: '10%'},
-      {text: 'Configuration', value: 'config', sortable: false, width: '5%'},
+      {text: 'Edit', value: 'config', sortable: false, width: '5%'},
       {text: 'Run', value: 'run', sortable: false, width: '10%'},
     ],
-    methods: [],
+    methodsList: [],
     editedIndex: -1,
 
     createdMethod: {},
@@ -487,7 +488,8 @@ export default {
           .then(
               (response) => {
                 if (response.status === 200) {
-                  this.methods = response.data;
+                  this.methodsList = response.data;
+                  this.methodsList.sort((a, b) => b.date - a.date);
                 }
               })
           .catch(
@@ -575,7 +577,7 @@ export default {
       document.activeElement.blur();
     },
 
-    duplicateMethodStep() {
+    duplicateMethodSteps() {
 
       let params = {
         'MethodId': this.createdMethod.id,
@@ -631,7 +633,7 @@ export default {
       let params = {
         'Name': item.name,
         'Description': item.description,
-        'Guid': item.guid
+        'GroupId': item.groupId
       }
 
 
@@ -641,7 +643,7 @@ export default {
 
                 if (response.status === 201) {
                   this.createdMethod = response.data;
-                  this.duplicateMethodStep();
+                  this.duplicateMethodSteps();
                 }
               })
 
@@ -704,8 +706,8 @@ export default {
       this.$router.push({name: route, params: {idMethod: idMethod}});
     },
     getColor(completed) {
-      if (completed === true) return 'green'
-      else return 'orange'
+      if (completed === true) return 'orange'
+      else return 'green'
     },
 
   }
