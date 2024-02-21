@@ -182,7 +182,7 @@
       <!-- Line custom date -->
 
       <template v-slot:[`item.date`]="{ item }">
-        <span>{{ new Date(item.date).toLocaleString("de-DE") }}</span>
+        <span>{{ new Date(item.date).toLocaleString("en-GB") }}</span>
       </template>
 
       <!-- Line custom actions -->
