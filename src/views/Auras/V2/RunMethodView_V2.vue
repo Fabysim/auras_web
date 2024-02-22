@@ -711,7 +711,7 @@ export default {
     * -------------------------------------------------------------------------*/
     runMethod() {
 
-      this.currentStep.stage = 'RunMethod';
+      this.currentStep.stage = 'runMethod';
       let stepToRun = this.setStepDataObject();
       this.sendToWebsocket(stepToRun);
     },
